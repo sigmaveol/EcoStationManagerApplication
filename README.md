@@ -1,1 +1,1 @@
-# software-engineer-project-group-02
+# EcoStationManagerApplication

@@ -74,9 +74,12 @@
   <ItemGroup>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     <Compile Include="Common\Helper.cs" />
@@ -132,6 +135,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -173,9 +179,15 @@
   <ItemGroup>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Folder Include="Common\" />
     <Folder Include="NewFolder1\" />
   </ItemGroup>
+=======
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup />
+>>>>>>> Stashed changes
 =======
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>

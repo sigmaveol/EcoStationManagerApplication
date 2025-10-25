@@ -1,0 +1,208 @@
+﻿using Guna.UI2.WinForms;
+using System.Windows.Forms;
+
+namespace EcoStationManagerApplication.UI.Controls
+{
+    partial class SidebarControl
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.guna2PanelSidebar = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.guna2PanelMenuSidebar = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2PanelUserSidebar = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2PanelHighLightUser = new Guna.UI2.WinForms.Guna2Panel();
+            this.labelUsername = new System.Windows.Forms.Label();
+            this.guna2CirclePictureBoxAvatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
+            this.guna2PanelHeaderSidebar = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2ButtonMenuTogger = new Guna.UI2.WinForms.Guna2Button();
+            this.labelAppName = new System.Windows.Forms.Label();
+            this.guna2CirclePictureBoxLogoSidebar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
+            this.guna2PanelSidebar.SuspendLayout();
+            this.guna2PanelUserSidebar.SuspendLayout();
+            this.guna2PanelHighLightUser.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBoxAvatar)).BeginInit();
+            this.guna2PanelHeaderSidebar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBoxLogoSidebar)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // guna2PanelSidebar
+            // 
+            this.guna2PanelSidebar.Controls.Add(this.guna2PanelMenuSidebar);
+            this.guna2PanelSidebar.Controls.Add(this.guna2PanelUserSidebar);
+            this.guna2PanelSidebar.Controls.Add(this.guna2PanelHeaderSidebar);
+            this.guna2PanelSidebar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.guna2PanelSidebar.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.guna2PanelSidebar.Location = new System.Drawing.Point(0, 0);
+            this.guna2PanelSidebar.Name = "guna2PanelSidebar";
+            this.guna2PanelSidebar.Size = new System.Drawing.Size(303, 803);
+            this.guna2PanelSidebar.TabIndex = 5;
+            // 
+            // guna2PanelMenuSidebar
+            // 
+            this.guna2PanelMenuSidebar.AutoScroll = true;
+            this.guna2PanelMenuSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(204)))), ((int)(((byte)(0)))));
+            this.guna2PanelMenuSidebar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.guna2PanelMenuSidebar.Location = new System.Drawing.Point(0, 86);
+            this.guna2PanelMenuSidebar.Name = "guna2PanelMenuSidebar";
+            this.guna2PanelMenuSidebar.Size = new System.Drawing.Size(303, 624);
+            this.guna2PanelMenuSidebar.TabIndex = 2;
+            // 
+            // guna2PanelUserSidebar
+            // 
+            this.guna2PanelUserSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(204)))), ((int)(((byte)(0)))));
+            this.guna2PanelUserSidebar.Controls.Add(this.guna2PanelHighLightUser);
+            this.guna2PanelUserSidebar.CustomBorderColor = System.Drawing.Color.White;
+            this.guna2PanelUserSidebar.CustomBorderThickness = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.guna2PanelUserSidebar.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.guna2PanelUserSidebar.Location = new System.Drawing.Point(0, 710);
+            this.guna2PanelUserSidebar.Name = "guna2PanelUserSidebar";
+            this.guna2PanelUserSidebar.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+            this.guna2PanelUserSidebar.Size = new System.Drawing.Size(303, 93);
+            this.guna2PanelUserSidebar.TabIndex = 1;
+            // 
+            // guna2PanelHighLightUser
+            // 
+            this.guna2PanelHighLightUser.BorderRadius = 15;
+            this.guna2PanelHighLightUser.Controls.Add(this.labelUsername);
+            this.guna2PanelHighLightUser.Controls.Add(this.guna2CirclePictureBoxAvatar);
+            this.guna2PanelHighLightUser.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.guna2PanelHighLightUser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.guna2PanelHighLightUser.Location = new System.Drawing.Point(10, 5);
+            this.guna2PanelHighLightUser.Name = "guna2PanelHighLightUser";
+            this.guna2PanelHighLightUser.Size = new System.Drawing.Size(283, 83);
+            this.guna2PanelHighLightUser.TabIndex = 0;
+            // 
+            // labelUsername
+            // 
+            this.labelUsername.AutoSize = true;
+            this.labelUsername.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUsername.ForeColor = System.Drawing.Color.Transparent;
+            this.labelUsername.Location = new System.Drawing.Point(78, 15);
+            this.labelUsername.Name = "labelUsername";
+            this.labelUsername.Size = new System.Drawing.Size(167, 28);
+            this.labelUsername.TabIndex = 2;
+            this.labelUsername.Text = "Hoàng Sinh Hùng";
+            // 
+            // guna2CirclePictureBoxAvatar
+            // 
+            this.guna2CirclePictureBoxAvatar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.guna2CirclePictureBoxAvatar.Image = global::EcoStationManagerApplication.UI.Properties.Resources.admin_avatar;
+            this.guna2CirclePictureBoxAvatar.ImageRotate = 0F;
+            this.guna2CirclePictureBoxAvatar.Location = new System.Drawing.Point(12, 15);
+            this.guna2CirclePictureBoxAvatar.Name = "guna2CirclePictureBoxAvatar";
+            this.guna2CirclePictureBoxAvatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.guna2CirclePictureBoxAvatar.Size = new System.Drawing.Size(50, 50);
+            this.guna2CirclePictureBoxAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.guna2CirclePictureBoxAvatar.TabIndex = 1;
+            this.guna2CirclePictureBoxAvatar.TabStop = false;
+            // 
+            // guna2PanelHeaderSidebar
+            // 
+            this.guna2PanelHeaderSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(204)))), ((int)(((byte)(0)))));
+            this.guna2PanelHeaderSidebar.Controls.Add(this.guna2ButtonMenuTogger);
+            this.guna2PanelHeaderSidebar.Controls.Add(this.labelAppName);
+            this.guna2PanelHeaderSidebar.Controls.Add(this.guna2CirclePictureBoxLogoSidebar);
+            this.guna2PanelHeaderSidebar.CustomBorderColor = System.Drawing.Color.White;
+            this.guna2PanelHeaderSidebar.CustomBorderThickness = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.guna2PanelHeaderSidebar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.guna2PanelHeaderSidebar.Location = new System.Drawing.Point(0, 0);
+            this.guna2PanelHeaderSidebar.Name = "guna2PanelHeaderSidebar";
+            this.guna2PanelHeaderSidebar.Size = new System.Drawing.Size(303, 86);
+            this.guna2PanelHeaderSidebar.TabIndex = 0;
+            // 
+            // guna2ButtonMenuTogger
+            // 
+            this.guna2ButtonMenuTogger.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.guna2ButtonMenuTogger.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(204)))), ((int)(((byte)(0)))));
+            this.guna2ButtonMenuTogger.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2ButtonMenuTogger.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2ButtonMenuTogger.FillColor = this.guna2PanelHeaderSidebar.BackColor;
+            this.guna2ButtonMenuTogger.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2ButtonMenuTogger.ForeColor = System.Drawing.Color.White;
+            this.guna2ButtonMenuTogger.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.guna2ButtonMenuTogger.Image = global::EcoStationManagerApplication.UI.Properties.Resources.menu;
+            this.guna2ButtonMenuTogger.ImageSize = new System.Drawing.Size(30, 30);
+            this.guna2ButtonMenuTogger.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.guna2ButtonMenuTogger.Location = new System.Drawing.Point(256, 2);
+            this.guna2ButtonMenuTogger.Name = "guna2ButtonMenuTogger";
+            this.guna2ButtonMenuTogger.Size = new System.Drawing.Size(40, 40);
+            this.guna2ButtonMenuTogger.TabIndex = 3;
+            // 
+            // labelAppName
+            // 
+            this.labelAppName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelAppName.AutoSize = true;
+            this.labelAppName.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelAppName.Location = new System.Drawing.Point(74, 45);
+            this.labelAppName.Name = "labelAppName";
+            this.labelAppName.Size = new System.Drawing.Size(219, 31);
+            this.labelAppName.TabIndex = 2;
+            this.labelAppName.Text = "EcoStation Manager";
+            // 
+            // guna2CirclePictureBoxLogoSidebar
+            // 
+            this.guna2CirclePictureBoxLogoSidebar.Image = global::EcoStationManagerApplication.UI.Properties.Resources.admin_avatar;
+            this.guna2CirclePictureBoxLogoSidebar.ImageRotate = 0F;
+            this.guna2CirclePictureBoxLogoSidebar.Location = new System.Drawing.Point(5, 12);
+            this.guna2CirclePictureBoxLogoSidebar.Name = "guna2CirclePictureBoxLogoSidebar";
+            this.guna2CirclePictureBoxLogoSidebar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.guna2CirclePictureBoxLogoSidebar.Size = new System.Drawing.Size(50, 50);
+            this.guna2CirclePictureBoxLogoSidebar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.guna2CirclePictureBoxLogoSidebar.TabIndex = 1;
+            this.guna2CirclePictureBoxLogoSidebar.TabStop = false;
+            // 
+            // SidebarControl
+            // 
+            this.Controls.Add(this.guna2PanelSidebar);
+            this.Name = "SidebarControl";
+            this.Size = new System.Drawing.Size(303, 803);
+            this.guna2PanelSidebar.ResumeLayout(false);
+            this.guna2PanelUserSidebar.ResumeLayout(false);
+            this.guna2PanelHighLightUser.ResumeLayout(false);
+            this.guna2PanelHighLightUser.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBoxAvatar)).EndInit();
+            this.guna2PanelHeaderSidebar.ResumeLayout(false);
+            this.guna2PanelHeaderSidebar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBoxLogoSidebar)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private Guna2GradientPanel guna2PanelSidebar;
+        private Guna2Panel guna2PanelMenuSidebar;
+        private Guna2Panel guna2PanelUserSidebar;
+        private Guna2Panel guna2PanelHighLightUser;
+        private Label labelUsername;
+        private Guna2CirclePictureBox guna2CirclePictureBoxAvatar;
+        private Guna2Panel guna2PanelHeaderSidebar;
+        private Guna2Button guna2ButtonMenuTogger;
+        private Label labelAppName;
+        private Guna2CirclePictureBox guna2CirclePictureBoxLogoSidebar;
+    }
+}

@@ -73,9 +73,12 @@
   </ItemGroup>
   <ItemGroup>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
 =======
+=======
+>>>>>>> Stashed changes
     <Compile Include="Common\Helper.cs" />
     <Compile Include="Common\ThemeManager.cs" />
     <Compile Include="Controls\ContentControl.cs">
@@ -128,6 +131,9 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -166,9 +172,15 @@
   </ItemGroup>
   <ItemGroup>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Folder Include="Common\" />
     <Folder Include="NewFolder1\" />
   </ItemGroup>
+=======
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup />
+>>>>>>> Stashed changes
 =======
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>

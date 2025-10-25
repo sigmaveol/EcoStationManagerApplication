@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\sources",
+    "\\sources\\EcoStationManagerApplication"
   ],
-  "SelectedNode": "\\sources",
+  "SelectedNode": "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.sln",
   "PreviewInSolutionExplorer": false
 }

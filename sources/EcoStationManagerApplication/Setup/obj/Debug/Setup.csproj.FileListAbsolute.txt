@@ -1,0 +1,4 @@
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.csproj.AssemblyReference.cache
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.Properties.Resources.resources
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.csproj.GenerateResource.cache
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.csproj.CoreCompileInputs.cache

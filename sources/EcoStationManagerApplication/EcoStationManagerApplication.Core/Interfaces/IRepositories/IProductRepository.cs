@@ -1,46 +1,68 @@
-﻿using System;
+﻿using EcoStationManagerApplication.Models;
+using EcoStationManagerApplication.Models.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using EcoStationManagerApplication.Models;
 
 namespace EcoStationManagerApplication.Core.Interfaces
 {
-    /// <summary>
-    /// Product repository interface extending the generic IRepository.
-    /// Provides extra methods for product and inventory operations.
-    /// </summary>
+    // ==================== PRODUCT REPOSITORY INTERFACE ====================
     public interface IProductRepository : IRepository<Product>
     {
-        /// <summary>
-        /// Get a product by its unique code.
-        /// </summary>
-        Task<Product> GetByCodeAsync(string productCode);
+        Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId);
+        Task<Product> GetProductWithVariantsAsync(int productId);
+        Task<IEnumerable<Product>> GetActiveProductsAsync();
+        Task<Product> GetProductByCodeAsync(string code);
+        Task<IEnumerable<Product>> SearchProductsAsync(string keyword);
+        Task<IEnumerable<Product>> GetProductsWithInventoryAsync(int stationId);
+        Task<IEnumerable<Product>> GetProductsLowInStockAsync(int stationId);
+    }
 
-        /// <summary>
-        /// Get all products belonging to a specific category.
-        /// </summary>
-        Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId);
+    // ==================== CATEGORY REPOSITORY INTERFACE ====================
+    public interface ICategoryRepository : IRepository<Category>
+    {
+        Task<IEnumerable<Category>> GetActiveCategoriesAsync();
+        Task<IEnumerable<Category>> GetCategoriesByTypeAsync(string categoryType);
+        Task<IEnumerable<Category>> GetChildCategoriesAsync(int parentId);
+        Task<IEnumerable<Category>> GetCategoriesWithProductsAsync();
+        Task<Category> GetCategoryByNameAsync(string name);
+    }
 
-        /// <summary>
-        /// Search products by keyword (name, code, etc.).
-        /// </summary>
-        Task<IEnumerable<Product>> SearchAsync(string keyword);
+    // ==================== VARIANT REPOSITORY INTERFACE ====================
+    public interface IVariantRepository : IRepository<Variant>
+    {
+        Task<IEnumerable<Variant>> GetVariantsByProductAsync(int productId);
+        Task<Variant> GetVariantBySKUAsync(string sku);
+        Task<Variant> GetVariantByBarcodeAsync(string barcode);
+        Task<Variant> GetVariantWithProductAsync(int variantId);
+        Task<IEnumerable<Variant>> GetActiveVariantsAsync();
+        Task<IEnumerable<Variant>> GetVariantsLowInStockAsync(int stationId);
+        Task<IEnumerable<Variant>> GetVariantsByCategoryAsync(int categoryId);
+    }
 
-        /// <summary>
-        /// Update the stock quantity of a product.
-        /// </summary>
-        //Task<bool> UpdateStockAsync(int productId, decimal newStock);
+    // ==================== VARIANT TYPE REPOSITORY INTERFACE ====================
+    public interface IVariantTypeRepository : IRepository<VariantType>
+    {
+        Task<IEnumerable<VariantType>> GetActiveVariantTypesAsync();
+        Task<VariantType> GetVariantTypeByNameAsync(string name);
+    }
 
-        /// <summary>
-        /// Get products with stock below a given threshold.
-        /// </summary>
-        //Task<IEnumerable<Product>> GetLowStockProductsAsync(decimal threshold);
+    // ==================== COMBO REPOSITORY INTERFACE ====================
+    public interface IComboRepository : IRepository<Combo>
+    {
+        Task<Combo> GetComboWithItemsAsync(int comboId);
+        Task<IEnumerable<Combo>> GetActiveCombosAsync();
+        Task<Combo> GetComboByCodeAsync(string code);
+        Task<IEnumerable<Combo>> GetCombosByCategoryAsync(int categoryId);
+        Task<IEnumerable<Combo>> GetCombosWithItemsAsync();
+    }
 
-        /// <summary>
-        /// Get all active products including their variants.
-        /// </summary>
-        Task<IEnumerable<Product>> GetActiveProductsWithVariantsAsync();
+    // ==================== COMBO ITEM REPOSITORY INTERFACE ====================
+    public interface IComboItemRepository : IRepository<ComboItem>
+    {
+        Task<IEnumerable<ComboItem>> GetItemsByComboAsync(int comboId);
+        Task<bool> DeleteItemsByComboAsync(int comboId);
+        Task<bool> UpdateComboItemQuantityAsync(int comboId, int variantId, int quantity);
+        Task<IEnumerable<ComboItem>> GetCombosContainingVariantAsync(int variantId);
+        Task<IEnumerable<ComboItem>> GetItemsWithVariantsAsync(int comboId);
     }
 }

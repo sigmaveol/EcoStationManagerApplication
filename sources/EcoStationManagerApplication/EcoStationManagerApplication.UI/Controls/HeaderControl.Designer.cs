@@ -1,0 +1,59 @@
+﻿namespace EcoStationManagerApplication.UI.Controls
+{
+    partial class HeaderControl
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.guna2PanelHeader = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.SuspendLayout();
+
+            // 
+            // guna2PanelHeader
+            // 
+            this.guna2PanelHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.guna2PanelHeader.FillColor = System.Drawing.Color.FromArgb(255, 192, 192);
+            this.guna2PanelHeader.FillColor2 = System.Drawing.Color.FromArgb(255, 192, 192); // gradient nếu muốn
+            this.guna2PanelHeader.Location = new System.Drawing.Point(0, 0);
+            this.guna2PanelHeader.Name = "guna2PanelHeader";
+            this.guna2PanelHeader.Size = new System.Drawing.Size(800, 85); // chiều cao mặc định
+            this.guna2PanelHeader.TabIndex = 0;
+
+            // 
+            // HeaderControl
+            // 
+            this.Controls.Add(this.guna2PanelHeader);
+            this.Name = "HeaderControl";
+            this.Size = new System.Drawing.Size(800, 85);
+            this.ResumeLayout(false);
+        }
+
+        #endregion
+
+        private Guna.UI2.WinForms.Guna2GradientPanel guna2PanelHeader;
+
+    }
+}

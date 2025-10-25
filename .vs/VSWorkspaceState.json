@@ -4,6 +4,10 @@
     "\\sources",
     "\\sources\\EcoStationManagerApplication"
   ],
+<<<<<<< Updated upstream
   "SelectedNode": "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.sln",
+=======
+  "SelectedNode": "\\EcoStationManagerApplication.sln (sources\\a\\EcoStationManagerApplication.sln)",
+>>>>>>> Stashed changes
   "PreviewInSolutionExplorer": false
 }

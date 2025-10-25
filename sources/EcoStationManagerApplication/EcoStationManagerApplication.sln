@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EcoStationManagerApplicatio
 		v2.sql = v2.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj", "{21B46947-909B-412B-89BA-31BFC47981A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{27EC1057-9F7C-4EC5-ADBE-AD88EBD5152D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27EC1057-9F7C-4EC5-ADBE-AD88EBD5152D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27EC1057-9F7C-4EC5-ADBE-AD88EBD5152D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21B46947-909B-412B-89BA-31BFC47981A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21B46947-909B-412B-89BA-31BFC47981A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21B46947-909B-412B-89BA-31BFC47981A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21B46947-909B-412B-89BA-31BFC47981A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -31,11 +31,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.1.66\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.10\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=9.0.0.10, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.9.0.10\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.10, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.10\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,17 +64,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DependencyInjection.cs" />
+    <Compile Include="Exceptions\ServiceExceptions.cs" />
+    <Compile Include="Interfaces\IRepositories\IPackagingRepository.cs" />
     <Compile Include="Interfaces\IRepositories\ICustomerRepository.cs" />
+    <Compile Include="Interfaces\IRepositories\IInventoryRepository.cs" />
     <Compile Include="Interfaces\IRepositories\IOrderRepository.cs" />
     <Compile Include="Interfaces\IRepositories\IProductRepository.cs" />
-    <Compile Include="Interfaces\IRepositories\IVariantRepository.cs" />
+    <Compile Include="Interfaces\IRepositories\IStationRepository.cs" />
+    <Compile Include="Interfaces\IRepositories\ISystemRepository.cs" />
+    <Compile Include="Interfaces\IRepositories\IDeliveryRepository.cs" />
+    <Compile Include="Interfaces\IDALRegistration.cs" />
+    <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Interfaces\IRepositories\IRoleRepository.cs" />
     <Compile Include="Interfaces\IRepositories\IUserRepository.cs" />
+    <Compile Include="Interfaces\IServices\IStationService.cs" />
+    <Compile Include="Services\DeliveryService.cs" />
+    <Compile Include="Services\NetworkService.cs" />
+    <Compile Include="Interfaces\IServices\IInventoryService.cs" />
+    <Compile Include="Interfaces\IServices\ICustomerService.cs" />
+    <Compile Include="Interfaces\IServices\IDeliveryService.cs" />
+    <Compile Include="Interfaces\IServices\IPackagingService.cs" />
+    <Compile Include="Interfaces\IServices\IReportService.cs" />
+    <Compile Include="Interfaces\IServices\IOrderService.cs" />
+    <Compile Include="Interfaces\IServices\ISystemService.cs" />
     <Compile Include="Interfaces\IServices\IUserService.cs" />
+    <Compile Include="Interfaces\IServices\IProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\AutoUpdateService.cs" />
+    <Compile Include="Services\CloudSyncService.cs" />
+    <Compile Include="Services\ConfigurationService.cs" />
+    <Compile Include="Services\PackagingServices.cs" />
+    <Compile Include="Services\StationServices.cs" />
+    <Compile Include="Services\UserServices.cs" />
+    <Compile Include="Services\CustomerServices.cs" />
+    <Compile Include="Services\InventoryServices.cs" />
+    <Compile Include="Services\ProductServices.cs" />
+    <Compile Include="Services\OrderServices.cs" />
+    <Compile Include="Services\BaseService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EcoStationManagerApplication.Models\EcoStationManagerApplication.Models.csproj">
@@ -63,10 +110,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Constants\" />
     <Folder Include="DTOs\" />
-    <Folder Include="Enums\" />
-    <Folder Include="Exceptions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

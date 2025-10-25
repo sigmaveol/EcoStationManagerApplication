@@ -1,47 +1,32 @@
-﻿using System;
+﻿using EcoStationManagerApplication.Models;
+using EcoStationManagerApplication.Models.Entities;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using EcoStationManagerApplication.Models;
 
 namespace EcoStationManagerApplication.Core.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {
-        /// <summary>
-        /// Get a user by username.
-        /// </summary>
-        Task<User> GetByUsernameAsync(string username);
+        Task<User> GetUserByUsernameAsync(string username);
+        Task<User> GetUserByEmailAsync(string email);
+        Task<IEnumerable<User>> GetUsersByStationAsync(int stationId);
+        Task<bool> UpdateUserStatusAsync(int userId, bool isActive);
+        Task<IEnumerable<User>> GetActiveUsersAsync();
+        Task<bool> UpdateUserPasswordAsync(int userId, string passwordHash);
+        // THIẾU: GetUserWithRolesAsync
+        Task<User> GetUserWithRolesAsync(int userId); // ĐÃ THÊM
+    }
 
-        /// <summary>
-        /// Get a user by email.
-        /// </summary>
-        Task<User> GetByEmailAsync(string email);
-
-        /// <summary>
-        /// Validate user credentials.
-        /// </summary>
-        Task<bool> ValidateCredentialsAsync(string username, string passwordHash);
-
-        /// <summary>
-        /// Update a user's password.
-        /// </summary>
-        Task<bool> UpdatePasswordAsync(int userId, string newPasswordHash);
-
-        /// <summary>
-        /// Deactivate a user account.
-        /// </summary>
-        Task<bool> DeactivateUserAsync(int userId);
-
-        /// <summary>
-        /// Activate a user account.
-        /// </summary>
-        Task<bool> ActivateUserAsync(int userId);
-
-        /// <summary>
-        /// Get all users by a specific role.
-        /// </summary>
-        Task<IEnumerable<User>> GetUsersByRoleAsync(int roleId);
+    public interface IWorkShiftRepository : IRepository<WorkShift>
+    {
+        Task<IEnumerable<WorkShift>> GetShiftsByUserAsync(int userId);
+        Task<IEnumerable<WorkShift>> GetShiftsByDateRangeAsync(DateTime start, DateTime end);
+        Task<IEnumerable<WorkShift>> GetShiftsByStationAsync(int stationId, DateTime date);
+        Task<bool> ClockInAsync(int userId, int stationId, DateTime shiftDate, TimeSpan startTime);
+        Task<bool> ClockOutAsync(int shiftId, TimeSpan endTime, decimal? kpiScore = null);
+        Task<WorkShift> GetCurrentShiftAsync(int userId);
+        // THIẾU: GetShiftStatisticsAsync
+        Task<Dictionary<string, decimal>> GetShiftStatisticsAsync(int userId, DateTime startDate, DateTime endDate); // ĐÃ THÊM
     }
 }

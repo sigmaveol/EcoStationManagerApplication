@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using EcoStationManagerApplication.DAL.Database;
+using EcoStationManagerApplication.DAL.Repositories;
+using System.Configuration;
 
 namespace EcoStationManagerApplication.UI
-{
+{   
+
     internal static class Program
     {
         /// <summary>
@@ -16,7 +20,7 @@ namespace EcoStationManagerApplication.UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new DashboardQuanLyKho());
         }
     }
 }

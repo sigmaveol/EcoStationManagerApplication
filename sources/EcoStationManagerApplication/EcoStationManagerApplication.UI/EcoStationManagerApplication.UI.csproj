@@ -52,11 +52,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Helper.cs" />
+    <Compile Include="Common\ThemManager.cs" />
+    <Compile Include="Common\Toggler.cs" />
+    <Compile Include="Common\TogglerSidebar.cs" />
+    <Compile Include="Controls\CardControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CardControl.Designer.cs">
+      <DependentUpon>CardControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ContentControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ContentControl.Designer.cs">
       <DependentUpon>ContentControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomersControl.Designer.cs">
+      <DependentUpon>CustomersControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DashboardControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DashboardControl.Designer.cs">
+      <DependentUpon>DashboardControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\FooterControl.cs">
       <SubType>UserControl</SubType>
@@ -70,11 +92,77 @@
     <Compile Include="Controls\HeaderControl.Designer.cs">
       <DependentUpon>HeaderControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\InventoryControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\InventoryControl.Designer.cs">
+      <DependentUpon>InventoryControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OrdersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OrdersControl.Designer.cs">
+      <DependentUpon>OrdersControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PaymentControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PaymentControl.Designer.cs">
+      <DependentUpon>PaymentControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProductsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ProductsControl.Designer.cs">
+      <DependentUpon>ProductsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ReportsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportsControl.Designer.cs">
+      <DependentUpon>ReportsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SearchControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SearchControl.Designer.cs">
+      <DependentUpon>SearchControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SidebarControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SidebarControl.Designer.cs">
       <DependentUpon>SidebarControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StationsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StationsControl.Designer.cs">
+      <DependentUpon>StationsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StockInControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StockInControl.Designer.cs">
+      <DependentUpon>StockInControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StockOutControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StockOutControl.Designer.cs">
+      <DependentUpon>StockOutControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SuppliersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SuppliersControl.Designer.cs">
+      <DependentUpon>SuppliersControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SystemSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SystemSettingsControl.Designer.cs">
+      <DependentUpon>SystemSettingsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
@@ -90,6 +178,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\CardControl.resx">
+      <DependentUpon>CardControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ContentControl.resx">
+      <DependentUpon>ContentControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DashboardControl.resx">
+      <DependentUpon>DashboardControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SearchControl.resx">
+      <DependentUpon>SearchControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SidebarControl.resx">
       <DependentUpon>SidebarControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -98,19 +198,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -120,8 +220,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

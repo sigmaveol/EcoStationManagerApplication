@@ -39,16 +39,16 @@ namespace EcoStationManagerApplication.UI.Controls
             this.guna2PanelContent.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.guna2PanelContent.Location = new System.Drawing.Point(0, 0);
             this.guna2PanelContent.Name = "guna2PanelContent";
-            this.guna2PanelContent.Size = new System.Drawing.Size(1179, 712);
+            this.guna2PanelContent.Size = new System.Drawing.Size(800, 712);
             this.guna2PanelContent.TabIndex = 8;
-
             // 
             // ContentControl
             // 
-            this.Controls.Add(this.guna2PanelContent); // phải thêm vào Controls
+            this.Controls.Add(this.guna2PanelContent);
             this.Name = "ContentControl";
             this.Size = new System.Drawing.Size(800, 712);
             this.ResumeLayout(false);
+
         }
 
         #endregion

@@ -51,33 +51,36 @@
             this.guna2TextBoxSearch.IconLeftOffset = new System.Drawing.Point(5, 0);
             this.guna2TextBoxSearch.IconLeftSize = new System.Drawing.Size(30, 30);
             this.guna2TextBoxSearch.Location = new System.Drawing.Point(0, 0);
-            this.guna2TextBoxSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.guna2TextBoxSearch.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.guna2TextBoxSearch.Name = "guna2TextBoxSearch";
-            this.guna2TextBoxSearch.Padding = new System.Windows.Forms.Padding(5);
+            this.guna2TextBoxSearch.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.guna2TextBoxSearch.PlaceholderText = "Tìm kiếm ....";
             this.guna2TextBoxSearch.SelectedText = "";
-            this.guna2TextBoxSearch.Size = new System.Drawing.Size(369, 47);
+            this.guna2TextBoxSearch.Size = new System.Drawing.Size(277, 38);
             this.guna2TextBoxSearch.TabIndex = 0;
             this.guna2TextBoxSearch.TextChanged += new System.EventHandler(this.guna2TextBoxSearch_TextChanged);
             this.guna2TextBoxSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.guna2TextBoxSearch_KeyDown);
             // 
             // guna2PanelContainer
             // 
-            this.guna2PanelContainer.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.guna2PanelContainer.BackColor = System.Drawing.Color.Transparent;
             this.guna2PanelContainer.Controls.Add(this.guna2TextBoxSearch);
             this.guna2PanelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2PanelContainer.Location = new System.Drawing.Point(0, 0);
+            this.guna2PanelContainer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guna2PanelContainer.Name = "guna2PanelContainer";
-            this.guna2PanelContainer.Size = new System.Drawing.Size(369, 47);
+            this.guna2PanelContainer.Size = new System.Drawing.Size(277, 38);
             this.guna2PanelContainer.TabIndex = 1;
             // 
             // SearchControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.guna2PanelContainer);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "SearchControl";
-            this.Size = new System.Drawing.Size(369, 47);
+            this.Size = new System.Drawing.Size(277, 38);
             this.guna2PanelContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 

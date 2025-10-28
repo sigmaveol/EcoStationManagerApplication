@@ -34,20 +34,20 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             this.guna2PanelSidebar = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.guna2PanelMenuSidebar = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2PanelAvatar = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2CirclePictureBoxAvatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.guna2PanelUserSidebar = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2PanelHighLightUser = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2PanelAvatar = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2CirclePictureBoxAvatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.labelUsername = new System.Windows.Forms.Label();
             this.guna2PanelHeaderSidebar = new Guna.UI2.WinForms.Guna2Panel();
-            this.labelAppName = new System.Windows.Forms.Label();
+            this.labelAppName = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.guna2ButtonMenuTogger = new Guna.UI2.WinForms.Guna2Button();
             this.guna2CirclePictureBoxLogoSidebar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.guna2PanelSidebar.SuspendLayout();
-            this.guna2PanelAvatar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBoxAvatar)).BeginInit();
             this.guna2PanelUserSidebar.SuspendLayout();
             this.guna2PanelHighLightUser.SuspendLayout();
+            this.guna2PanelAvatar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBoxAvatar)).BeginInit();
             this.guna2PanelHeaderSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBoxLogoSidebar)).BeginInit();
             this.SuspendLayout();
@@ -74,30 +74,6 @@ namespace EcoStationManagerApplication.UI.Controls
             this.guna2PanelMenuSidebar.Size = new System.Drawing.Size(303, 659);
             this.guna2PanelMenuSidebar.TabIndex = 2;
             // 
-            // guna2PanelAvatar
-            // 
-            this.guna2PanelAvatar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.guna2PanelAvatar.Controls.Add(this.guna2CirclePictureBoxAvatar);
-            this.guna2PanelAvatar.Location = new System.Drawing.Point(6, 11);
-            this.guna2PanelAvatar.Name = "guna2PanelAvatar";
-            this.guna2PanelAvatar.Size = new System.Drawing.Size(50, 43);
-            this.guna2PanelAvatar.TabIndex = 0;
-            // 
-            // guna2CirclePictureBoxAvatar
-            // 
-            this.guna2CirclePictureBoxAvatar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2CirclePictureBoxAvatar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.guna2CirclePictureBoxAvatar.Image = global::EcoStationManagerApplication.UI.Properties.Resources.admin_avatar;
-            this.guna2CirclePictureBoxAvatar.ImageRotate = 0F;
-            this.guna2CirclePictureBoxAvatar.Location = new System.Drawing.Point(0, 0);
-            this.guna2CirclePictureBoxAvatar.Name = "guna2CirclePictureBoxAvatar";
-            this.guna2CirclePictureBoxAvatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.guna2CirclePictureBoxAvatar.Size = new System.Drawing.Size(50, 43);
-            this.guna2CirclePictureBoxAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.guna2CirclePictureBoxAvatar.TabIndex = 1;
-            this.guna2CirclePictureBoxAvatar.TabStop = false;
-            // 
             // guna2PanelUserSidebar
             // 
             this.guna2PanelUserSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(98)))), ((int)(((byte)(102)))));
@@ -123,6 +99,30 @@ namespace EcoStationManagerApplication.UI.Controls
             this.guna2PanelHighLightUser.Size = new System.Drawing.Size(293, 64);
             this.guna2PanelHighLightUser.TabIndex = 0;
             // 
+            // guna2PanelAvatar
+            // 
+            this.guna2PanelAvatar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.guna2PanelAvatar.Controls.Add(this.guna2CirclePictureBoxAvatar);
+            this.guna2PanelAvatar.Location = new System.Drawing.Point(6, 11);
+            this.guna2PanelAvatar.Name = "guna2PanelAvatar";
+            this.guna2PanelAvatar.Size = new System.Drawing.Size(50, 43);
+            this.guna2PanelAvatar.TabIndex = 0;
+            // 
+            // guna2CirclePictureBoxAvatar
+            // 
+            this.guna2CirclePictureBoxAvatar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.guna2CirclePictureBoxAvatar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.guna2CirclePictureBoxAvatar.Image = global::EcoStationManagerApplication.UI.Properties.Resources.admin_avatar;
+            this.guna2CirclePictureBoxAvatar.ImageRotate = 0F;
+            this.guna2CirclePictureBoxAvatar.Location = new System.Drawing.Point(0, 0);
+            this.guna2CirclePictureBoxAvatar.Name = "guna2CirclePictureBoxAvatar";
+            this.guna2CirclePictureBoxAvatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.guna2CirclePictureBoxAvatar.Size = new System.Drawing.Size(50, 43);
+            this.guna2CirclePictureBoxAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.guna2CirclePictureBoxAvatar.TabIndex = 1;
+            this.guna2CirclePictureBoxAvatar.TabStop = false;
+            // 
             // labelUsername
             // 
             this.labelUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -133,7 +133,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.labelUsername.Name = "labelUsername";
             this.labelUsername.Size = new System.Drawing.Size(199, 28);
             this.labelUsername.TabIndex = 2;
-            this.labelUsername.Text = "Hoàng Sinh Hùng Hùng Hùng";
+            this.labelUsername.Text = "Hoàng Sinh Hùng Hùng Hùng Hùng";
             this.labelUsername.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // guna2PanelHeaderSidebar
@@ -152,14 +152,15 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // labelAppName
             // 
-            this.labelAppName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelAppName.AutoSize = true;
-            this.labelAppName.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAppName.Location = new System.Drawing.Point(71, 15);
+            this.labelAppName.BackColor = System.Drawing.Color.Transparent;
+            this.labelAppName.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelAppName.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.labelAppName.Location = new System.Drawing.Point(72, 19);
             this.labelAppName.Name = "labelAppName";
-            this.labelAppName.Size = new System.Drawing.Size(50, 31);
-            this.labelAppName.TabIndex = 2;
-            this.labelAppName.Text = "Eco";
+            this.labelAppName.Size = new System.Drawing.Size(118, 33);
+            this.labelAppName.TabIndex = 0;
+            this.labelAppName.Text = "EcoStation";
+            this.labelAppName.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // guna2ButtonMenuTogger
             // 
@@ -199,10 +200,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.Size = new System.Drawing.Size(303, 803);
             this.Load += new System.EventHandler(this.SidebarControl_Load);
             this.guna2PanelSidebar.ResumeLayout(false);
-            this.guna2PanelAvatar.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBoxAvatar)).EndInit();
             this.guna2PanelUserSidebar.ResumeLayout(false);
             this.guna2PanelHighLightUser.ResumeLayout(false);
+            this.guna2PanelAvatar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBoxAvatar)).EndInit();
             this.guna2PanelHeaderSidebar.ResumeLayout(false);
             this.guna2PanelHeaderSidebar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBoxLogoSidebar)).EndInit();
@@ -220,8 +221,8 @@ namespace EcoStationManagerApplication.UI.Controls
         private Guna2CirclePictureBox guna2CirclePictureBoxAvatar;
         private Guna2Panel guna2PanelHeaderSidebar;
         private Guna2Button guna2ButtonMenuTogger;
-        private Label labelAppName;
         private Guna2CirclePictureBox guna2CirclePictureBoxLogoSidebar;
         private Guna2Panel guna2PanelAvatar;
+        private Guna2HtmlLabel labelAppName;
     }
 }

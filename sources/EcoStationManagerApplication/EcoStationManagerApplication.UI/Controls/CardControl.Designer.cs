@@ -1,4 +1,6 @@
-﻿namespace EcoStationManagerApplication.UI.Controls
+﻿using Guna.UI2.WinForms;
+
+namespace EcoStationManagerApplication.UI.Controls
 {
     partial class CardControl
     {
@@ -28,18 +30,80 @@
         /// </summary>
         private void InitializeComponent()
         {   
-            this.panelCard = new Guna.UI2.WinForms.Guna2Panel();
+            this.labelChange = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.labelSubInfo = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.labelValue = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.labelTitle = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.pictureIcon = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.labelTitle = new System.Windows.Forms.Label();
-            this.labelValue = new System.Windows.Forms.Label();
-            this.labelSubInfo = new System.Windows.Forms.Label();
-            this.labelChange = new System.Windows.Forms.Label();
-            this.panelCard.SuspendLayout();
+            this.panelCard = new Guna.UI2.WinForms.Guna2Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureIcon)).BeginInit();
+            this.panelCard.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // labelChange
+            // 
+            this.labelChange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.labelChange.BackColor = System.Drawing.Color.Transparent;
+            this.labelChange.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelChange.ForeColor = System.Drawing.Color.Green;
+            this.labelChange.Location = new System.Drawing.Point(205, 19);
+            this.labelChange.Name = "labelChange";
+            this.labelChange.Size = new System.Drawing.Size(3, 2);
+            this.labelChange.TabIndex = 4;
+            this.labelChange.Text = null;
+            // 
+            // labelSubInfo
+            // 
+            this.labelSubInfo.BackColor = System.Drawing.Color.Transparent;
+            this.labelSubInfo.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.labelSubInfo.ForeColor = System.Drawing.Color.Gray;
+            this.labelSubInfo.Location = new System.Drawing.Point(14, 169);
+            this.labelSubInfo.Name = "labelSubInfo";
+            this.labelSubInfo.Size = new System.Drawing.Size(3, 2);
+            this.labelSubInfo.TabIndex = 3;
+            this.labelSubInfo.Text = null;
+            // 
+            // labelValue
+            // 
+            this.labelValue.BackColor = System.Drawing.Color.Transparent;
+            this.labelValue.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.labelValue.ForeColor = System.Drawing.Color.Black;
+            this.labelValue.Location = new System.Drawing.Point(14, 111);
+            this.labelValue.Name = "labelValue";
+            this.labelValue.Size = new System.Drawing.Size(3, 2);
+            this.labelValue.TabIndex = 2;
+            this.labelValue.Text = null;
+            // 
+            // labelTitle
+            // 
+            this.labelTitle.BackColor = System.Drawing.Color.Transparent;
+            this.labelTitle.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTitle.ForeColor = System.Drawing.Color.Gray;
+            this.labelTitle.Location = new System.Drawing.Point(14, 78);
+            this.labelTitle.Name = "labelTitle";
+            this.labelTitle.Size = new System.Drawing.Size(3, 2);
+            this.labelTitle.TabIndex = 1;
+            this.labelTitle.Text = null;
+            // 
+            // pictureIcon
+            // 
+            this.pictureIcon.BackColor = System.Drawing.Color.Transparent;
+            this.pictureIcon.FillColor = System.Drawing.Color.Transparent;
+            this.pictureIcon.ImageRotate = 0F;
+            this.pictureIcon.Location = new System.Drawing.Point(14, 12);
+            this.pictureIcon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureIcon.Name = "pictureIcon";
+            this.pictureIcon.Size = new System.Drawing.Size(40, 40);
+            this.pictureIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureIcon.TabIndex = 0;
+            this.pictureIcon.TabStop = false;
             // 
             // panelCard
             // 
+            this.panelCard.AutoScroll = true;
+            this.panelCard.AutoSize = true;
+            this.panelCard.BackColor = System.Drawing.Color.Transparent;
+            this.panelCard.BorderColor = System.Drawing.Color.Transparent;
             this.panelCard.BorderRadius = 15;
             this.panelCard.Controls.Add(this.pictureIcon);
             this.panelCard.Controls.Add(this.labelTitle);
@@ -48,88 +112,39 @@
             this.panelCard.Controls.Add(this.labelChange);
             this.panelCard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCard.FillColor = System.Drawing.Color.White;
-            this.panelCard.Location = new System.Drawing.Point(0, 0);
+            this.panelCard.Location = new System.Drawing.Point(10, 10);
+            this.panelCard.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelCard.Name = "panelCard";
-            this.panelCard.Padding = new System.Windows.Forms.Padding(10);
-            this.panelCard.Size = new System.Drawing.Size(300, 195);
+            this.panelCard.Padding = new System.Windows.Forms.Padding(11, 10, 11, 10);
+            this.panelCard.Size = new System.Drawing.Size(264, 230);
             this.panelCard.TabIndex = 0;
-            // 
-            // pictureIcon
-            // 
-            this.pictureIcon.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureIcon.FillColor = System.Drawing.Color.Black;
-            this.pictureIcon.ImageRotate = 0F;
-            this.pictureIcon.Location = new System.Drawing.Point(13, 66);
-            this.pictureIcon.Name = "pictureIcon";
-            this.pictureIcon.Size = new System.Drawing.Size(55, 52);
-            this.pictureIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureIcon.TabIndex = 0;
-            this.pictureIcon.TabStop = false;
-            // 
-            // labelTitle
-            // 
-            this.labelTitle.AutoSize = true;
-            this.labelTitle.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.labelTitle.ForeColor = System.Drawing.Color.Gray;
-            this.labelTitle.Location = new System.Drawing.Point(13, 21);
-            this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(164, 23);
-            this.labelTitle.TabIndex = 1;
-            this.labelTitle.Text = "Doanh thu hôm nay";
-            // 
-            // labelValue
-            // 
-            this.labelValue.AutoSize = true;
-            this.labelValue.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            this.labelValue.ForeColor = System.Drawing.Color.Black;
-            this.labelValue.Location = new System.Drawing.Point(98, 77);
-            this.labelValue.Name = "labelValue";
-            this.labelValue.Size = new System.Drawing.Size(189, 41);
-            this.labelValue.TabIndex = 2;
-            this.labelValue.Text = "12,000,000đ";
-            // 
-            // labelSubInfo
-            // 
-            this.labelSubInfo.AutoSize = true;
-            this.labelSubInfo.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.labelSubInfo.ForeColor = System.Drawing.Color.Gray;
-            this.labelSubInfo.Location = new System.Drawing.Point(66, 140);
-            this.labelSubInfo.Name = "labelSubInfo";
-            this.labelSubInfo.Size = new System.Drawing.Size(92, 20);
-            this.labelSubInfo.TabIndex = 3;
-            this.labelSubInfo.Text = "23 đơn hàng";
-            // 
-            // labelChange
-            // 
-            this.labelChange.AutoSize = true;
-            this.labelChange.Font = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelChange.ForeColor = System.Drawing.Color.Green;
-            this.labelChange.Location = new System.Drawing.Point(215, 13);
-            this.labelChange.Name = "labelChange";
-            this.labelChange.Size = new System.Drawing.Size(71, 31);
-            this.labelChange.TabIndex = 4;
-            this.labelChange.Text = "+12%";
             // 
             // CardControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.panelCard);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+            this.MaximumSize = new System.Drawing.Size(300, 250);
             this.Name = "CardControl";
-            this.Size = new System.Drawing.Size(300, 195);
+            this.Padding = new System.Windows.Forms.Padding(10);
+            this.Size = new System.Drawing.Size(284, 250);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureIcon)).EndInit();
             this.panelCard.ResumeLayout(false);
             this.panelCard.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureIcon)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-        private Guna.UI2.WinForms.Guna2Panel panelCard;
+
+        private Guna2HtmlLabel labelChange;
+        private Guna2HtmlLabel labelSubInfo;
+        private Guna2HtmlLabel labelValue;
+        private Guna2HtmlLabel labelTitle;
         private Guna.UI2.WinForms.Guna2PictureBox pictureIcon;
-        private System.Windows.Forms.Label labelTitle;
-        private System.Windows.Forms.Label labelValue;
-        private System.Windows.Forms.Label labelSubInfo;
-        private System.Windows.Forms.Label labelChange;
+        private Guna.UI2.WinForms.Guna2Panel panelCard;
     }
 }

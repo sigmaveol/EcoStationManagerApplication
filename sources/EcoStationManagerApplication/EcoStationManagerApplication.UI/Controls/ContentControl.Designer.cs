@@ -35,8 +35,10 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // guna2PanelContent
             // 
+            this.guna2PanelContent.AutoScroll = true;
+            this.guna2PanelContent.AutoSize = true;
             this.guna2PanelContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.guna2PanelContent.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.guna2PanelContent.FillColor = System.Drawing.Color.LightGray;
             this.guna2PanelContent.Location = new System.Drawing.Point(0, 0);
             this.guna2PanelContent.Name = "guna2PanelContent";
             this.guna2PanelContent.Size = new System.Drawing.Size(800, 712);
@@ -48,6 +50,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.Name = "ContentControl";
             this.Size = new System.Drawing.Size(800, 712);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

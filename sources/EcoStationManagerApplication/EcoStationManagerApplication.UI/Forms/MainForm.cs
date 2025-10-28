@@ -234,8 +234,8 @@ namespace EcoStationManagerApplication.UI.Forms
                     break;
             }
 
-            searchControl.Visible = showSearch;
-            searchControl.PlaceholderText = placeholderText;
+            headerControl.SearchTextBox.Visible = showSearch;
+            headerControl.SearchPlaceHoder = placeholderText;
         }
 
         private void ShowDefaultContent()

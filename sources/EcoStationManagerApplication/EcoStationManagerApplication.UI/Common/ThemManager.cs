@@ -40,18 +40,16 @@ namespace EcoStationManagerApplication.UI.Common
 
         }
 
-        private static void ApplyButtonTheme(Guna2Button button, bool isActive = true)
+        public static void ApplyButtonTheme(Guna2Button button, bool isActive = true)
         {
             button.FillColor = isActive ? PrimaryColor : SecondaryColor;
-            button.ForeColor = Color.White;
             button.BorderRadius = 5;
-            button.Font = new Font("Segoe UI", 9, FontStyle.Regular);
 
             button.HoverState.FillColor = HoverColor;
             button.HoverState.ForeColor = HoverTextColor;
         }
 
-        private static void ApplyTextBoxTheme(Guna2TextBox textBox)
+        public static void ApplyTextBoxTheme(Guna2TextBox textBox)
         {
             textBox.BorderColor = Color.Gray;
             textBox.BorderRadius = 5;

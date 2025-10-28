@@ -30,11 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.guna2PanelRight = new Guna.UI2.WinForms.Guna2Panel();
-            this.searchControl = new EcoStationManagerApplication.UI.Controls.SearchControl();
+            this.guna2PanelLayout = new Guna.UI2.WinForms.Guna2Panel();
             this.contentControl = new EcoStationManagerApplication.UI.Controls.ContentControl();
             this.footerControl = new EcoStationManagerApplication.UI.Controls.FooterControl();
             this.headerControl = new EcoStationManagerApplication.UI.Controls.HeaderControl();
-            this.guna2PanelLayout = new Guna.UI2.WinForms.Guna2Panel();
             this.sidebarControl = new EcoStationManagerApplication.UI.Controls.SidebarControl();
             this.guna2PanelRight.SuspendLayout();
             this.guna2PanelLayout.SuspendLayout();
@@ -42,7 +41,6 @@
             // 
             // guna2PanelRight
             // 
-            this.guna2PanelRight.Controls.Add(this.searchControl);
             this.guna2PanelRight.Controls.Add(this.contentControl);
             this.guna2PanelRight.Controls.Add(this.footerControl);
             this.guna2PanelRight.Controls.Add(this.headerControl);
@@ -52,14 +50,15 @@
             this.guna2PanelRight.Size = new System.Drawing.Size(1180, 803);
             this.guna2PanelRight.TabIndex = 1;
             // 
-            // searchControl
+            // guna2PanelLayout
             // 
-            this.searchControl.Location = new System.Drawing.Point(39, 12);
-            this.searchControl.Name = "searchControl";
-            this.searchControl.PlaceholderText = "Tìm kiếm ....";
-            this.searchControl.SearchText = "";
-            this.searchControl.Size = new System.Drawing.Size(338, 45);
-            this.searchControl.TabIndex = 3;
+            this.guna2PanelLayout.Controls.Add(this.guna2PanelRight);
+            this.guna2PanelLayout.Controls.Add(this.sidebarControl);
+            this.guna2PanelLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.guna2PanelLayout.Location = new System.Drawing.Point(0, 0);
+            this.guna2PanelLayout.Name = "guna2PanelLayout";
+            this.guna2PanelLayout.Size = new System.Drawing.Size(1482, 803);
+            this.guna2PanelLayout.TabIndex = 3;
             // 
             // contentControl
             // 
@@ -82,18 +81,10 @@
             this.headerControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.headerControl.Location = new System.Drawing.Point(0, 0);
             this.headerControl.Name = "headerControl";
+            this.headerControl.SearchPlaceHoder = "Tìm kiếm ....";
+            this.headerControl.SearchText = "";
             this.headerControl.Size = new System.Drawing.Size(1180, 70);
             this.headerControl.TabIndex = 0;
-            // 
-            // guna2PanelLayout
-            // 
-            this.guna2PanelLayout.Controls.Add(this.guna2PanelRight);
-            this.guna2PanelLayout.Controls.Add(this.sidebarControl);
-            this.guna2PanelLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.guna2PanelLayout.Location = new System.Drawing.Point(0, 0);
-            this.guna2PanelLayout.Name = "guna2PanelLayout";
-            this.guna2PanelLayout.Size = new System.Drawing.Size(1482, 803);
-            this.guna2PanelLayout.TabIndex = 3;
             // 
             // sidebarControl
             // 
@@ -113,6 +104,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Ecostation Manager";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.guna2PanelRight.ResumeLayout(false);
             this.guna2PanelLayout.ResumeLayout(false);
@@ -128,6 +120,5 @@
         private Controls.FooterControl footerControl;
         private Controls.HeaderControl headerControl;
         private Guna.UI2.WinForms.Guna2Panel guna2PanelLayout;
-        private Controls.SearchControl searchControl;
     }
 }

@@ -1,7 +1,9 @@
 ﻿using EcoStationManagerApplication.UI.Forms;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,6 +19,12 @@ namespace EcoStationManagerApplication.UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+
+            // Cài đặt ngôn ngữ tiếng Việt
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("vi-VN");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("vi-VN");
+
             Application.Run(new MainForm());
         }
     }

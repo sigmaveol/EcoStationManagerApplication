@@ -22,16 +22,5 @@ namespace EcoStationManagerApplication.UI.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=Sigma\\SQLExpress;Initial Catalog=QuanLyThucTap;Integrated Security=Tr" +
-            "ue;Encrypt=True;TrustServerCertificate=True")]
-        public string QuanLyThucTapConnectionString {
-            get {
-                return ((string)(this["QuanLyThucTapConnectionString"]));
-            }
-        }
     }
 }

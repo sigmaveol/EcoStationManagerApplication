@@ -74,9 +74,9 @@
             // 
             this.tabControl.Controls.Add(this.tabPageProducts);
             this.tabControl.Controls.Add(this.tabPageVariants);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl.ItemSize = new System.Drawing.Size(180, 40);
-            this.tabControl.Location = new System.Drawing.Point(20, 165);
+            this.tabControl.Location = new System.Drawing.Point(20, 145);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(1160, 515);
@@ -174,7 +174,7 @@
             this.tabPageVariants.Location = new System.Drawing.Point(4, 44);
             this.tabPageVariants.Name = "tabPageVariants";
             this.tabPageVariants.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageVariants.Size = new System.Drawing.Size(1152, 467);
+            this.tabPageVariants.Size = new System.Drawing.Size(1152, 487);
             this.tabPageVariants.TabIndex = 1;
             this.tabPageVariants.Text = "Phiên bản (Variants)";
             this.tabPageVariants.UseVisualStyleBackColor = true;
@@ -210,7 +210,7 @@
             this.dataGridViewVariants.ReadOnly = true;
             this.dataGridViewVariants.RowHeadersVisible = false;
             this.dataGridViewVariants.RowHeadersWidth = 51;
-            this.dataGridViewVariants.Size = new System.Drawing.Size(1146, 461);
+            this.dataGridViewVariants.Size = new System.Drawing.Size(1146, 481);
             this.dataGridViewVariants.TabIndex = 0;
             this.dataGridViewVariants.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.dataGridViewVariants.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -240,7 +240,7 @@
             this.panelSearch.BackColor = System.Drawing.Color.White;
             this.panelSearch.Controls.Add(this.txtSearch);
             this.panelSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelSearch.Location = new System.Drawing.Point(20, 115);
+            this.panelSearch.Location = new System.Drawing.Point(20, 95);
             this.panelSearch.Name = "panelSearch";
             this.panelSearch.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
             this.panelSearch.Size = new System.Drawing.Size(1160, 50);
@@ -277,7 +277,7 @@
             this.guna2PanelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.guna2PanelHeader.Location = new System.Drawing.Point(20, 20);
             this.guna2PanelHeader.Name = "guna2PanelHeader";
-            this.guna2PanelHeader.Size = new System.Drawing.Size(1160, 95);
+            this.guna2PanelHeader.Size = new System.Drawing.Size(1160, 75);
             this.guna2PanelHeader.TabIndex = 0;
             // 
             // lblDescription
@@ -287,7 +287,7 @@
             this.lblDescription.ForeColor = System.Drawing.Color.Gray;
             this.lblDescription.Location = new System.Drawing.Point(22, 55);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(442, 20);
+            this.lblDescription.Size = new System.Drawing.Size(486, 20);
             this.lblDescription.TabIndex = 1;
             this.lblDescription.Text = "Quản lý Products, Variants, barcode (EAN13), SKU, ảnh, mô tả, danh mục.";
             // 
@@ -297,7 +297,7 @@
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblTitle.Location = new System.Drawing.Point(20, 20);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(258, 37);
+            this.lblTitle.Size = new System.Drawing.Size(284, 37);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Sản phẩm & Phiên bản";
             // 

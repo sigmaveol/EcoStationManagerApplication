@@ -31,7 +31,8 @@ namespace EcoStationManagerApplication.UI.Controls
         }
 
         private void SidebarControl_Load(object sender, EventArgs e)
-        {
+        {   
+            ThemeManager.ApplySidebarTheme(this);
             expandedWidth = this.Width; // lưu width ban đầu
             togglerOriginalLocation = this.guna2ButtonMenuTogger.Location;
             togglerOriginalAnchor = this.guna2ButtonMenuTogger.Anchor;

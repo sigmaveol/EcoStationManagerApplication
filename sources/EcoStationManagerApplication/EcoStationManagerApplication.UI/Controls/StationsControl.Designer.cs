@@ -86,7 +86,7 @@
             // 
             this.splitContainerMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerMain.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainerMain.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainerMain.Name = "splitContainerMain";
             // 
             // splitContainerMain.Panel1
@@ -106,9 +106,9 @@
             // panelStationsList
             // 
             this.panelStationsList.Controls.Add(this.flowLayoutStations);
-            this.panelStationsList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelStationsList.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelStationsList.Location = new System.Drawing.Point(0, 123);
-            this.panelStationsList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelStationsList.Margin = new System.Windows.Forms.Padding(4);
             this.panelStationsList.Name = "panelStationsList";
             this.panelStationsList.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.panelStationsList.Size = new System.Drawing.Size(533, 739);
@@ -119,7 +119,7 @@
             this.flowLayoutStations.AutoScroll = true;
             this.flowLayoutStations.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutStations.Location = new System.Drawing.Point(13, 12);
-            this.flowLayoutStations.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flowLayoutStations.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutStations.Name = "flowLayoutStations";
             this.flowLayoutStations.Size = new System.Drawing.Size(507, 715);
             this.flowLayoutStations.TabIndex = 0;
@@ -131,7 +131,7 @@
             this.panelHeader.Controls.Add(this.label1);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
-            this.panelHeader.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelHeader.Margin = new System.Windows.Forms.Padding(4);
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(533, 123);
             this.panelHeader.TabIndex = 0;
@@ -147,7 +147,7 @@
             this.btnAddStation.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnAddStation.ForeColor = System.Drawing.Color.White;
             this.btnAddStation.Location = new System.Drawing.Point(360, 62);
-            this.btnAddStation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddStation.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddStation.Name = "btnAddStation";
             this.btnAddStation.Size = new System.Drawing.Size(133, 43);
             this.btnAddStation.TabIndex = 2;
@@ -184,7 +184,7 @@
             this.panelStationDetails.Controls.Add(this.btnEditStation);
             this.panelStationDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelStationDetails.Location = new System.Drawing.Point(0, 0);
-            this.panelStationDetails.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelStationDetails.Margin = new System.Windows.Forms.Padding(4);
             this.panelStationDetails.Name = "panelStationDetails";
             this.panelStationDetails.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
             this.panelStationDetails.Size = new System.Drawing.Size(1062, 862);
@@ -197,7 +197,7 @@
             this.tabControlStation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlStation.ItemSize = new System.Drawing.Size(180, 40);
             this.tabControlStation.Location = new System.Drawing.Point(27, 25);
-            this.tabControlStation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControlStation.Margin = new System.Windows.Forms.Padding(4);
             this.tabControlStation.Name = "tabControlStation";
             this.tabControlStation.SelectedIndex = 0;
             this.tabControlStation.Size = new System.Drawing.Size(1008, 812);
@@ -227,9 +227,9 @@
             this.tabPageTanks.Controls.Add(this.panelTanksHeader);
             this.tabPageTanks.Controls.Add(this.flowLayoutTanks);
             this.tabPageTanks.Location = new System.Drawing.Point(4, 44);
-            this.tabPageTanks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageTanks.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageTanks.Name = "tabPageTanks";
-            this.tabPageTanks.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageTanks.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageTanks.Size = new System.Drawing.Size(1000, 764);
             this.tabPageTanks.TabIndex = 0;
             this.tabPageTanks.Text = "Bồn chứa";
@@ -241,7 +241,7 @@
             this.panelTanksHeader.Controls.Add(this.btnAddTank);
             this.panelTanksHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTanksHeader.Location = new System.Drawing.Point(4, 4);
-            this.panelTanksHeader.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelTanksHeader.Margin = new System.Windows.Forms.Padding(4);
             this.panelTanksHeader.Name = "panelTanksHeader";
             this.panelTanksHeader.Size = new System.Drawing.Size(992, 74);
             this.panelTanksHeader.TabIndex = 1;
@@ -281,7 +281,7 @@
             this.btnAddTank.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnAddTank.ForeColor = System.Drawing.Color.White;
             this.btnAddTank.Location = new System.Drawing.Point(827, 18);
-            this.btnAddTank.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddTank.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddTank.Name = "btnAddTank";
             this.btnAddTank.Size = new System.Drawing.Size(133, 37);
             this.btnAddTank.TabIndex = 0;
@@ -293,7 +293,7 @@
             this.flowLayoutTanks.AutoScroll = true;
             this.flowLayoutTanks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutTanks.Location = new System.Drawing.Point(4, 4);
-            this.flowLayoutTanks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flowLayoutTanks.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutTanks.Name = "flowLayoutTanks";
             this.flowLayoutTanks.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.flowLayoutTanks.Size = new System.Drawing.Size(992, 756);
@@ -305,10 +305,10 @@
             this.tabPageInfo.Controls.Add(this.guna2GroupBox2);
             this.tabPageInfo.Controls.Add(this.guna2GroupBox1);
             this.tabPageInfo.Location = new System.Drawing.Point(4, 44);
-            this.tabPageInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageInfo.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageInfo.Name = "tabPageInfo";
-            this.tabPageInfo.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPageInfo.Size = new System.Drawing.Size(1000, 727);
+            this.tabPageInfo.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPageInfo.Size = new System.Drawing.Size(1000, 764);
             this.tabPageInfo.TabIndex = 1;
             this.tabPageInfo.Text = "Thông tin trạm";
             // 
@@ -322,9 +322,9 @@
             this.guna2GroupBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.guna2GroupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
             this.guna2GroupBox2.Location = new System.Drawing.Point(4, 185);
-            this.guna2GroupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.guna2GroupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.guna2GroupBox2.Name = "guna2GroupBox2";
-            this.guna2GroupBox2.Size = new System.Drawing.Size(992, 538);
+            this.guna2GroupBox2.Size = new System.Drawing.Size(992, 575);
             this.guna2GroupBox2.TabIndex = 1;
             this.guna2GroupBox2.Text = "Thông tin chi tiết";
             // 
@@ -347,7 +347,7 @@
             this.tableLayoutPanel1.Controls.Add(this.lblStatus, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
             this.tableLayoutPanel1.RowCount = 6;
@@ -357,7 +357,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(992, 538);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(992, 575);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label12
@@ -366,10 +366,10 @@
             this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(65)))), ((int)(((byte)(81)))));
-            this.label12.Location = new System.Drawing.Point(31, 430);
+            this.label12.Location = new System.Drawing.Point(31, 460);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(192, 83);
+            this.label12.Size = new System.Drawing.Size(192, 90);
             this.label12.TabIndex = 11;
             this.label12.Text = "Sức chứa:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -380,10 +380,10 @@
             this.lblCapacity.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCapacity.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblCapacity.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(114)))), ((int)(((byte)(128)))));
-            this.lblCapacity.Location = new System.Drawing.Point(231, 430);
+            this.lblCapacity.Location = new System.Drawing.Point(231, 460);
             this.lblCapacity.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCapacity.Name = "lblCapacity";
-            this.lblCapacity.Size = new System.Drawing.Size(730, 83);
+            this.lblCapacity.Size = new System.Drawing.Size(730, 90);
             this.lblCapacity.TabIndex = 10;
             this.lblCapacity.Text = "0 kg";
             this.lblCapacity.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -394,10 +394,10 @@
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label10.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.label10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(65)))), ((int)(((byte)(81)))));
-            this.label10.Location = new System.Drawing.Point(31, 349);
+            this.label10.Location = new System.Drawing.Point(31, 373);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(192, 81);
+            this.label10.Size = new System.Drawing.Size(192, 87);
             this.label10.TabIndex = 9;
             this.label10.Text = "Quản lý:";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -408,10 +408,10 @@
             this.lblManager.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblManager.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblManager.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(114)))), ((int)(((byte)(128)))));
-            this.lblManager.Location = new System.Drawing.Point(231, 349);
+            this.lblManager.Location = new System.Drawing.Point(231, 373);
             this.lblManager.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblManager.Name = "lblManager";
-            this.lblManager.Size = new System.Drawing.Size(730, 81);
+            this.lblManager.Size = new System.Drawing.Size(730, 87);
             this.lblManager.TabIndex = 8;
             this.lblManager.Text = "Chưa có";
             this.lblManager.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -422,10 +422,10 @@
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label8.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(65)))), ((int)(((byte)(81)))));
-            this.label8.Location = new System.Drawing.Point(31, 268);
+            this.label8.Location = new System.Drawing.Point(31, 286);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(192, 81);
+            this.label8.Size = new System.Drawing.Size(192, 87);
             this.label8.TabIndex = 7;
             this.label8.Text = "Số điện thoại:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -436,10 +436,10 @@
             this.lblStationPhone.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblStationPhone.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblStationPhone.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(114)))), ((int)(((byte)(128)))));
-            this.lblStationPhone.Location = new System.Drawing.Point(231, 268);
+            this.lblStationPhone.Location = new System.Drawing.Point(231, 286);
             this.lblStationPhone.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblStationPhone.Name = "lblStationPhone";
-            this.lblStationPhone.Size = new System.Drawing.Size(730, 81);
+            this.lblStationPhone.Size = new System.Drawing.Size(730, 87);
             this.lblStationPhone.TabIndex = 6;
             this.lblStationPhone.Text = "Chưa có";
             this.lblStationPhone.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -450,10 +450,10 @@
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(65)))), ((int)(((byte)(81)))));
-            this.label6.Location = new System.Drawing.Point(31, 187);
+            this.label6.Location = new System.Drawing.Point(31, 199);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(192, 81);
+            this.label6.Size = new System.Drawing.Size(192, 87);
             this.label6.TabIndex = 5;
             this.label6.Text = "Địa chỉ:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -464,10 +464,10 @@
             this.lblStationAddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblStationAddress.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblStationAddress.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(114)))), ((int)(((byte)(128)))));
-            this.lblStationAddress.Location = new System.Drawing.Point(231, 187);
+            this.lblStationAddress.Location = new System.Drawing.Point(231, 199);
             this.lblStationAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblStationAddress.Name = "lblStationAddress";
-            this.lblStationAddress.Size = new System.Drawing.Size(730, 81);
+            this.lblStationAddress.Size = new System.Drawing.Size(730, 87);
             this.lblStationAddress.TabIndex = 4;
             this.lblStationAddress.Text = "Chưa có";
             this.lblStationAddress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -478,10 +478,10 @@
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(65)))), ((int)(((byte)(81)))));
-            this.label4.Location = new System.Drawing.Point(31, 106);
+            this.label4.Location = new System.Drawing.Point(31, 112);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(192, 81);
+            this.label4.Size = new System.Drawing.Size(192, 87);
             this.label4.TabIndex = 3;
             this.label4.Text = "Loại trạm:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -492,10 +492,10 @@
             this.lblStationType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblStationType.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblStationType.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(107)))), ((int)(((byte)(114)))), ((int)(((byte)(128)))));
-            this.lblStationType.Location = new System.Drawing.Point(231, 106);
+            this.lblStationType.Location = new System.Drawing.Point(231, 112);
             this.lblStationType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblStationType.Name = "lblStationType";
-            this.lblStationType.Size = new System.Drawing.Size(730, 81);
+            this.lblStationType.Size = new System.Drawing.Size(730, 87);
             this.lblStationType.TabIndex = 2;
             this.lblStationType.Text = "Chưa có";
             this.lblStationType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -509,7 +509,7 @@
             this.label3.Location = new System.Drawing.Point(31, 25);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(192, 81);
+            this.label3.Size = new System.Drawing.Size(192, 87);
             this.label3.TabIndex = 1;
             this.label3.Text = "Trạng thái:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -523,7 +523,7 @@
             this.lblStatus.Location = new System.Drawing.Point(231, 25);
             this.lblStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(730, 81);
+            this.lblStatus.Size = new System.Drawing.Size(730, 87);
             this.lblStatus.TabIndex = 0;
             this.lblStatus.Text = "Hoạt động";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -541,7 +541,7 @@
             this.guna2GroupBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.guna2GroupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
             this.guna2GroupBox1.Location = new System.Drawing.Point(4, 4);
-            this.guna2GroupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.guna2GroupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.guna2GroupBox1.Name = "guna2GroupBox1";
             this.guna2GroupBox1.Size = new System.Drawing.Size(992, 181);
             this.guna2GroupBox1.TabIndex = 0;
@@ -606,7 +606,7 @@
             this.btnEditStation.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnEditStation.ForeColor = System.Drawing.Color.White;
             this.btnEditStation.Location = new System.Drawing.Point(875, 806);
-            this.btnEditStation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEditStation.Margin = new System.Windows.Forms.Padding(4);
             this.btnEditStation.Name = "btnEditStation";
             this.btnEditStation.Size = new System.Drawing.Size(160, 43);
             this.btnEditStation.TabIndex = 0;
@@ -619,7 +619,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.splitContainerMain);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "StationsControl";
             this.Size = new System.Drawing.Size(1600, 862);
             this.splitContainerMain.Panel1.ResumeLayout(false);

@@ -37,9 +37,7 @@ CREATE TABLE IF NOT EXISTS Stations (
     created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     manager INT, -- User_id của quản lý trạm
-    parent_station_id INT NULL DEFAULT NULL,
     is_active BOOLEAN DEFAULT TRUE,
-    FOREIGN KEY (parent_station_id) REFERENCES Stations(station_id),
     FOREIGN KEY (manager) REFERENCES Users(user_id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
@@ -120,7 +118,7 @@ CREATE TABLE IF NOT EXISTS Categories (
 -- Bảng sản phẩm
 CREATE TABLE IF NOT EXISTS Products (
     product_id INT PRIMARY KEY AUTO_INCREMENT,
-    code VARCHAR(30) UNIQUE,
+    sku VARCHAR(30) UNIQUE,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     base_price DECIMAL(10,2) DEFAULT NULL, -- null nếu chỉ lưu sp

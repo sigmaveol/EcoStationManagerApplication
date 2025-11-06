@@ -42,12 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Entities\Order.cs" />
+    <Compile Include="Entities\Users.cs" />
+    <Compile Include="Enums\Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTOs\" />
-    <Folder Include="Entities\" />
-    <Folder Include="Enums\" />
     <Folder Include="Results\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>

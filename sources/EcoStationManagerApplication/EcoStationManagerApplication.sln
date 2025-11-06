@@ -18,8 +18,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EcoStationManagerApplication.DbScripts", "EcoStationManagerApplication.DbScripts", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		EcoStationManager_V0.sql = EcoStationManager_V0.sql
-		migration.sql = migration.sql
 		EcoStationManager_V1.sql = EcoStationManager_V1.sql
+		migration.sql = migration.sql
 		seed.sql = seed.sql
 		temp.sql = temp.sql
 	EndProjectSection
@@ -29,10 +29,19 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "views", "views", "{79D00C55-5140-4600-B238-95191B0859BC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "triggers", "triggers", "{2A82D183-FA91-43B1-BA14-36CB4FD8988E}"
+	ProjectSection(SolutionItems) = preProject
+		triggers.txt = triggers.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{3A08E790-FFBD-4F21-9363-233D152196F7}"
+	ProjectSection(SolutionItems) = preProject
+		functions.txt = functions.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "procedures", "procedures", "{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}"
+	ProjectSection(SolutionItems) = preProject
+		procedures.txt = procedures.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -42,13 +42,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Interfaces\IDatabaseHelper.cs" />
+    <Compile Include="Interfaces\IUserRepository.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Repositories\" />
     <Folder Include="SqlQueries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EcoStationManagerApplication.Models\EcoStationManagerApplication.Models.csproj">
+      <Project>{e01bef2e-87d7-4bb7-acde-0ffe069b4631}</Project>
+      <Name>EcoStationManagerApplication.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

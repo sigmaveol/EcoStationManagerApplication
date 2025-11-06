@@ -1,0 +1,735 @@
+﻿-- =====================================================
+-- ECOSTATION MANAGER - STORED PROCEDURES
+-- Tự động hóa các tác vụ quản lý Refill Station
+-- =====================================================
+
+USE EcoStationManager;
+
+DELIMITER $$
+
+-- =====================================================
+-- 1. QUẢN LÝ ĐƠN HÀNG
+-- =====================================================
+
+-- Tạo đơn hàng mới và trừ tồn kho
+DROP PROCEDURE IF EXISTS sp_CreateOrder$$
+CREATE PROCEDURE sp_CreateOrder(
+    IN p_customer_id INT,
+    IN p_source VARCHAR(50),
+    IN p_address VARCHAR(255),
+    IN p_note TEXT,
+    IN p_user_id INT,
+    IN p_order_details JSON, -- [{"product_id":1,"quantity":10},...]
+    OUT p_order_id INT,
+    OUT p_message VARCHAR(255)
+)
+BEGIN
+    DECLARE v_product_id INT;
+    DECLARE v_quantity DECIMAL(10,2);
+    DECLARE v_unit_price DECIMAL(10,2);
+    DECLARE v_total DECIMAL(10,2) DEFAULT 0;
+    DECLARE v_stock DECIMAL(10,2);
+    DECLARE v_idx INT DEFAULT 0;
+    DECLARE v_count INT;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SET p_message = 'Error: Transaction failed';
+    END;
+    
+    START TRANSACTION;
+    
+    -- Tạo đơn hàng
+    INSERT INTO Orders (customer_id, source, address, note, user_id, status)
+    VALUES (p_customer_id, p_source, p_address, p_note, p_user_id, 'DRAFT');
+    
+    SET p_order_id = LAST_INSERT_ID();
+    
+    -- Xử lý từng sản phẩm
+    SET v_count = JSON_LENGTH(p_order_details);
+    
+    WHILE v_idx < v_count DO
+        SET v_product_id = JSON_EXTRACT(p_order_details, CONCAT('$[', v_idx, '].product_id'));
+        SET v_quantity = JSON_EXTRACT(p_order_details, CONCAT('$[', v_idx, '].quantity'));
+        
+        -- Lấy giá sản phẩm
+        SELECT price INTO v_unit_price 
+        FROM Products 
+        WHERE product_id = v_product_id AND is_active = TRUE;
+        
+        IF v_unit_price IS NULL THEN
+            SET p_message = CONCAT('Product ID ', v_product_id, ' not found or inactive');
+            ROLLBACK;
+            LEAVE;
+        END IF;
+        
+        -- Kiểm tra tồn kho
+        SELECT COALESCE(SUM(quantity), 0) INTO v_stock
+        FROM Inventories
+        WHERE product_id = v_product_id;
+        
+        IF v_stock < v_quantity THEN
+            SET p_message = CONCAT('Insufficient stock for product ', v_product_id);
+            ROLLBACK;
+            LEAVE;
+        END IF;
+        
+        -- Thêm chi tiết đơn
+        INSERT INTO OrderDetails (order_id, product_id, quantity, unit_price)
+        VALUES (p_order_id, v_product_id, v_quantity, v_unit_price);
+        
+        SET v_total = v_total + (v_quantity * v_unit_price);
+        SET v_idx = v_idx + 1;
+    END WHILE;
+    
+    -- Cập nhật tổng tiền
+    UPDATE Orders SET total_amount = v_total WHERE order_id = p_order_id;
+    
+    -- Log history
+    INSERT INTO OrderHistory (order_id, action, new_value, changed_by)
+    VALUES (p_order_id, 'created', 'DRAFT', p_user_id);
+    
+    COMMIT;
+    SET p_message = 'Order created successfully';
+END$$
+
+-- Cập nhật trạng thái đơn hàng và xử lý kho
+DROP PROCEDURE IF EXISTS sp_UpdateOrderStatus$$
+CREATE PROCEDURE sp_UpdateOrderStatus(
+    IN p_order_id INT,
+    IN p_new_status VARCHAR(50),
+    IN p_user_id INT,
+    OUT p_message VARCHAR(255)
+)
+BEGIN
+    DECLARE v_old_status VARCHAR(50);
+    DECLARE v_product_id INT;
+    DECLARE v_quantity DECIMAL(10,2);
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE cur CURSOR FOR 
+        SELECT product_id, quantity FROM OrderDetails WHERE order_id = p_order_id;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SET p_message = 'Error updating order status';
+    END;
+    
+    START TRANSACTION;
+    
+    -- Lấy trạng thái cũ
+    SELECT status INTO v_old_status FROM Orders WHERE order_id = p_order_id;
+    
+    -- Nếu chuyển sang PROCESSING -> trừ kho
+    IF p_new_status = 'PROCESSING' AND v_old_status = 'CONFIRMED' THEN
+        OPEN cur;
+        read_loop: LOOP
+            FETCH cur INTO v_product_id, v_quantity;
+            IF done THEN
+                LEAVE read_loop;
+            END IF;
+            
+            -- Xuất kho
+            CALL sp_StockOut_Product(v_product_id, v_quantity, 'SALE', 
+                CONCAT('Order #', p_order_id), p_user_id, @msg);
+        END LOOP;
+        CLOSE cur;
+    END IF;
+    
+    -- Cập nhật trạng thái
+    UPDATE Orders SET status = p_new_status WHERE order_id = p_order_id;
+    
+    -- Log history
+    INSERT INTO OrderHistory (order_id, action, old_value, new_value, changed_by)
+    VALUES (p_order_id, 'status_changed', v_old_status, p_new_status, p_user_id);
+    
+    COMMIT;
+    SET p_message = 'Order status updated successfully';
+END$$
+
+-- =====================================================
+-- 2. QUẢN LÝ KHO
+-- =====================================================
+
+-- Nhập kho sản phẩm
+DROP PROCEDURE IF EXISTS sp_StockIn_Product$$
+CREATE PROCEDURE sp_StockIn_Product(
+    IN p_product_id INT,
+    IN p_quantity DECIMAL(10,2),
+    IN p_batch_no VARCHAR(100),
+    IN p_expiry_date DATE,
+    IN p_unit_price DECIMAL(10,2),
+    IN p_supplier_id INT,
+    IN p_notes TEXT,
+    IN p_user_id INT,
+    OUT p_message VARCHAR(255)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SET p_message = 'Error during stock in';
+    END;
+    
+    START TRANSACTION;
+    
+    -- Ghi nhận nhập kho
+    INSERT INTO StockIn (batch_no, ref_type, ref_id, quantity, unit_price, 
+                         notes, supplier_id, expiry_date, created_by)
+    VALUES (p_batch_no, 'PRODUCT', p_product_id, p_quantity, p_unit_price,
+            p_notes, p_supplier_id, p_expiry_date, p_user_id);
+    
+    -- Cập nhật tồn kho
+    INSERT INTO Inventories (batch_no, product_id, quantity, expiry_date)
+    VALUES (p_batch_no, p_product_id, p_quantity, p_expiry_date)
+    ON DUPLICATE KEY UPDATE 
+        quantity = quantity + p_quantity;
+    
+    -- Log history
+    INSERT INTO InventoryHistory (product_id, change_type, quantity_change, 
+                                   reason, changed_by)
+    VALUES (p_product_id, 'stockin', p_quantity, p_notes, p_user_id);
+    
+    COMMIT;
+    SET p_message = 'Stock in successful';
+END$$
+
+-- Xuất kho sản phẩm (FIFO - First In First Out)
+DROP PROCEDURE IF EXISTS sp_StockOut_Product$$
+CREATE PROCEDURE sp_StockOut_Product(
+    IN p_product_id INT,
+    IN p_quantity DECIMAL(10,2),
+    IN p_purpose VARCHAR(50),
+    IN p_notes TEXT,
+    IN p_user_id INT,
+    OUT p_message VARCHAR(255)
+)
+BEGIN
+    DECLARE v_remaining DECIMAL(10,2);
+    DECLARE v_inv_id INT;
+    DECLARE v_inv_qty DECIMAL(10,2);
+    DECLARE v_deduct DECIMAL(10,2);
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE cur CURSOR FOR 
+        SELECT inventory_id, quantity 
+        FROM Inventories 
+        WHERE product_id = p_product_id AND quantity > 0
+        ORDER BY expiry_date ASC, created_date ASC;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SET p_message = 'Error during stock out';
+    END;
+    
+    START TRANSACTION;
+    
+    SET v_remaining = p_quantity;
+    
+    OPEN cur;
+    read_loop: LOOP
+        FETCH cur INTO v_inv_id, v_inv_qty;
+        IF done OR v_remaining <= 0 THEN
+            LEAVE read_loop;
+        END IF;
+        
+        -- Tính số lượng trừ từ batch này
+        SET v_deduct = LEAST(v_inv_qty, v_remaining);
+        
+        -- Trừ tồn kho
+        UPDATE Inventories 
+        SET quantity = quantity - v_deduct 
+        WHERE inventory_id = v_inv_id;
+        
+        SET v_remaining = v_remaining - v_deduct;
+    END LOOP;
+    CLOSE cur;
+    
+    IF v_remaining > 0 THEN
+        ROLLBACK;
+        SET p_message = 'Insufficient inventory';
+        LEAVE;
+    END IF;
+    
+    -- Ghi nhận xuất kho
+    INSERT INTO StockOut (ref_type, ref_id, quantity, purpose, notes, created_by)
+    VALUES ('PRODUCT', p_product_id, p_quantity, p_purpose, p_notes, p_user_id);
+    
+    -- Log history
+    INSERT INTO InventoryHistory (product_id, change_type, quantity_change, 
+                                   reason, changed_by)
+    VALUES (p_product_id, 'stockout', -p_quantity, p_notes, p_user_id);
+    
+    COMMIT;
+    SET p_message = 'Stock out successful';
+END$$
+
+-- Cảnh báo sản phẩm sắp hết
+DROP PROCEDURE IF EXISTS sp_GetLowStockAlert$$
+CREATE PROCEDURE sp_GetLowStockAlert()
+BEGIN
+    SELECT 
+        p.product_id,
+        p.sku,
+        p.name,
+        p.unit,
+        COALESCE(SUM(i.quantity), 0) AS current_stock,
+        p.min_stock_level,
+        p.min_stock_level - COALESCE(SUM(i.quantity), 0) AS shortage
+    FROM Products p
+    LEFT JOIN Inventories i ON p.product_id = i.product_id
+    WHERE p.is_active = TRUE
+    GROUP BY p.product_id
+    HAVING current_stock < p.min_stock_level
+    ORDER BY shortage DESC;
+END$$
+
+-- Cảnh báo sản phẩm gần hết hạn
+DROP PROCEDURE IF EXISTS sp_GetExpiryAlert$$
+CREATE PROCEDURE sp_GetExpiryAlert(
+    IN p_days_threshold INT
+)
+BEGIN
+    SELECT 
+        i.inventory_id,
+        i.batch_no,
+        p.name AS product_name,
+        i.quantity,
+        i.expiry_date,
+        DATEDIFF(i.expiry_date, CURDATE()) AS days_to_expiry
+    FROM Inventories i
+    JOIN Products p ON i.product_id = p.product_id
+    WHERE i.expiry_date IS NOT NULL
+        AND i.quantity > 0
+        AND DATEDIFF(i.expiry_date, CURDATE()) <= p_days_threshold
+        AND DATEDIFF(i.expiry_date, CURDATE()) >= 0
+    ORDER BY i.expiry_date ASC;
+END$$
+
+-- =====================================================
+-- 3. QUẢN LÝ BAO BÌ
+-- =====================================================
+
+-- Phát bao bì cho khách hàng
+DROP PROCEDURE IF EXISTS sp_IssuePackaging$$
+CREATE PROCEDURE sp_IssuePackaging(
+    IN p_packaging_id INT,
+    IN p_customer_id INT,
+    IN p_quantity INT,
+    IN p_ownership_type VARCHAR(20),
+    IN p_deposit_price DECIMAL(10,2),
+    IN p_user_id INT,
+    OUT p_message VARCHAR(255)
+)
+BEGIN
+    DECLARE v_available INT;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SET p_message = 'Error issuing packaging';
+    END;
+    
+    START TRANSACTION;
+    
+    -- Kiểm tra tồn kho bao bì mới
+    SELECT qty_new INTO v_available
+    FROM PackagingInventories
+    WHERE packaging_id = p_packaging_id;
+    
+    IF v_available < p_quantity THEN
+        ROLLBACK;
+        SET p_message = 'Insufficient packaging inventory';
+        LEAVE;
+    END IF;
+    
+    -- Trừ tồn kho mới, cộng đang sử dụng
+    UPDATE PackagingInventories
+    SET qty_new = qty_new - p_quantity,
+        qty_in_use = qty_in_use + p_quantity
+    WHERE packaging_id = p_packaging_id;
+    
+    -- Ghi nhận giao dịch
+    INSERT INTO PackagingTransactions 
+        (packaging_id, customer_id, user_id, type, ownership_type, 
+         quantity, deposit_price, notes)
+    VALUES 
+        (p_packaging_id, p_customer_id, p_user_id, 'ISSUE', p_ownership_type,
+         p_quantity, p_deposit_price, CONCAT('Issued ', p_quantity, ' units'));
+    
+    COMMIT;
+    SET p_message = 'Packaging issued successfully';
+END$$
+
+-- Thu hồi bao bì từ khách hàng
+DROP PROCEDURE IF EXISTS sp_ReturnPackaging$$
+CREATE PROCEDURE sp_ReturnPackaging(
+    IN p_packaging_id INT,
+    IN p_customer_id INT,
+    IN p_quantity INT,
+    IN p_condition VARCHAR(50), -- 'clean', 'need_cleaning', 'damaged'
+    IN p_refund_amount DECIMAL(10,2),
+    IN p_user_id INT,
+    OUT p_message VARCHAR(255)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SET p_message = 'Error returning packaging';
+    END;
+    
+    START TRANSACTION;
+    
+    -- Cập nhật tồn kho theo điều kiện
+    IF p_condition = 'clean' THEN
+        UPDATE PackagingInventories
+        SET qty_in_use = qty_in_use - p_quantity,
+            qty_cleaned = qty_cleaned + p_quantity
+        WHERE packaging_id = p_packaging_id;
+    ELSEIF p_condition = 'need_cleaning' THEN
+        UPDATE PackagingInventories
+        SET qty_in_use = qty_in_use - p_quantity,
+            qty_need_cleaning = qty_need_cleaning + p_quantity
+        WHERE packaging_id = p_packaging_id;
+    ELSEIF p_condition = 'damaged' THEN
+        UPDATE PackagingInventories
+        SET qty_in_use = qty_in_use - p_quantity,
+            qty_damaged = qty_damaged + p_quantity
+        WHERE packaging_id = p_packaging_id;
+    END IF;
+    
+    -- Ghi nhận giao dịch
+    INSERT INTO PackagingTransactions 
+        (packaging_id, customer_id, user_id, type, quantity, 
+         refund_amount, notes)
+    VALUES 
+        (p_packaging_id, p_customer_id, p_user_id, 'RETURN', p_quantity,
+         p_refund_amount, CONCAT('Returned - ', p_condition));
+    
+    COMMIT;
+    SET p_message = 'Packaging returned successfully';
+END$$
+
+-- Xử lý bao bì sau vệ sinh
+DROP PROCEDURE IF EXISTS sp_ProcessCleanedPackaging$$
+CREATE PROCEDURE sp_ProcessCleanedPackaging(
+    IN p_packaging_id INT,
+    IN p_quantity_cleaned INT,
+    IN p_quantity_damaged INT,
+    IN p_user_id INT,
+    OUT p_message VARCHAR(255)
+)
+BEGIN
+    DECLARE v_available INT;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SET p_message = 'Error processing cleaned packaging';
+    END;
+    
+    START TRANSACTION;
+    
+    SELECT qty_need_cleaning INTO v_available
+    FROM PackagingInventories
+    WHERE packaging_id = p_packaging_id;
+    
+    IF v_available < (p_quantity_cleaned + p_quantity_damaged) THEN
+        ROLLBACK;
+        SET p_message = 'Invalid quantity';
+        LEAVE;
+    END IF;
+    
+    UPDATE PackagingInventories
+    SET qty_need_cleaning = qty_need_cleaning - (p_quantity_cleaned + p_quantity_damaged),
+        qty_cleaned = qty_cleaned + p_quantity_cleaned,
+        qty_damaged = qty_damaged + p_quantity_damaged
+    WHERE packaging_id = p_packaging_id;
+    
+    -- Ghi nhận vào lịch vệ sinh
+    INSERT INTO CleaningSchedules (cleaning_type, cleaning_date, status, 
+                                    notes, cleaning_by)
+    VALUES ('PACKAGING', NOW(), 'COMPLETED',
+            CONCAT('Cleaned: ', p_quantity_cleaned, ', Damaged: ', p_quantity_damaged),
+            p_user_id);
+    
+    COMMIT;
+    SET p_message = 'Cleaned packaging processed';
+END$$
+
+-- =====================================================
+-- 4. TÍNH ĐIỂM THƯỞNG KHÁCH HÀNG
+-- =====================================================
+
+DROP PROCEDURE IF EXISTS sp_CalculateCustomerPoints$$
+CREATE PROCEDURE sp_CalculateCustomerPoints(
+    IN p_customer_id INT,
+    IN p_order_amount DECIMAL(10,2),
+    OUT p_points_earned INT,
+    OUT p_message VARCHAR(255)
+)
+BEGIN
+    DECLARE v_current_points INT;
+    DECLARE v_current_rank VARCHAR(20);
+    DECLARE v_point_rate DECIMAL(5,2);
+    
+    -- Lấy thông tin khách hàng
+    SELECT total_point, rank INTO v_current_points, v_current_rank
+    FROM Customers
+    WHERE customer_id = p_customer_id;
+    
+    -- Quy tắc tính điểm theo rank
+    CASE v_current_rank
+        WHEN 'MEMBER' THEN SET v_point_rate = 1;      -- 1 điểm/10,000đ
+        WHEN 'SILVER' THEN SET v_point_rate = 1.2;    -- 1.2 điểm/10,000đ
+        WHEN 'GOLD' THEN SET v_point_rate = 1.5;      -- 1.5 điểm/10,000đ
+        WHEN 'DIAMONDS' THEN SET v_point_rate = 2;    -- 2 điểm/10,000đ
+        ELSE SET v_point_rate = 1;
+    END CASE;
+    
+    -- Tính điểm (mỗi 10,000đ = 1 điểm * hệ số)
+    SET p_points_earned = FLOOR(p_order_amount / 10000 * v_point_rate);
+    
+    -- Cập nhật điểm
+    UPDATE Customers
+    SET total_point = total_point + p_points_earned
+    WHERE customer_id = p_customer_id;
+    
+    -- Kiểm tra nâng hạng
+    CALL sp_UpdateCustomerRank(p_customer_id, @rank_msg);
+    
+    SET p_message = CONCAT('Earned ', p_points_earned, ' points');
+END$$
+
+-- Cập nhật hạng khách hàng
+DROP PROCEDURE IF EXISTS sp_UpdateCustomerRank$$
+CREATE PROCEDURE sp_UpdateCustomerRank(
+    IN p_customer_id INT,
+    OUT p_message VARCHAR(255)
+)
+BEGIN
+    DECLARE v_total_points INT;
+    DECLARE v_new_rank VARCHAR(20);
+    DECLARE v_old_rank VARCHAR(20);
+    
+    SELECT total_point, rank INTO v_total_points, v_old_rank
+    FROM Customers
+    WHERE customer_id = p_customer_id;
+    
+    -- Quy tắc xếp hạng
+    IF v_total_points >= 5000 THEN
+        SET v_new_rank = 'DIAMONDS';
+    ELSEIF v_total_points >= 2000 THEN
+        SET v_new_rank = 'GOLD';
+    ELSEIF v_total_points >= 500 THEN
+        SET v_new_rank = 'SILVER';
+    ELSE
+        SET v_new_rank = 'MEMBER';
+    END IF;
+    
+    -- Cập nhật nếu có thay đổi
+    IF v_new_rank != v_old_rank THEN
+        UPDATE Customers
+        SET rank = v_new_rank
+        WHERE customer_id = p_customer_id;
+        
+        SET p_message = CONCAT('Rank updated: ', v_old_rank, ' -> ', v_new_rank);
+    ELSE
+        SET p_message = 'Rank unchanged';
+    END IF;
+END$$
+
+-- =====================================================
+-- 5. BÁO CÁO & THỐNG KÊ
+-- =====================================================
+
+-- Báo cáo doanh thu theo khoảng thời gian
+DROP PROCEDURE IF EXISTS sp_RevenueReport$$
+CREATE PROCEDURE sp_RevenueReport(
+    IN p_start_date DATE,
+    IN p_end_date DATE
+)
+BEGIN
+    SELECT 
+        DATE(o.last_updated) AS order_date,
+        COUNT(DISTINCT o.order_id) AS total_orders,
+        COUNT(DISTINCT o.customer_id) AS unique_customers,
+        SUM(o.total_amount) AS total_revenue,
+        SUM(o.discounted_amount) AS total_discount,
+        SUM(o.total_amount - COALESCE(o.discounted_amount, 0)) AS net_revenue,
+        AVG(o.total_amount) AS avg_order_value
+    FROM Orders o
+    WHERE DATE(o.last_updated) BETWEEN p_start_date AND p_end_date
+        AND o.status NOT IN ('CANCELLED', 'DRAFT')
+    GROUP BY DATE(o.last_updated)
+    ORDER BY order_date DESC;
+END$$
+
+-- Thống kê sản phẩm bán chạy
+DROP PROCEDURE IF EXISTS sp_TopSellingProducts$$
+CREATE PROCEDURE sp_TopSellingProducts(
+    IN p_start_date DATE,
+    IN p_end_date DATE,
+    IN p_limit INT
+)
+BEGIN
+    SELECT 
+        p.product_id,
+        p.sku,
+        p.name,
+        p.unit,
+        c.name AS category_name,
+        SUM(od.quantity) AS total_quantity_sold,
+        SUM(od.quantity * od.unit_price) AS total_revenue,
+        COUNT(DISTINCT o.order_id) AS order_count
+    FROM OrderDetails od
+    JOIN Orders o ON od.order_id = o.order_id
+    JOIN Products p ON od.product_id = p.product_id
+    LEFT JOIN Categories c ON p.category_id = c.category_id
+    WHERE DATE(o.last_updated) BETWEEN p_start_date AND p_end_date
+        AND o.status NOT IN ('CANCELLED', 'DRAFT')
+    GROUP BY p.product_id
+    ORDER BY total_quantity_sold DESC
+    LIMIT p_limit;
+END$$
+
+-- Thống kê tỷ lệ thu hồi bao bì
+DROP PROCEDURE IF EXISTS sp_PackagingRecycleRate$$
+CREATE PROCEDURE sp_PackagingRecycleRate(
+    IN p_start_date DATE,
+    IN p_end_date DATE
+)
+BEGIN
+    SELECT 
+        pkg.packaging_id,
+        pkg.name AS packaging_name,
+        pkg.type,
+        SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END) AS total_issued,
+        SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) AS total_returned,
+        ROUND(
+            SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) * 100.0 /
+            NULLIF(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0),
+            2
+        ) AS return_rate_percent
+    FROM Packaging pkg
+    LEFT JOIN PackagingTransactions pt ON pkg.packaging_id = pt.packaging_id
+    WHERE DATE(pt.created_date) BETWEEN p_start_date AND p_end_date
+    GROUP BY pkg.packaging_id
+    ORDER BY return_rate_percent DESC;
+END$$
+
+-- Thống kê tác động môi trường
+DROP PROCEDURE IF EXISTS sp_EnvironmentalImpact$$
+CREATE PROCEDURE sp_EnvironmentalImpact(
+    IN p_start_date DATE,
+    IN p_end_date DATE
+)
+BEGIN
+    DECLARE v_total_refills INT;
+    DECLARE v_avg_plastic_per_bottle DECIMAL(10,2) DEFAULT 25; -- gram
+    
+    -- Tổng số lần refill (= số lần thu hồi bao bì)
+    SELECT SUM(quantity) INTO v_total_refills
+    FROM PackagingTransactions
+    WHERE type = 'RETURN'
+        AND DATE(created_date) BETWEEN p_start_date AND p_end_date;
+    
+    SELECT 
+        v_total_refills AS total_refills,
+        ROUND(v_total_refills * v_avg_plastic_per_bottle / 1000, 2) AS plastic_saved_kg,
+        ROUND(v_total_refills * v_avg_plastic_per_bottle / 1000000, 2) AS plastic_saved_tons,
+        -- Ước tính CO2 tiết kiệm (1kg nhựa = ~6kg CO2)
+        ROUND(v_total_refills * v_avg_plastic_per_bottle * 6 / 1000, 2) AS co2_saved_kg
+    FROM DUAL;
+END$$
+
+-- Khách hàng trung thành (refill nhiều nhất)
+DROP PROCEDURE IF EXISTS sp_TopLoyalCustomers$$
+CREATE PROCEDURE sp_TopLoyalCustomers(
+    IN p_start_date DATE,
+    IN p_end_date DATE,
+    IN p_limit INT
+)
+BEGIN
+    SELECT 
+        c.customer_id,
+        c.name,
+        c.phone,
+        c.rank,
+        c.total_point,
+        COUNT(DISTINCT o.order_id) AS total_orders,
+        SUM(o.total_amount) AS total_spent,
+        COUNT(DISTINCT DATE(o.last_updated)) AS active_days
+    FROM Customers c
+    JOIN Orders o ON c.customer_id = o.customer_id
+    WHERE DATE(o.last_updated) BETWEEN p_start_date AND p_end_date
+        AND o.status NOT IN ('CANCELLED', 'DRAFT')
+    GROUP BY c.customer_id
+    ORDER BY total_orders DESC
+    LIMIT p_limit;
+END$$
+
+-- =====================================================
+-- 6. TÁC VỤ BẢO TRÌ TỰ ĐỘNG
+-- =====================================================
+
+-- Tự động tạo lịch vệ sinh định kỳ
+DROP PROCEDURE IF EXISTS sp_AutoScheduleCleaning$$
+CREATE PROCEDURE sp_AutoScheduleCleaning(
+    IN p_cleaning_type VARCHAR(20),
+    IN p_interval_days INT
+)
+BEGIN
+    DECLARE v_last_cleaning DATE;
+    DECLARE v_next_cleaning DATE;
+    
+    -- Lấy lần vệ sinh gần nhất
+    SELECT MAX(DATE(cleaning_date)) INTO v_last_cleaning
+    FROM CleaningSchedules
+    WHERE cleaning_type = p_cleaning_type
+        AND status IN ('COMPLETED', 'SCHEDULED');
+    
+    -- Tính ngày vệ sinh tiếp theo
+    IF v_last_cleaning IS NULL THEN
+        SET v_next_cleaning = CURDATE();
+    ELSE
+        SET v_next_cleaning = DATE_ADD(v_last_cleaning, INTERVAL p_interval_days DAY);
+    END IF;
+    
+    -- Tạo lịch nếu chưa có
+    IF v_next_cleaning <= CURDATE() THEN
+        INSERT INTO CleaningSchedules (cleaning_type, cleaning_date, status, notes)
+        VALUES (p_cleaning_type, NOW(), 'SCHEDULED', 
+                CONCAT('Auto-scheduled every ', p_interval_days, ' days'));
+    END IF;
+END$$
+
+-- Xóa dữ liệu cũ (data retention)
+DROP PROCEDURE IF EXISTS sp_ArchiveOldData$$
+CREATE PROCEDURE sp_ArchiveOldData(
+    IN p_months_to_keep INT
+)
+BEGIN
+    DECLARE v_cutoff_date DATE;
+    
+    SET v_cutoff_date = DATE_SUB(CURDATE(), INTERVAL p_months_to_keep MONTH);
+    
+    -- Xóa lịch sử đơn hàng cũ
+    DELETE FROM OrderHistory 
+    WHERE changed_at < v_cutoff_date;
+    
+    -- Xóa lịch sử kho cũ
+    DELETE FROM InventoryHistory 
+    WHERE changed_at < v_cutoff_date;
+    
+    -- Xóa lịch vệ sinh cũ đã hoàn thành
+    DELETE FROM CleaningSchedules 
+    WHERE status = 'COMPLETED' AND cleaning_date < v_cutoff_date;
+    
+    SELECT CONCAT('Archived data older than ', v_cutoff_date) AS message;
+END$$
+
+DELIMITER ;
+
+-- =====================================================
+-- HƯỚNG DẪN SỬ DỤNG
+-- =====================================================

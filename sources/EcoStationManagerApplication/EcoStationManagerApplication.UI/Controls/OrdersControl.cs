@@ -273,6 +273,11 @@ namespace EcoStationManagerApplication.UI.Controls
             btnCreateOrder.FillColor = Color.FromArgb(31, 107, 59);
         }
         #endregion
+
+        private void OrdersControl_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
     #region Data Models

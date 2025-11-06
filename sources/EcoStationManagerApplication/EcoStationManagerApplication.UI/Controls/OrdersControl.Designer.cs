@@ -427,6 +427,7 @@
             this.Controls.Add(this.guna2PanelContent);
             this.Name = "OrdersControl";
             this.Size = new System.Drawing.Size(1200, 700);
+            this.Load += new System.EventHandler(this.OrdersControl_Load);
             this.guna2PanelContent.ResumeLayout(false);
             this.guna2PanelContent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOrders)).EndInit();

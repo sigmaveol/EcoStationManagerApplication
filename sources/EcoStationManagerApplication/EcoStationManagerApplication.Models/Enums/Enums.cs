@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EcoStationManagerApplication.Models.Enums
 {
+    // Vai trò người dùng
     public enum UserRole
     {
         ADMIN,
@@ -14,7 +11,7 @@ namespace EcoStationManagerApplication.Models.Enums
         DRIVER
     }
 
-    // Enum cho nguồn đơn hàng
+    // Nguồn đơn hàng
     public enum OrderSource
     {
         GOOGLEFORM,
@@ -23,7 +20,7 @@ namespace EcoStationManagerApplication.Models.Enums
         MANUAL
     }
 
-    // Enum trạng thái đơn hàng
+    // Trạng thái đơn hàng
     public enum OrderStatus
     {
         DRAFT,
@@ -35,17 +32,110 @@ namespace EcoStationManagerApplication.Models.Enums
         CANCELLED
     }
 
-    // Enum trạng thái thanh toán
+    // Trạng thái thanh toán
     public enum PaymentStatus
     {
         UNPAID,
         PAID
     }
 
-    // Enum phương thức thanh toán
+    // Phương thức thanh toán
     public enum PaymentMethod
     {
         CASH,
         TRANSFER
+    }
+
+    // Phân hạng khách hàng
+    public enum CustomerRank
+    {
+        MEMBER,
+        SILVER,
+        GOLD,
+        DIAMONDS
+    }
+
+    // Loại danh mục sản phẩm
+    public enum CategoryType
+    {
+        PRODUCT,
+        SERVICE,
+        OTHER
+    }
+
+    // Loại sản phẩm (đóng gói / refill)
+    public enum ProductType
+    {
+        PACKED,
+        REFILLED,
+        OTHER
+    }
+
+    // Loại tham chiếu trong nhập/xuất kho
+    public enum RefType
+    {
+        PRODUCT,
+        PACKAGING
+    }
+
+    // Mục đích xuất kho
+    public enum StockOutPurpose
+    {
+        SALE,
+        DAMAGE,
+        TRANSFER
+    }
+
+    // Loại vệ sinh
+    public enum CleaningType
+    {
+        TANK,
+        PACKAGING
+    }
+
+    // Trạng thái vệ sinh
+    public enum CleaningStatus
+    {
+        SCHEDULED,
+        COMPLETED,
+        OVERDUE,
+        CANCELLED
+    }
+
+    // Loại giao dịch bao bì (phát / thu hồi)
+    public enum PackagingTransactionType
+    {
+        ISSUE,
+        RETURN
+    }
+
+    // Hình thức sở hữu bao bì (ký quỹ / bán đứt)
+    public enum PackagingOwnershipType
+    {
+        DEPOSIT,
+        SOLD
+    }
+
+    // Trạng thái phân công giao hàng
+    public enum DeliveryStatus
+    {
+        PENDING,
+        INTRANSIT,
+        DELIVERED,
+        FAILED
+    }
+
+    // Trạng thái thanh toán COD
+    public enum DeliveryPaymentStatus
+    {
+        UNPAID,
+        PAID
+    }
+
+    // Trạng thái hoạt động người dùng / sản phẩm / khách hàng
+    public enum ActiveStatus
+    {
+        INACTIVE = 0,
+        ACTIVE = 1
     }
 }

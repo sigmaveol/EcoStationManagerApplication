@@ -3,64 +3,28 @@
   "WorkspaceRootPath": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|procedures{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\procedures.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|procedures{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|solutionrelative:procedures.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A82D183-FA91-43B1-BA14-36CB4FD8988E}|triggers{2A82D183-FA91-43B1-BA14-36CB4FD8988E}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\triggers.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{2A82D183-FA91-43B1-BA14-36CB4FD8988E}|triggers{2A82D183-FA91-43B1-BA14-36CB4FD8988E}|solutionrelative:triggers.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3A08E790-FFBD-4F21-9363-233D152196F7}|functions{3A08E790-FFBD-4F21-9363-233D152196F7}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\functions.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{3A08E790-FFBD-4F21-9363-233D152196F7}|functions{3A08E790-FFBD-4F21-9363-233D152196F7}|solutionrelative:functions.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.dal\\interfaces\\idatabasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\interfaces\\idatabasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.dal\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|EcoStationManagerApplication.DbScripts{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManager_V0.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|EcoStationManagerApplication.DbScripts{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|solutionrelative:EcoStationManager_V0.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.dal\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.dal\\repositories\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\repositories\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.dal\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.dal\\interfaces\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.dal\\interfaces\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\interfaces\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|EcoStationManagerApplication.DbScripts{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManager_V0.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|EcoStationManagerApplication.DbScripts{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|solutionrelative:EcoStationManager_V0.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.models\\entities\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|solutionrelative:ecostationmanagerapplication.models\\entities\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.models\\enums\\enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|solutionrelative:ecostationmanagerapplication.models\\enums\\enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.models\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|solutionrelative:ecostationmanagerapplication.models\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|EcoStationManagerApplication.DbScripts{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\migration.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|EcoStationManagerApplication.DbScripts{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|solutionrelative:migration.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+      "AbsoluteMoniker": "D:0:0:{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|procedures{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\procedures.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|procedures{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|solutionrelative:procedures.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|EcoStationManagerApplication.DbScripts{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManager_V0.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
       "RelativeMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|EcoStationManagerApplication.DbScripts{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|solutionrelative:EcoStationManager_V0.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|EcoStationManagerApplication.DbScripts{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\migration.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
-      "RelativeMoniker": "D:0:0:{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|EcoStationManagerApplication.DbScripts{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}|solutionrelative:migration.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
     }
   ],
   "DocumentGroupContainers": [
@@ -83,6 +47,18 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "EcoStationManager_V0.sql ",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManager_V0.sql",
+              "RelativeDocumentMoniker": "EcoStationManager_V0.sql",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManager_V0.sql",
+              "RelativeToolTip": "EcoStationManager_V0.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-07T08:41:44.779Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "procedures.txt",
               "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\procedures.txt",
               "RelativeDocumentMoniker": "procedures.txt",
@@ -90,77 +66,24 @@
               "RelativeToolTip": "procedures.txt",
               "ViewState": "AgIAAEIAAAAAAAAAAAAAAEcAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-11-06T17:02:00.392Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-06T17:02:00.392Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "triggers.txt",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\triggers.txt",
-              "RelativeDocumentMoniker": "triggers.txt",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\triggers.txt",
-              "RelativeToolTip": "triggers.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-11-06T17:01:57.721Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "functions.txt",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\functions.txt",
-              "RelativeDocumentMoniker": "functions.txt",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\functions.txt",
-              "RelativeToolTip": "functions.txt",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-11-06T16:59:34.865Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IDatabaseHelper.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Interfaces\\IDatabaseHelper.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.DAL\\Interfaces\\IDatabaseHelper.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Interfaces\\IDatabaseHelper.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.DAL\\Interfaces\\IDatabaseHelper.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T16:56:05.221Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "UserRepository.cs",
               "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Repositories\\UserRepository.cs",
               "RelativeDocumentMoniker": "EcoStationManagerApplication.DAL\\Repositories\\UserRepository.cs",
               "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Repositories\\UserRepository.cs",
               "RelativeToolTip": "EcoStationManagerApplication.DAL\\Repositories\\UserRepository.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-06T16:52:32.283Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "BaseRepository.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Repositories\\BaseRepository.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.DAL\\Repositories\\BaseRepository.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Repositories\\BaseRepository.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.DAL\\Repositories\\BaseRepository.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAwAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T16:44:17.046Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "IUserRepository.cs",
               "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Interfaces\\IUserRepository.cs",
               "RelativeDocumentMoniker": "EcoStationManagerApplication.DAL\\Interfaces\\IUserRepository.cs",
@@ -168,12 +91,11 @@
               "RelativeToolTip": "EcoStationManagerApplication.DAL\\Interfaces\\IUserRepository.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T16:40:54.643Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-06T16:40:54.643Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
               "Title": "IRepository.cs",
               "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Interfaces\\IRepository.cs",
               "RelativeDocumentMoniker": "EcoStationManagerApplication.DAL\\Interfaces\\IRepository.cs",
@@ -181,71 +103,7 @@
               "RelativeToolTip": "EcoStationManagerApplication.DAL\\Interfaces\\IRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T16:34:19.565Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Order.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\Entities\\Order.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.Models\\Entities\\Order.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\Entities\\Order.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.Models\\Entities\\Order.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAswB0AAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T16:12:52.3Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Enums.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\Enums\\Enums.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.Models\\Enums\\Enums.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\Enums\\Enums.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.Models\\Enums\\Enums.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAADEAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T16:11:21.317Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Users.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\Entities\\Users.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.Models\\Entities\\Users.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\Entities\\Users.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.Models\\Entities\\Users.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAABPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T16:09:46.48Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "migration.sql ",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\migration.sql",
-              "RelativeDocumentMoniker": "migration.sql",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\migration.sql",
-              "RelativeToolTip": "migration.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-06T16:01:46.415Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "EcoStationManager_V0.sql ",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManager_V0.sql",
-              "RelativeDocumentMoniker": "EcoStationManager_V0.sql",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManager_V0.sql",
-              "RelativeToolTip": "EcoStationManager_V0.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-05T13:27:22.948Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-06T16:34:19.565Z"
             }
           ]
         }

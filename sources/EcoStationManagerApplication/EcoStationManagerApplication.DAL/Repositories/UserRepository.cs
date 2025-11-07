@@ -24,7 +24,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         {
             using var connection = await _databaseHelper.CreateConnectionAsync();
             var sql = "SELECT * FROM Users WHERE username = @Username AND password_hash = @PasswordHash AND is_active = TRUE";
-            return await connection.QueryFirstOrDefaultAsync<User>(sql, new
+            return await connection.QueryFirstOrDefaultAsync<User>(sql, new 
             {
                 Username = username,
                 PasswordHash = passwordHash

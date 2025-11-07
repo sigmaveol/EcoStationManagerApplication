@@ -42,8 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\Inventory.cs" />
     <Compile Include="Entities\Order.cs" />
-    <Compile Include="Entities\Users.cs" />
+    <Compile Include="Entities\LogisticEntities.cs" />
+    <Compile Include="Entities\Product.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

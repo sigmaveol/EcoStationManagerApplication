@@ -17,4 +17,28 @@ namespace EcoStationManagerApplication.Models.Entities
         public bool IsActive { get; set; } = true;    // is_active BOOLEAN DEFAULT TRUE
         public DateTime CreatedDate { get; set; } = DateTime.Now;  // created_date DATETIME DEFAULT CURRENT_TIMESTAMP
     }
+
+    public class WorkShift
+    {
+        public int ShiftId { get; set; }
+        public int UserId { get; set; }
+        public DateTime ShiftDate { get; set; }
+        public TimeSpan? StartTime { get; set; }
+        public TimeSpan? EndTime { get; set; }
+        public decimal? KpiScore { get; set; }
+        public string Notes { get; set; }
+        public DateTime UpdatedDate { get; set; }
+    }
+
+    public class CleaningSchedule
+    {
+        public int CsId { get; set; }
+        public CleaningType CleaningType { get; set; }
+        public DateTime CleaningDate { get; set; }
+        public CleaningStatus Status { get; set; }
+        public string Notes { get; set; }
+        public int? CleaningBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+    }
+
 }

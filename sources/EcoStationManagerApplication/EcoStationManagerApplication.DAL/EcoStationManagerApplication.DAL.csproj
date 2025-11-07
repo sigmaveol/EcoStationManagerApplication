@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\ICustomerRepository.cs" />
+    <Compile Include="Database\DatabaseHelper.cs" />
     <Compile Include="Interfaces\IDatabaseHelper.cs" />
     <Compile Include="Interfaces\IDeliveryRepository.cs" />
     <Compile Include="Interfaces\IInventoryRepository.cs" />
@@ -111,7 +112,6 @@
     <Compile Include="Repositories\BaseRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Database\" />
     <Folder Include="SqlQueries\" />
   </ItemGroup>
   <ItemGroup>

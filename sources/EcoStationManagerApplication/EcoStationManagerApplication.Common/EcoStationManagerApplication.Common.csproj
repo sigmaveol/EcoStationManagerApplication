@@ -91,19 +91,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\Config.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Config\ConnectionHelper.cs" />
+    <Compile Include="Helpers\JsonHelper.cs" />
+    <Compile Include="Logging\LogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Config\" />
     <Folder Include="Constants\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Logging\" />
     <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

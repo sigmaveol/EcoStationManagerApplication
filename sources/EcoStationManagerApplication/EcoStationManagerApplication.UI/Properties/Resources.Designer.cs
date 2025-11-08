@@ -63,16 +63,6 @@ namespace EcoStationManagerApplication.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap admin_avatar {
-            get {
-                object obj = ResourceManager.GetObject("admin_avatar", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap bell_icon {
             get {
                 object obj = ResourceManager.GetObject("bell_icon", resourceCulture);
@@ -106,6 +96,16 @@ namespace EcoStationManagerApplication.UI.Properties {
         internal static System.Drawing.Bitmap inventory_icon {
             get {
                 object obj = ResourceManager.GetObject("inventory_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_pm {
+            get {
+                object obj = ResourceManager.GetObject("logo_pm", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

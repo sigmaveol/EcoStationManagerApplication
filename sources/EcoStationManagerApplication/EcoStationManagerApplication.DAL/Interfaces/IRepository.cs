@@ -55,14 +55,4 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         Task<bool> ExistsAsync(int id);
 
     }
-
-    public interface IPagedRepository<T> where T : class
-    {
-        Task<(IEnumerable<T> Items, int TotalCount)> GetPagedAsync(
-            int pageNumber,
-            int pageSize,
-            string search = null,
-            string sortBy = null,
-            bool sortDesc = false);
-    }
 }

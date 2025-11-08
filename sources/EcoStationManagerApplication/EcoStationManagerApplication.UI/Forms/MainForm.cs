@@ -58,7 +58,7 @@ namespace EcoStationManagerApplication.UI.Forms
             // Thiết lập thông tin cho sidebar
             sidebarControl.SetAppName("Eco Station");
             sidebarControl.SetUsername("Hoàng Sinh Hùng");
-             sidebarControl.SetAvatar(Properties.Resources.admin_avatar);
+             sidebarControl.SetAvatar(Properties.Resources.logo_pm);
             //sidebarControl.SetLogo(Properties.Resources.app_logo);
 
         }

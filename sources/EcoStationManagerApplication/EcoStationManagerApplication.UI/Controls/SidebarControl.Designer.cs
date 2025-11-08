@@ -113,7 +113,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             this.guna2CirclePictureBoxAvatar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.guna2CirclePictureBoxAvatar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.guna2CirclePictureBoxAvatar.Image = global::EcoStationManagerApplication.UI.Properties.Resources.admin_avatar;
+            this.guna2CirclePictureBoxAvatar.Image = global::EcoStationManagerApplication.UI.Properties.Resources.logo_pm;
             this.guna2CirclePictureBoxAvatar.ImageRotate = 0F;
             this.guna2CirclePictureBoxAvatar.Location = new System.Drawing.Point(0, 0);
             this.guna2CirclePictureBoxAvatar.Name = "guna2CirclePictureBoxAvatar";
@@ -183,7 +183,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // guna2CirclePictureBoxLogoSidebar
             // 
-            this.guna2CirclePictureBoxLogoSidebar.Image = global::EcoStationManagerApplication.UI.Properties.Resources.admin_avatar;
+            this.guna2CirclePictureBoxLogoSidebar.Image = global::EcoStationManagerApplication.UI.Properties.Resources.logo_pm;
             this.guna2CirclePictureBoxLogoSidebar.ImageRotate = 0F;
             this.guna2CirclePictureBoxLogoSidebar.Location = new System.Drawing.Point(6, 8);
             this.guna2CirclePictureBoxLogoSidebar.Name = "guna2CirclePictureBoxLogoSidebar";

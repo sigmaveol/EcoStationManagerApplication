@@ -254,5 +254,19 @@
   <ItemGroup>
     <Folder Include="Styles\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EcoStationManagerApplication.Common\EcoStationManagerApplication.Common.csproj">
+      <Project>{803a5a84-5de1-4538-bc74-0c91233f8c34}</Project>
+      <Name>EcoStationManagerApplication.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EcoStationManagerApplication.Core\EcoStationManagerApplication.Core.csproj">
+      <Project>{5569ba3b-5dce-428b-ac8d-769ded63c196}</Project>
+      <Name>EcoStationManagerApplication.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EcoStationManagerApplication.Models\EcoStationManagerApplication.Models.csproj">
+      <Project>{e01bef2e-87d7-4bb7-acde-0ffe069b4631}</Project>
+      <Name>EcoStationManagerApplication.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

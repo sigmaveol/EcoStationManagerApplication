@@ -36,7 +36,6 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// Lấy lịch sử tồn kho theo sản phẩm
         /// </summary>
         Task<IEnumerable<Inventory>> GetInventoryHistoryAsync(int productId, DateTime? fromDate = null, DateTime? toDate = null);
-    }
 
         /// <summary>
         /// Thêm số lượng vào tồn kho

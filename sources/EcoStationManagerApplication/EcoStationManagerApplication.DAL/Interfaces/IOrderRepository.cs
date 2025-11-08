@@ -23,4 +23,6 @@ namespace EcoStationManagerApplication.DAL.Interfaces
             int? customerId = null
         );
     }
+
+
 }

@@ -25,4 +25,32 @@ namespace EcoStationManagerApplication.DAL.Interfaces
             int pageNumber, int pageSize, string searchKeyword = null, string rank = null
         );
     }
+
+    public interface ISupplierRepository : IRepository<Supplier>
+    {
+        /// <summary>
+        /// Tìm nhà cung cấp theo tên hoặc số điện thoại
+        /// </summary>
+        Task<IEnumerable<Supplier>> SearchAsync(string keyword);
+
+        /// <summary>
+        /// Lấy danh sách nhà cung cấp theo người liên hệ
+        /// </summary>
+        Task<IEnumerable<Supplier>> GetByContactPersonAsync(string contactPerson);
+
+        /// <summary>
+        /// Kiểm tra email đã tồn tại chưa
+        /// </summary>
+        Task<bool> IsEmailExistsAsync(string email, int? excludeSupplierId = null);
+
+        /// <summary>
+        /// Kiểm tra số điện thoại đã tồn tại chưa
+        /// </summary>
+        Task<bool> IsPhoneExistsAsync(string phone, int? excludeSupplierId = null);
+
+        /// <summary>
+        /// Lấy tổng số nhà cung cấp
+        /// </summary>
+        Task<int> GetTotalSuppliersCountAsync();
+    }
 }

@@ -33,7 +33,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         Task<int> CountProductsInCategoryAsync(int categoryId);
 
         /// <summary>
-        /// Tìm kiếm danh mục theo từ khóa 
+        /// Tìm kiếm danh mục theo tên hoặc loại danh mục 
         /// </summary>
         Task<IEnumerable<Category>> SearchAsync(string keyword);
     }

@@ -42,12 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Interfaces\IInventoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Managers\" />
     <Folder Include="Services\" />
   </ItemGroup>

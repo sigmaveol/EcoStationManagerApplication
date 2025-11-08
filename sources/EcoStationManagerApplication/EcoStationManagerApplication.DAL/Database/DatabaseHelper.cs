@@ -16,6 +16,9 @@ namespace EcoStationManager.DAL.Database
         private readonly ILogHelper _logger;
         private readonly DatabaseConfig _dbConfig;
 
+        /// <summary>
+        /// DatabaseHelper constructor mặc định, lấy cấu hình từ ConfigManager.
+        /// </summary>
         public DatabaseHelper()
         {
             _dbConfig = ConfigManager.GetDatabaseConfig();
@@ -25,6 +28,9 @@ namespace EcoStationManager.DAL.Database
             _logger.Info($"DatabaseHelper initialized - Server: {_dbConfig.Server}, Database: {_dbConfig.Database}");
         }
 
+        /// <summary>
+        /// DatabaseHelper constructor với connection string tùy chọn.
+        /// </summary>
         public DatabaseHelper(string connectionString)
         {
             _connectionString = connectionString;
@@ -32,6 +38,9 @@ namespace EcoStationManager.DAL.Database
             _logger = LogHelperFactory.CreateLogger("DatabaseHelper");
         }
 
+        /// <summary>
+        /// Tạo và mở kết nối đến database MySQL.
+        /// </summary>
         public async Task<IDbConnection> CreateConnectionAsync()
         {
             MySqlConnection connection = null;
@@ -58,6 +67,9 @@ namespace EcoStationManager.DAL.Database
             }
         }
 
+        /// <summary>
+        /// Kiểm tra kết nối đến database có thành công hay không.
+        /// </summary>
         public async Task<bool> TestConnectionAsync()
         {
             try
@@ -75,6 +87,9 @@ namespace EcoStationManager.DAL.Database
             }
         }
 
+        /// <summary>
+        /// Thực hiện truy vấn và trả về danh sách kết quả.
+        /// </summary>
         public async Task<IEnumerable<T>> QueryAsync<T>(string sql, object parameters = null, IDbTransaction transaction = null)
         {
             if (transaction != null)
@@ -96,6 +111,9 @@ namespace EcoStationManager.DAL.Database
             }
         }
 
+        /// <summary>
+        /// Thực hiện truy vấn và trả về bản ghi đầu tiên hoặc mặc định.
+        /// </summary>
         public async Task<T> QueryFirstOrDefaultAsync<T>(string sql, object parameters = null, IDbTransaction transaction = null)
         {
             if (transaction != null)
@@ -117,6 +135,9 @@ namespace EcoStationManager.DAL.Database
             }
         }
 
+        /// <summary>
+        /// Thực hiện truy vấn và trả về một bản ghi duy nhất hoặc mặc định.
+        /// </summary>
         public async Task<T> QuerySingleOrDefaultAsync<T>(string sql, object parameters = null, IDbTransaction transaction = null)
         {
             if (transaction != null)
@@ -138,6 +159,9 @@ namespace EcoStationManager.DAL.Database
             }
         }
 
+        /// <summary>
+        /// Thực thi câu lệnh SQL không trả về dữ liệu (INSERT, UPDATE, DELETE).
+        /// </summary>
         public async Task<int> ExecuteAsync(string sql, object parameters = null, IDbTransaction transaction = null)
         {
             if (transaction != null)
@@ -159,6 +183,9 @@ namespace EcoStationManager.DAL.Database
             }
         }
 
+        /// <summary>
+        /// Thực thi stored procedure và trả về danh sách kết quả.
+        /// </summary>
         public async Task<IEnumerable<T>> ExecuteStoredProcedureAsync<T>(string procedureName, object parameters = null, IDbTransaction transaction = null)
         {
             if (transaction != null)
@@ -189,6 +216,9 @@ namespace EcoStationManager.DAL.Database
             }
         }
 
+        /// <summary>
+        /// Thực thi stored procedure và trả về số lượng bản ghi bị ảnh hưởng.
+        /// </summary>
         public async Task<int> ExecuteStoredProcedureAsync(string procedureName, object parameters = null, IDbTransaction transaction = null)
         {
             if (transaction != null)
@@ -219,18 +249,27 @@ namespace EcoStationManager.DAL.Database
             }
         }
 
+        /// <summary>
+        /// Bắt đầu một transaction mới trên connection mặc định.
+        /// </summary>
         public async Task<IDbTransaction> BeginTransactionAsync()
         {
             var connection = await CreateConnectionAsync();
             return connection.BeginTransaction();
         }
 
+        /// <summary>
+        /// Bắt đầu một transaction mới với IsolationLevel tùy chọn.
+        /// </summary>
         public async Task<IDbTransaction> BeginTransactionAsync(IsolationLevel isolationLevel)
         {
             var connection = await CreateConnectionAsync();
             return connection.BeginTransaction(isolationLevel);
         }
 
+        /// <summary>
+        /// Thực hiện truy vấn nhiều kết quả trong cùng một câu lệnh SQL.
+        /// </summary>
         public async Task<SqlMapper.GridReader> QueryMultipleAsync(string sql, object parameters = null, IDbTransaction transaction = null)
         {
             if (transaction != null)
@@ -251,6 +290,10 @@ namespace EcoStationManager.DAL.Database
                 }
             }
         }
+
+        /// <summary>
+        /// Thực thi truy vấn trả về một giá trị duy nhất.
+        /// </summary>
         public async Task<T> ExecuteScalarAsync<T>(string sql, object parameters = null, IDbTransaction transaction = null)
         {
             if (transaction != null)

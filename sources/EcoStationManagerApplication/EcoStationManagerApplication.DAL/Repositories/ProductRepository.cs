@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using EcoStationManagerApplication.DAL.Interfaces;
+using EcoStationManagerApplication.DAL.SqlQueries;
 using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +46,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
             }
         }
 
-        public async Task<IEnumerable<Product>> GetByTypeAsync(string productType)
+        public async Task<IEnumerable<Product>> GetByTypeAsync(ProductType? productType)
         {
             try
             {
@@ -76,17 +78,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
-                var sql = @"
-                    SELECT p.*, 
-                           COALESCE(SUM(i.quantity), 0) as current_stock
-                    FROM Products p
-                    LEFT JOIN Inventories i ON p.product_id = i.product_id
-                    WHERE p.is_active = TRUE
-                    GROUP BY p.product_id
-                    HAVING current_stock <= p.min_stock_level
-                    ORDER BY p.name";
-
-                return await _databaseHelper.QueryAsync<Product>(sql);
+                return await _databaseHelper.QueryAsync<Product>(ProductQueries.GetLowStockProducts);
             }
             catch (Exception ex)
             {
@@ -95,7 +87,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
             }
         }
 
-        public async Task<IEnumerable<Product>> SearchAsync(string keyword, string productType = null)
+        public async Task<IEnumerable<Product>> SearchAsync(string keyword, ProductType? productType = null)
         {
             try
             {
@@ -105,7 +97,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                 var parameters = new DynamicParameters();
                 parameters.Add("Keyword", $"%{keyword}%");
 
-                if (!string.IsNullOrEmpty(productType))
+                if (productType.HasValue)
                 {
                     sql += " AND product_type = @ProductType";
                     parameters.Add("ProductType", productType);

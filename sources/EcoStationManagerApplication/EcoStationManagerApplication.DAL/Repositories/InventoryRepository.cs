@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using EcoStationManagerApplication.DAL.Interfaces;
+using EcoStationManagerApplication.DAL.SqlQueries;
 using EcoStationManagerApplication.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -51,15 +52,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
-                var sql = @"
-                    SELECT i.*, p.name as product_name, p.min_stock_level
-                    FROM Inventories i
-                    JOIN Products p ON i.product_id = p.product_id
-                    WHERE i.quantity <= p.min_stock_level
-                    AND p.is_active = TRUE
-                    ORDER BY p.name";
-
-                return await _databaseHelper.QueryAsync<Inventory>(sql);
+                return await _databaseHelper.QueryAsync<Inventory>(InventoryQueries.GetLowStockItems);
             }
             catch (Exception ex)
             {
@@ -72,16 +65,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
-                var sql = @"
-                    SELECT i.*, p.name as product_name
-                    FROM Inventories i
-                    JOIN Products p ON i.product_id = p.product_id
-                    WHERE i.expiry_date IS NOT NULL 
-                    AND i.expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL @DaysThreshold DAY)
-                    AND p.is_active = TRUE
-                    ORDER BY i.expiry_date ASC";
-
-                return await _databaseHelper.QueryAsync<Inventory>(sql, new { DaysThreshold = daysThreshold });
+                return await _databaseHelper.QueryAsync<Inventory>(InventoryQueries.GetExpiringItems, new { DaysThreshold = daysThreshold });
             }
             catch (Exception ex)
             {

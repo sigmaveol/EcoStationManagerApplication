@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
             }
         }
 
-        public async Task<IEnumerable<Customer>> GetByRankAsync(string rank)
+        public async Task<IEnumerable<Customer>> GetByRankAsync(CustomerRank rank)
         {
             try
             {
@@ -90,7 +91,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
             }
         }
 
-        public async Task<bool> UpdateRankAsync(int customerId, string newRank)
+        public async Task<bool> UpdateRankAsync(int customerId, CustomerRank newRank)
         {
             try
             {

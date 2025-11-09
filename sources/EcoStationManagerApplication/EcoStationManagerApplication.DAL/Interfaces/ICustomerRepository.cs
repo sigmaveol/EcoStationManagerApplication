@@ -1,4 +1,5 @@
 ﻿using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// </summary>
         /// <param name="rank">Hạng thành viên, ví dụ: MEMBER, SILVER, GOLD, DIAMONDS.</param>
         /// <returns>Danh sách khách hàng thuộc hạng chỉ định.</returns>
-        Task<IEnumerable<Customer>> GetByRankAsync(string rank);
+        Task<IEnumerable<Customer>> GetByRankAsync(CustomerRank rank);
 
         /// <summary>
         /// Cập nhật điểm thưởng cho khách hàng.
@@ -42,7 +43,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// <param name="customerId">ID khách hàng cần thay đổi hạng.</param>
         /// <param name="newRank">Tên hạng mới (ví dụ: SILVER, GOLD, DIAMONDS).</param>
         /// <returns>True nếu cập nhật thành công, ngược lại là false.</returns>
-        Task<bool> UpdateRankAsync(int customerId, string newRank);
+        Task<bool> UpdateRankAsync(int customerId, CustomerRank newRank);
 
         /// <summary>
         /// Bật hoặc tắt trạng thái hoạt động của khách hàng.

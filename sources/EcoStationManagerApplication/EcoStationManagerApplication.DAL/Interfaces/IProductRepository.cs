@@ -1,4 +1,5 @@
 ﻿using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// <summary>
         /// Lấy danh mục theo loại (PRODUCT, SERVICE, OTHER)
         /// </summary>
-        Task<IEnumerable<Category>> GetByTypeAsync(string categoryType);
+        Task<IEnumerable<Category>> GetByTypeAsync(CategoryType? categoryType);
 
         /// <summary>
         /// Lấy tất cả danh mục đang active
@@ -53,7 +54,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// <summary>
         /// Lấy sản phẩm theo loại (PACKED, REFILLED, OTHER)
         /// </summary>
-        Task<IEnumerable<Product>> GetByTypeAsync(string productType);
+        Task<IEnumerable<Product>> GetByTypeAsync(ProductType? productType);
 
         /// <summary>
         /// Lấy tất cả sản phẩm đang active
@@ -68,7 +69,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// <summary>
         /// Tìm kiếm sản phẩm theo tên hoặc SKU
         /// </summary>
-        Task<IEnumerable<Product>> SearchAsync(string keyword, string productType = null);
+        Task<IEnumerable<Product>> SearchAsync(string keyword, ProductType? productType = null);
 
         /// <summary>
         /// Kiểm tra SKU đã tồn tại chưa

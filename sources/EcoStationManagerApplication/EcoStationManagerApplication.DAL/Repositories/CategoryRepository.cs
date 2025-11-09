@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,22 @@ namespace EcoStationManagerApplication.DAL.Repositories
             : base(databaseHelper, "Categories", "category_id")
         { }
 
-        public async Task<IEnumerable<Category>> GetByTypeAsync(string categoryType)
+        public async Task<IEnumerable<Category>> GetByTypeAsync(CategoryType? categoryType)
         {
             try
             {
-                var sql = "SELECT * FROM Categories WHERE category_type = @CategoryType AND is_active = TRUE ORDER BY name";
-                return await _databaseHelper.QueryAsync<Category>(sql, new { CategoryType = categoryType }); 
+                var sql = "SELECT * FROM Categories WHERE is_active = TRUE";
+                var parameters = new DynamicParameters();
+
+                if (categoryType.HasValue)
+                {
+                    sql += " AND category_type = @CategoryType";
+                    parameters.Add("CategoryType", categoryType.Value.ToString()); // enum → string
+                }
+
+                sql += " ORDER BY name";
+
+                return await _databaseHelper.QueryAsync<Category>(sql, parameters);
             }
             catch (Exception ex)
             {

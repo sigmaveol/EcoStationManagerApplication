@@ -20,7 +20,7 @@ namespace EcoStationManagerApplication.Core.Services
         protected Result<T> HandleException<T>(Exception ex, string operationName)
         {
             _logger.Error($"{operationName} error: {ex.Message}");
-
+            
             if (ex.InnerException != null)
             {
                 _logger.Error($"Inner exception: {ex.InnerException.Message}");
@@ -32,7 +32,7 @@ namespace EcoStationManagerApplication.Core.Services
         protected Result HandleException(Exception ex, string operationName)
         {
             _logger.Error($"{operationName} error: {ex.Message}");
-
+            
             if (ex.InnerException != null)
             {
                 _logger.Error($"Inner exception: {ex.InnerException.Message}");
@@ -54,6 +54,16 @@ namespace EcoStationManagerApplication.Core.Services
         protected Result<T> NotFoundError<T>(string message)
         {
             return Result<T>.Fail(message);
+        }
+
+        protected Result<T> BusinessError<T>(string message)
+        {
+            return Result<T>.Fail(message);
+        }
+
+        protected Result BusinessError(string message)
+        {
+            return Result.Fail(message);
         }
     }
 }

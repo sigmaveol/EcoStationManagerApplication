@@ -96,6 +96,7 @@
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\ConnectionHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
+    <Compile Include="Helpers\SecurityHelper.cs" />
     <Compile Include="Logging\LogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -132,6 +132,7 @@
     <Compile Include="SqlQueries\StockInQueries.cs" />
     <Compile Include="SqlQueries\StockOutQueries.cs" />
     <Compile Include="SqlQueries\UserQueries.cs" />
+    <Compile Include="UnitOfWork .cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

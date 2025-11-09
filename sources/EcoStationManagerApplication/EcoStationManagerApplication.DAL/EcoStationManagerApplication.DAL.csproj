@@ -101,6 +101,7 @@
     <Compile Include="Interfaces\IInventoryRepository.cs" />
     <Compile Include="Interfaces\IOrderRepository.cs" />
     <Compile Include="Interfaces\IPackagingInventoryRepository.cs" />
+    <Compile Include="Interfaces\IPackagingTransactionRepository.cs" />
     <Compile Include="Interfaces\IProductRepository.cs" />
     <Compile Include="Interfaces\IStockRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\PackagingInventoryRepository.cs" />
     <Compile Include="Repositories\PackagingRepository.cs" />
+    <Compile Include="Repositories\PackagingTransactionRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\StockInRepository.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="SqlQueries\OrderDetailQueries.cs" />
     <Compile Include="SqlQueries\OrderQueries.cs" />
     <Compile Include="SqlQueries\PackagingInventoryQueries.cs" />
+    <Compile Include="SqlQueries\PackagingTransactionQueries.cs" />
     <Compile Include="SqlQueries\ProductQueries.cs" />
     <Compile Include="SqlQueries\ReportQueries.cs" />
     <Compile Include="SqlQueries\StockInQueries.cs" />

@@ -17,10 +17,14 @@ namespace EcoStationManagerApplication.DAL.Repositories
         private readonly IInventoryRepository _inventoryRepository;
         private readonly IPackagingInventoryRepository _packagingInventoryRepository;
 
-        public StockOutRepository(IDatabaseHelper databaseHelper, IInventoryRepository inventoryRepository)
+        public StockOutRepository(
+            IDatabaseHelper databaseHelper, 
+            IInventoryRepository inventoryRepository,
+            IPackagingInventoryRepository packagingInventoryRepository)
             : base(databaseHelper, "StockOut", "stockout_id")
         {
             _inventoryRepository = inventoryRepository;
+            _packagingInventoryRepository = packagingInventoryRepository;
         }
 
         public async Task<IEnumerable<StockOut>> GetByProductAsync(int productId)

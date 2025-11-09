@@ -1,6 +1,7 @@
 ﻿using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.DAL.SqlQueries;
 using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

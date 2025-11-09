@@ -1,4 +1,5 @@
-﻿using EcoStationManagerApplication.Models.Entities;
+﻿using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
             OrderStatus? status = null,
             PaymentStatus? paymentStatus = null,
             ProductType? productType = null,
-            string source  = null,
+            OrderSource? source = null,
             decimal? minTotal = null,
             int? customerId = null,
             int? userId = null,
@@ -151,24 +152,5 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// Kiểm tra sản phẩm có trong đơn hàng nào không
         /// </summary>
         Task<bool> IsProductInAnyOrderAsync(int productId);
-    }
-
-    // Supporting classes for return types
-    public class ProductSales
-    {
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public string Sku { get; set; }
-        public decimal TotalQuantity { get; set; }
-        public decimal TotalRevenue { get; set; }
-    }
-
-    public class ProductRevenue
-    {
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public decimal TotalRevenue { get; set; }
-        public decimal TotalQuantity { get; set; }
-        public decimal AveragePrice { get; set; }
     }
 }

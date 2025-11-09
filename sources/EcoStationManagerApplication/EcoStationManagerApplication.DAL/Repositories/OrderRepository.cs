@@ -252,7 +252,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
             OrderStatus? status = null,
             PaymentStatus? paymentStatus = null,
             ProductType? productType = null,
-            string source = null,
+            OrderSource? source = null,
             decimal? minTotal = null,
             int? customerId = null,
             int? userId = null,
@@ -286,7 +286,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                 }
 
                 // Source filter
-                if (!string.IsNullOrWhiteSpace(source))
+                if (source.HasValue)
                 {
                     whereClause += " AND o.source = @Source";
                     parameters.Add("Source", source);

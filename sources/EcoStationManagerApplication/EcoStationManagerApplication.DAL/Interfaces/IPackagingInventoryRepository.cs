@@ -1,4 +1,5 @@
-﻿using EcoStationManagerApplication.Models.Entities;
+﻿using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,14 +57,4 @@ namespace EcoStationManagerApplication.DAL.Interfaces
 
     }
 
-    // Supporting classes for return types
-    public class PackagingQuantities
-    {
-        public int QtyNew { get; set; }
-        public int QtyInUse { get; set; }
-        public int QtyReturned { get; set; }
-        public int QtyNeedCleaning { get; set; }
-        public int QtyCleaned { get; set; }
-        public int QtyDamaged { get; set; }
-    }
 }

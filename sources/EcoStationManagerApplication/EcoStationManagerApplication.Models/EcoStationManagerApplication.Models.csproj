@@ -45,6 +45,7 @@
     <Compile Include="DTOs\Packaging.cs" />
     <Compile Include="DTOs\Product.cs" />
     <Compile Include="DTOs\Stock.cs" />
+    <Compile Include="DTOs\User.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\Inventory.cs" />
     <Compile Include="Entities\Order.cs" />

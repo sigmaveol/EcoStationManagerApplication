@@ -93,7 +93,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\ICustomerRepository.cs" />
     <Compile Include="Database\DatabaseHelper.cs" />
     <Compile Include="Interfaces\IDatabaseHelper.cs" />
@@ -132,6 +131,7 @@
     <Compile Include="SqlQueries\ReportQueries.cs" />
     <Compile Include="SqlQueries\StockInQueries.cs" />
     <Compile Include="SqlQueries\StockOutQueries.cs" />
+    <Compile Include="SqlQueries\UserQueries.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

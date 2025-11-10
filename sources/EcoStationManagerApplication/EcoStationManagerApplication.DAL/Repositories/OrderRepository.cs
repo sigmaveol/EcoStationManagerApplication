@@ -17,6 +17,20 @@ namespace EcoStationManagerApplication.DAL.Repositories
             : base(databaseHelper, "Orders", "order_id")
         { }
 
+        public async Task<Order> GetByOrderCodeAsync(string orderCode)
+        {
+            try
+            {
+                return await _databaseHelper.QueryFirstOrDefaultAsync<Order>
+                    (OrderQueries.GetByStatus, new { OrderCode = orderCode });
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"GetByStatusAsync error - OrderCode: {orderCode} - {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<Order>> GetByStatusAsync(OrderStatus status)
         {
             try

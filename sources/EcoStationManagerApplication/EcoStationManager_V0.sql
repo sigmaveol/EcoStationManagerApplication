@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS Users (
 -- Bảng khách hàng
 CREATE TABLE IF NOT EXISTS Customers (
     customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_code VARCHAR(50) UNIQUE,
     name VARCHAR(255) NOT NULL,
     phone VARCHAR(50),
-    email VARCHAR(100),
     total_point INT DEFAULT 0,
     rank ENUM('MEMBER', 'SILVER', 'GOLD', 'DIAMONDS') DEFAULT 'MEMBER',
     is_active BOOLEAN DEFAULT TRUE,
@@ -102,6 +102,7 @@ CREATE TABLE IF NOT EXISTS PackagingInventories (
 CREATE TABLE IF NOT EXISTS Orders (
     order_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_id INT,
+    order_code VARCHAR(50) UNIQUE,
     source ENUM('GOOGLEFORM', 'EXCEL', 'EMAIL', 'MANUAL') NOT NULL DEFAULT 'MANUAL',
     total_amount DECIMAL(10,2) NOT NULL DEFAULT 0,
     discounted_amount DECIMAL(10,2) DEFAULT 0,
@@ -120,9 +121,9 @@ CREATE TABLE IF NOT EXISTS Orders (
 CREATE TABLE IF NOT EXISTS OrderDetails (
     order_detail_id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT NOT NULL,
-    product_id INT,
-    quantity DECIMAL(10,2),
-    unit_price DECIMAL(10,2),
+    product_id INT NOT NULL,
+    quantity DECIMAL(10,2) NOT NULL DEFAULT 1,
+    unit_price DECIMAL(10,2) NOT NULL DEFAULT 1,
     FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES Products(product_id)
 ) ENGINE=InnoDB;

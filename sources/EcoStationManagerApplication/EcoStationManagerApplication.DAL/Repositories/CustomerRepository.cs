@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 namespace EcoStationManagerApplication.DAL.Repositories
 {
@@ -15,6 +16,20 @@ namespace EcoStationManagerApplication.DAL.Repositories
         public CustomerRepository(IDatabaseHelper databaseHelper)
             : base(databaseHelper, "Customers", "customer_id")
         {
+        }
+
+        public async Task<Customer> GetByCustomerCode(string customerCode)
+        {
+            try
+            {
+                var sql = "SELECT * FROM Customers WHERE customer_code = @CustomerCode AND is_active = TRUE ORDER BY name";
+                return await _databaseHelper.QueryFirstOrDefaultAsync<Customer>(sql, new { CustomerCode = customerCode });
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"GetByRankAsync error - CustomerCode: {customerCode} - {ex.Message}");
+                throw;
+            }
         }
 
         public async Task<Customer> GetByPhoneAsync(string phone)

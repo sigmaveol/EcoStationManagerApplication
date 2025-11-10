@@ -9,7 +9,10 @@ namespace EcoStationManagerApplication.DAL.Interfaces
 {
     public interface IOrderRepository : IRepository<Order>
     {
-        //Task<Order> GetByCodeAsync(string orderCode);
+        /// <summary>
+        /// Lấy đơn hàng theo code
+        /// </summary>
+        Task<Order> GetByOrderCodeAsync(string orderCode);
 
         /// <summary>
         /// Lấy đơn hàng theo trạng thái

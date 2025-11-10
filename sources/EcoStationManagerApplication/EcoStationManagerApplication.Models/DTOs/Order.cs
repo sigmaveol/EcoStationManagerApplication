@@ -29,4 +29,22 @@ namespace EcoStationManagerApplication.Models.DTOs
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
     }
+
+    public class OrderDetailWithProduct
+    {
+        public int OrderDetailId { get; set; }
+        public int OrderId { get; set; }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string Sku { get; set; }
+        public string Unit { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal LineTotal { get; set; }
+        public string ProductType { get; set; }
+        public int? CategoryId { get; set; }
+        public string CategoryName { get; set; }
+    }
+
+
 }

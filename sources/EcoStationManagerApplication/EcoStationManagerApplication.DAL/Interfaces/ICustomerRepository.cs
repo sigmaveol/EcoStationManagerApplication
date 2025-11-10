@@ -7,7 +7,14 @@ using System.Threading.Tasks;
 namespace EcoStationManagerApplication.DAL.Interfaces
 {
     public interface ICustomerRepository : IRepository<Customer>
-    {
+    {   
+        /// <summary>
+        /// Lấy thông tin khách hàng theo mã code
+        /// </summary>
+        /// <param name="customerCode"> mã khách hàng </param>
+        /// <returns></returns>
+        Task<Customer> GetByCustomerCode(string customerCode);
+
         /// <summary>
         /// Lấy thông tin khách hàng theo số điện thoại.
         /// </summary>

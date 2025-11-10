@@ -8,7 +8,7 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 
-namespace EcoStationManager.DAL.Database
+namespace EcoStationManagerApplication.DAL.Database
 {
     public class DatabaseHelper : IDatabaseHelper
     {

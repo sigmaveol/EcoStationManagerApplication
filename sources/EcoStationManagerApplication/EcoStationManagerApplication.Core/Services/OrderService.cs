@@ -1,4 +1,5 @@
 ﻿using EcoStationManagerApplication.Core.Interfaces;
+using EcoStationManagerApplication.Core.Helpers;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
@@ -20,6 +21,22 @@ namespace EcoStationManagerApplication.Core.Services
             : base("OrderService")
         {
             _unitOfWork = unitOfWork;
+        }
+
+        public async Task<Result<Order>> GetOrderByCode(string orderCode)
+        {
+            try
+            {
+                var order = await _unitOfWork.Orders.GetByOrderCodeAsync(orderCode);
+                if (order == null)
+                    return NotFoundError<Order>("Đơn hàng");
+
+                return Result<Order>.Ok(order, "Lấy thông tin đơn hàng thành công");
+            }
+            catch (Exception ex)
+            {
+                return HandleException<Order>(ex, "lấy thông tin đơn hàng");
+            }
         }
 
         public async Task<Result<Order>> GetOrderByIdAsync(int orderId)
@@ -113,12 +130,12 @@ namespace EcoStationManagerApplication.Core.Services
 
         public async Task<Result<int>> CreateOrderAsync(Order order, List<OrderDetail> orderDetails)
         {
+
             await _unitOfWork.BeginTransactionAsync();
-            
             try
             {
                 // Validate dữ liệu
-                var validationErrors = ValidateOrder(order);
+                var validationErrors = ValidationHelper.ValidateOrder(order);
                 if (validationErrors.Any())
                     return ValidationError<int>(validationErrors);
 
@@ -128,32 +145,22 @@ namespace EcoStationManagerApplication.Core.Services
                 // Validate order details
                 foreach (var detail in orderDetails)
                 {
-                    var detailErrors = ValidateOrderDetail(detail);
+                    var detailErrors = ValidationHelper.ValidateOrderDetail(detail);
                     if (detailErrors.Any())
                         return ValidationError<int>(detailErrors);
                 }
 
-                // Kiểm tra tồn kho cho tất cả sản phẩm
-                foreach (var detail in orderDetails)
-                {   
-                    var canStockOut = await _unitOfWork.Inventories.IsStockSufficientAsync(
-                        detail.ProductId, detail.Quantity);
-
-                    if (!canStockOut)
-                    {
-                        var product = await _unitOfWork.Products.GetByIdAsync(detail.ProductId);
-                        var productName = product?.Name ?? $"ID {detail.ProductId}";
-                        return BusinessError<int>($"Không đủ tồn kho cho sản phẩm: {productName}");
-                    }
-                }
-
                 // Kiểm tra khách hàng tồn tại
-                if (order.CustomerId.HasValue)
+                if (order.CustomerId.HasValue && order.CustomerId.Value > 0)
                 {
                     var customer = await _unitOfWork.Customers.GetByIdAsync(order.CustomerId.Value);
                     if (customer == null)
                         return Result<int>.Fail("Khách hàng không tồn tại");
                 }
+                else
+                {
+                    order.CustomerId = null;
+                }                
 
                 // Set order defaults
                 order.Status = OrderStatus.DRAFT;
@@ -175,7 +182,7 @@ namespace EcoStationManagerApplication.Core.Services
 
                 // 3. Tính toán tổng tiền
                 var totalAmount = orderDetails.Sum(d => d.Quantity * d.UnitPrice);
-                order.TotalAmount = totalAmount.Value;
+                order.TotalAmount = totalAmount;
                 order.OrderId = orderId;
 
                 var updateSuccess = await _unitOfWork.Orders.UpdateAsync(order);
@@ -192,7 +199,6 @@ namespace EcoStationManagerApplication.Core.Services
                 await _unitOfWork.RollbackTransactionAsync();
                 return HandleException<int>(ex, "tạo đơn hàng");
             }
-            
         }
 
         public async Task<Result<bool>> UpdateOrderStatusAsync(int orderId, OrderStatus newStatus)
@@ -293,7 +299,7 @@ namespace EcoStationManagerApplication.Core.Services
                 // Validate và thêm order details
                 foreach (var detail in orderDetails)
                 {
-                    var detailErrors = ValidateOrderDetail(detail);
+                    var detailErrors = ValidationHelper.ValidateOrderDetail(detail);
                     if (detailErrors.Any())
                         return ValidationError<bool>(detailErrors);
 
@@ -434,14 +440,10 @@ namespace EcoStationManagerApplication.Core.Services
 
                 foreach (var detail in orderDetails)
                 {
-                    if (detail.ProductId == null || detail.Quantity == null)
-                    {
-                        return BusinessError<bool>($"Thiếu thông tin sản phẩm trong chi tiết đơn hàng");
-                    }
 
                     // Giả sử sử dụng batch mặc định, trong thực tế cần logic phức tạp hơn
                     var stockOutSuccess = await _unitOfWork.StockOut.StockOutForOrderAsync(
-                        detail.ProductId.Value, "DEFAULT", detail.Quantity.Value, orderId, 1); // UserId = 1 tạm thời
+                        detail.ProductId, "DEFAULT", detail.Quantity, orderId, 1); // UserId = 1 tạm thời
 
                     if (!stockOutSuccess)
                     {
@@ -491,38 +493,6 @@ namespace EcoStationManagerApplication.Core.Services
 
             return allowedTransitions.ContainsKey(currentStatus) &&
                    allowedTransitions[currentStatus].Contains(newStatus);
-        }
-
-        private List<string> ValidateOrder(Order order)
-        {
-            var errors = new List<string>();
-
-            if (order.TotalAmount < 0)
-                errors.Add("Tổng tiền không được âm");
-
-            if (order.DiscountedAmount < 0)
-                errors.Add("Số tiền giảm giá không được âm");
-
-            if (order.DiscountedAmount > order.TotalAmount)
-                errors.Add("Số tiền giảm giá không được lớn hơn tổng tiền");
-
-            return errors;
-        }
-
-        private List<string> ValidateOrderDetail(OrderDetail detail)
-        {
-            var errors = new List<string>();
-
-            if (detail.Quantity <= 0)
-                errors.Add("Số lượng phải lớn hơn 0");
-
-            if (detail.UnitPrice < 0)
-                errors.Add("Đơn giá không được âm");
-
-            if (detail.ProductId <= 0)
-                errors.Add("ID sản phẩm không hợp lệ");
-
-            return errors;
         }
 
         #endregion

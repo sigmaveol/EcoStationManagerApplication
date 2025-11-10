@@ -10,9 +10,11 @@ namespace EcoStationManagerApplication.Models.Entities
     public class Order
     {
         public int OrderId { get; set; }  // order_id INT PRIMARY KEY AUTO_INCREMENT
+        public string OrderCode { get; set; }
 
         public int? CustomerId { get; set; }  // customer_id INT
         public Customer Customer { get; set; }  // Navigation property
+
 
         public OrderSource Source { get; set; } = OrderSource.MANUAL; // source ENUM
 
@@ -41,10 +43,10 @@ namespace EcoStationManagerApplication.Models.Entities
         public int OrderId { get; set; }       // order_id INT NOT NULL
         public Order Order { get; set; }       // Navigation property
 
-        public int? ProductId { get; set; }    // product_id INT
+        public int ProductId { get; set; }    // product_id NOT INT
         public Product Product { get; set; }   // Navigation property
 
-        public decimal? Quantity { get; set; } // quantity DECIMAL(10,2)
-        public decimal? UnitPrice { get; set; } // unit_price DECIMAL(10,2)
+        public decimal Quantity { get; set; } // NOT NULL quantity DECIMAL(10,2)
+        public decimal UnitPrice { get; set; } // NOT NULL unit_price DECIMAL(10,2)
     }
 }

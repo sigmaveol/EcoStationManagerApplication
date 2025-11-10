@@ -8,6 +8,15 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
 {
     public static class OrderQueries
     {
+        // Lấy đơn hàng theo code
+
+        public const string GetByOrderCode = @"
+            SELECT o.*, c.name as customer_name, u.fullname as user_name 
+            FROM Orders o
+            LEFT JOIN Customers c ON o.customer_id = c.customer_id
+            LEFT JOIN Users u ON o.user_id = u.user_id
+            WHERE o.order_code = @OrderCode";
+
         // Lấy đơn hàng theo trạng thái
         public const string GetByStatus = @"
             SELECT o.*, c.name as customer_name, u.fullname as user_name 

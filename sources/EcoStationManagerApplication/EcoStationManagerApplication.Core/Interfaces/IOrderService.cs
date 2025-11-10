@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.DTOs;
+﻿ using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.Models.Results;
@@ -12,6 +12,8 @@ namespace EcoStationManagerApplication.Core.Interfaces
 {
     public interface IOrderService
     {
+        Task<Result<Order>> GetOrderByCode(string orderCode);
+
         /// <summary>
         /// Lấy thông tin đơn hàng theo ID
         /// </summary>

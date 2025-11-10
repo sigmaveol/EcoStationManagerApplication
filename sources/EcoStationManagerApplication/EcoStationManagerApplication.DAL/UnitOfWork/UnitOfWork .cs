@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EcoStationManagerApplication.DAL
+namespace EcoStationManagerApplication.DAL.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {

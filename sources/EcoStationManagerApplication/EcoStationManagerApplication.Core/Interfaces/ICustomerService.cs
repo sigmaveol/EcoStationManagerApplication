@@ -25,4 +25,18 @@ namespace EcoStationManagerApplication.Core.Interfaces
         Task<Result<bool>> UpdateCustomerRankAsync(int customerId, CustomerRank newRank);
         Task<Result<List<Customer>>> GetTopCustomersAsync(int limit = 10);
     }
+
+    public interface ISupplierService
+    {
+        Task<Result<Supplier>> GetSupplierByIdAsync(int supplierId);
+        Task<Result<List<Supplier>>> GetAllSuppliersAsync();
+        Task<Result<Supplier>> CreateSupplierAsync(Supplier supplier);
+        Task<Result<Supplier>> UpdateSupplierAsync(Supplier supplier);
+        Task<Result<bool>> DeleteSupplierAsync(int supplierId);
+        Task<Result<List<Supplier>>> SearchSuppliersAsync(string keyword);
+        Task<Result<List<Supplier>>> GetSuppliersByContactPersonAsync(string contactPerson);
+        Task<Result<bool>> ValidateSupplierAsync(Supplier supplier);
+        Task<Result<bool>> IsEmailExistsAsync(string email, int? excludeSupplierId = null);
+        Task<Result<bool>> IsPhoneExistsAsync(string phone, int? excludeSupplierId = null);
+    }
 }

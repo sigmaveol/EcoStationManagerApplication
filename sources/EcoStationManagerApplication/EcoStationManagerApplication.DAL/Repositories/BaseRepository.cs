@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using EcoStationManager.DAL.Database;
+using EcoStationManagerApplication.DAL.Database;
 using EcoStationManagerApplication.Common.Logging;
 using System;
 using System.Collections.Generic;

@@ -43,6 +43,19 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
+        public async Task<Result<List<Inventory>>> GetAllAsync()
+        {
+            try
+            {
+                var inventories = await _unitOfWork.Inventories.GetAllAsync();
+                return Result<List<Inventory>>.Ok(inventories.ToList());
+            }
+            catch (Exception ex)
+            {
+                return HandleException<List<Inventory>>(ex, "lấy tất cả tồn kho");
+            }
+        }
+
         public async Task<Result<List<Inventory>>> GetInventoryByProductAsync(int productId)
         {
             try

@@ -13,12 +13,12 @@ namespace EcoStationManagerApplication.Core.Services
 {
     public class PackagingService : BaseService, IPackagingService
     {
-        private readonly IPackagingRepository _packagingRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PackagingService(IPackagingRepository packagingRepository)
+        public PackagingService(IUnitOfWork unitOfWork)
             : base("PackagingService")
         {
-            _packagingRepository = packagingRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result<Packaging>> GetPackagingByIdAsync(int packagingId)
@@ -26,13 +26,13 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (packagingId <= 0)
-                    return Result<Packaging>.Fail("ID bao bì không hợp lệ");
+                    return NotFoundError<Packaging>("Bao bì", packagingId);
 
-                var packaging = await _packagingRepository.GetByIdAsync(packagingId);
+                var packaging = await _unitOfWork.Packaging.GetByIdAsync(packagingId);
                 if (packaging == null)
                     return NotFoundError<Packaging>("Bao bì", packagingId);
 
-                return Result<Packaging>.Ok(packaging, "Lấy thông tin bao bì thành công");
+                return Result<Packaging>.Ok(packaging);
             }
             catch (Exception ex)
             {
@@ -45,17 +45,17 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (string.IsNullOrWhiteSpace(barcode))
-                    return Result<Packaging>.Fail("Barcode không được để trống");
+                    return BusinessError<Packaging>("Barcode không được để trống");
 
-                var packaging = await _packagingRepository.GetByBarcodeAsync(barcode);
+                var packaging = await _unitOfWork.Packaging.GetByBarcodeAsync(barcode);
                 if (packaging == null)
                     return NotFoundError<Packaging>($"Không tìm thấy bao bì với barcode: {barcode}");
 
-                return Result<Packaging>.Ok(packaging, "Lấy thông tin bao bì thành công");
+                return Result<Packaging>.Ok(packaging);
             }
             catch (Exception ex)
             {
-                return HandleException<Packaging>(ex, "lấy thông tin bao bì theo barcode");
+                return HandleException<Packaging>(ex, "lấy bao bì theo barcode");
             }
         }
 
@@ -63,8 +63,8 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
-                var packagings = await _packagingRepository.GetAllAsync();
-                return Result<IEnumerable<Packaging>>.Ok(packagings, "Lấy danh sách bao bì thành công");
+                var packagings = await _unitOfWork.Packaging.GetAllAsync();
+                return Result<IEnumerable<Packaging>>.Ok(packagings);
             }
             catch (Exception ex)
             {
@@ -77,10 +77,10 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (string.IsNullOrWhiteSpace(type))
-                    return Result<IEnumerable<Packaging>>.Fail("Loại bao bì không được để trống");
+                    return BusinessError<IEnumerable<Packaging>>("Loại bao bì không được để trống");
 
-                var packagings = await _packagingRepository.GetByTypeAsync(type);
-                return Result<IEnumerable<Packaging>>.Ok(packagings, "Lấy bao bì theo loại thành công");
+                var packagings = await _unitOfWork.Packaging.GetByTypeAsync(type);
+                return Result<IEnumerable<Packaging>>.Ok(packagings);
             }
             catch (Exception ex)
             {
@@ -92,12 +92,11 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
-                var packagings = await _packagingRepository.SearchAsync(keyword);
-                var message = packagings.Any()
-                    ? $"Tìm thấy {packagings.Count()} bao bì"
-                    : "Không tìm thấy bao bì nào";
+                if (string.IsNullOrWhiteSpace(keyword))
+                    return await GetAllPackagingsAsync();
 
-                return Result<IEnumerable<Packaging>>.Ok(packagings, message);
+                var packagings = await _unitOfWork.Packaging.SearchAsync(keyword);
+                return Result<IEnumerable<Packaging>>.Ok(packagings);
             }
             catch (Exception ex)
             {
@@ -110,24 +109,25 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 // Validate dữ liệu
-                var validationErrors = ValidationHelper.ValidatePackaging(packaging);
-                if (validationErrors.Any())
-                    return ValidationError<int>(validationErrors);
+                var validationResult = await ValidatePackagingAsync(packaging);
+                if (!validationResult.Success)
+                    return Result<int>.Fail(validationResult.Message);
 
                 // Kiểm tra barcode trùng
-                var isBarcodeExists = await _packagingRepository.IsBarcodeExistsAsync(packaging.Barcode);
-                if (isBarcodeExists)
-                    return Result<int>.Fail($"Barcode '{packaging.Barcode}' đã tồn tại");
+                var barcodeExistsResult = await IsBarcodeExistsAsync(packaging.Barcode);
+                if (barcodeExistsResult.Success && barcodeExistsResult.Data)
+                    return BusinessError<int>($"Barcode '{packaging.Barcode}' đã tồn tại trong hệ thống");
 
-                // Thêm mới
-                var packagingId = await _packagingRepository.AddAsync(packaging);
-                _logger.Info($"Đã tạo bao bì mới: {packaging.Name} (Barcode: {packaging.Barcode}, ID: {packagingId})");
+                // Tạo bao bì mới
+                var packagingId = await _unitOfWork.Packaging.AddAsync(packaging);
+                if (packagingId <= 0)
+                    return BusinessError<int>("Không thể tạo bao bì mới");
 
-                return Result<int>.Ok(packagingId, $"Thêm bao bì '{packaging.Name}' thành công");
+                return Result<int>.Ok(packagingId, "Đã tạo bao bì mới thành công");
             }
             catch (Exception ex)
             {
-                return HandleException<int>(ex, "thêm bao bì");
+                return HandleException<int>(ex, "tạo bao bì mới");
             }
         }
 
@@ -135,30 +135,30 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
-                // Validate dữ liệu
-                var validationErrors = ValidationHelper.ValidatePackaging(packaging);
-                if (validationErrors.Any())
-                    return ValidationError<bool>(validationErrors);
+                if (packaging == null || packaging.PackagingId <= 0)
+                    return NotFoundError<bool>("Bao bì", packaging?.PackagingId ?? 0);
 
-                // Kiểm tra tồn tại
-                var existingPackaging = await _packagingRepository.GetByIdAsync(packaging.PackagingId);
+                // Validate dữ liệu
+                var validationResult = await ValidatePackagingAsync(packaging);
+                if (!validationResult.Success)
+                    return Result<bool>.Fail(validationResult.Message);
+
+                // Kiểm tra bao bì tồn tại
+                var existingPackaging = await _unitOfWork.Packaging.GetByIdAsync(packaging.PackagingId);
                 if (existingPackaging == null)
                     return NotFoundError<bool>("Bao bì", packaging.PackagingId);
 
                 // Kiểm tra barcode trùng (trừ chính nó)
-                var isBarcodeExists = await _packagingRepository.IsBarcodeExistsAsync(packaging.Barcode, packaging.PackagingId);
-                if (isBarcodeExists)
-                    return Result<bool>.Fail($"Barcode '{packaging.Barcode}' đã tồn tại");
+                var barcodeExistsResult = await IsBarcodeExistsAsync(packaging.Barcode, packaging.PackagingId);
+                if (barcodeExistsResult.Success && barcodeExistsResult.Data)
+                    return BusinessError<bool>($"Barcode '{packaging.Barcode}' đã được sử dụng bởi bao bì khác");
 
-                // Cập nhật
-                var success = await _packagingRepository.UpdateAsync(packaging);
-                if (success)
-                {
-                    _logger.Info($"Đã cập nhật bao bì: {packaging.Name} (Barcode: {packaging.Barcode}, ID: {packaging.PackagingId})");
-                    return Result<bool>.Ok(true, $"Cập nhật bao bì '{packaging.Name}' thành công");
-                }
+                // Cập nhật bao bì
+                var success = await _unitOfWork.Packaging.UpdateAsync(packaging);
+                if (!success)
+                    return BusinessError<bool>("Không thể cập nhật thông tin bao bì");
 
-                return Result<bool>.Fail("Cập nhật bao bì thất bại");
+                return Result<bool>.Ok(true, "Đã cập nhật thông tin bao bì thành công");
             }
             catch (Exception ex)
             {
@@ -171,24 +171,22 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (packagingId <= 0)
-                    return Result<bool>.Fail("ID bao bì không hợp lệ");
+                    return NotFoundError<bool>("Bao bì", packagingId);
 
-                // Kiểm tra tồn tại
-                var packaging = await _packagingRepository.GetByIdAsync(packagingId);
+                // Kiểm tra bao bì tồn tại
+                var packaging = await _unitOfWork.Packaging.GetByIdAsync(packagingId);
                 if (packaging == null)
                     return NotFoundError<bool>("Bao bì", packagingId);
 
-                // TODO: Kiểm tra có đang được sử dụng không (trong inventory, transactions)
+                // TODO: Kiểm tra xem bao bì có đang được sử dụng không
+                // (có thể kiểm tra trong PackagingTransactions, PackagingInventory, etc.)
 
-                // Xóa cứng (vì không có soft delete)
-                var success = await _packagingRepository.DeleteAsync(packagingId);
-                if (success)
-                {
-                    _logger.Info($"Đã xóa bao bì: {packaging.Name} (Barcode: {packaging.Barcode}, ID: {packagingId})");
-                    return Result<bool>.Ok(true, $"Đã xóa bao bì '{packaging.Name}'");
-                }
+                // Xóa bao bì
+                var success = await _unitOfWork.Packaging.DeleteAsync(packagingId);
+                if (!success)
+                    return BusinessError<bool>("Không thể xóa bao bì");
 
-                return Result<bool>.Fail("Xóa bao bì thất bại");
+                return Result<bool>.Ok(true, "Đã xóa bao bì thành công");
             }
             catch (Exception ex)
             {
@@ -201,24 +199,23 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (packagingId <= 0)
-                    return Result<bool>.Fail("ID bao bì không hợp lệ");
+                    return NotFoundError<bool>("Bao bì", packagingId);
 
-                if (newPrice < 0)
-                    return Result<bool>.Fail("Giá ký quỹ không được âm");
+                // Validate giá
+                var priceErrors = ValidationHelper.ValidatePrice(newPrice);
+                if (priceErrors.Any())
+                    return ValidationError<bool>(priceErrors);
 
-                // Kiểm tra tồn tại
-                var packaging = await _packagingRepository.GetByIdAsync(packagingId);
+                // Kiểm tra bao bì tồn tại
+                var packaging = await _unitOfWork.Packaging.GetByIdAsync(packagingId);
                 if (packaging == null)
                     return NotFoundError<bool>("Bao bì", packagingId);
 
-                var success = await _packagingRepository.UpdateDepositPriceAsync(packagingId, newPrice);
-                if (success)
-                {
-                    _logger.Info($"Đã cập nhật giá ký quỹ bao bì: {packaging.Name} từ {packaging.DepositPrice} thành {newPrice}");
-                    return Result<bool>.Ok(true, $"Đã cập nhật giá ký quỹ bao bì '{packaging.Name}' thành {newPrice:N0} VNĐ");
-                }
+                var success = await _unitOfWork.Packaging.UpdateDepositPriceAsync(packagingId, newPrice);
+                if (!success)
+                    return BusinessError<bool>("Không thể cập nhật giá ký quỹ");
 
-                return Result<bool>.Fail("Cập nhật giá ký quỹ thất bại");
+                return Result<bool>.Ok(true, $"Đã cập nhật giá ký quỹ thành {newPrice:N0} VND");
             }
             catch (Exception ex)
             {
@@ -230,16 +227,14 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
+                if (packaging == null)
+                    return BusinessError<bool>("Thông tin bao bì không được để trống");
+
                 var validationErrors = ValidationHelper.ValidatePackaging(packaging);
                 if (validationErrors.Any())
                     return ValidationError<bool>(validationErrors);
 
-                // Kiểm tra barcode trùng
-                var isBarcodeExists = await _packagingRepository.IsBarcodeExistsAsync(packaging.Barcode, packaging.PackagingId);
-                if (isBarcodeExists)
-                    return Result<bool>.Fail($"Barcode '{packaging.Barcode}' đã tồn tại");
-
-                return Result<bool>.Ok(true, "Dữ liệu bao bì hợp lệ");
+                return Result<bool>.Ok(true, "Bao bì hợp lệ");
             }
             catch (Exception ex)
             {
@@ -252,16 +247,14 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (string.IsNullOrWhiteSpace(barcode))
-                    return Result<bool>.Fail("Barcode không được để trống");
+                    return BusinessError<bool>("Barcode không được để trống");
 
-                var exists = await _packagingRepository.IsBarcodeExistsAsync(barcode, excludePackagingId);
-                var message = exists ? "Barcode đã tồn tại" : "Barcode có thể sử dụng";
-
-                return Result<bool>.Ok(exists, message);
+                var exists = await _unitOfWork.Packaging.IsBarcodeExistsAsync(barcode, excludePackagingId);
+                return Result<bool>.Ok(exists);
             }
             catch (Exception ex)
             {
-                return HandleException<bool>(ex, "kiểm tra barcode");
+                return HandleException<bool>(ex, "kiểm tra barcode tồn tại");
             }
         }
     }

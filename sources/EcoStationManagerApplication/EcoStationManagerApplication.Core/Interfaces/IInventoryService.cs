@@ -16,6 +16,8 @@ namespace EcoStationManagerApplication.Core.Interfaces
         /// </summary>
         Task<Result<Inventory>> GetInventoryByIdAsync(int inventoryId);
 
+        Task<Result<List<Inventory>>> GetAllAsync();
+
         /// <summary>
         /// Lấy danh sách các bản ghi tồn kho theo mã sản phẩm.
         /// </summary>

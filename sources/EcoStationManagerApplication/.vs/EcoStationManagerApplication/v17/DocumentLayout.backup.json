@@ -1,28 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.models\\dtos\\orderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|solutionrelative:ecostationmanagerapplication.models\\dtos\\orderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.models\\dtos\\productdto.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|solutionrelative:ecostationmanagerapplication.models\\dtos\\productdto.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.models\\dtos\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|solutionrelative:ecostationmanagerapplication.models\\dtos\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.core\\helpers\\mappinghelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\helpers\\mappinghelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.core\\helpers\\businessrules.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\helpers\\businessrules.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -30,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -39,71 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "OrderDTO.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\DTOs\\OrderDTO.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.Models\\DTOs\\OrderDTO.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\DTOs\\OrderDTO.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.Models\\DTOs\\OrderDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T12:28:19.222Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Inventory.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\DTOs\\Inventory.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.Models\\DTOs\\Inventory.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\DTOs\\Inventory.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.Models\\DTOs\\Inventory.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAAADQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T12:25:52.929Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProductDTO.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\DTOs\\ProductDTO.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.Models\\DTOs\\ProductDTO.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\DTOs\\ProductDTO.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.Models\\DTOs\\ProductDTO.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAswCMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T12:20:57.942Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "BusinessRules.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Helpers\\BusinessRules.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Helpers\\BusinessRules.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Helpers\\BusinessRules.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.Core\\Helpers\\BusinessRules.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAzwNMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T12:19:21.441Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MappingHelper.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Helpers\\MappingHelper.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Helpers\\MappingHelper.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Helpers\\MappingHelper.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.Core\\Helpers\\MappingHelper.cs",
-              "ViewState": "AgIAANkAAAAAAAAAAAASwN0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T12:17:58.695Z",
-              "EditorCaption": ""
             }
           ]
         }

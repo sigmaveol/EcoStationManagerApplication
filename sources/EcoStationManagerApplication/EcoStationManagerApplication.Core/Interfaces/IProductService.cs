@@ -1,4 +1,5 @@
 ﻿using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.Models.Results;
 using System;
 using System.Collections.Generic;
@@ -10,55 +11,17 @@ namespace EcoStationManagerApplication.Core.Interfaces
 {
     public interface ICategoryService
     {
-        /// <summary>
-        /// Lấy danh mục theo ID
-        /// </summary>
         Task<Result<Category>> GetCategoryByIdAsync(int categoryId);
-
-        /// <summary>
-        /// Lấy tất cả danh mục active
-        /// </summary>
-        Task<Result<IEnumerable<Category>>> GetAllActiveCategoriesAsync();
-
-        /// <summary>
-        /// Lấy danh mục theo loại
-        /// </summary>
-        Task<Result<IEnumerable<Category>>> GetCategoriesByTypeAsync(string categoryType);
-
-        /// <summary>
-        /// Tìm kiếm danh mục
-        /// </summary>
-        Task<Result<IEnumerable<Category>>> SearchCategoriesAsync(string keyword);
-
-        /// <summary>
-        /// Thêm danh mục mới
-        /// </summary>
-        Task<Result<int>> CreateCategoryAsync(Category category);
-
-        /// <summary>
-        /// Cập nhật danh mục
-        /// </summary>
-        Task<Result<bool>> UpdateCategoryAsync(Category category);
-
-        /// <summary>
-        /// Xóa mềm danh mục
-        /// </summary>
+        Task<Result<List<Category>>> GetAllCategoriesAsync();
+        Task<Result<List<Category>>> GetActiveCategoriesAsync();
+        Task<Result<List<Category>>> GetCategoriesByTypeAsync(CategoryType? categoryType);
+        Task<Result<Category>> CreateCategoryAsync(Category category);
+        Task<Result<Category>> UpdateCategoryAsync(Category category);
         Task<Result<bool>> DeleteCategoryAsync(int categoryId);
-
-        /// <summary>
-        /// Bật/tắt trạng thái danh mục
-        /// </summary>
         Task<Result<bool>> ToggleCategoryStatusAsync(int categoryId, bool isActive);
-
-        /// <summary>
-        /// Kiểm tra danh mục có thể xóa không (không có sản phẩm)
-        /// </summary>
-        Task<Result<bool>> CanDeleteCategoryAsync(int categoryId);
-
-        /// <summary>
-        /// Validate danh mục trước khi lưu
-        /// </summary>
+        Task<Result<List<Category>>> SearchCategoriesAsync(string keyword);
         Task<Result<bool>> ValidateCategoryAsync(Category category);
+        Task<Result<bool>> IsCategoryNameExistsAsync(string name, int? excludeCategoryId = null);
     }
 
     public interface IProductService

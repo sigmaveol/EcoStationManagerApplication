@@ -19,7 +19,7 @@ namespace EcoStationManagerApplication.Common.Config
         public string Server { get; set; } = "localhost";
         public string Database { get; set; } = "EcoStationManager";
         public string UserId { get; set; } = "root";
-        public string Password { get; set; } = "123456";
+        public string Password { get; set; } = "";
         public int Port { get; set; } = 3306;
         public int ConnectionTimeout { get; set; } = 30;
         public int CommandTimeout { get; set; } = 120;

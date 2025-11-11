@@ -3,6 +3,7 @@ using EcoStationManagerApplication.Core.Helpers;
 using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.Models.Results;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,12 @@ namespace EcoStationManagerApplication.Core.Services
 {
     public class CategoryService : BaseService, ICategoryService
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+        public CategoryService(IUnitOfWork unitOfWork)
             : base("CategoryService")
         {
-            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result<Category>> GetCategoryByIdAsync(int categoryId)
@@ -27,13 +28,13 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (categoryId <= 0)
-                    return Result<Category>.Fail("ID danh mục không hợp lệ");
+                    return NotFoundError<Category>("Danh mục", categoryId);
 
-                var category = await _categoryRepository.GetByIdAsync(categoryId);
+                var category = await _unitOfWork.Categories.GetByIdAsync(categoryId);
                 if (category == null)
                     return NotFoundError<Category>("Danh mục", categoryId);
 
-                return Result<Category>.Ok(category, "Lấy thông tin danh mục thành công");
+                return Result<Category>.Ok(category);
             }
             catch (Exception ex)
             {
@@ -41,106 +42,112 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
-        public async Task<Result<IEnumerable<Category>>> GetAllActiveCategoriesAsync()
+        public async Task<Result<List<Category>>> GetAllCategoriesAsync()
         {
             try
             {
-                var categories = await _categoryRepository.GetActiveCategoriesAsync();
-                return Result<IEnumerable<Category>>.Ok(categories, "Lấy danh sách danh mục thành công");
+                var categories = await _unitOfWork.Categories.GetAllAsync();
+                return Result<List<Category>>.Ok(categories.ToList());
             }
             catch (Exception ex)
             {
-                return HandleException<IEnumerable<Category>>(ex, "lấy danh sách danh mục");
+                return HandleException<List<Category>>(ex, "lấy danh sách danh mục");
             }
         }
 
-        public async Task<Result<IEnumerable<Category>>> GetCategoriesByTypeAsync(string categoryType)
+        public async Task<Result<List<Category>>> GetActiveCategoriesAsync()
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(categoryType))
-                    return Result<IEnumerable<Category>>.Fail("Loại danh mục không được để trống");
-
-                var categories = await _categoryRepository.GetByTypeAsync(categoryType);
-                return Result<IEnumerable<Category>>.Ok(categories, "Lấy danh mục theo loại thành công");
+                var categories = await _unitOfWork.Categories.GetActiveCategoriesAsync();
+                return Result<List<Category>>.Ok(categories.ToList());
             }
             catch (Exception ex)
             {
-                return HandleException<IEnumerable<Category>>(ex, "lấy danh mục theo loại");
+                return HandleException<List<Category>>(ex, "lấy danh sách danh mục đang hoạt động");
             }
         }
 
-        public async Task<Result<IEnumerable<Category>>> SearchCategoriesAsync(string keyword)
+        public async Task<Result<List<Category>>> GetCategoriesByTypeAsync(CategoryType? categoryType)
         {
             try
             {
-                var categories = await _categoryRepository.SearchAsync(keyword);
-                return Result<IEnumerable<Category>>.Ok(categories, "Tìm kiếm danh mục thành công");
+                var categories = await _unitOfWork.Categories.GetByTypeAsync(categoryType);
+                return Result<List<Category>>.Ok(categories.ToList());
             }
             catch (Exception ex)
             {
-                return HandleException<IEnumerable<Category>>(ex, "tìm kiếm danh mục");
+                return HandleException<List<Category>>(ex, "lấy danh mục theo loại");
             }
         }
 
-        public async Task<Result<int>> CreateCategoryAsync(Category category)
+        public async Task<Result<Category>> CreateCategoryAsync(Category category)
         {
             try
             {
                 // Validate dữ liệu
-                var validationErrors = ValidationHelper.ValidateCategory(category);
-                if (validationErrors.Any())
-                    return ValidationError<int>(validationErrors);
+                var validationResult = await ValidateCategoryAsync(category);
+                if (!validationResult.Success)
+                    return Result<Category>.Fail(validationResult.Message);
 
-                // Kiểm tra trùng tên
-                var isNameExists = await _categoryRepository.IsNameExistsAsync(category.Name);
-                if (isNameExists)
-                    return Result<int>.Fail($"Tên danh mục '{category.Name}' đã tồn tại");
+                // Kiểm tra tên danh mục trùng
+                var nameExistsResult = await IsCategoryNameExistsAsync(category.Name);
+                if (nameExistsResult.Success && nameExistsResult.Data)
+                    return BusinessError<Category>($"Tên danh mục '{category.Name}' đã tồn tại");
 
-                // Thêm mới
-                var categoryId = await _categoryRepository.AddAsync(category);
-                _logger.Info($"Đã tạo danh mục mới: {category.Name} (ID: {categoryId})");
+                // Set default values
+                category.IsActive = true;
+                category.CreatedDate = DateTime.Now;
 
-                return Result<int>.Ok(categoryId, $"Thêm danh mục '{category.Name}' thành công");
+                // Tạo danh mục mới
+                var categoryId = await _unitOfWork.Categories.AddAsync(category);
+                if (categoryId <= 0)
+                    return BusinessError<Category>("Không thể tạo danh mục mới");
+
+                // Lấy thông tin danh mục vừa tạo
+                var createdCategory = await _unitOfWork.Categories.GetByIdAsync(categoryId);
+                return Result<Category>.Ok(createdCategory, "Đã tạo danh mục mới thành công");
             }
             catch (Exception ex)
             {
-                return HandleException<int>(ex, "thêm danh mục");
+                return HandleException<Category>(ex, "tạo danh mục mới");
             }
         }
 
-        public async Task<Result<bool>> UpdateCategoryAsync(Category category)
+        public async Task<Result<Category>> UpdateCategoryAsync(Category category)
         {
             try
             {
-                // Validate dữ liệu
-                var validationErrors = ValidationHelper.ValidateCategory(category);
-                if (validationErrors.Any())
-                    return ValidationError<bool>(validationErrors);
+                if (category == null || category.CategoryId <= 0)
+                    return NotFoundError<Category>("Danh mục", category?.CategoryId ?? 0);
 
-                // Kiểm tra tồn tại
-                var existingCategory = await _categoryRepository.GetByIdAsync(category.CategoryId);
+                // Validate dữ liệu
+                var validationResult = await ValidateCategoryAsync(category);
+                if (!validationResult.Success)
+                    return Result<Category>.Fail(validationResult.Message);
+
+                // Kiểm tra danh mục tồn tại
+                var existingCategory = await _unitOfWork.Categories.GetByIdAsync(category.CategoryId);
                 if (existingCategory == null)
-                    return NotFoundError<bool>("Danh mục", category.CategoryId);
+                    return NotFoundError<Category>("Danh mục", category.CategoryId);
 
-                // Kiểm tra trùng tên (trừ chính nó)
-                var isNameExists = await _categoryRepository.IsNameExistsAsync(category.Name, category.CategoryId);
-                if (isNameExists)
-                    return Result<bool>.Fail($"Tên danh mục '{category.Name}' đã tồn tại");
+                // Kiểm tra tên danh mục trùng (trừ chính nó)
+                var nameExistsResult = await IsCategoryNameExistsAsync(category.Name, category.CategoryId);
+                if (nameExistsResult.Success && nameExistsResult.Data)
+                    return BusinessError<Category>($"Tên danh mục '{category.Name}' đã được sử dụng bởi danh mục khác");
 
-                // Cập nhật
-                var success = await _categoryRepository.UpdateAsync(category);
-                if (success)
-                {
-                    _logger.Info($"Đã cập nhật danh mục: {category.Name} (ID: {category.CategoryId})");
-                    return Result<bool>.Ok(true, $"Cập nhật danh mục '{category.Name}' thành công");
-                }
+                // Cập nhật danh mục
+                var success = await _unitOfWork.Categories.UpdateAsync(category);
+                if (!success)
+                    return BusinessError<Category>("Không thể cập nhật thông tin danh mục");
 
-                return Result<bool>.Fail("Cập nhật danh mục thất bại");
+                // Lấy thông tin danh mục đã cập nhật
+                var updatedCategory = await _unitOfWork.Categories.GetByIdAsync(category.CategoryId);
+                return Result<Category>.Ok(updatedCategory, "Đã cập nhật thông tin danh mục thành công");
             }
             catch (Exception ex)
             {
-                return HandleException<bool>(ex, "cập nhật danh mục");
+                return HandleException<Category>(ex, "cập nhật danh mục");
             }
         }
 
@@ -149,27 +156,24 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (categoryId <= 0)
-                    return Result<bool>.Fail("ID danh mục không hợp lệ");
+                    return NotFoundError<bool>("Danh mục", categoryId);
 
-                // Kiểm tra tồn tại
-                var category = await _categoryRepository.GetByIdAsync(categoryId);
+                // Kiểm tra danh mục tồn tại
+                var category = await _unitOfWork.Categories.GetByIdAsync(categoryId);
                 if (category == null)
                     return NotFoundError<bool>("Danh mục", categoryId);
 
-                // Kiểm tra có sản phẩm nào đang sử dụng không
-                var productCount = await _categoryRepository.CountProductsInCategoryAsync(categoryId);
+                // Kiểm tra xem danh mục có sản phẩm không
+                var productCount = await _unitOfWork.Categories.CountProductsInCategoryAsync(categoryId);
                 if (productCount > 0)
-                    return Result<bool>.Fail($"Không thể xóa danh mục vì có {productCount} sản phẩm đang sử dụng");
+                    return BusinessError<bool>($"Không thể xóa danh mục vì có {productCount} sản phẩm đang sử dụng");
 
-                // Xóa mềm
-                var success = await _categoryRepository.ToggleActiveAsync(categoryId, false);
-                if (success)
-                {
-                    _logger.Info($"Đã xóa danh mục: {category.Name} (ID: {categoryId})");
-                    return Result<bool>.Ok(true, $"Đã xóa danh mục '{category.Name}'");
-                }
+                // Xóa mềm danh mục
+                var success = await _unitOfWork.Categories.ToggleActiveAsync(categoryId, false);
+                if (!success)
+                    return BusinessError<bool>("Không thể xóa danh mục");
 
-                return Result<bool>.Fail("Xóa danh mục thất bại");
+                return Result<bool>.Ok(true, "Đã xóa danh mục thành công");
             }
             catch (Exception ex)
             {
@@ -182,23 +186,19 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (categoryId <= 0)
-                    return Result<bool>.Fail("ID danh mục không hợp lệ");
+                    return NotFoundError<bool>("Danh mục", categoryId);
 
-                // Kiểm tra tồn tại
-                var category = await _categoryRepository.GetByIdAsync(categoryId);
+                // Kiểm tra danh mục tồn tại
+                var category = await _unitOfWork.Categories.GetByIdAsync(categoryId);
                 if (category == null)
                     return NotFoundError<bool>("Danh mục", categoryId);
 
-                var success = await _categoryRepository.ToggleActiveAsync(categoryId, isActive);
-                var status = isActive ? "kích hoạt" : "vô hiệu hóa";
+                var success = await _unitOfWork.Categories.ToggleActiveAsync(categoryId, isActive);
+                if (!success)
+                    return BusinessError<bool>("Không thể thay đổi trạng thái danh mục");
 
-                if (success)
-                {
-                    _logger.Info($"Đã {status} danh mục: {category.Name} (ID: {categoryId})");
-                    return Result<bool>.Ok(true, $"Đã {status} danh mục '{category.Name}'");
-                }
-
-                return Result<bool>.Fail($"{status} danh mục thất bại");
+                var statusText = isActive ? "kích hoạt" : "vô hiệu hóa";
+                return Result<bool>.Ok(true, $"Đã {statusText} danh mục thành công");
             }
             catch (Exception ex)
             {
@@ -206,20 +206,19 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
-        public async Task<Result<bool>> CanDeleteCategoryAsync(int categoryId)
+        public async Task<Result<List<Category>>> SearchCategoriesAsync(string keyword)
         {
             try
             {
-                if (categoryId <= 0)
-                    return Result<bool>.Fail("ID danh mục không hợp lệ");
+                if (string.IsNullOrWhiteSpace(keyword))
+                    return await GetActiveCategoriesAsync();
 
-                var productCount = await _categoryRepository.CountProductsInCategoryAsync(categoryId);
-                return Result<bool>.Ok(productCount == 0,
-                    productCount == 0 ? "Có thể xóa danh mục" : $"Không thể xóa - có {productCount} sản phẩm");
+                var categories = await _unitOfWork.Categories.SearchAsync(keyword);
+                return Result<List<Category>>.Ok(categories.ToList());
             }
             catch (Exception ex)
             {
-                return HandleException<bool>(ex, "kiểm tra khả năng xóa danh mục");
+                return HandleException<List<Category>>(ex, "tìm kiếm danh mục");
             }
         }
 
@@ -227,20 +226,38 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
+                if (category == null)
+                    return BusinessError<bool>("Thông tin danh mục không được để trống");
+
                 var validationErrors = ValidationHelper.ValidateCategory(category);
                 if (validationErrors.Any())
                     return ValidationError<bool>(validationErrors);
 
-                // Kiểm tra trùng tên
-                var isNameExists = await _categoryRepository.IsNameExistsAsync(category.Name, category.CategoryId);
-                if (isNameExists)
-                    return Result<bool>.Fail($"Tên danh mục '{category.Name}' đã tồn tại");
+                // Kiểm tra loại danh mục hợp lệ
+                if (!Enum.IsDefined(typeof(CategoryType), category.CategoryType))
+                    return BusinessError<bool>("Loại danh mục không hợp lệ");
 
-                return Result<bool>.Ok(true, "Dữ liệu danh mục hợp lệ");
+                return Result<bool>.Ok(true, "Danh mục hợp lệ");
             }
             catch (Exception ex)
             {
                 return HandleException<bool>(ex, "validate danh mục");
+            }
+        }
+
+        public async Task<Result<bool>> IsCategoryNameExistsAsync(string name, int? excludeCategoryId = null)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(name))
+                    return BusinessError<bool>("Tên danh mục không được để trống");
+
+                var exists = await _unitOfWork.Categories.IsNameExistsAsync(name, excludeCategoryId);
+                return Result<bool>.Ok(exists);
+            }
+            catch (Exception ex)
+            {
+                return HandleException<bool>(ex, "kiểm tra tên danh mục tồn tại");
             }
         }
     }

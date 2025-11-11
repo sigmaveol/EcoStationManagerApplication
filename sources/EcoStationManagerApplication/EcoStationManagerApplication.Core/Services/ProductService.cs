@@ -1,7 +1,9 @@
 ﻿using EcoStationManagerApplication.Core.Helpers;
 using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.DAL.Interfaces;
+using EcoStationManagerApplication.DAL.UnitOfWork;
 using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.Models.Results;
 using System;
 using System.Collections.Generic;
@@ -13,14 +15,14 @@ namespace EcoStationManagerApplication.Core.Services
 {
     public class ProductService : BaseService, IProductService
     {
-        private readonly IProductRepository _productRepository;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICategoryService _categoryService;
 
-        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public ProductService(IUnitOfWork unitOfWork, ICategoryService categoryService)
             : base("ProductService")
         {
-            _productRepository = productRepository;
-            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
+            _categoryService = categoryService;
         }
 
         public async Task<Result<Product>> GetProductByIdAsync(int productId)
@@ -28,13 +30,13 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (productId <= 0)
-                    return Result<Product>.Fail("ID sản phẩm không hợp lệ");
+                    return NotFoundError<Product>("Sản phẩm", productId);
 
-                var product = await _productRepository.GetByIdAsync(productId);
+                var product = await _unitOfWork.Products.GetByIdAsync(productId);
                 if (product == null)
                     return NotFoundError<Product>("Sản phẩm", productId);
 
-                return Result<Product>.Ok(product, "Lấy thông tin sản phẩm thành công");
+                return Result<Product>.Ok(product);
             }
             catch (Exception ex)
             {
@@ -47,17 +49,17 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (string.IsNullOrWhiteSpace(sku))
-                    return Result<Product>.Fail("SKU không được để trống");
+                    return BusinessError<Product>("SKU không được để trống");
 
-                var product = await _productRepository.GetBySkuAsync(sku);
+                var product = await _unitOfWork.Products.GetBySkuAsync(sku);
                 if (product == null)
                     return NotFoundError<Product>($"Không tìm thấy sản phẩm với SKU: {sku}");
 
-                return Result<Product>.Ok(product, "Lấy thông tin sản phẩm thành công");
+                return Result<Product>.Ok(product);
             }
             catch (Exception ex)
             {
-                return HandleException<Product>(ex, "lấy thông tin sản phẩm theo SKU");
+                return HandleException<Product>(ex, "lấy sản phẩm theo SKU");
             }
         }
 
@@ -65,12 +67,12 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
-                var products = await _productRepository.GetActiveProductsAsync();
-                return Result<IEnumerable<Product>>.Ok(products, "Lấy danh sách sản phẩm thành công");
+                var products = await _unitOfWork.Products.GetActiveProductsAsync();
+                return Result<IEnumerable<Product>>.Ok(products);
             }
             catch (Exception ex)
             {
-                return HandleException<IEnumerable<Product>>(ex, "lấy danh sách sản phẩm");
+                return HandleException<IEnumerable<Product>>(ex, "lấy danh sách sản phẩm đang hoạt động");
             }
         }
 
@@ -79,15 +81,15 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (categoryId <= 0)
-                    return Result<IEnumerable<Product>>.Fail("ID danh mục không hợp lệ");
-
-                // Kiểm tra danh mục tồn tại
-                var category = await _categoryRepository.GetByIdAsync(categoryId);
-                if (category == null)
                     return NotFoundError<IEnumerable<Product>>("Danh mục", categoryId);
 
-                var products = await _productRepository.GetByCategoryAsync(categoryId);
-                return Result<IEnumerable<Product>>.Ok(products, "Lấy sản phẩm theo danh mục thành công");
+                // Kiểm tra danh mục tồn tại
+                var categoryResult = await _categoryService.GetCategoryByIdAsync(categoryId);
+                if (!categoryResult.Success)
+                    return Result<IEnumerable<Product>>.Fail(categoryResult.Message);
+
+                var products = await _unitOfWork.Products.GetByCategoryAsync(categoryId);
+                return Result<IEnumerable<Product>>.Ok(products);
             }
             catch (Exception ex)
             {
@@ -100,10 +102,14 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (string.IsNullOrWhiteSpace(productType))
-                    return Result<IEnumerable<Product>>.Fail("Loại sản phẩm không được để trống");
+                    return BusinessError<IEnumerable<Product>>("Loại sản phẩm không được để trống");
 
-                var products = await _productRepository.GetByTypeAsync(productType);
-                return Result<IEnumerable<Product>>.Ok(products, "Lấy sản phẩm theo loại thành công");
+                // Validate product type
+                if (!Enum.TryParse<ProductType>(productType, true, out var parsedType))
+                    return BusinessError<IEnumerable<Product>>($"Loại sản phẩm không hợp lệ: {productType}");
+
+                var products = await _unitOfWork.Products.GetByTypeAsync(parsedType);
+                return Result<IEnumerable<Product>>.Ok(products);
             }
             catch (Exception ex)
             {
@@ -115,16 +121,12 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
-                var products = await _productRepository.GetLowStockProductsAsync();
-                var message = products.Any()
-                    ? $"Có {products.Count()} sản phẩm sắp hết hàng"
-                    : "Không có sản phẩm nào sắp hết hàng";
-
-                return Result<IEnumerable<Product>>.Ok(products, message);
+                var lowStockProducts = await _unitOfWork.Products.GetLowStockProductsAsync();
+                return Result<IEnumerable<Product>>.Ok(lowStockProducts);
             }
             catch (Exception ex)
             {
-                return HandleException<IEnumerable<Product>>(ex, "lấy sản phẩm sắp hết hàng");
+                return HandleException<IEnumerable<Product>>(ex, "lấy danh sách sản phẩm sắp hết hàng");
             }
         }
 
@@ -132,12 +134,20 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
-                var products = await _productRepository.SearchAsync(keyword, productType);
-                var message = products.Any()
-                    ? $"Tìm thấy {products.Count()} sản phẩm"
-                    : "Không tìm thấy sản phẩm nào";
+                if (string.IsNullOrWhiteSpace(keyword))
+                    return await GetAllActiveProductsAsync();
 
-                return Result<IEnumerable<Product>>.Ok(products, message);
+                ProductType? parsedType = null;
+                if (!string.IsNullOrWhiteSpace(productType))
+                {
+                    if (!Enum.TryParse<ProductType>(productType, true, out var tempType))
+                        return BusinessError<IEnumerable<Product>>($"Loại sản phẩm không hợp lệ: {productType}");
+
+                    parsedType = tempType;
+                }
+
+                var products = await _unitOfWork.Products.SearchAsync(keyword, parsedType);
+                return Result<IEnumerable<Product>>.Ok(products);
             }
             catch (Exception ex)
             {
@@ -150,32 +160,37 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 // Validate dữ liệu
-                var validationErrors = ValidationHelper.ValidateProduct(product);
-                if (validationErrors.Any())
-                    return ValidationError<int>(validationErrors);
+                var validationResult = await ValidateProductAsync(product);
+                if (!validationResult.Success)
+                    return Result<int>.Fail(validationResult.Message);
 
                 // Kiểm tra SKU trùng
-                var isSkuExists = await _productRepository.IsSkuExistsAsync(product.SKU);
-                if (isSkuExists)
-                    return Result<int>.Fail($"SKU '{product.SKU}' đã tồn tại");
+                var skuExistsResult = await IsSkuExistsAsync(product.SKU);
+                if (skuExistsResult.Success && skuExistsResult.Data)
+                    return BusinessError<int>($"SKU '{product.SKU}' đã tồn tại trong hệ thống");
 
-                // Kiểm tra danh mục tồn tại
+                // Kiểm tra danh mục tồn tại (nếu có)
                 if (product.CategoryId.HasValue)
                 {
-                    var category = await _categoryRepository.GetByIdAsync(product.CategoryId.Value);
-                    if (category == null)
-                        return Result<int>.Fail("Danh mục không tồn tại");
+                    var categoryResult = await _categoryService.GetCategoryByIdAsync(product.CategoryId.Value);
+                    if (!categoryResult.Success)
+                        return Result<int>.Fail($"Danh mục không tồn tại: {categoryResult.Message}");
                 }
 
-                // Thêm mới
-                var productId = await _productRepository.AddAsync(product);
-                _logger.Info($"Đã tạo sản phẩm mới: {product.Name} (SKU: {product.SKU}, ID: {productId})");
+                // Set default values
+                product.IsActive = true;
+                product.CreatedDate = DateTime.Now;
 
-                return Result<int>.Ok(productId, $"Thêm sản phẩm '{product.Name}' thành công");
+                // Tạo sản phẩm mới
+                var productId = await _unitOfWork.Products.AddAsync(product);
+                if (productId <= 0)
+                    return BusinessError<int>("Không thể tạo sản phẩm mới");
+
+                return Result<int>.Ok(productId, "Đã tạo sản phẩm mới thành công");
             }
             catch (Exception ex)
             {
-                return HandleException<int>(ex, "thêm sản phẩm");
+                return HandleException<int>(ex, "tạo sản phẩm mới");
             }
         }
 
@@ -183,38 +198,38 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
-                // Validate dữ liệu
-                var validationErrors = ValidationHelper.ValidateProduct(product);
-                if (validationErrors.Any())
-                    return ValidationError<bool>(validationErrors);
+                if (product == null || product.ProductId <= 0)
+                    return NotFoundError<bool>("Sản phẩm", product?.ProductId ?? 0);
 
-                // Kiểm tra tồn tại
-                var existingProduct = await _productRepository.GetByIdAsync(product.ProductId);
+                // Validate dữ liệu
+                var validationResult = await ValidateProductAsync(product);
+                if (!validationResult.Success)
+                    return Result<bool>.Fail(validationResult.Message);
+
+                // Kiểm tra sản phẩm tồn tại
+                var existingProduct = await _unitOfWork.Products.GetByIdAsync(product.ProductId);
                 if (existingProduct == null)
                     return NotFoundError<bool>("Sản phẩm", product.ProductId);
 
                 // Kiểm tra SKU trùng (trừ chính nó)
-                var isSkuExists = await _productRepository.IsSkuExistsAsync(product.SKU, product.ProductId);
-                if (isSkuExists)
-                    return Result<bool>.Fail($"SKU '{product.SKU}' đã tồn tại");
+                var skuExistsResult = await IsSkuExistsAsync(product.SKU, product.ProductId);
+                if (skuExistsResult.Success && skuExistsResult.Data)
+                    return BusinessError<bool>($"SKU '{product.SKU}' đã được sử dụng bởi sản phẩm khác");
 
-                // Kiểm tra danh mục tồn tại
+                // Kiểm tra danh mục tồn tại (nếu có)
                 if (product.CategoryId.HasValue)
                 {
-                    var category = await _categoryRepository.GetByIdAsync(product.CategoryId.Value);
-                    if (category == null)
-                        return Result<bool>.Fail("Danh mục không tồn tại");
+                    var categoryResult = await _categoryService.GetCategoryByIdAsync(product.CategoryId.Value);
+                    if (!categoryResult.Success)
+                        return Result<bool>.Fail($"Danh mục không tồn tại: {categoryResult.Message}");
                 }
 
-                // Cập nhật
-                var success = await _productRepository.UpdateAsync(product);
-                if (success)
-                {
-                    _logger.Info($"Đã cập nhật sản phẩm: {product.Name} (SKU: {product.SKU}, ID: {product.ProductId})");
-                    return Result<bool>.Ok(true, $"Cập nhật sản phẩm '{product.Name}' thành công");
-                }
+                // Cập nhật sản phẩm
+                var success = await _unitOfWork.Products.UpdateAsync(product);
+                if (!success)
+                    return BusinessError<bool>("Không thể cập nhật thông tin sản phẩm");
 
-                return Result<bool>.Fail("Cập nhật sản phẩm thất bại");
+                return Result<bool>.Ok(true, "Đã cập nhật thông tin sản phẩm thành công");
             }
             catch (Exception ex)
             {
@@ -227,22 +242,19 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (productId <= 0)
-                    return Result<bool>.Fail("ID sản phẩm không hợp lệ");
+                    return NotFoundError<bool>("Sản phẩm", productId);
 
-                // Kiểm tra tồn tại
-                var product = await _productRepository.GetByIdAsync(productId);
+                // Kiểm tra sản phẩm tồn tại
+                var product = await _unitOfWork.Products.GetByIdAsync(productId);
                 if (product == null)
                     return NotFoundError<bool>("Sản phẩm", productId);
 
-                // Xóa mềm
-                var success = await _productRepository.ToggleActiveAsync(productId, false);
-                if (success)
-                {
-                    _logger.Info($"Đã xóa sản phẩm: {product.Name} (SKU: {product.SKU}, ID: {productId})");
-                    return Result<bool>.Ok(true, $"Đã xóa sản phẩm '{product.Name}'");
-                }
+                // Xóa mềm sản phẩm (set IsActive = false)
+                var success = await _unitOfWork.Products.ToggleActiveAsync(productId, false);
+                if (!success)
+                    return BusinessError<bool>("Không thể xóa sản phẩm");
 
-                return Result<bool>.Fail("Xóa sản phẩm thất bại");
+                return Result<bool>.Ok(true, "Đã xóa sản phẩm thành công");
             }
             catch (Exception ex)
             {
@@ -255,23 +267,19 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (productId <= 0)
-                    return Result<bool>.Fail("ID sản phẩm không hợp lệ");
+                    return NotFoundError<bool>("Sản phẩm", productId);
 
-                // Kiểm tra tồn tại
-                var product = await _productRepository.GetByIdAsync(productId);
+                // Kiểm tra sản phẩm tồn tại
+                var product = await _unitOfWork.Products.GetByIdAsync(productId);
                 if (product == null)
                     return NotFoundError<bool>("Sản phẩm", productId);
 
-                var success = await _productRepository.ToggleActiveAsync(productId, isActive);
-                var status = isActive ? "kích hoạt" : "vô hiệu hóa";
+                var success = await _unitOfWork.Products.ToggleActiveAsync(productId, isActive);
+                if (!success)
+                    return BusinessError<bool>("Không thể thay đổi trạng thái sản phẩm");
 
-                if (success)
-                {
-                    _logger.Info($"Đã {status} sản phẩm: {product.Name} (ID: {productId})");
-                    return Result<bool>.Ok(true, $"Đã {status} sản phẩm '{product.Name}'");
-                }
-
-                return Result<bool>.Fail($"{status} sản phẩm thất bại");
+                var statusText = isActive ? "kích hoạt" : "vô hiệu hóa";
+                return Result<bool>.Ok(true, $"Đã {statusText} sản phẩm thành công");
             }
             catch (Exception ex)
             {
@@ -284,24 +292,23 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (productId <= 0)
-                    return Result<bool>.Fail("ID sản phẩm không hợp lệ");
+                    return NotFoundError<bool>("Sản phẩm", productId);
 
-                if (newPrice < 0)
-                    return Result<bool>.Fail("Giá sản phẩm không được âm");
+                // Validate giá
+                var priceErrors = ValidationHelper.ValidatePrice(newPrice);
+                if (priceErrors.Any())
+                    return ValidationError<bool>(priceErrors);
 
-                // Kiểm tra tồn tại
-                var product = await _productRepository.GetByIdAsync(productId);
+                // Kiểm tra sản phẩm tồn tại
+                var product = await _unitOfWork.Products.GetByIdAsync(productId);
                 if (product == null)
                     return NotFoundError<bool>("Sản phẩm", productId);
 
-                var success = await _productRepository.UpdatePriceAsync(productId, newPrice);
-                if (success)
-                {
-                    _logger.Info($"Đã cập nhật giá sản phẩm: {product.Name} từ {product.Price} thành {newPrice}");
-                    return Result<bool>.Ok(true, $"Đã cập nhật giá sản phẩm '{product.Name}' thành {newPrice:N0} VNĐ");
-                }
+                var success = await _unitOfWork.Products.UpdatePriceAsync(productId, newPrice);
+                if (!success)
+                    return BusinessError<bool>("Không thể cập nhật giá sản phẩm");
 
-                return Result<bool>.Fail("Cập nhật giá sản phẩm thất bại");
+                return Result<bool>.Ok(true, $"Đã cập nhật giá sản phẩm thành {newPrice:N0} VND");
             }
             catch (Exception ex)
             {
@@ -314,24 +321,21 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (productId <= 0)
-                    return Result<bool>.Fail("ID sản phẩm không hợp lệ");
+                    return NotFoundError<bool>("Sản phẩm", productId);
 
                 if (minStockLevel < 0)
-                    return Result<bool>.Fail("Mức tồn kho tối thiểu không được âm");
+                    return BusinessError<bool>("Mức tồn kho tối thiểu không được âm");
 
-                // Kiểm tra tồn tại
-                var product = await _productRepository.GetByIdAsync(productId);
+                // Kiểm tra sản phẩm tồn tại
+                var product = await _unitOfWork.Products.GetByIdAsync(productId);
                 if (product == null)
                     return NotFoundError<bool>("Sản phẩm", productId);
 
-                var success = await _productRepository.UpdateMinStockLevelAsync(productId, minStockLevel);
-                if (success)
-                {
-                    _logger.Info($"Đã cập nhật mức tồn kho tối thiểu sản phẩm: {product.Name} thành {minStockLevel}");
-                    return Result<bool>.Ok(true, $"Đã cập nhật mức tồn kho tối thiểu cho '{product.Name}'");
-                }
+                var success = await _unitOfWork.Products.UpdateMinStockLevelAsync(productId, minStockLevel);
+                if (!success)
+                    return BusinessError<bool>("Không thể cập nhật mức tồn kho tối thiểu");
 
-                return Result<bool>.Fail("Cập nhật mức tồn kho tối thiểu thất bại");
+                return Result<bool>.Ok(true, $"Đã cập nhật mức tồn kho tối thiểu thành {minStockLevel}");
             }
             catch (Exception ex)
             {
@@ -343,24 +347,18 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
+                if (product == null)
+                    return BusinessError<bool>("Thông tin sản phẩm không được để trống");
+
                 var validationErrors = ValidationHelper.ValidateProduct(product);
                 if (validationErrors.Any())
                     return ValidationError<bool>(validationErrors);
 
-                // Kiểm tra SKU trùng
-                var isSkuExists = await _productRepository.IsSkuExistsAsync(product.SKU, product.ProductId);
-                if (isSkuExists)
-                    return Result<bool>.Fail($"SKU '{product.SKU}' đã tồn tại");
+                // Kiểm tra loại sản phẩm hợp lệ
+                if (!Enum.IsDefined(typeof(ProductType), product.ProductType))
+                    return BusinessError<bool>("Loại sản phẩm không hợp lệ");
 
-                // Kiểm tra danh mục tồn tại
-                if (product.CategoryId.HasValue)
-                {
-                    var category = await _categoryRepository.GetByIdAsync(product.CategoryId.Value);
-                    if (category == null)
-                        return Result<bool>.Fail("Danh mục không tồn tại");
-                }
-
-                return Result<bool>.Ok(true, "Dữ liệu sản phẩm hợp lệ");
+                return Result<bool>.Ok(true, "Sản phẩm hợp lệ");
             }
             catch (Exception ex)
             {
@@ -373,16 +371,14 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 if (string.IsNullOrWhiteSpace(sku))
-                    return Result<bool>.Fail("SKU không được để trống");
+                    return BusinessError<bool>("SKU không được để trống");
 
-                var exists = await _productRepository.IsSkuExistsAsync(sku, excludeProductId);
-                var message = exists ? "SKU đã tồn tại" : "SKU có thể sử dụng";
-
-                return Result<bool>.Ok(exists, message);
+                var exists = await _unitOfWork.Products.IsSkuExistsAsync(sku, excludeProductId);
+                return Result<bool>.Ok(exists);
             }
             catch (Exception ex)
             {
-                return HandleException<bool>(ex, "kiểm tra SKU");
+                return HandleException<bool>(ex, "kiểm tra SKU tồn tại");
             }
         }
     }

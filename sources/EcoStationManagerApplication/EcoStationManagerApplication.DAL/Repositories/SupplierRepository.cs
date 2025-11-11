@@ -25,7 +25,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
 
                 var sql = @"
                     SELECT * FROM Suppliers 
-                    WHERE name LIKE @ OR contact_person LIKE @ OR phone LIKE @ OR email LIKE @Keyword
+                    WHERE name LIKE @Keyword OR contact_person LIKE @Keyword OR phone LIKE @Keyword OR email LIKE @Keyword
                     ORDER BY name";
 
                 return await _databaseHelper.QueryAsync<Supplier>(sql, new { Keyword = $"%{keyword}%" });

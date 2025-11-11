@@ -37,6 +37,14 @@ namespace EcoStationManagerApplication.Models.DTOs
         public List<CreateOrderDetailDTO> OrderDetails { get; set; } = new List<CreateOrderDetailDTO>();
     }
 
+    public class CreateOrderDetailDTO
+    {
+        public int ProductId { get; set; }
+        public decimal Quantity { get; set; }
+
+        public decimal UnitPrice { get; set; }
+    }
+
     public class OrderDetailDTO
     {
         public int OrderDetailId { get; set; }
@@ -46,5 +54,39 @@ namespace EcoStationManagerApplication.Models.DTOs
         public decimal Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal LineTotal => Quantity * UnitPrice;
+    }
+
+    public class UpdateOrderStatusDTO
+    {
+        public OrderStatus NewStatus { get; set; }
+        public string Note { get; set; }
+    }
+
+    public class UpdatePaymentStatusDTO
+    {
+        public PaymentStatus NewStatus { get; set; }
+        public string Note { get; set; }
+    }
+
+    public class OrderSummaryDTO
+    {
+        public int OrderId { get; set; }
+        public string OrderCode { get; set; }
+        public string CustomerName { get; set; }
+        public decimal TotalAmount { get; set; }
+        public OrderStatus Status { get; set; }
+        public PaymentStatus PaymentStatus { get; set; }
+        public DateTime LastUpdated { get; set; }
+        public int ItemCount { get; set; }
+    }
+
+    public class OrderFilterDTO
+    {
+        public OrderStatus? Status { get; set; }
+        public PaymentStatus? PaymentStatus { get; set; }
+        public int? CustomerId { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+        public string SearchKeyword { get; set; }
     }
 }

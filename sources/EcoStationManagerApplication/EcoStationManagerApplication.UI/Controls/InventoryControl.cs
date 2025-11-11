@@ -4,14 +4,16 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using EcoStationManagerApplication.UI.Common;
 using Guna.UI2.WinForms;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
     public partial class InventoryControl : UserControl
     {
-        private List<Inventory> inventories;
+        private List<Models.Entities.Inventory> inventories;
         private List<Variant> variants;
         private List<Station> stations;
         private List<Batch> batches;
@@ -27,7 +29,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void LoadData()
         {
-            inventories = InventoryMockData.GetInventories();
+            inventories = InventoryMockData.GetInv();
             variants = InventoryMockData.GetVariants();
             stations = InventoryMockData.GetStations();
             batches = InventoryMockData.GetBatches();
@@ -227,7 +229,20 @@ namespace EcoStationManagerApplication.UI.Controls
     }
 
     public static class InventoryMockData
-    {
+    {   
+        public static async Task<List<Models.Entities.Inventory>> GetInv()
+        {
+            var result = await AppServices.InventoryService.GetAllAsync();
+            if (result.Success)
+            {
+                return result.Data.ToList();
+            } else
+            {
+                Console.WriteLine($" Lỗi khi lấy tồn kho: {result.Message}");
+                return new List<Models.Entities.Inventory> { };
+            }
+        }
+
         public static List<Inventory> GetInventories()
         {
             return new List<Inventory>

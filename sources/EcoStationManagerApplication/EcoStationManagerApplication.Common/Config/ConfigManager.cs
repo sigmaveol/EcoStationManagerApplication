@@ -33,7 +33,7 @@ namespace EcoStationManagerApplication.Common.Config
                 "config/appsettings.json",
                 "../appsettings.json",
                 "../../appsettings.json",
-                "EcoStationManager.Common/appsettings.json"
+                "EcoStationManagerApplication.Common/appsettings.json"
             };
 
             foreach (var path in possiblePaths)
@@ -62,7 +62,7 @@ namespace EcoStationManagerApplication.Common.Config
                     Server = "localhost",
                     Database = "EcoStationManager",
                     UserId = "root",
-                    Password = "123456",
+                    Password = "",
                     Port = 3306,
                     ConnectionTimeout = 30,
                     CommandTimeout = 120,

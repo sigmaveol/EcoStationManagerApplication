@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\CustomerDTO.cs" />
+    <Compile Include="DTOs\Inventory.cs" />
     <Compile Include="DTOs\Order.cs" />
+    <Compile Include="DTOs\OrderDTO.cs" />
     <Compile Include="DTOs\Packaging.cs" />
     <Compile Include="DTOs\Product.cs" />
     <Compile Include="DTOs\Stock.cs" />
@@ -55,10 +58,14 @@
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\OperationStatus.cs" />
+    <Compile Include="Results\PagedResult.cs" />
     <Compile Include="Results\Result.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DTOs\ProductDTO.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -42,19 +42,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Helpers\BusinessRules.cs" />
+    <Compile Include="Helpers\MappingHelper.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
+    <Compile Include="Interfaces\ICustomerService.cs" />
     <Compile Include="Interfaces\IInventoryService.cs" />
     <Compile Include="Interfaces\IOrderDetailService.cs" />
     <Compile Include="Interfaces\IOrderService.cs" />
+    <Compile Include="Interfaces\IPackagingInventoryService.cs" />
+    <Compile Include="Interfaces\IPackagingTransactionServive.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
+    <Compile Include="Interfaces\IStockInService.cs" />
+    <Compile Include="Interfaces\IStockOutService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceFactory.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\InventoryService.cs" />
     <Compile Include="Services\OrderDetailService.cs" />
     <Compile Include="Services\OrderService.cs" />
+    <Compile Include="Services\PackagingInventoryService.cs" />
     <Compile Include="Services\PackagingService.cs" />
+    <Compile Include="Services\PackagingTransactionService.cs" />
     <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\StockInService.cs" />
+    <Compile Include="Services\StockOutService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

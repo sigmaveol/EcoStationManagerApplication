@@ -164,6 +164,44 @@ namespace EcoStationManagerApplication.Core.Helpers
             return errors;
         }
 
+        public static List<string> ValidateSupplier(Supplier supplier)
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(supplier.Name))
+                errors.Add("Tên nhà cung cấp không được để trống");
+
+            if (supplier.Name?.Length > 150)
+                errors.Add("Tên nhà cung cấp không được vượt quá 150 ký tự");
+
+            if (!string.IsNullOrWhiteSpace(supplier.Phone) && !IsValidPhone(supplier.Phone))
+                errors.Add("Số điện thoại nhà cung cấp không hợp lệ");
+
+            if (!string.IsNullOrWhiteSpace(supplier.Email) && !IsValidEmail(supplier.Email))
+                errors.Add("Email nhà cung cấp không hợp lệ");
+
+            return errors;
+        }
+
+        public static List<string> ValidatePackagingTransaction(PackagingTransaction transaction)
+        {
+            var errors = new List<string>();
+
+            if (transaction.PackagingId <= 0)
+                errors.Add("ID bao bì không hợp lệ");
+
+            if (transaction.Quantity <= 0)
+                errors.Add("Số lượng phải lớn hơn 0");
+
+            if (transaction.DepositPrice < 0)
+                errors.Add("Giá ký quỹ không được âm");
+
+            if (transaction.RefundAmount < 0)
+                errors.Add("Số tiền hoàn trả không được âm");
+
+            return errors;
+        }
+
         public static List<string> ValidateInventory(Inventory inventory)
         {
             var errors = new List<string>();
@@ -179,6 +217,44 @@ namespace EcoStationManagerApplication.Core.Helpers
 
             if (inventory.ExpiryDate.HasValue && inventory.ExpiryDate.Value < DateTime.Today)
                 errors.Add("Hạn sử dụng không được ở trong quá khứ");
+
+            return errors;
+        }
+
+        public static List<string> ValidateStockOperation(int productId, string batchNo, decimal quantity)
+        {
+            var errors = new List<string>();
+
+            if (productId <= 0)
+                errors.Add("ID sản phẩm không hợp lệ");
+
+            if (string.IsNullOrWhiteSpace(batchNo))
+                errors.Add("Số lô không được để trống");
+
+            if (batchNo?.Length > 100)
+                errors.Add("Số lô không được vượt quá 100 ký tự");
+
+            if (quantity <= 0)
+                errors.Add("Số lượng phải lớn hơn 0");
+
+            if (quantity > 1000000) // Giới hạn thực tế
+                errors.Add("Số lượng quá lớn");
+
+            return errors;
+        }
+
+        public static List<string> ValidateQuantityUpdate(int inventoryId, decimal newQuantity)
+        {
+            var errors = new List<string>();
+
+            if (inventoryId <= 0)
+                errors.Add("ID tồn kho không hợp lệ");
+
+            if (newQuantity < 0)
+                errors.Add("Số lượng tồn kho không được âm");
+
+            if (newQuantity > 1000000)
+                errors.Add("Số lượng quá lớn");
 
             return errors;
         }

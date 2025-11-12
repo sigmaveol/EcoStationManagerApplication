@@ -83,7 +83,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.titleLabel.Location = new System.Drawing.Point(0, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(224, 32);
+            this.titleLabel.Size = new System.Drawing.Size(203, 30);
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "Đơn hàng gần đây";
             // 

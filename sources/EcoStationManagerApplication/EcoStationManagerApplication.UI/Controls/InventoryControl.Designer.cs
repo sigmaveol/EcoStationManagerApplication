@@ -62,7 +62,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelHeader.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabelHeader.Location = new System.Drawing.Point(0, 0);
             this.titleLabelHeader.Name = "titleLabelHeader";
-            this.titleLabelHeader.Size = new System.Drawing.Size(324, 37);
+            this.titleLabelHeader.Size = new System.Drawing.Size(297, 35);
             this.titleLabelHeader.TabIndex = 0;
             this.titleLabelHeader.Text = "Quản lý Kho & Trạm Refill";
             // 
@@ -85,7 +85,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.alertLabel.Location = new System.Drawing.Point(0, 15);
             this.alertLabel.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
             this.alertLabel.Name = "alertLabel";
-            this.alertLabel.Size = new System.Drawing.Size(119, 23);
+            this.alertLabel.Size = new System.Drawing.Size(106, 21);
             this.alertLabel.TabIndex = 0;
             this.alertLabel.Text = "Cảnh báo: Có ";
             // 
@@ -94,10 +94,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblAlertCount.AutoSize = true;
             this.lblAlertCount.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblAlertCount.ForeColor = System.Drawing.Color.Red;
-            this.lblAlertCount.Location = new System.Drawing.Point(119, 15);
+            this.lblAlertCount.Location = new System.Drawing.Point(106, 15);
             this.lblAlertCount.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
             this.lblAlertCount.Name = "lblAlertCount";
-            this.lblAlertCount.Size = new System.Drawing.Size(20, 23);
+            this.lblAlertCount.Size = new System.Drawing.Size(19, 21);
             this.lblAlertCount.TabIndex = 1;
             this.lblAlertCount.Text = "0";
             // 
@@ -105,10 +105,10 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             this.alertLabel2.AutoSize = true;
             this.alertLabel2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.alertLabel2.Location = new System.Drawing.Point(139, 15);
+            this.alertLabel2.Location = new System.Drawing.Point(125, 15);
             this.alertLabel2.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
             this.alertLabel2.Name = "alertLabel2";
-            this.alertLabel2.Size = new System.Drawing.Size(199, 23);
+            this.alertLabel2.Size = new System.Drawing.Size(178, 21);
             this.alertLabel2.TabIndex = 2;
             this.alertLabel2.Text = " sản phẩm sắp hết hàng.";
             // 
@@ -129,7 +129,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelProducts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.titleLabelProducts.Location = new System.Drawing.Point(0, 0);
             this.titleLabelProducts.Name = "titleLabelProducts";
-            this.titleLabelProducts.Size = new System.Drawing.Size(207, 28);
+            this.titleLabelProducts.Size = new System.Drawing.Size(192, 25);
             this.titleLabelProducts.TabIndex = 0;
             this.titleLabelProducts.Text = "Danh sách sản phẩm";
             // 
@@ -138,7 +138,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtInventorySearch.Dock = System.Windows.Forms.DockStyle.Right;
             this.txtInventorySearch.Location = new System.Drawing.Point(620, 0);
             this.txtInventorySearch.Name = "txtInventorySearch";
-            this.txtInventorySearch.Size = new System.Drawing.Size(250, 27);
+            this.txtInventorySearch.Size = new System.Drawing.Size(250, 26);
             this.txtInventorySearch.TabIndex = 1;
             // 
             // titleLabelHistory
@@ -148,7 +148,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelHistory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.titleLabelHistory.Location = new System.Drawing.Point(15, 15);
             this.titleLabelHistory.Name = "titleLabelHistory";
-            this.titleLabelHistory.Size = new System.Drawing.Size(220, 28);
+            this.titleLabelHistory.Size = new System.Drawing.Size(207, 25);
             this.titleLabelHistory.TabIndex = 0;
             this.titleLabelHistory.Text = "Lịch sử nhập xuất kho";
             // 

@@ -16,6 +16,23 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         Task<Customer> GetByCustomerCode(string customerCode);
 
         /// <summary>
+        /// Kiểm tra mã khách hàng đã tồn tại chưa
+        /// </summary>
+        /// <param name="customerCode"></param>
+        /// <param name="excludeCustomerId"></param>
+        /// <returns></returns>
+        Task<bool> IsCodeExistsAsync(string customerCode, int? excludeCustomerId = null);
+
+        /// <summary>
+        /// Kiểm tra sdt đã tồn tại chưa
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <param name="excludeCustomerId"></param>
+        /// <returns></returns>
+        Task<bool> IsPhoneExistsAsync(string phone, int? excludeCustomerId = null);
+
+
+        /// <summary>
         /// Lấy thông tin khách hàng theo số điện thoại.
         /// </summary>
         /// <param name="phone">Số điện thoại của khách hàng.</param>

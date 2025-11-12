@@ -75,7 +75,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabel.Location = new System.Drawing.Point(0, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(237, 37);
+            this.titleLabel.Size = new System.Drawing.Size(218, 35);
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "Sao lưu & Phục hồi";
             // 
@@ -297,7 +297,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtRestoreFile.Location = new System.Drawing.Point(0, 0);
             this.txtRestoreFile.Name = "txtRestoreFile";
             this.txtRestoreFile.ReadOnly = true;
-            this.txtRestoreFile.Size = new System.Drawing.Size(195, 27);
+            this.txtRestoreFile.Size = new System.Drawing.Size(195, 26);
             this.txtRestoreFile.TabIndex = 0;
             // 
             // browseButton

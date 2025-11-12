@@ -1,247 +1,259 @@
-﻿using EcoStationManagerApplication.UI.Common;
-using EcoStationManagerApplication.UI.Controls;
+﻿using EcoStationManagerApplication.UI.Controls; // Đảm bảo namespace này CHÍNH XÁC
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Forms
 {
     public partial class MainForm : Form
     {
-        private UserControl currentContent;
+        private bool sidebarCollapsed = false;
+        private Dictionary<string, UserControl> pages = new Dictionary<string, UserControl>();
 
         public MainForm()
         {
             InitializeComponent();
-        }
 
-        private void SetupEventHandlers()
-        {
-            if (sidebarControl != null)
-            {
-                sidebarControl.MenuClicked += OnMenuClicked;
-            }
-        }
+            // ### SỬA LỖI: GỌI HÀM TẠO BUTTON Ở ĐÂY ###
+            // (Sau khi các panel đã được InitializeComponent tạo ra)
+            CreateSidebarButtons();
 
-        private void OnMenuClicked(object sender, string menuName)
-        {
-            // menuName chính là "dashboard", "reports", "devices"... 
-            // mà bạn đã truyền khi gọi AddMenuItem
-            ShowContent(menuName);
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            ShowContent("btnDashboard");
+            UpdateActiveButton(btnDashboard);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            InitializeSidebar();
-            InitializeSidebarMenu();
-            ShowDefaultContent();
-
-            
-
-            //sidebarControl.MenuClicked += SidebarControl_MenuClicked;
-            ThemeManager.ApplyTheme(this);
-
-            //TogglerSidebar.HandleResponsive(this, sidebarControl);
+            lblDate.Left = this.ClientSize.Width - lblDate.Width - 20;
+            lblStatus.Left = lblDate.Left - lblStatus.Width - 20;
         }
 
-        private void InitializeSidebar()
+        // ### SỬA LỖI: HÀM TẠO BUTTON ĐƯỢC DI CHUYỂN RA NGOÀI FILE DESIGNER ###
+        private void CreateSidebarButtons()
         {
-            // Đăng ký sự kiện từ SidebarControl - QUAN TRỌNG!
-            sidebarControl.MenuClicked += OnSidebarMenuClicked;
-
-            // Thiết lập thông tin cho sidebar
-            sidebarControl.SetAppName("Eco Station");
-            sidebarControl.SetUsername("Hoàng Sinh Hùng");
-             sidebarControl.SetAvatar(Properties.Resources.logo_pm);
-            //sidebarControl.SetLogo(Properties.Resources.app_logo);
-
-        }
-
-        private void InitializeSidebarMenu() 
-        {
-            sidebarControl.ClearMenuItems();
-            // Thêm các menu item - sử dụng icon từ resources
-            sidebarControl.AddMenuItem("Dashboard", Properties.Resources.dashboard_icon, "dashboard");
-            sidebarControl.AddMenuItem("Đơn hàng", Properties.Resources.order_icon, "Orders");
-            sidebarControl.AddMenuItem("Sản phẩm && Phiên bản", Properties.Resources.product_icon, "Products");
-            sidebarControl.AddMenuItem("Nhà cung cấp", Properties.Resources.supplier_icon, "Suppliers");
-            sidebarControl.AddMenuItem("Khách hàng", Properties.Resources.customer_icon, "Customers");
-            sidebarControl.AddMenuItem("Tồn Kho", Properties.Resources.inventory_icon, "Inventory");
-            sidebarControl.AddMenuItem("Nhập Kho", Properties.Resources.stockout_icon, "Stockout");
-            sidebarControl.AddMenuItem("Xuất Kho", Properties.Resources.stockin_icon, "Stockin");
-            sidebarControl.AddMenuItem("Trạm && Bồn", Properties.Resources.station_icon, "Stations");
-            sidebarControl.AddMenuItem("Thanh Toán", Properties.Resources.payment_icon, "Payment");
-            sidebarControl.AddMenuItem("Báo cáo", Properties.Resources.report_icon, "Reports");
-            sidebarControl.AddMenuItem("Cài đặt hệ thống", Properties.Resources.setting_icon, "SystemSettings");
-        }
-
-        private void OnSidebarMenuClicked(object sender, string menuName)
-        {
-            // Xử lý khi menu được click
-            ShowContent(menuName);
-
-        }
-
-        private void ShowContent(string menuName)
-        {
-            // Xóa content hiện tại
-            contentControl.Controls.Clear();
-
-            // Tạo UserControl tương ứng
-            currentContent = CreateUserControlForMenu(menuName);
-
-            if (currentContent != null)
+            int yPos = 20;
+            var buttonData = new[]
             {
-                currentContent.Dock = DockStyle.Fill;
-                contentControl.Controls.Add(currentContent);
-            }
-            
+                new { Name = "btnDashboard", Text = "Dashboard" },
+                new { Name = "btnDataImport", Text = "Nhập dữ liệu" },
+                new { Name = "btnOrders", Text = "Đơn hàng" },
+                new { Name = "btnInventory", Text = "Kho & Trạm Refill" },
+                new { Name = "btnPackaging", Text = "Bao bì & Tuần hoàn" },
+                new { Name = "btnStaff", Text = "Nhân sự & Giao vận" },
+                new { Name = "btnReports", Text = "Báo cáo & Phân tích" },
+                new { Name = "btnIntegrations", Text = "Tích hợp Online" },
+                new { Name = "btnBackup", Text = "Sao lưu & Phục hồi" },
+                new { Name = "btnSettings", Text = "Cài đặt" }
+            };
 
-            // Cập nhật visibility của các control khác
-            UpdateControlVisibility(menuName);
-            
-        }
-
-
-        private UserControl CreateUserControlForMenu(string menuName)
-        {
-            try
+            foreach (var data in buttonData)
             {
-                Console.WriteLine($"Attempting to create control for: {menuName}");
+                var button = new Button();
+                button.Name = data.Name;
+                button.Text = data.Text;
+                button.Size = new Size(260, 45);
+                button.Location = new Point(0, yPos);
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderSize = 0;
+                button.BackColor = Color.Transparent;
+                button.ForeColor = Color.White;
+                button.Font = new Font("Segoe UI", 10);
+                button.TextAlign = ContentAlignment.MiddleLeft;
+                button.Padding = new Padding(20, 0, 0, 0);
+                button.Tag = data.Text;
+                button.Click += sidebarButton_Click;
 
-                switch (menuName.ToLower())
+                sidebarPanel.Controls.Add(button);
+                yPos += 45;
+
+                // Set tham chiếu đến các biến private
+                switch (data.Name)
                 {
-                    case "dashboard":
-                        return new DashboardControl();
-                    case "orders":
-                        return new OrdersControl();
-                    case "products":
-                        return new ProductsControl();
-                    case "suppliers":
-                        return new SuppliersControl();
-                    case "customers":
-                        return new CustomersControl();
-                    case "inventory":
-                        return new InventoryControl();
-                    case "stockin":
-                        return new StockInControl();
-                    case "stockout":
-                        return new StockOutControl();
-                    case "stations":
-                        return new StationsControl();
-                    case "payment":
-                        return new PaymentControl();
-                    case "reports":
-                        return new ReportsControl();
-                    case "systemsettings":
-                        return new SystemSettingsControl();
-                    default:
-                        return new DashboardControl();
+                    case "btnDashboard": btnDashboard = button; break;
+                    case "btnDataImport": btnDataImport = button; break;
+                    case "btnOrders": btnOrders = button; break;
+                    case "btnInventory": btnInventory = button; break;
+                    case "btnPackaging": btnPackaging = button; break;
+                    case "btnStaff": btnStaff = button; break;
+                    case "btnReports": btnReports = button; break;
+                    case "btnIntegrations": btnIntegrations = button; break;
+                    case "btnBackup": btnBackup = button; break;
+                    case "btnSettings": btnSettings = button; break;
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"ERROR creating control: {ex.Message}");
-                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+        }
 
-                // Trả về một UserControl đơn giản để không bị crash
-                return CreateFallbackControl($"Error: {ex.Message}");
+        private void ToggleSidebar()
+        {
+            sidebarCollapsed = !sidebarCollapsed;
+
+            if (sidebarCollapsed)
+            {
+                sidebarPanel.Width = 70;
+                foreach (Control control in sidebarPanel.Controls)
+                {
+                    if (control is Button btn && btn.Tag != null)
+                    {
+                        btn.Text = "";
+                        btn.Width = 70;
+                        btn.Padding = new Padding(0); // Căn icon ra giữa
+                    }
+                }
+            }
+            else
+            {
+                sidebarPanel.Width = 260;
+                RestoreSidebarButtons();
             }
         }
 
-        private UserControl CreateFallbackControl(string message)
+        private void RestoreSidebarButtons()
         {
-            var panel = new UserControl();
-            panel.BackColor = Color.LightCoral;
-            panel.Dock = DockStyle.Fill;
+            var buttons = new[]
+            {
+                new { Button = btnDashboard, Text = "Dashboard" },
+                new { Button = btnDataImport, Text = "Nhập dữ liệu" },
+                new { Button = btnOrders, Text = "Đơn hàng" },
+                new { Button = btnInventory, Text = "Kho & Trạm Refill" },
+                new { Button = btnPackaging, Text = "Bao bì & Tuần hoàn" },
+                new { Button = btnStaff, Text = "Nhân sự & Giao vận" },
+                new { Button = btnReports, Text = "Báo cáo & Phân tích" },
+                new { Button = btnIntegrations, Text = "Tích hợp Online" },
+                new { Button = btnBackup, Text = "Sao lưu & Phục hồi" },
+                new { Button = btnSettings, Text = "Cài đặt" }
+            };
 
-            var label = new Label();
-            label.Text = message;
-            label.AutoSize = true;
-            label.Location = new Point(20, 20);
-            label.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-            label.ForeColor = Color.DarkRed;
-
-            panel.Controls.Add(label);
-            return panel;
+            foreach (var item in buttons)
+            {
+                if (item.Button != null)
+                {
+                    item.Button.Text = item.Text;
+                    item.Button.Width = 260;
+                    item.Button.Padding = new Padding(20, 0, 0, 0);
+                }
+            }
         }
 
-        private void UpdateControlVisibility(string menuName)
+        private void ShowContent(string pageName)
         {
+            UserControl pageToShow = null;
 
-            // Hiển thị search control chỉ trên một số trang cụ thể
-            bool showSearch = false;
-            string placeholderText = "Tìm kiếm...";
-
-            switch (menuName.ToLower())
+            if (pages.ContainsKey(pageName))
             {
-                case "dashboard":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm thông tin...";
-                    break;
-                case "orders":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm đơn hàng...";
-                    break;
-                case "products":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm sản phẩm...";
-                    break;
-                case "suppliers":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm nhà cung cấp...";
-                    break;
-                case "customers":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm khách hàng...";
-                    break;
-                case "inventory":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm tồn kho...";
-                    break;
-                case "stockin":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm phiếu nhập...";
-                    break;
-                case "stockout":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm phiếu xuất...";
-                    break;
-                case "stations":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm trạm/bồn...";
-                    break;
-                case "payment":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm thanh toán...";
-                    break;
-                case "reports":
-                    showSearch = true;
-                    placeholderText = "Tìm kiếm báo cáo...";
-                    break;
-                case "systemsettings":
-                    showSearch = false; // Trang cài đặt có thể không cần search
-                    placeholderText = "Tìm kiếm cài đặt...";
-                    break;
-                default:
-                    showSearch = false;
-                    break;
+                pageToShow = pages[pageName];
+            }
+            else
+            {
+                try
+                {
+                    switch (pageName)
+                    {
+                        case "btnDashboard":
+                            var dashboard = new DashboardControl();
+                            dashboard.ViewAllOrdersClicked += Dashboard_ViewAllOrdersClicked;
+                            pageToShow = dashboard; break;
+                        case "btnDataImport":
+                            pageToShow = new DataImportControl();
+                            break;
+                        case "btnOrders":
+                            pageToShow = new OrdersControl();
+                            break;
+                        case "btnInventory":
+                            pageToShow = new InventoryControl();
+                            break;
+                        case "btnPackaging":
+                            pageToShow = new PackagingControl();
+                            break;
+                        case "btnStaff":
+                            pageToShow = new StaffControl();
+                            break;
+                        case "btnReports":
+                            pageToShow = new ReportsControl();
+                            break;
+                        case "btnIntegrations":
+                            pageToShow = new IntegrationsControl();
+                            break;
+                        case "btnBackup":
+                            pageToShow = new BackupControl();
+                            break;
+                        case "btnSettings":
+                            pageToShow = new SettingsControl();
+                            break;
+                        default:
+                            MessageBox.Show($"Không tìm thấy control: {pageName}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            break;
+                    }
+
+                    if (pageToShow != null)
+                    {
+                        pageToShow.Dock = DockStyle.Fill;
+                        pages.Add(pageName, pageToShow);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi khi tạo UserControl: {pageName}\n{ex.Message}", "Lỗi nghiêm trọng", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
-            headerControl.SearchTextBox.Visible = showSearch;
-            headerControl.SearchPlaceHoder = placeholderText;
+            if (pageToShow != null)
+            {
+                mainContentPanel.Controls.Clear();
+                mainContentPanel.Controls.Add(pageToShow);
+                pageToShow.BringToFront();
+            }
         }
-
-        private void ShowDefaultContent()
+        private void Dashboard_ViewAllOrdersClicked(object sender, EventArgs e)
         {
-            ShowContent("dashboard");
+            // 1. Chuyển sang trang Orders
+            ShowContent("btnOrders");
+
+            // 2. Cập nhật nút "Đơn hàng" trên sidebar thành active
+            UpdateActiveButton(btnOrders);
+        }
+        private void btnMenu_Click(object sender, EventArgs e)
+        {
+            ToggleSidebar();
         }
 
+        private void sidebarButton_Click(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                UpdateActiveButton(button);
+                ShowContent(button.Name);
+            }
+        }
+
+        private void UpdateActiveButton(Button activeButton)
+        {
+            var buttons = new[]
+            {
+                btnDashboard, btnDataImport, btnOrders, btnInventory,
+                btnPackaging, btnStaff, btnReports, btnIntegrations,
+                btnBackup, btnSettings
+            };
+
+            foreach (var btn in buttons)
+            {
+                if (btn != null)
+                {
+                    btn.BackColor = Color.Transparent;
+                    btn.ForeColor = Color.White;
+                    btn.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+                }
+            }
+
+            if (activeButton != null)
+            {
+                activeButton.BackColor = Color.FromArgb(30, 255, 255, 255);
+                activeButton.ForeColor = Color.White;
+                activeButton.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            }
+        }
     }
 }

@@ -1,289 +1,259 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using EcoStationManagerApplication.UI.Common;
-using Guna.UI2.WinForms;
+using EcoStationManagerApplication.UI.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
     public partial class InventoryControl : UserControl
     {
-        private List<Models.Entities.Inventory> inventories;
-        private List<Variant> variants;
-        private List<Station> stations;
-        private List<Batch> batches;
-        private string searchTerm = "";
-        private string selectedStation = "all";
 
         public InventoryControl()
         {
             InitializeComponent();
-            LoadData();
-            InitializeControls();
+
+            SetupDataGridStyle(dgvProducts);
+            SetupDataGridStyle(dgvHistory);
+
+            InitializeDataGridColumns();
+
+            InitializeEvents();
+
+            AddSampleProductData();
+            AddSampleHistoryData();
+            UpdateAlertCount();
         }
 
-        private void LoadData()
+        private void InitializeEvents()
         {
-            inventories = InventoryMockData.GetInv();
-            variants = InventoryMockData.GetVariants();
-            stations = InventoryMockData.GetStations();
-            batches = InventoryMockData.GetBatches();
+            if (btnAddInventory != null)
+                btnAddInventory.Click += btnAddInventory_Click;
+
+            if (dgvProducts != null)
+                dgvProducts.CellContentClick += dgvProducts_CellContentClick;
+
+            if (dgvProducts != null)
+                dgvProducts.CellFormatting += dgvProducts_CellFormatting;
+
+            if (dgvHistory != null)
+                dgvHistory.CellFormatting += dgvHistory_CellFormatting;
         }
 
-        private void InitializeControls()
+        // Hàm này chứa các vòng lặp (foreach) mà Designer không hiểu
+        private void InitializeDataGridColumns()
         {
-            // Initialize DataGridView
-            InitializeDataGridView();
-
-            // Initialize station filter
-            comboBoxStation.Items.Add("Tất cả trạm");
-            foreach (var station in stations)
+            // --- Thêm cột cho Bảng Sản phẩm ---
+            var columnsProducts = new (string Name, string Header, int FillWeight)[]
             {
-                comboBoxStation.Items.Add(station.Name);
+                ("Product", "Sản phẩm", 25),
+                ("SKU", "Mã SKU", 10),
+                ("Stock", "Tồn kho", 10),
+                ("AlertLevel", "Mức cảnh báo", 10),
+                ("Price", "Giá bán", 10),
+                ("Status", "Trạng thái", 15)
+            };
+
+            foreach (var col in columnsProducts)
+            {
+                this.dgvProducts.Columns.Add(new System.Windows.Forms.DataGridViewTextBoxColumn
+                {
+                    Name = col.Name,
+                    HeaderText = col.Header,
+                    FillWeight = col.FillWeight,
+                    ReadOnly = true,
+                    DataPropertyName = col.Name
+                });
             }
-            comboBoxStation.SelectedIndex = 0;
 
-            // Bind data
-            BindData();
-            UpdateStatistics();
-        }
-
-        private void InitializeDataGridView()
-        {
-
-            dataGridViewInventory.Columns.Clear();
-
-            dataGridViewInventory.Columns.Clear();
-            dataGridViewInventory.Columns.Add("SKU", "SKU");
-            dataGridViewInventory.Columns.Add("ProductName", "Tên sản phẩm");
-            dataGridViewInventory.Columns.Add("Station", "Trạm");
-            dataGridViewInventory.Columns.Add("Batch", "Lô hàng");
-            dataGridViewInventory.Columns.Add("CurrentStock", "Tồn kho");
-            dataGridViewInventory.Columns.Add("ReservedStock", "Đã đặt");
-            dataGridViewInventory.Columns.Add("AvailableStock", "Có thể bán");
-            dataGridViewInventory.Columns.Add("StockLevel", "Mức tồn");
-
-            // Set column widths
-            dataGridViewInventory.Columns["SKU"].Width = 120;
-            dataGridViewInventory.Columns["ProductName"].Width = 200;
-            dataGridViewInventory.Columns["Station"].Width = 120;
-            dataGridViewInventory.Columns["Batch"].Width = 100;
-            dataGridViewInventory.Columns["CurrentStock"].Width = 80;
-            dataGridViewInventory.Columns["ReservedStock"].Width = 80;
-            dataGridViewInventory.Columns["AvailableStock"].Width = 80;
-            dataGridViewInventory.Columns["StockLevel"].Width = 150;
-
-            // Set alignment
-            dataGridViewInventory.Columns["CurrentStock"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewInventory.Columns["ReservedStock"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewInventory.Columns["AvailableStock"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-        }
-
-        private void BindData()
-        {
-            try
+            var btnEditCol = new DataGridViewButtonColumn
             {
-                var filteredInventories = inventories.Where(inv =>
+                Name = "colEdit",
+                HeaderText = "",
+                Text = "Sửa",
+                UseColumnTextForButtonValue = true,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            };
+            var btnStockInCol = new DataGridViewButtonColumn
+            {
+                Name = "colStockIn",
+                HeaderText = "",
+                Text = "Nhập kho",
+                UseColumnTextForButtonValue = true,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            };
+            var btnStockOutCol = new DataGridViewButtonColumn
+            {
+                Name = "colStockOut",
+                HeaderText = "",
+                Text = "Xuất kho",
+                UseColumnTextForButtonValue = true,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            };
+
+            this.dgvProducts.Columns.Add(btnEditCol);
+            this.dgvProducts.Columns.Add(btnStockInCol);
+            this.dgvProducts.Columns.Add(btnStockOutCol);
+
+            // --- Thêm cột cho Bảng Lịch sử ---
+            var columnsHistory = new (string Name, string Header, int FillWeight)[]
+            {
+                ("Date", "Ngày", 15),
+                ("Type", "Loại", 10),
+                ("Product", "Sản phẩm", 25),
+                ("Quantity", "Số lượng", 10),
+                ("Person", "Người thực hiện", 20),
+                ("Note", "Ghi chú", 20)
+            };
+
+            foreach (var col in columnsHistory)
+            {
+                this.dgvHistory.Columns.Add(new System.Windows.Forms.DataGridViewTextBoxColumn
                 {
-                    var variant = variants.FirstOrDefault(v => v.VariantId == inv.VariantId);
-                    var matchSearch = variant?.Name.ToLower().Contains(searchTerm.ToLower()) == true ||
-                                     variant?.SKU.ToLower().Contains(searchTerm.ToLower()) == true;
-                    var matchStation = selectedStation == "all" || GetStationName(inv.StationId) == selectedStation;
-                    return matchSearch && matchStation;
-                }).ToList();
+                    Name = col.Name,
+                    HeaderText = col.Header,
+                    FillWeight = col.FillWeight,
+                    ReadOnly = true,
+                    DataPropertyName = col.Name
+                });
+            }
+        }
 
-                dataGridViewInventory.Rows.Clear();
 
-                foreach (var inv in filteredInventories)
+        private void btnAddInventory_Click(object sender, EventArgs e)
+        {
+            using (var addForm = new AddProductForm())
+            {
+                addForm.ShowDialog();
+            }
+        }
+
+        private void UpdateAlertCount()
+        {
+            if (lblAlertCount != null)
+            {
+                lblAlertCount.Text = "3"; 
+            }
+        }
+
+        private void dgvProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            string sku = dgvProducts.Rows[e.RowIndex].Cells["SKU"].Value?.ToString();
+            if (string.IsNullOrEmpty(sku)) return;
+            string colName = dgvProducts.Columns[e.ColumnIndex].Name;
+
+            if (colName == "colEdit")
+            {
+                using (var editForm = new EditProductForm(sku))
                 {
-                    var variant = GetVariantInfo(inv.VariantId);
-                    var available = inv.CurrentStock - inv.ReservedStock;
-                    var stockLevel = GetStockLevel(inv.CurrentStock, inv.ReservedStock);
-
-                    int rowIndex = dataGridViewInventory.Rows.Add(
-                        variant?.SKU,
-                        variant?.Name,
-                        GetStationName(inv.StationId),
-                        GetBatchNo(inv.BatchId),
-                        inv.CurrentStock,
-                        inv.ReservedStock,
-                        available,
-                        $"{stockLevel.Percentage:F0}% - {GetStockLevelText(stockLevel.Level)}"
-                    );
-
-                    // Set colors
-                    dataGridViewInventory.Rows[rowIndex].Cells["ReservedStock"].Style.ForeColor = Color.Orange;
-                    dataGridViewInventory.Rows[rowIndex].Cells["AvailableStock"].Style.ForeColor = stockLevel.Color;
-
-                    if (stockLevel.Level == "low")
-                    {
-                        dataGridViewInventory.Rows[rowIndex].Cells["StockLevel"].Style.ForeColor = Color.Red;
-                        dataGridViewInventory.Rows[rowIndex].Cells["StockLevel"].Style.Font = new Font(dataGridViewInventory.Font, FontStyle.Bold);
-                    }
+                    editForm.ShowDialog();
                 }
             }
-            catch (Exception ex)
+            else if (colName == "colStockIn")
             {
-                MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                using (var stockForm = new StockMovementForm(sku, StockMovementForm.MovementType.StockIn))
+                {
+                    stockForm.ShowDialog();
+                }
+            }
+            else if (colName == "colStockOut")
+            {
+                using (var stockForm = new StockMovementForm(sku, StockMovementForm.MovementType.StockOut))
+                {
+                    stockForm.ShowDialog();
+                }
             }
         }
 
-        private void UpdateStatistics()
-        {
-            lblTotalStock.Text = inventories.Sum(inv => inv.CurrentStock).ToString() + " đơn vị";
-            lblReservedStock.Text = inventories.Sum(inv => inv.ReservedStock).ToString() + " đơn vị";
-            lblAvailableStock.Text = (inventories.Sum(inv => inv.CurrentStock) - inventories.Sum(inv => inv.ReservedStock)).ToString() + " đơn vị";
+        // --- Các hàm đổ dữ liệu mẫu ---
 
-            // Count low stock items
-            int lowStockCount = inventories.Count(inv =>
+        private void AddSampleProductData()
+        {
+            if (dgvProducts == null) return;
+            dgvProducts.Rows.Add(
+                "Dầu gội thiên nhiên 500ml", "DG-001", "15", "10", "120.000đ", "Còn hàng"
+            );
+            dgvProducts.Rows.Add(
+                "Sữa tắm thảo dược 500ml", "ST-002", "5", "10", "150.000đ", "Sắp hết"
+            );
+        }
+
+        private void AddSampleHistoryData()
+        {
+            if (dgvHistory == null) return;
+            dgvHistory.Rows.Add(
+                "15/03/2025", "Nhập kho", "Dầu gội thiên nhiên 500ml", "20", "Nguyễn Văn A", "Nhập hàng từ NCC"
+            );
+            dgvHistory.Rows.Add(
+                "14/03/2025", "Xuất kho", "Sữa tắm thảo dược 500ml", "5", "Trần Thị B", "Xuất cho đơn hàng ORD-00123"
+            );
+        }
+
+        // --- CÁC HÀM HELPER (Hàm phụ trợ) ---
+        private void SetupDataGridStyle(DataGridView dgv)
+        {
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv.GridColor = Color.FromArgb(240, 240, 240);
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.RowHeadersVisible = false;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv.EnableHeadersVisualStyles = false;
+            dgv.ColumnHeadersHeight = 40;
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 245, 255);
+            dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgv.RowTemplate.Height = 35;
+        }
+
+        private void dgvProducts_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvProducts.Columns[e.ColumnIndex].Name == "Status")
             {
-                var available = inv.CurrentStock - inv.ReservedStock;
-                return available <= 50; // min stock
-            });
-            lblLowStockCount.Text = lowStockCount.ToString() + " mặt hàng";
-        }
-
-        private Variant GetVariantInfo(int variantId)
-        {
-            return variants.FirstOrDefault(v => v.VariantId == variantId);
-        }
-
-        private string GetStationName(int stationId)
-        {
-            return stations.FirstOrDefault(s => s.StationId == stationId)?.Name ?? "N/A";
-        }
-
-        private string GetBatchNo(int? batchId)
-        {
-            if (!batchId.HasValue) return "N/A";
-            return batches.FirstOrDefault(b => b.BatchId == batchId.Value)?.BatchNo ?? "N/A";
-        }
-
-        private (string Level, Color Color, double Percentage) GetStockLevel(int current, int reserved)
-        {
-            int available = current - reserved;
-            int minStock = 50;
-            int maxStock = 500;
-
-            double percentage = (available / (double)maxStock) * 100;
-
-            if (available <= minStock)
-                return ("low", Color.Red, percentage);
-            if (available >= maxStock * 0.8)
-                return ("high", Color.Green, percentage);
-            return ("normal", Color.Blue, percentage);
-        }
-
-        private string GetStockLevelText(string level)
-        {
-            switch (level)
-            {
-                case "low":
-                    return "Thấp";
-                case "high":
-                    return "Cao";
-                default:
-                    return "Bình thường";
+                if (e.Value != null)
+                {
+                    string status = e.Value.ToString();
+                    if (status == "Sắp hết")
+                    {
+                        e.CellStyle.BackColor = Color.FromArgb(255, 248, 225); // Vàng nhạt
+                        e.CellStyle.ForeColor = Color.FromArgb(186, 104, 0); // Vàng đậm
+                        e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+                    }
+                    else if (status == "Còn hàng")
+                    {
+                        e.CellStyle.BackColor = Color.FromArgb(232, 245, 233); // Xanh lá nhạt
+                        e.CellStyle.ForeColor = Color.FromArgb(27, 94, 32); // Xanh lá đậm
+                        e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+                    }
+                    e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
             }
         }
 
-        #region Event Handlers
-        private void txtSearch_TextChanged(object sender, EventArgs e)
+        private void dgvHistory_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            searchTerm = txtSearch.Text;
-            BindData();
-        }
-
-        private void comboBoxStation_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxStation.SelectedIndex == 0)
-                selectedStation = "all";
-            else
-                selectedStation = comboBoxStation.SelectedItem.ToString();
-
-            BindData();
-        }
-        #endregion
-    }
-
-    #region Data Models
-    public class Inventory
-    {
-        public int InventoryId { get; set; }
-        public int VariantId { get; set; }
-        public int StationId { get; set; }
-        public int? BatchId { get; set; }
-        public int CurrentStock { get; set; }
-        public int ReservedStock { get; set; }
-    }
-
-    public class Batch
-    {
-        public int BatchId { get; set; }
-        public string BatchNo { get; set; }
-    }
-
-    public static class InventoryMockData
-    {   
-        public static async Task<List<Models.Entities.Inventory>> GetInv()
-        {
-            var result = await AppServices.InventoryService.GetAllAsync();
-            if (result.Success)
+            if (dgvHistory.Columns[e.ColumnIndex].Name == "Type")
             {
-                return result.Data.ToList();
-            } else
-            {
-                Console.WriteLine($" Lỗi khi lấy tồn kho: {result.Message}");
-                return new List<Models.Entities.Inventory> { };
+                if (e.Value != null)
+                {
+                    string type = e.Value.ToString();
+                    if (type == "Nhập kho")
+                    {
+                        e.CellStyle.ForeColor = Color.Green;
+                    }
+                    else if (type == "Xuất kho")
+                    {
+                        e.CellStyle.ForeColor = Color.Red;
+                    }
+                    e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+                }
             }
         }
-
-        public static List<Inventory> GetInventories()
-        {
-            return new List<Inventory>
-            {
-                new Inventory { InventoryId = 1, VariantId = 1, StationId = 1, BatchId = 1, CurrentStock = 150, ReservedStock = 25 },
-                new Inventory { InventoryId = 2, VariantId = 2, StationId = 1, BatchId = 1, CurrentStock = 80, ReservedStock = 15 },
-                new Inventory { InventoryId = 3, VariantId = 3, StationId = 2, BatchId = 2, CurrentStock = 45, ReservedStock = 10 },
-                new Inventory { InventoryId = 4, VariantId = 1, StationId = 2, BatchId = 2, CurrentStock = 200, ReservedStock = 30 },
-                new Inventory { InventoryId = 5, VariantId = 2, StationId = 3, BatchId = null, CurrentStock = 30, ReservedStock = 5 }
-            };
-        }
-
-        public static List<Variant> GetVariants()
-        {
-            return new List<Variant>
-            {
-                new Variant { VariantId = 1, SKU = "SP001-S", Name = "Áo thun cotton - Size S" },
-                new Variant { VariantId = 2, SKU = "SP001-M", Name = "Áo thun cotton - Size M" },
-                new Variant { VariantId = 3, SKU = "SP002-32", Name = "Quần jeans - Size 32" }
-            };
-        }
-
-        public static List<Station> GetStations()
-        {
-            return new List<Station>
-            {
-                new Station { StationId = 1, Name = "Trạm Hà Nội" },
-                new Station { StationId = 2, Name = "Trạm Hồ Chí Minh" },
-                new Station { StationId = 3, Name = "Trạm Đà Nẵng" }
-            };
-        }
-
-        public static List<Batch> GetBatches()
-        {
-            return new List<Batch>
-            {
-                new Batch { BatchId = 1, BatchNo = "LÔ-2024-001" },
-                new Batch { BatchId = 2, BatchNo = "LÔ-2024-002" },
-                new Batch { BatchId = 3, BatchNo = "LÔ-2024-003" }
-            };
-        }
     }
-    #endregion
 }

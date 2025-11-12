@@ -1,379 +1,253 @@
-﻿using EcoStationManagerApplication.UI.Common;
-using EcoStationManagerApplication.UI.Helpers;
-using Guna.UI2.WinForms;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-
 namespace EcoStationManagerApplication.UI.Controls
 {
     public partial class OrdersControl : UserControl
     {
-        private List<Order> orders;
-        private List<Customer> customers;
-        private List<Station> stations;
-        private string searchTerm = "";
-        private string statusFilter = "all";
-
         public OrdersControl()
         {
             InitializeComponent();
-            LoadData();
-            InitializeControls();
+
+            SetupDataGridStyle(dgvOrders);
+
+            PopulateTabPanel();
+            InitializeDataGridColumns();
+            AddSampleOrderData();
+
+            InitializeEvents();
         }
 
-        private void LoadData()
+        // Gán tất cả sự kiện ở đây
+        private void InitializeEvents()
         {
-            // Load mock data
-            orders = MockData.GetOrders();
-            customers = MockData.GetCustomers();
-            stations = MockData.GetStations();
+            if (btnExportPDF != null)
+                btnExportPDF.Click += btnExportPDF_Click;
+
+            if (btnExportExcel != null)
+                btnExportExcel.Click += btnExportExcel_Click;
+
+            if (btnAddOrder != null)
+                btnAddOrder.Click += btnAddOrder_Click;
+
+            if (dgvOrders != null)
+            {
+                dgvOrders.CellContentClick += dgvOrders_CellContentClick;
+                dgvOrders.CellFormatting += dgvOrders_CellFormatting;
+            }
         }
 
-        private void InitializeControls()
+        // Đổ các nút Tab vào FlowLayoutPanel
+        private void PopulateTabPanel()
         {
-            // Initialize DataGridView columns
-            InitializeDataGridView();
+            if (tabPanel == null) return;
 
-            // Initialize status filter
-            comboBoxStatus.Items.AddRange(new object[] {
-                "Tất cả", "Nháp", "Đã xác nhận", "Đang xử lý", "Đã giao", "Hoàn thành", "Đã hủy"
+            string[] tabs = { "Tất cả", "Đơn Online", "Đơn Offline", "Mới", "Chuẩn bị", "Đang giao", "Hoàn thành", "Thu hồi bao bì" };
+
+            foreach (string tab in tabs)
+            {
+                var tabButton = new Button();
+                tabButton.Text = tab;
+                tabButton.Size = new Size(100, 34);
+                tabButton.Margin = new Padding(3); 
+                tabButton.FlatStyle = FlatStyle.Flat;
+                tabButton.FlatAppearance.BorderSize = 0;
+                tabButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+                // Nút đầu tiên (Tất cả) được chọn
+                if (tab == "Tất cả")
+                {
+                    tabButton.BackColor = Color.FromArgb(46, 125, 50);
+                    tabButton.ForeColor = Color.White;
+                }
+                else
+                {
+                    tabButton.BackColor = Color.White;
+                    tabButton.ForeColor = Color.Black;
+                }
+
+                tabButton.Click += contentTab_Click;
+                tabPanel.Controls.Add(tabButton);
+            }
+        }
+
+        // Thêm cột vào DataGridView
+        private void InitializeDataGridColumns()
+        {
+            if (dgvOrders == null) return;
+
+            var columns = new[]
+            {
+                new { Name = "OrderCode", Header = "Mã đơn" },
+                new { Name = "Customer", Header = "Khách hàng" },
+                new { Name = "Product", Header = "Sản phẩm" },
+                new { Name = "Type", Header = "Loại" },
+                new { Name = "Quantity", Header = "Số lượng" },
+                new { Name = "Status", Header = "Trạng thái" },
+                new { Name = "CreatedDate", Header = "Ngày tạo" },
+            };
+
+            foreach (var col in columns)
+            {
+                dgvOrders.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = col.Name,
+                    HeaderText = col.Header,
+                    ReadOnly = true,
+                    DataPropertyName = col.Name
+                });
+            }
+
+            dgvOrders.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = "colDetail",
+                HeaderText = "Chi tiết",
+                Text = "Chi tiết",
+                UseColumnTextForButtonValue = true,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             });
-            comboBoxStatus.SelectedIndex = 0;
+            dgvOrders.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = "colUpdate",
+                HeaderText = "Cập nhật",
+                Text = "Cập nhật",
+                UseColumnTextForButtonValue = true,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            });
 
-            var statCards = new List<Control> { guna2Panel2, guna2Panel3, guna2Panel4, guna2Panel5 };
-            ResponsiveLayoutHelper.SetupResponsiveFlowPanel(
-                flowLayoutPanelStats,
-                statCards,
-                new Size(270, 70),  // Kích thước mặc định
-                new Size(200, 70),  // Kích thước tối thiểu
-                10, 10              // Khoảng cách ngang/dọc
+            // Tự co giãn cột
+            dgvOrders.Columns["Product"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvOrders.Columns["Customer"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
+        // Thêm dữ liệu mẫu
+        private void AddSampleOrderData()
+        {
+            dgvOrders.Rows.Add(
+                "ORD-00125", "Nguyễn Văn A", "Dầu gội thiên nhiên 500ml",
+                "Online", "2", "Đang giao", "15/03/2025"
             );
-
-            // Bind data
-            BindData();
-            UpdateStatistics();
+            dgvOrders.Rows.Add(
+                "ORD-00124", "Trần Thị B", "Nước rửa chén 1L",
+                "Offline", "1", "Chuẩn bị", "15/03/2025"
+            );
         }
 
-        private void InitializeDataGridView()
+        // --- HÀM XỬ LÝ SỰ KIỆN ---
+
+        private void btnExportPDF_Click(object sender, EventArgs e)
         {
-            // Clear existing columns
-            dataGridViewOrders.Columns.Clear();
-
-            // Add columns
-            dataGridViewOrders.Columns.Add("OrderId", "Mã đơn");
-            dataGridViewOrders.Columns.Add("Source", "Nguồn");
-            dataGridViewOrders.Columns.Add("Customer", "Khách hàng");
-            dataGridViewOrders.Columns.Add("Station", "Trạm xử lý");
-            dataGridViewOrders.Columns.Add("TotalAmount", "Tổng tiền");
-            dataGridViewOrders.Columns.Add("Discount", "Giảm giá");
-            dataGridViewOrders.Columns.Add("FinalAmount", "Thành tiền");
-            dataGridViewOrders.Columns.Add("Status", "Trạng thái");
-            dataGridViewOrders.Columns.Add("CreatedDate", "Ngày tạo");
-            dataGridViewOrders.Columns.Add("Action", "Thao tác");
-
-            // Set column properties
-            dataGridViewOrders.Columns["OrderId"].Width = 100;
-            dataGridViewOrders.Columns["Source"].Width = 120;
-            dataGridViewOrders.Columns["Customer"].Width = 150;
-            dataGridViewOrders.Columns["Station"].Width = 120;
-            dataGridViewOrders.Columns["TotalAmount"].Width = 120;
-            dataGridViewOrders.Columns["Discount"].Width = 100;
-            dataGridViewOrders.Columns["FinalAmount"].Width = 120;
-            dataGridViewOrders.Columns["Status"].Width = 120;
-            dataGridViewOrders.Columns["CreatedDate"].Width = 100;
-            dataGridViewOrders.Columns["Action"].Width = 80;
-
-            // Set alignment
-            dataGridViewOrders.Columns["TotalAmount"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewOrders.Columns["Discount"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewOrders.Columns["FinalAmount"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            dataGridViewOrders.Columns["Action"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            // Set number format
-            dataGridViewOrders.Columns["TotalAmount"].DefaultCellStyle.Format = "N0";
-            dataGridViewOrders.Columns["Discount"].DefaultCellStyle.Format = "N0";
-            dataGridViewOrders.Columns["FinalAmount"].DefaultCellStyle.Format = "N0";
+            MessageBox.Show("Xuất PDF đơn hàng", "Xuất PDF");
         }
 
-        private void BindData()
+        private void btnExportExcel_Click(object sender, EventArgs e)
         {
-            try
+            MessageBox.Show("Xuất Excel đơn hàng", "Xuất Excel");
+        }
+
+        private void btnAddOrder_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Mở form Thêm Đơn Hàng");
+        }
+
+        // Xử lý khi nhấn vào Tab
+        private void contentTab_Click(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
             {
-                var filteredOrders = orders.Where(order =>
+                // Reset tất cả các nút
+                foreach (Control control in tabPanel.Controls)
                 {
-                    var matchStatus = statusFilter == "all" || GetStatusText(order.Status) == statusFilter;
-                    var matchSearch = order.OrderId.ToString().Contains(searchTerm);
-                    return matchStatus && matchSearch;
-                }).ToList();
+                    if (control is Button btn)
+                    {
+                        btn.BackColor = Color.White;
+                        btn.ForeColor = Color.Black;
+                    }
+                }
+                // Highlight nút được chọn
+                button.BackColor = Color.FromArgb(46, 125, 50);
+                button.ForeColor = Color.White;
+                MessageBox.Show($"Lọc theo: {button.Text}", "Chuyển tab");
+            }
+        }
 
-                dataGridViewOrders.Rows.Clear();
+        // Xử lý khi nhấn nút trên DataGridView
+        private void dgvOrders_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            string colName = dgvOrders.Columns[e.ColumnIndex].Name;
+            string orderId = dgvOrders.Rows[e.RowIndex].Cells["OrderCode"].Value.ToString();
 
-                foreach (var order in filteredOrders)
+            if (colName == "colDetail")
+            {
+                MessageBox.Show($"Mở chi tiết cho đơn hàng: {orderId}", "Xem Chi tiết");
+            }
+            else if (colName == "colUpdate")
+            {
+                MessageBox.Show($"Cập nhật trạng thái cho đơn hàng: {orderId}", "Cập nhật");
+            }
+        }
+
+        // --- HÀM HELPER (Hàm phụ trợ) ---
+
+        // Hàm tô màu cho các ô
+        private void dgvOrders_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            string colName = dgvOrders.Columns[e.ColumnIndex].Name;
+            if (colName == "Status" || colName == "Type")
+            {
+                if (e.Value != null)
                 {
-                    int rowIndex = dataGridViewOrders.Rows.Add(
-                        $"ORD{order.OrderId.ToString().PadLeft(5, '0')}",
-                        GetSourceText(order.Source),
-                        GetCustomerName(order.CustomerId),
-                        GetStationName(order.StationId),
-                        order.TotalAmount,
-                        order.DiscountedAmount,
-                        order.TotalAmount - order.DiscountedAmount,
-                        GetStatusText(order.Status),
-                        order.CreatedDate.ToString("dd/MM/yyyy"),
-                        "👁️" // Eye icon for view
-                    );
-
-                    // Set status color
-                    var statusColor = GetStatusColor(order.Status);
-                    dataGridViewOrders.Rows[rowIndex].Cells["Status"].Style.ForeColor = statusColor;
-
-                    // Set discount color to red
-                    dataGridViewOrders.Rows[rowIndex].Cells["Discount"].Style.ForeColor = Color.Red;
-                    dataGridViewOrders.Rows[rowIndex].Cells["Discount"].Value = "-" + order.DiscountedAmount.ToString("N0") + "₫";
+                    string status = e.Value.ToString();
+                    e.CellStyle.BackColor = GetBadgeColor(status);
+                    e.CellStyle.ForeColor = Color.Black;
+                    e.CellStyle.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
+                    e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
             }
-            catch (Exception ex)
+        }
+
+        private Color GetBadgeColor(string status)
+        {
+            switch (status)
             {
-                MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                case "Online": return Color.FromArgb(187, 222, 251);
+                case "Offline": return Color.FromArgb(224, 224, 224);
+                case "Đang giao": return Color.FromArgb(200, 230, 201);
+                case "Chuẩn bị": return Color.FromArgb(255, 249, 196);
+                case "Mới": return Color.FromArgb(209, 196, 233); // Thêm màu
+                case "Hoàn thành": return Color.FromArgb(232, 234, 237); // Thêm màu
+                default: return Color.LightGray;
             }
         }
 
-        private void UpdateStatistics()
+        // Hàm áp dụng style chung cho DataGridView
+        private void SetupDataGridStyle(DataGridView dgv)
         {
-            lblTotalOrders.Text = orders.Count.ToString();
-            lblPendingOrders.Text = orders.Count(o => o.Status == "draft" || o.Status == "confirmed").ToString();
-            lblProcessingOrders.Text = orders.Count(o => o.Status == "processing" || o.Status == "ready").ToString();
-            lblCompletedOrders.Text = orders.Count(o => o.Status == "completed").ToString();
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv.GridColor = Color.FromArgb(240, 240, 240);
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.RowHeadersVisible = false;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv.EnableHeadersVisualStyles = false;
+            dgv.ColumnHeadersHeight = 40;
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 245, 255);
+            dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgv.RowTemplate.Height = 35;
         }
 
-        private string GetCustomerName(int customerId)
-        {
-            return customers.FirstOrDefault(c => c.CustomerId == customerId)?.Name ?? "N/A";
-        }
-
-        private string GetStationName(int? stationId)
-        {
-            if (!stationId.HasValue) return "N/A";
-            return stations.FirstOrDefault(s => s.StationId == stationId.Value)?.Name ?? "N/A";
-        }
-
-        private string GetStatusText(string status)
-        {
-            var statusMap = new Dictionary<string, string>
-            {
-                ["draft"] = "Nháp",
-                ["confirmed"] = "Đã xác nhận",
-                ["processing"] = "Đang xử lý",
-                ["ready"] = "Sẵn sàng",
-                ["shipped"] = "Đã giao",
-                ["completed"] = "Hoàn thành",
-                ["cancelled"] = "Đã hủy",
-                ["returned"] = "Trả hàng"
-            };
-            return statusMap.ContainsKey(status) ? statusMap[status] : status;
-        }
-
-        private string GetSourceText(string source)
-        {
-            var sourceMap = new Dictionary<string, string>
-            {
-                ["googleform"] = "Google Form",
-                ["excel"] = "Excel",
-                ["email"] = "Email",
-                ["manual"] = "Thủ công",
-                ["other"] = "Khác"
-            };
-            return sourceMap.ContainsKey(source) ? sourceMap[source] : source;
-        }
-
-        private Color GetStatusColor(string status)
-        {
-            var colorMap = new Dictionary<string, Color>
-            {
-                ["draft"] = Color.Gray,
-                ["confirmed"] = Color.Orange,
-                ["processing"] = Color.Blue,
-                ["ready"] = Color.Teal,
-                ["shipped"] = Color.Purple,
-                ["completed"] = Color.Green,
-                ["cancelled"] = Color.Red,
-                ["returned"] = Color.Red
-            };
-            return colorMap.ContainsKey(status) ? colorMap[status] : Color.Gray;
-        }
-
-        #region Event Handlers
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            searchTerm = txtSearch.Text;
-            BindData();
-        }
-
-        private void comboBoxStatus_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var statusMap = new Dictionary<string, string>
-            {
-                ["Tất cả"] = "all",
-                ["Nháp"] = "Nháp",
-                ["Đã xác nhận"] = "Đã xác nhận",
-                ["Đang xử lý"] = "Đang xử lý",
-                ["Đã giao"] = "Đã giao",
-                ["Hoàn thành"] = "Hoàn thành",
-                ["Đã hủy"] = "Đã hủy"
-            };
-
-            statusFilter = statusMap[comboBoxStatus.SelectedItem.ToString()];
-            BindData();
-        }
-
-        private void btnImportExcel_Click(object sender, EventArgs e)
-        {
-            // Import Excel functionality
-            MessageBox.Show("Chức năng Import Excel", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void btnCreateOrder_Click(object sender, EventArgs e)
-        {
-            // Create order functionality
-            MessageBox.Show("Tạo đơn hàng mới", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void dataGridViewOrders_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex == dataGridViewOrders.Columns["Action"].Index)
-            {
-                // View order details
-                var orderId = dataGridViewOrders.Rows[e.RowIndex].Cells["OrderId"].Value.ToString();
-                MessageBox.Show($"Xem chi tiết đơn hàng: {orderId}", "Chi tiết đơn hàng", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
-        private void btnImportExcel_MouseEnter(object sender, EventArgs e)
-        {
-            btnImportExcel.FillColor = Color.FromArgb(240, 240, 240);
-        }
-
-        private void btnImportExcel_MouseLeave(object sender, EventArgs e)
-        {
-            btnImportExcel.FillColor = Color.White;
-        }
-
-        private void btnCreateOrder_MouseEnter(object sender, EventArgs e)
-        {
-            btnCreateOrder.FillColor = Color.FromArgb(33, 140, 73);
-        }
-
-        private void btnCreateOrder_MouseLeave(object sender, EventArgs e)
-        {
-            btnCreateOrder.FillColor = Color.FromArgb(31, 107, 59);
-        }
-        #endregion
-
-        private void OrdersControl_Load(object sender, EventArgs e)
+        private void dgvOrders_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
 
         }
     }
-
-    #region Data Models
-    public class Order
-    {
-        public int OrderId { get; set; }
-        public string Source { get; set; }
-        public int CustomerId { get; set; }
-        public int? StationId { get; set; }
-        public decimal TotalAmount { get; set; }
-        public decimal DiscountedAmount { get; set; }
-        public string Status { get; set; }
-        public DateTime CreatedDate { get; set; }
-    }
-
-    public class Customer
-    {
-        public int CustomerId { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class Station
-    {
-        public int StationId { get; set; }
-        public string Name { get; set; }
-    }
-
-    public static class MockData
-    {
-        public static List<Order> GetOrders()
-        {
-            return new List<Order>
-            {
-                new Order {
-                    OrderId = 1,
-                    Source = "googleform",
-                    CustomerId = 1,
-                    StationId = 1,
-                    TotalAmount = 1000000,
-                    DiscountedAmount = 100000,
-                    Status = "completed",
-                    CreatedDate = DateTime.Now
-                },
-                new Order {
-                    OrderId = 2,
-                    Source = "excel",
-                    CustomerId = 2,
-                    StationId = 2,
-                    TotalAmount = 1500000,
-                    DiscountedAmount = 150000,
-                    Status = "processing",
-                    CreatedDate = DateTime.Now.AddDays(-1)
-                },
-                new Order {
-                    OrderId = 3,
-                    Source = "manual",
-                    CustomerId = 3,
-                    StationId = 1,
-                    TotalAmount = 800000,
-                    DiscountedAmount = 80000,
-                    Status = "confirmed",
-                    CreatedDate = DateTime.Now.AddDays(-2)
-                },
-                new Order {
-                    OrderId = 4,
-                    Source = "email",
-                    CustomerId = 1,
-                    StationId = null,
-                    TotalAmount = 1200000,
-                    DiscountedAmount = 120000,
-                    Status = "draft",
-                    CreatedDate = DateTime.Now.AddDays(-3)
-                }
-            };
-        }
-
-        public static List<Customer> GetCustomers()
-        {
-            return new List<Customer>
-            {
-                new Customer { CustomerId = 1, Name = "Nguyễn Văn A" },
-                new Customer { CustomerId = 2, Name = "Trần Thị B" },
-                new Customer { CustomerId = 3, Name = "Lê Văn C" },
-                new Customer { CustomerId = 4, Name = "Phạm Thị D" }
-            };
-        }
-
-        public static List<Station> GetStations()
-        {
-            return new List<Station>
-            {
-                new Station { StationId = 1, Name = "Trạm Hà Nội" },
-                new Station { StationId = 2, Name = "Trạm Hồ Chí Minh" },
-                new Station { StationId = 3, Name = "Trạm Đà Nẵng" }
-            };
-        }
-    }
-    #endregion
 }

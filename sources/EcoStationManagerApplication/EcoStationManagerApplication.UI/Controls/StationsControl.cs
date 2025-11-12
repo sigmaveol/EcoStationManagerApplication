@@ -166,15 +166,15 @@ namespace EcoStationManagerApplication.UI.Controls
             selectedStation = station;
 
             // Update UI to show selected state
-            foreach (Control control in flowLayoutStations.Controls)
-            {
-                if (control is Guna2Panel card)
-                {
-                    var cardStation = card.Tag as Station;
-                    card.FillColor = cardStation?.StationId == station.StationId ?
-                        Color.FromArgb(240, 253, 244) : Color.White;
-                }
-            }
+            //foreach (Control control in flowLayoutStations.Controls)
+            //{
+            //    if (control is Guna2Panel card)
+            //    {
+            //        var cardStation = card.Tag as Station;
+            //        card.FillColor = cardStation?.StationId == station.StationId ?
+            //            Color.FromArgb(240, 253, 244) : Color.White;
+            //    }
+            //}
 
             // Load station details
             LoadStationDetails(station);

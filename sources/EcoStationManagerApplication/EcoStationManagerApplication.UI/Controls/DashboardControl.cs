@@ -172,25 +172,6 @@ namespace EcoStationManagerApplication.UI.Controls
 
                     foreach (var order in recentOrders)
                     {
-                        // Chỉ show các trường scalar, navigation property sẽ null
-                        string msg = $"OrderId: {order.OrderId}\n" +
-                                     $"OrderCode: {order.OrderCode}\n" +
-                                     $"CustomerId: {order.CustomerId}\n" +
-                                     $"UserId: {order.UserId}\n" +
-                                     $"TotalAmount: {order.TotalAmount}\n" +
-                                     $"DiscountedAmount: {order.DiscountedAmount}\n" +
-                                     $"Status: {order.Status}\n" +
-                                     $"PaymentStatus: {order.PaymentStatus}\n" +
-                                     $"PaymentMethod: {order.PaymentMethod}\n" +
-                                     $"Address: {order.Address}\n" +
-                                     $"Note: {order.Note}\n" +
-                                     $"LastUpdated: {order.LastUpdated}";
-
-                        MessageBox.Show(msg, $"Đơn hàng {order.OrderId}");
-                    }
-
-                    foreach (var order in recentOrders)
-                    {
                         // Lấy thông tin khách hàng
                         string customerName = "Khách lẻ";
                         if (order.CustomerId.HasValue)
@@ -198,7 +179,6 @@ namespace EcoStationManagerApplication.UI.Controls
                             var customerResult = await AppServices.CustomerService.GetCustomerByIdAsync(order.CustomerId.Value);
                             if (customerResult.Success && customerResult.Data != null)
                             {
-                                MessageBox.Show("a");
                                 customerName = customerResult.Data.Name;
                             }
                         }

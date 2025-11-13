@@ -7,4 +7,3 @@ D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\D
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.csproj.CoreCompileInputs.cache
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.exe
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.pdb
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.exe.config

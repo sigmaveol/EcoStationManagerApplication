@@ -96,7 +96,7 @@ namespace EcoStationManagerApplication.Core.Services
                     return BusinessError<Category>($"Tên danh mục '{category.Name}' đã tồn tại");
 
                 // Set default values
-                category.IsActive = true;
+                category.IsActive = ActiveStatus.ACTIVE;
                 category.CreatedDate = DateTime.Now;
 
                 // Tạo danh mục mới

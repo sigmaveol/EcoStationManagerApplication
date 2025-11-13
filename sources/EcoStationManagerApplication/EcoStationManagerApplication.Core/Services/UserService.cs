@@ -37,7 +37,7 @@ namespace EcoStationManagerApplication.Core.Services
                 if (user == null)
                     return Result<User>.Fail("Tên đăng nhập hoặc mật khẩu không đúng");
 
-                if (!user.IsActive)
+                if (user.IsActive != ActiveStatus.ACTIVE)
                     return Result<User>.Fail("Tài khoản đã bị vô hiệu hóa");
 
                 _logger.Info($"User authenticated: {username} (ID: {user.UserId})");
@@ -116,7 +116,7 @@ namespace EcoStationManagerApplication.Core.Services
 
                 // Hash password
                 user.PasswordHash = SecurityHelper.HashPassword(password);
-                user.IsActive = true;
+                user.IsActive = ActiveStatus.ACTIVE;
 
                 // Thêm user
                 var userId = await _unitOfWork.Users.AddAsync(user);

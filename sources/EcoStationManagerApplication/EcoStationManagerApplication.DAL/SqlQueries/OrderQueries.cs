@@ -55,10 +55,8 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
 
         // Lấy đơn hàng hôm nay
         public const string GetTodayOrders = @"
-            SELECT o.*, c.name as customer_name, u.fullname as user_name 
+            SELECT o.*
             FROM Orders o
-            LEFT JOIN Customers c ON o.customer_id = c.customer_id
-            LEFT JOIN Users u ON o.user_id = u.user_id
             WHERE DATE(o.last_updated) = CURDATE()
             ORDER BY o.last_updated DESC";
 

@@ -21,8 +21,8 @@ namespace EcoStationManagerApplication.UI.Controls
         private async void DashboardControl_Load(object sender, EventArgs e)
         {
             await InitializeComponentCustom();
-        }
 
+        }
 
         private async Task InitializeComponentCustom()
         {
@@ -164,23 +164,42 @@ namespace EcoStationManagerApplication.UI.Controls
                         .Take(10)
                         .ToList();
 
+                    if (!recentOrders.Any())
+                    {
+                        MessageBox.Show("Không có đơn hàng hôm nay");
+                        return;
+                    }
+
+                    foreach (var order in recentOrders)
+                    {
+                        // Chỉ show các trường scalar, navigation property sẽ null
+                        string msg = $"OrderId: {order.OrderId}\n" +
+                                     $"OrderCode: {order.OrderCode}\n" +
+                                     $"CustomerId: {order.CustomerId}\n" +
+                                     $"UserId: {order.UserId}\n" +
+                                     $"TotalAmount: {order.TotalAmount}\n" +
+                                     $"DiscountedAmount: {order.DiscountedAmount}\n" +
+                                     $"Status: {order.Status}\n" +
+                                     $"PaymentStatus: {order.PaymentStatus}\n" +
+                                     $"PaymentMethod: {order.PaymentMethod}\n" +
+                                     $"Address: {order.Address}\n" +
+                                     $"Note: {order.Note}\n" +
+                                     $"LastUpdated: {order.LastUpdated}";
+
+                        MessageBox.Show(msg, $"Đơn hàng {order.OrderId}");
+                    }
 
                     foreach (var order in recentOrders)
                     {
                         // Lấy thông tin khách hàng
                         string customerName = "Khách lẻ";
-
-                        MessageBox.Show("1");
                         if (order.CustomerId.HasValue)
                         {
-                            MessageBox.Show("A");
                             var customerResult = await AppServices.CustomerService.GetCustomerByIdAsync(order.CustomerId.Value);
-                            if (customerResult.Success)
+                            if (customerResult.Success && customerResult.Data != null)
                             {
+                                MessageBox.Show("a");
                                 customerName = customerResult.Data.Name;
-                            }
-                            else 
-                            {
                             }
                         }
 
@@ -200,7 +219,7 @@ namespace EcoStationManagerApplication.UI.Controls
                         }
 
                         dgvRecentOrders.Rows.Add(
-                            $"ORD-{order.OrderId:D5}",
+                            order.OrderCode,
                             customerName,
                             productInfo,
                             GetOrderSourceDisplay(order.Source),

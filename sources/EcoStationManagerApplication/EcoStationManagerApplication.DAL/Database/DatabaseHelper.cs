@@ -2,10 +2,14 @@
 using EcoStationManagerApplication.Common.Config;
 using EcoStationManagerApplication.Common.Logging;
 using EcoStationManagerApplication.DAL.Interfaces;
+using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using MySql.Data.MySqlClient;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace EcoStationManagerApplication.DAL.Database
@@ -25,7 +29,125 @@ namespace EcoStationManagerApplication.DAL.Database
             _connectionString = ConfigManager.GetConnectionString();
             _logger = LogHelperFactory.CreateLogger("DatabaseHelper");
 
+            // Cấu hình Dapper để tự động map snake_case (order_id) sang PascalCase (OrderId)
+            ConfigureDapperMapping();
+
             _logger.Info($"DatabaseHelper initialized - Server: {_dbConfig.Server}, Database: {_dbConfig.Database}");
+        }
+
+        /// <summary>
+        /// Cấu hình Dapper để tự động map snake_case sang PascalCase
+        /// </summary>
+        private static void ConfigureDapperMapping()
+        {
+            try
+            {
+                // CÁCH 1: Sử dụng MatchNamesWithUnderscores (đơn giản nhất)
+                Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
+                // CÁCH 2: Custom type mapping cho tất cả entities (chắc chắn hơn)
+                RegisterCustomTypeMappings();
+
+                // CÁCH 3: Đăng ký enum handlers
+                RegisterEnumHandlers();
+
+                //_logger.Info("Dapper mapping configured successfully");
+            }
+            catch (Exception ex)
+            {
+                var logger = LogHelperFactory.CreateLogger("DatabaseHelper");
+                logger.Error($"Dapper mapping configuration failed: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Đăng ký custom type mappings cho các entities
+        /// </summary>
+        private static void RegisterCustomTypeMappings()
+        {
+            // Đăng ký cho tất cả entities trong namespace Models.Entities
+            var entityTypes = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .Where(t => t.Namespace == "EcoStationManagerApplication.Models.Entities" &&
+                           t.IsClass && !t.IsAbstract);
+
+            foreach (var type in entityTypes)
+            {
+                SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(type,
+                    (modelType, columnName) =>
+                    {
+                        // Ưu tiên tìm property theo PascalCase, sau đó theo exact name
+                        var pascalName = SnakeCaseToPascalCase(columnName);
+                        return modelType.GetProperty(pascalName) ??
+                               modelType.GetProperty(columnName);
+                    }));
+            }
+        }
+
+        /// <summary>
+        /// Đăng ký handlers cho các enum types
+        /// </summary>
+        private static void RegisterEnumHandlers()
+        {
+            // Generic enum handler
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<OrderSource>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<OrderStatus>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<PaymentStatus>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<PaymentMethod>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<CustomerRank>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<CategoryType>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<ProductType>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<RefType>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<StockOutPurpose>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<CleaningType>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<CleaningStatus>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<PackagingTransactionType>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<PackagingOwnershipType>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<DeliveryStatus>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<DeliveryPaymentStatus>());
+            SqlMapper.AddTypeHandler(new GenericEnumHandler<ActiveStatus>());
+        }
+
+        /// <summary>
+        /// Chuyển đổi snake_case sang PascalCase
+        /// </summary>
+        private static string SnakeCaseToPascalCase(string snakeCase)
+        {
+            if (string.IsNullOrEmpty(snakeCase))
+                return snakeCase;
+
+            return string.Join("", snakeCase.Split('_')
+                .Select(part => part.Length > 0
+                    ? char.ToUpper(part[0]) + part.Substring(1).ToLower()
+                    : part));
+        }
+
+        /// <summary>
+        /// Generic enum handler cho Dapper
+        /// </summary>
+        private class GenericEnumHandler<T> : SqlMapper.TypeHandler<T> where T : struct, Enum
+        {
+            public override void SetValue(IDbDataParameter parameter, T value)
+            {
+                parameter.Value = value.ToString();
+            }
+
+            public override T Parse(object value)
+            {
+                if (value == null) return default;
+
+                if (value is string stringValue)
+                {
+                    if (Enum.TryParse<T>(stringValue, true, out var result))
+                        return result;
+                }
+                else if (value is int intValue && Enum.IsDefined(typeof(T), intValue))
+                {
+                    return (T)Enum.ToObject(typeof(T), intValue);
+                }
+
+                return default;
+            }
         }
 
         /// <summary>
@@ -36,6 +158,9 @@ namespace EcoStationManagerApplication.DAL.Database
             _connectionString = connectionString;
             _dbConfig = ConfigManager.GetDatabaseConfig();
             _logger = LogHelperFactory.CreateLogger("DatabaseHelper");
+
+            // Cũng cấu hình mapping cho constructor này
+            ConfigureDapperMapping();
         }
 
         /// <summary>
@@ -83,6 +208,46 @@ namespace EcoStationManagerApplication.DAL.Database
             catch (Exception ex)
             {
                 _logger.Error($"Test connection failed: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Test mapping cho Order entity
+        /// </summary>
+        public async Task<bool> TestOrderMappingAsync()
+        {
+            try
+            {
+                var sql = @"
+                    SELECT 
+                        order_id, order_code, customer_id, source, total_amount,
+                        discounted_amount, status, payment_status, payment_method,
+                        address, note, user_id, last_updated
+                    FROM Orders 
+                    LIMIT 1";
+
+                var order = await QueryFirstOrDefaultAsync<Order>(sql);
+
+                if (order != null)
+                {
+                    bool mappingSuccessful = order.OrderId > 0 &&
+                                           order.TotalAmount >= 0 &&
+                                           order.LastUpdated > DateTime.MinValue;
+
+                    _logger.Info($"Order mapping test - Successful: {mappingSuccessful}, " +
+                                $"OrderId: {order.OrderId}, TotalAmount: {order.TotalAmount}, " +
+                                $"Status: {order.Status}, Source: {order.Source}");
+
+                    return mappingSuccessful;
+                }
+
+                _logger.Warning("Order mapping test - No data found");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"Order mapping test failed: {ex.Message}");
                 return false;
             }
         }
@@ -314,6 +479,5 @@ namespace EcoStationManagerApplication.DAL.Database
                 }
             }
         }
-
     }
 }

@@ -1,51 +1,108 @@
 ﻿using EcoStationManagerApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace EcoStationManagerApplication.Models.Entities
 {
+    [Table("Orders")]
     public class Order
     {
-        public int OrderId { get; set; }  // order_id INT PRIMARY KEY AUTO_INCREMENT
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("order_id")]
+        public int OrderId { get; set; }
+
+        [Column("customer_id")]
+        public int? CustomerId { get; set; }
+
+        [StringLength(50)]
+        [Column("order_code")]
         public string OrderCode { get; set; }
 
-        public int? CustomerId { get; set; }  // customer_id INT
-        public Customer Customer { get; set; }  // Navigation property
+        [Required]
+        [Column("source")]
+        public OrderSource Source { get; set; } = OrderSource.MANUAL;
 
-        public OrderSource Source { get; set; } = OrderSource.MANUAL; // source ENUM
+        [Required]
+        [Column("total_amount", TypeName = "decimal(10,2)")]
+        public decimal TotalAmount { get; set; } = 0;
 
-        public decimal TotalAmount { get; set; } = 0; // total_amount DECIMAL(10,2)
-        public decimal? DiscountedAmount { get; set; } = 0; // discounted_amount DECIMAL(10,2)
+        [Column("discounted_amount", TypeName = "decimal(10,2)")]
+        public decimal DiscountedAmount { get; set; } = 0;
 
-        public OrderStatus Status { get; set; } = OrderStatus.DRAFT; // status ENUM
-        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.UNPAID; // payment_status ENUM
-        public PaymentMethod PaymentMethod { get; set; } = PaymentMethod.CASH; // payment_method ENUM
+        [Required]
+        [Column("status")]
+        public OrderStatus Status { get; set; } = OrderStatus.DRAFT;
 
-        public string Address { get; set; } // address VARCHAR(255)
-        public string Note { get; set; }    // note TEXT
+        [Required]
+        [Column("payment_status")]
+        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.UNPAID;
 
-        public int? UserId { get; set; }    // Người tạo đơn
-        public User User { get; set; }      // Navigation property
+        [Required]
+        [Column("payment_method")]
+        public PaymentMethod PaymentMethod { get; set; } = PaymentMethod.CASH;
 
-        public DateTime LastUpdated { get; set; } = DateTime.Now; // last_updated
+        [StringLength(255)]
+        [Column("address")]
+        public string Address { get; set; }
 
-        public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>(); // Chi tiết đơn hàng
+        [Column("note")]
+        public string Note { get; set; }
+
+        [Column("user_id")]
+        public int? UserId { get; set; }
+
+        [Column("last_updated")]
+        public DateTime LastUpdated { get; set; } = DateTime.Now;
+
+        // Navigation property
+        [ForeignKey("CustomerId")]
+        public virtual Customer Customer { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
+
+        // Navigation property for details
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 
+    [Table("OrderDetails")]
     public class OrderDetail
     {
-        public int OrderDetailId { get; set; } // order_detail_id INT PRIMARY KEY AUTO_INCREMENT
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("order_detail_id")]
+        public int OrderDetailId { get; set; }
 
-        public int OrderId { get; set; }       // order_id INT NOT NULL
-        public Order Order { get; set; }       // Navigation property
+        [Required]
+        [Column("order_id")]
+        public int OrderId { get; set; }
 
-        public int ProductId { get; set; }    // product_id NOT INT
-        public Product Product { get; set; }   // Navigation property
+        [Required]
+        [Column("product_id")]
+        public int ProductId { get; set; } 
 
-        public decimal Quantity { get; set; } // NOT NULL quantity DECIMAL(10,2)
-        public decimal UnitPrice { get; set; } // NOT NULL unit_price DECIMAL(10,2)
+        [Required]
+        [Column("quantity", TypeName = "decimal(10,2)")]
+        public decimal Quantity { get; set; }
+
+        [Required]
+        [Column("unit_price", TypeName = "decimal(10,2)")]
+        public decimal UnitPrice { get; set; }
+
+        // Navigation property
+        [ForeignKey("OrderId")]
+        public virtual Order Order { get; set; }
+
+        // Navigation property
+        [ForeignKey("ProductId")]
+        public virtual Product Product { get; set; }
+
     }
 }

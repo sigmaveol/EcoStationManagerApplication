@@ -155,9 +155,6 @@ namespace EcoStationManagerApplication.Core.Helpers
             if (!string.IsNullOrWhiteSpace(customer.Phone) && !IsValidPhone(customer.Phone))
                 errors.Add("Số điện thoại không hợp lệ");
 
-            if (!string.IsNullOrWhiteSpace(customer.Email) && !IsValidEmail(customer.Email))
-                errors.Add("Email không hợp lệ");
-
             if (customer.TotalPoint < 0)
                 errors.Add("Điểm tích lũy không được âm");
 

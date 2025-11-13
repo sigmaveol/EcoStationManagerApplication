@@ -178,7 +178,7 @@ namespace EcoStationManagerApplication.Core.Services
                 }
 
                 // Set default values
-                product.IsActive = true;
+                product.IsActive = ActiveStatus.ACTIVE;
                 product.CreatedDate = DateTime.Now;
 
                 // Tạo sản phẩm mới

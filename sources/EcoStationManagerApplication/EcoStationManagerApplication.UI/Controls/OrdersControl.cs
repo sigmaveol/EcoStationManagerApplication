@@ -1,10 +1,15 @@
-﻿using System;
+﻿using EcoStationManagerApplication.Models.Enums;
+using EcoStationManagerApplication.UI.Common;
+using System;
 using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace EcoStationManagerApplication.UI.Controls
 {
     public partial class OrdersControl : UserControl
     {
+        private string _currentFilter = "all";
         public OrdersControl()
         {
             InitializeComponent();
@@ -13,8 +18,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
             PopulateTabPanel();
             InitializeDataGridColumns();
-            AddSampleOrderData();
-
+            _ = LoadOrdersAsync();
             InitializeEvents();
         }
 
@@ -42,20 +46,32 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             if (tabPanel == null) return;
 
-            string[] tabs = { "Tất cả", "Đơn Online", "Đơn Offline", "Mới", "Chuẩn bị", "Đang giao", "Hoàn thành", "Thu hồi bao bì" };
+            // Tạo mảng các tab với tag tương ứng
+            var tabs = new[]
+            {
+            new { Text = "Tất cả", Tag = "all" },
+            new { Text = "Đơn Online", Tag = "online" },
+            new { Text = "Đơn Offline", Tag = "offline" },
+            new { Text = "Mới", Tag = "new" },
+            new { Text = "Chuẩn bị", Tag = "ready" },
+            new { Text = "Đang giao", Tag = "shipping" },
+            new { Text = "Hoàn thành", Tag = "completed" },
+            new { Text = "Thu hồi bao bì", Tag = "return" }
+        };
 
-            foreach (string tab in tabs)
+            foreach (var tab in tabs)
             {
                 var tabButton = new Button();
-                tabButton.Text = tab;
+                tabButton.Text = tab.Text;
+                tabButton.Tag = tab.Tag; // Gán tag
                 tabButton.Size = new Size(100, 34);
-                tabButton.Margin = new Padding(3); 
+                tabButton.Margin = new Padding(3);
                 tabButton.FlatStyle = FlatStyle.Flat;
                 tabButton.FlatAppearance.BorderSize = 0;
                 tabButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
 
                 // Nút đầu tiên (Tất cả) được chọn
-                if (tab == "Tất cả")
+                if (tab.Tag.ToString() == "all")
                 {
                     tabButton.BackColor = Color.FromArgb(46, 125, 50);
                     tabButton.ForeColor = Color.White;
@@ -68,6 +84,31 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 tabButton.Click += contentTab_Click;
                 tabPanel.Controls.Add(tabButton);
+            }
+        }
+
+        // Xử lý khi nhấn vào Tab
+        private async void contentTab_Click(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                // Reset tất cả các nút
+                foreach (Control control in tabPanel.Controls)
+                {
+                    if (control is Button btn)
+                    {
+                        btn.BackColor = Color.White;
+                        btn.ForeColor = Color.Black;
+                    }
+                }
+                // Highlight nút được chọn
+                button.BackColor = Color.FromArgb(46, 125, 50);
+                button.ForeColor = Color.White;
+
+                // Lấy tag và gọi LoadOrdersAsync với tag đó
+                string filterTag = button.Tag?.ToString() ?? "all";
+                await LoadOrdersAsync(filterTag);
             }
         }
 
@@ -120,17 +161,151 @@ namespace EcoStationManagerApplication.UI.Controls
             dgvOrders.Columns["Customer"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
-        // Thêm dữ liệu mẫu
-        private void AddSampleOrderData()
+        // Thêm dữ liệu 
+        private async Task LoadOrdersAsync(string filterTag = "all")
         {
-            dgvOrders.Rows.Add(
-                "ORD-00125", "Nguyễn Văn A", "Dầu gội thiên nhiên 500ml",
-                "Online", "2", "Đang giao", "15/03/2025"
-            );
-            dgvOrders.Rows.Add(
-                "ORD-00124", "Trần Thị B", "Nước rửa chén 1L",
-                "Offline", "1", "Chuẩn bị", "15/03/2025"
-            );
+            try
+            {
+                ShowLoading(true);
+                dgvOrders.Rows.Clear();
+
+                // Lấy danh sách đơn hàng
+                var ordersResult = await AppServices.OrderService.GetTodayOrdersAsync();
+
+                if (!ordersResult.Success || !ordersResult.Data.Any())
+                {
+                    dgvOrders.Rows.Add("", "Không có đơn hàng nào", "", "", "", "", "");
+                    return;
+                }
+
+                var orders = ordersResult.Data;
+
+                // Lọc đơn hàng dựa trên filterTag
+                if (filterTag != "all")
+                {
+                    orders = orders.Where(order =>
+                    {
+                        switch (filterTag)
+                        {
+                            case "online":
+                                // Lọc đơn online: các nguồn EXCEL, EMAIL, GOOGLEFORM
+                                return order.Source == OrderSource.EXCEL ||
+                                       order.Source == OrderSource.EMAIL ||
+                                       order.Source == OrderSource.GOOGLEFORM;
+                            case "offline":
+                                // Lọc đơn offline: nguồn MANUAL
+                                return order.Source == OrderSource.MANUAL;
+                            case "new":
+                                return order.Status == OrderStatus.CONFIRMED;
+                            case "ready":
+                                return order.Status == OrderStatus.READY;
+                            case "shipping":
+                                return order.Status == OrderStatus.SHIPPED;
+                            case "completed":
+                                return order.Status == OrderStatus.COMPLETED;
+                            case "return":
+                                // Bỏ qua lọc cho thu hồi bao bì, hoặc có thể xử lý sau
+                                return false; // Tạm thời không hiển thị gì
+                            default:
+                                return true;
+                        }
+                    }).ToList();
+                }
+
+                orders = orders.Take(50).ToList(); // Giới hạn hiển thị
+
+                // Populate DataGridView
+                foreach (var order in orders)
+                {
+                    string customerName = "Khách lẻ";
+                    if (order.CustomerId.HasValue)
+                    {
+                        var customerResult = await AppServices.CustomerService.GetCustomerByIdAsync(order.CustomerId.Value);
+                        if (customerResult.Success && customerResult.Data != null)
+                        {
+                            customerName = customerResult.Data.Name;
+                        }
+                    }
+
+                    // Lấy thông tin sản phẩm
+                    var orderDetailsResult = await AppServices.OrderService.GetOrderWithDetailsAsync(order.OrderId);
+                    string productInfo = "Đa dạng sản phẩm";
+
+                    if (orderDetailsResult.Success && orderDetailsResult.Data?.OrderDetails?.Any() == true)
+                    {
+                        var firstProduct = orderDetailsResult.Data.OrderDetails.First();
+                        var productResult = await AppServices.ProductService.GetProductByIdAsync(firstProduct.ProductId);
+                        if (productResult.Success)
+                        {
+                            var product = productResult.Data;
+                            productInfo = $"{product.Name} ({firstProduct.Quantity} {product.Unit})";
+                        }
+                    }
+
+                    dgvOrders.Rows.Add(
+                        order.OrderCode ?? $"ORD-{order.OrderId:D5}",
+                        customerName,
+                        productInfo,
+                        GetOrderSourceDisplay(order.Source),
+                        GetOrderStatusDisplay(order.Status),
+                        order.LastUpdated.ToString("dd/MM/yyyy HH:mm")
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                dgvOrders.Rows.Add("", "Lỗi tải dữ liệu", "", "", "", "", "");
+                Console.WriteLine($"Lỗi tải đơn hàng: {ex.Message}");
+            }
+            finally
+            {
+                ShowLoading(false);
+            }
+        }
+
+        // Helper methods giữ nguyên
+        private string GetOrderSourceDisplay(OrderSource source)
+        {
+            switch (source)
+            {
+                case OrderSource.GOOGLEFORM:
+                case OrderSource.EMAIL:
+                    return "Email";
+                case OrderSource.MANUAL:
+                    return "Offline";
+                case OrderSource.EXCEL:
+                    return "Excel";
+                default:
+                    return "Khác";
+            }
+        }
+
+        private string GetOrderStatusDisplay(OrderStatus status)
+        {
+            switch (status)
+            {
+                case OrderStatus.DRAFT:
+                    return "Nháp";
+                case OrderStatus.CONFIRMED:
+                    return "Mới";
+                case OrderStatus.PROCESSING:
+                    return "Đang xử lý";
+                case OrderStatus.READY:
+                    return "Chuẩn bị";
+                case OrderStatus.SHIPPED:
+                    return "Đang giao";
+                case OrderStatus.COMPLETED:
+                    return "Hoàn thành";
+                case OrderStatus.CANCELLED:
+                    return "Đã hủy";
+                default:
+                    return "Không xác định";
+            }
+        }
+
+        private void ShowLoading(bool show)
+        {
+            Cursor = show ? Cursors.WaitCursor : Cursors.Default;
         }
 
         // --- HÀM XỬ LÝ SỰ KIỆN ---
@@ -150,27 +325,6 @@ namespace EcoStationManagerApplication.UI.Controls
             MessageBox.Show("Mở form Thêm Đơn Hàng");
         }
 
-        // Xử lý khi nhấn vào Tab
-        private void contentTab_Click(object sender, EventArgs e)
-        {
-            var button = sender as Button;
-            if (button != null)
-            {
-                // Reset tất cả các nút
-                foreach (Control control in tabPanel.Controls)
-                {
-                    if (control is Button btn)
-                    {
-                        btn.BackColor = Color.White;
-                        btn.ForeColor = Color.Black;
-                    }
-                }
-                // Highlight nút được chọn
-                button.BackColor = Color.FromArgb(46, 125, 50);
-                button.ForeColor = Color.White;
-                MessageBox.Show($"Lọc theo: {button.Text}", "Chuyển tab");
-            }
-        }
 
         // Xử lý khi nhấn nút trên DataGridView
         private void dgvOrders_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -246,6 +400,21 @@ namespace EcoStationManagerApplication.UI.Controls
         }
 
         private void dgvOrders_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void tabPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void txtOrderSearch_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void searchControl1_Load(object sender, EventArgs e)
         {
 
         }

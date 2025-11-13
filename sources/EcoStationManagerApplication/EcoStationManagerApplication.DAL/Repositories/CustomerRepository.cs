@@ -17,7 +17,38 @@ namespace EcoStationManagerApplication.DAL.Repositories
             : base(databaseHelper, "Customers", "customer_id")
         {
         }
+        public async Task<bool> IsCodeExistsAsync(string customerCode, int? excludeCustomerId = null)
+        {
+            var sql = @"SELECT COUNT(1) 
+                FROM Customers 
+                WHERE customer_code = @CustomerCode 
+                AND (@ExcludeCustomerId IS NULL OR customer_id != @ExcludeCustomerId)";
 
+            var parameters = new
+            {
+                CustomerCode = customerCode,
+                ExcludeCustomerId = excludeCustomerId
+            };
+
+            var count = await _databaseHelper.ExecuteScalarAsync<int>(sql, parameters);
+            return count > 0;
+        }
+        public async Task<bool> IsPhoneExistsAsync(string phone, int? excludeCustomerId = null)
+        {
+            var sql = @"SELECT COUNT(1) 
+                FROM Customers 
+                WHERE phone = @Phone 
+                AND (@ExcludeCustomerId IS NULL OR customer_id != @ExcludeCustomerId)";
+
+            var parameters = new
+            {
+                Phone = phone,
+                ExcludeCustomerId = excludeCustomerId
+            };
+
+            var count = await _databaseHelper.ExecuteScalarAsync<int>(sql, parameters);
+            return count > 0;
+        }
         public async Task<Customer> GetByCustomerCode(string customerCode)
         {
             try

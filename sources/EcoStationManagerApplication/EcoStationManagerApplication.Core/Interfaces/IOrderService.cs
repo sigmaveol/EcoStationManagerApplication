@@ -62,6 +62,14 @@ namespace EcoStationManagerApplication.Core.Interfaces
         Task<Result<bool>> AddOrderDetailsAsync(int orderId, List<OrderDetail> orderDetails);
 
         /// <summary>
+        /// Lấy tổng doanh thu theo thời gian
+        /// </summary>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        Task<Result<decimal>> GetTotalRevenueAsync(DateTime? fromDate = null, DateTime? toDate = null);
+
+        /// <summary>
         /// Lấy thống kê đơn hàng
         /// </summary>
         Task<Result<OrderSummary>> GetOrderSummaryAsync(DateTime? fromDate = null, DateTime? toDate = null);

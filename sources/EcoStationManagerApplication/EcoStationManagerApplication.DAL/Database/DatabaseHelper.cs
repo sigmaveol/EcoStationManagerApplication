@@ -65,22 +65,33 @@ namespace EcoStationManagerApplication.DAL.Database
         /// </summary>
         private static void RegisterCustomTypeMappings()
         {
-            // Đăng ký cho tất cả entities trong namespace Models.Entities
-            var entityTypes = Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .Where(t => t.Namespace == "EcoStationManagerApplication.Models.Entities" &&
-                           t.IsClass && !t.IsAbstract);
-
-            foreach (var type in entityTypes)
+            try
             {
-                SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(type,
-                    (modelType, columnName) =>
-                    {
-                        // Ưu tiên tìm property theo PascalCase, sau đó theo exact name
-                        var pascalName = SnakeCaseToPascalCase(columnName);
-                        return modelType.GetProperty(pascalName) ??
-                               modelType.GetProperty(columnName);
-                    }));
+                // Sử dụng assembly chứa entities thay vì GetExecutingAssembly()
+                // Vì entities nằm trong assembly Models, không phải DAL
+                var entityAssembly = typeof(Order).Assembly;
+                var entityTypes = entityAssembly
+                    .GetTypes()
+                    .Where(t => t.Namespace == "EcoStationManagerApplication.Models.Entities" &&
+                               t.IsClass && !t.IsAbstract);
+
+                foreach (var type in entityTypes)
+                {
+                    SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(type,
+                        (modelType, columnName) =>
+                        {
+                            // Ưu tiên tìm property theo PascalCase, sau đó theo exact name
+                            var pascalName = SnakeCaseToPascalCase(columnName);
+                            return modelType.GetProperty(pascalName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) ??
+                                   modelType.GetProperty(columnName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                        }));
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error nhưng không throw để không làm crash ứng dụng
+                var logger = LogHelperFactory.CreateLogger("DatabaseHelper");
+                logger.Error($"RegisterCustomTypeMappings error: {ex.Message}");
             }
         }
 

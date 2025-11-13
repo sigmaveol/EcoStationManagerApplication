@@ -49,7 +49,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 new { Label = "Đơn hàng hôm nay", Value = "0", Desc = "Đang tải...", IsEco = false },
                 new { Label = "Doanh thu tháng", Value = "0", Desc = "VND", IsEco = false },
                 new { Label = "Tồn kho thấp", Value = "0", Desc = "Sản phẩm", IsEco = false },
-                new { Label = "Bao bì đang sử dụng", Value = "0", Desc = "Chai/lọ", IsEco = false },
+                new { Label = "Bao bì đang được sử dụng", Value = "0", Desc = "Chai/lọ", IsEco = false },
                 new { Label = "Đơn chờ xử lý", Value = "0", Desc = "Cần xử lý", IsEco = false }
             };
 
@@ -89,37 +89,69 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             try
             {
-                // Tổng đơn hàng hôm nay
                 var todayOrdersResult = await AppServices.OrderService.GetTodayOrdersAsync();
-                var todayOrderCount = todayOrdersResult.Success ? todayOrdersResult.Data.Count() : 0;
-
-                // Doanh thu tháng
-                var monthlyRevenue = await CalculateMonthlyRevenue();
-
-                // Sản phẩm tồn kho thấp
-                var lowStockCount = await GetLowStockCount();
-
-                // Bao bì cần thu hồi
-                var packagingInUse = await CalculatePackagingInUse();
-
-                // Đơn hàng chờ xử lý
-                var pendingOrdersCount = await GetPendingOrdersCount();
-
-                // Cập nhật UI
+                int todayOrderCount = todayOrdersResult.Success ? todayOrdersResult.Data.Count() : 0;
                 UpdateStatCard("Đơn hàng hôm nay", todayOrderCount.ToString(), "Đơn hàng mới");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi lấy đơn hàng hôm nay: {ex.Message}");
+                UpdateStatCard("Đơn hàng hôm nay", "0", "Lỗi tải dữ liệu");
+            }
+
+            // Doanh thu tháng từ ngày 1 tới hiện tại
+            try
+            {
+                var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                var endDate = DateTime.Now;
+                var totalRevenueResult = await AppServices.OrderService.GetTotalRevenueAsync(startDate, endDate);
+                decimal monthlyRevenue = totalRevenueResult.Success ? totalRevenueResult.Data : 0;
                 UpdateStatCard("Doanh thu tháng", $"{monthlyRevenue:N0}", "VND");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi tính doanh thu tháng: {ex.Message}");
+                UpdateStatCard("Doanh thu tháng", "0", "Lỗi tải dữ liệu");
+            }
+
+            // Sản phẩm tồn kho thấp
+            try
+            {
+                var lowStockResult = await AppServices.InventoryService.GetLowStockItemsAsync();
+                int lowStockCount = lowStockResult.Success ? lowStockResult.Data.Count() : 0;
                 UpdateStatCard("Tồn kho thấp", lowStockCount.ToString(), "Sản phẩm cần nhập");
-                UpdateStatCard("Bao bì đang sử dụng", packagingInUse.ToString(), "Chai/lọ lưu hành");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi lấy tồn kho thấp: {ex.Message}");
+                UpdateStatCard("Tồn kho thấp", "0", "Lỗi tải dữ liệu");
+            }
+
+            // Bao bì đang được sử dụng
+            try
+            {
+                var packagingResult = await AppServices.PackagingInventoryService.GetAllAsync();
+                int packagingInUse = (packagingResult != null && packagingResult.Success)
+                    ? packagingResult.Data.Sum(p => p.QtyInUse)
+                    : 0;
+                UpdateStatCard("Bao bì đang được sử dụng", packagingInUse.ToString(), "Chai/lọ lưu hành");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi tính bao bì: {ex.Message}");
+                UpdateStatCard("Bao bì đang được sử dụng", "0", "Lỗi tải dữ liệu");
+            }
+
+            // Đơn chờ xử lý
+            try
+            {
+                var pendingOrdersResult = await AppServices.OrderService.GetPendingOrdersAsync();
+                int pendingOrdersCount = pendingOrdersResult.Success ? pendingOrdersResult.Data.Count() : 0;
                 UpdateStatCard("Đơn chờ xử lý", pendingOrdersCount.ToString(), "Cần xử lý");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Lỗi tải thống kê: {ex.Message}");
-                // Fallback to default values
-                UpdateStatCard("Đơn hàng hôm nay", "0", "Lỗi tải dữ liệu");
-                UpdateStatCard("Doanh thu tháng", "0", "Lỗi tải dữ liệu");
-                UpdateStatCard("Tồn kho thấp", "0", "Lỗi tải dữ liệu");
-                UpdateStatCard("Bao bì đang sử dụng", "0", "Lỗi tải dữ liệu");
+                Console.WriteLine($"Lỗi lấy đơn chờ xử lý: {ex.Message}");
                 UpdateStatCard("Đơn chờ xử lý", "0", "Lỗi tải dữ liệu");
             }
         }
@@ -221,75 +253,12 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        private async Task<decimal> CalculateMonthlyRevenue()
-        {
-            try
-            {
-                // Sử dụng GetOrderSummaryAsync để lấy doanh thu
-                var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-                var endDate = startDate.AddMonths(1).AddDays(-1);
-
-                var summaryResult = await AppServices.OrderService.GetOrderSummaryAsync(startDate, endDate);
-                return summaryResult.Success ? summaryResult.Data.TotalRevenue : 0;
-            }
-            catch
-            {
-                return 0;
-            }
-        }
-
-        private async Task<int> GetLowStockCount()
-        {
-            try
-            {
-                // Giả định có service lấy số lượng sản phẩm tồn kho thấp
-                // Trong thực tế, bạn cần triển khai IInventoryService.GetLowStockItemsAsync()
-                var lowStockResult = await AppServices.InventoryService.GetLowStockItemsAsync();
-                return lowStockResult.Success ? lowStockResult.Data.Count() : 0;
-            }
-            catch
-            {
-                return 0;
-            }
-        }
-
-        private async Task<int> CalculatePackagingInUse()
-        {
-            try
-            {
-                // Giả định có service lấy thông tin bao bì
-                var packagingResult = await AppServices.PackagingInventoryService.GetAllAsync();
-                if (packagingResult != null && packagingResult.Success)
-                {
-                    return packagingResult.Data.Sum(p => p.QtyInUse);
-                }
-                return 0;
-            }
-            catch
-            {
-                return 0;
-            }
-        }
-
-        private async Task<int> GetPendingOrdersCount()
-        {
-            try
-            {
-                var pendingOrdersResult = await AppServices.OrderService.GetPendingOrdersAsync();
-                return pendingOrdersResult.Success ? pendingOrdersResult.Data.Count() : 0;
-            }
-            catch
-            {
-                return 0;
-            }
-        }
-
         private string GetOrderSourceDisplay(OrderSource source)
         {
             switch (source)
             {
                 case OrderSource.GOOGLEFORM:
-                    return "Online";
+                    return "Google Form";
                 case OrderSource.MANUAL:
                     return "Offline";
                 case OrderSource.EXCEL:
@@ -370,6 +339,7 @@ namespace EcoStationManagerApplication.UI.Controls
             dgvRecentOrders.Columns.Add("Source", "Loại");                // Source
             dgvRecentOrders.Columns.Add("Status", "Trạng thái");          // Status
             dgvRecentOrders.Columns.Add("LastUpdated", "Thời gian");      // LastUpdated
+            dgvRecentOrders.Columns.Add("Detail", "Chi tiết");      // LastUpdated
             // Tự động co giãn cột
             dgvRecentOrders.Columns["Products"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvRecentOrders.Columns["CustomerName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -418,6 +388,7 @@ namespace EcoStationManagerApplication.UI.Controls
             lblValue.ForeColor = isEco ? Color.FromArgb(46, 125, 50) : Color.FromArgb(25, 118, 210);
             lblValue.AutoSize = true;
             lblValue.Location = new Point(15, 40);
+            lblValue.Tag = "Value";
 
             var lblDesc = new Label();
             lblDesc.Text = desc;
@@ -425,6 +396,7 @@ namespace EcoStationManagerApplication.UI.Controls
             lblDesc.ForeColor = Color.Gray;
             lblDesc.AutoSize = true;
             lblDesc.Location = new Point(15, 85);
+            lblDesc.Tag = "Desc";
 
             card.Controls.Add(lblLabel);
             card.Controls.Add(lblValue);

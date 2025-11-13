@@ -73,10 +73,13 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // dgvRecentOrders
             // 
+            this.dgvRecentOrders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvRecentOrders.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvRecentOrders.ColumnHeadersHeight = 29;
             this.dgvRecentOrders.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvRecentOrders.Location = new System.Drawing.Point(15, 55);
             this.dgvRecentOrders.Name = "dgvRecentOrders";
+            this.dgvRecentOrders.ReadOnly = true;
             this.dgvRecentOrders.RowHeadersWidth = 51;
             this.dgvRecentOrders.Size = new System.Drawing.Size(875, 445);
             this.dgvRecentOrders.TabIndex = 0;

@@ -372,6 +372,19 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
+        public async Task<Result<decimal>> GetTotalRevenueAsync(DateTime? fromDate = null, DateTime? toDate = null)
+        {
+            try
+            {
+                var totalRevenue = await _unitOfWork.Orders.GetTotalRevenueAsync(fromDate, toDate);
+                return Result<decimal>.Ok(totalRevenue, "Lấy tổng doanh thu thành công");
+            }
+            catch (Exception ex)
+            {
+                return HandleException<decimal>(ex, "lấy thống kê đơn hàng");
+            }
+        }
+
         public async Task<Result<OrderSummary>> GetOrderSummaryAsync(DateTime? fromDate = null, DateTime? toDate = null)
         {
             try

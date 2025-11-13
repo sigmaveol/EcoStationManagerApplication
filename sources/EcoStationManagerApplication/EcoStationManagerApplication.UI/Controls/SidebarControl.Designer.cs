@@ -58,7 +58,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.guna2PanelSidebar.Controls.Add(this.guna2PanelUserSidebar);
             this.guna2PanelSidebar.Controls.Add(this.guna2PanelHeaderSidebar);
             this.guna2PanelSidebar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.guna2PanelSidebar.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(98)))), ((int)(((byte)(102)))));
+            this.guna2PanelSidebar.FillColor = AppColors.Primary;
             this.guna2PanelSidebar.Location = new System.Drawing.Point(0, 0);
             this.guna2PanelSidebar.Name = "guna2PanelSidebar";
             this.guna2PanelSidebar.Size = new System.Drawing.Size(303, 803);
@@ -67,7 +67,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // guna2PanelMenuSidebar
             // 
             this.guna2PanelMenuSidebar.AutoScroll = true;
-            this.guna2PanelMenuSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(98)))), ((int)(((byte)(102)))));
+            this.guna2PanelMenuSidebar.BackColor = AppColors.Primary;
             this.guna2PanelMenuSidebar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2PanelMenuSidebar.Location = new System.Drawing.Point(0, 70);
             this.guna2PanelMenuSidebar.Name = "guna2PanelMenuSidebar";
@@ -76,7 +76,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // guna2PanelUserSidebar
             // 
-            this.guna2PanelUserSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(98)))), ((int)(((byte)(102)))));
+            this.guna2PanelUserSidebar.BackColor = AppColors.Primary;
             this.guna2PanelUserSidebar.Controls.Add(this.guna2PanelHighLightUser);
             this.guna2PanelUserSidebar.CustomBorderColor = System.Drawing.Color.White;
             this.guna2PanelUserSidebar.CustomBorderThickness = new System.Windows.Forms.Padding(0, 2, 0, 0);
@@ -138,7 +138,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // guna2PanelHeaderSidebar
             // 
-            this.guna2PanelHeaderSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(98)))), ((int)(((byte)(102)))));
+            this.guna2PanelHeaderSidebar.BackColor = AppColors.Primary;
             this.guna2PanelHeaderSidebar.Controls.Add(this.labelAppName);
             this.guna2PanelHeaderSidebar.Controls.Add(this.guna2ButtonMenuTogger);
             this.guna2PanelHeaderSidebar.Controls.Add(this.guna2CirclePictureBoxLogoSidebar);
@@ -165,17 +165,19 @@ namespace EcoStationManagerApplication.UI.Controls
             // guna2ButtonMenuTogger
             // 
             this.guna2ButtonMenuTogger.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.guna2ButtonMenuTogger.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(98)))), ((int)(((byte)(102)))));
+            this.guna2ButtonMenuTogger.BackColor = AppColors.Primary;
+            this.guna2ButtonMenuTogger.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.guna2ButtonMenuTogger.BorderColor = System.Drawing.Color.Transparent;
             this.guna2ButtonMenuTogger.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.guna2ButtonMenuTogger.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2ButtonMenuTogger.FillColor = this.guna2PanelHeaderSidebar.BackColor;
+            this.guna2ButtonMenuTogger.FillColor = this.guna2PanelHeaderSidebar.FillColor;
             this.guna2ButtonMenuTogger.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.guna2ButtonMenuTogger.ForeColor = System.Drawing.Color.White;
-            this.guna2ButtonMenuTogger.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(98)))), ((int)(((byte)(102)))));
+            this.guna2ButtonMenuTogger.HoverState.FillColor = AppColors.PrimaryHover;
             this.guna2ButtonMenuTogger.Image = global::EcoStationManagerApplication.UI.Properties.Resources.menu;
             this.guna2ButtonMenuTogger.ImageSize = new System.Drawing.Size(30, 30);
             this.guna2ButtonMenuTogger.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.guna2ButtonMenuTogger.Location = new System.Drawing.Point(253, 12);
+            this.guna2ButtonMenuTogger.Location = new System.Drawing.Point(249, 12);
             this.guna2ButtonMenuTogger.Name = "guna2ButtonMenuTogger";
             this.guna2ButtonMenuTogger.Size = new System.Drawing.Size(40, 40);
             this.guna2ButtonMenuTogger.TabIndex = 3;
@@ -220,9 +222,9 @@ namespace EcoStationManagerApplication.UI.Controls
         private Label labelUsername;
         private Guna2CirclePictureBox guna2CirclePictureBoxAvatar;
         private Guna2Panel guna2PanelHeaderSidebar;
-        private Guna2Button guna2ButtonMenuTogger;
         private Guna2CirclePictureBox guna2CirclePictureBoxLogoSidebar;
         private Guna2Panel guna2PanelAvatar;
         private Guna2HtmlLabel labelAppName;
+        private Guna2Button guna2ButtonMenuTogger;
     }
 }

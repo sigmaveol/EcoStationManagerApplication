@@ -14,6 +14,8 @@ namespace EcoStationManagerApplication.Core.Interfaces
     {
         Task<Result<Order>> GetOrderByCode(string orderCode);
 
+        Task<Result<IEnumerable<OrderDTO>>> GetAllAsync();
+
         /// <summary>
         /// Lấy thông tin đơn hàng theo ID
         /// </summary>

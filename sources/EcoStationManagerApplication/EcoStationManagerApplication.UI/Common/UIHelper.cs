@@ -1,6 +1,9 @@
-﻿using EcoStationManagerApplication.Models.Results;
+﻿using EcoStationManagerApplication.Common.Config;
+using EcoStationManagerApplication.Models.Results;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +13,61 @@ namespace EcoStationManagerApplication.UI.Common
 {
     public static class UIHelper
     {
+        /// <summary>
+        /// Áp dụng UIConfig cho tất cả control trong parent (recursive)
+        /// </summary>
+        public static void ApplyUIConfig(Control parent)
+        {
+            if (parent == null) return;
+
+            var uiConfig = ConfigManager.GetUIConfig();
+
+            foreach (Control ctrl in parent.Controls)
+            {
+                // Panel, Guna2Panel, Guna2GradientPanel
+                if (ctrl is Panel || ctrl is Guna2Panel || ctrl is Guna2GradientPanel)
+                {
+                    ctrl.BackColor = ColorTranslator.FromHtml(uiConfig.PrimaryColor);
+                }
+
+                // Button, Guna2Button
+                else if (ctrl is Button || ctrl is Guna2Button)
+                {
+                    ctrl.BackColor = ColorTranslator.FromHtml(uiConfig.SecondaryColor);
+                    ctrl.ForeColor = Color.White;
+                    ctrl.Font = new Font(uiConfig.FontFamily, uiConfig.FontSize);
+                }
+
+                // Label, Guna2HtmlLabel
+                else if (ctrl is Label || ctrl is Guna2HtmlLabel)
+                {
+                    ctrl.Font = new Font(uiConfig.FontFamily, uiConfig.FontSize);
+                    ctrl.ForeColor = uiConfig.GunaTheme == "Dark" ? Color.LightGray : Color.Black;
+                }
+
+                // Các Guna2CirclePictureBox hoặc PictureBox: không thay đổi màu nền, giữ nguyên
+                // Nếu muốn highlight border, có thể dùng ctrl.BackColor hoặc ShadowDecoration
+
+                // Recursive cho child controls
+                if (ctrl.HasChildren)
+                    ApplyUIConfig(ctrl);
+            }
+
+            // Animation (ví dụ cho Guna2Transition)
+            if (uiConfig.EnableAnimations)
+            {
+                var transition = new Guna2Transition();
+                transition.AnimationType = Guna.UI2.AnimatorNS.AnimationType.HorizSlide;
+                transition.Interval = 300;
+
+                // Áp dụng cho panel chính nếu muốn
+                if (parent is Guna2Panel || parent is Guna2GradientPanel)
+                {
+                    transition.ShowSync(parent);
+                }
+            }
+        }
+
         public static void ShowSuccessMessage(string message)
         {
             MessageBox.Show(message, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);

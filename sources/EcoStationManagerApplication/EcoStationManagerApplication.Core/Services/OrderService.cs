@@ -23,6 +23,36 @@ namespace EcoStationManagerApplication.Core.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<Result<IEnumerable<OrderDTO>>> GetAllAsync()
+        {
+            try
+            {
+                var ordersResult = await _unitOfWork.Orders.GetAllAsync();
+                if (!ordersResult.Any()) 
+                {
+                    return NotFoundError<IEnumerable<OrderDTO>>("đơn hàng");
+
+                }
+
+                var orderDTOs = new List<OrderDTO>();
+
+                foreach (var order in ordersResult)
+                {
+                    var orderDTO = MappingHelper.MapToOrderDTO(order);
+                    if (orderDTO != null)
+                    {
+                        orderDTOs.Add(orderDTO);
+                    }
+                };
+                return Result<IEnumerable<OrderDTO>>.Ok(orderDTOs, $"Đã thấy thành công {orderDTOs.Count} đơn hàng");
+
+            }
+            catch (Exception ex) 
+            {
+                return HandleException<IEnumerable<OrderDTO>> (ex, "lấy thông tin đơn hàng");    
+            }
+        }
+
         public async Task<Result<Order>> GetOrderByCode(string orderCode)
         {
             try

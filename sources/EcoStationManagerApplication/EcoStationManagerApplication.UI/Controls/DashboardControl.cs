@@ -1,4 +1,5 @@
 ﻿using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
 using System;
 using System.Drawing;
@@ -15,13 +16,22 @@ namespace EcoStationManagerApplication.UI.Controls
         public DashboardControl()
         {
             InitializeComponent();
+        }
 
+        private async void DashboardControl_Load(object sender, EventArgs e)
+        {
+            await InitializeComponentCustom();
+        }
+
+
+        private async Task InitializeComponentCustom()
+        {
             PopulateStatsPanel();
-            InitializeDataGrid(); 
-            if (btnViewAllOrders != null)
-            {
-                btnViewAllOrders.Click += btnViewAllOrders_Click;
-            }
+            InitializeDataGrid();
+
+
+            btnViewAllOrders.Click += btnViewAllOrders_Click;
+            await LoadDashboardData();
         }
 
         private void btnViewAllOrders_Click(object sender, EventArgs e)
@@ -29,17 +39,18 @@ namespace EcoStationManagerApplication.UI.Controls
             ViewAllOrdersClicked?.Invoke(this, EventArgs.Empty);
         }
 
-        // Đổ dữ liệu cho các thẻ thống kê
+        // Đổ dữ liệu tạm thời cho các thẻ thống kê
         private void PopulateStatsPanel()
         {
             if (statsPanel == null) return;
 
             var statsData = new[]
             {
-                new { Label = "Đơn hàng hôm nay", Value = "12", Desc = "+2 so với hôm qua", IsEco = false },
-                new { Label = "Doanh thu tháng", Value = "8.5M", Desc = "+15% so với tháng trước", IsEco = false },
-                new { Label = "Tồn kho thấp", Value = "3", Desc = "Sản phẩm cần nhập", IsEco = false },
-                new { Label = "Bao bì cần thu hồi", Value = "24", Desc = "Chai/lọ đang lưu hành", IsEco = false },
+                new { Label = "Đơn hàng hôm nay", Value = "0", Desc = "Đang tải...", IsEco = false },
+                new { Label = "Doanh thu tháng", Value = "0", Desc = "VND", IsEco = false },
+                new { Label = "Tồn kho thấp", Value = "0", Desc = "Sản phẩm", IsEco = false },
+                new { Label = "Bao bì đang sử dụng", Value = "0", Desc = "Chai/lọ", IsEco = false },
+                new { Label = "Đơn chờ xử lý", Value = "0", Desc = "Cần xử lý", IsEco = false }
             };
 
             foreach (var stat in statsData)
@@ -47,11 +58,12 @@ namespace EcoStationManagerApplication.UI.Controls
                 var statCard = CreateStatCard(stat.Label, stat.Value, stat.Desc, stat.IsEco);
                 statCard.Margin = new Padding(10);
                 statCard.Size = new Size(170, 120);
+                statCard.Tag = stat.Label; // Dùng để cập nhật sau này
                 statsPanel.Controls.Add(statCard);
             }
         }
 
-        private async void LoadDashboardData()
+        private async Task LoadDashboardData()
         {
             try
             {
@@ -79,39 +91,254 @@ namespace EcoStationManagerApplication.UI.Controls
             {
                 // Tổng đơn hàng hôm nay
                 var todayOrdersResult = await AppServices.OrderService.GetTodayOrdersAsync();
-                var todayOrderCount = todayOrdersResult.Success ? todayOrdersResult.Data.Count : 0;
+                var todayOrderCount = todayOrdersResult.Success ? todayOrdersResult.Data.Count() : 0;
 
                 // Doanh thu tháng
                 var monthlyRevenue = await CalculateMonthlyRevenue();
 
                 // Sản phẩm tồn kho thấp
-                var lowStockResult = await AppServices.InventoryService.GetLowStockItemsAsync();
-                var lowStockCount = lowStockResult.Success ? lowStockResult.Data.Count() : 0;
+                var lowStockCount = await GetLowStockCount();
 
                 // Bao bì cần thu hồi
                 var packagingInUse = await CalculatePackagingInUse();
 
-                // Tác động môi trường (tính toán giả định)
-                var environmentalImpact = await CalculateEnvironmentalImpact();
+                // Đơn hàng chờ xử lý
+                var pendingOrdersCount = await GetPendingOrdersCount();
 
-                var statsData = new[]
-                {
-                    new { Label = "Đơn hàng hôm nay", Value = todayOrderCount.ToString(), Desc = "Đơn hàng mới", IsEco = false },
-                    new { Label = "Doanh thu tháng", Value = $"{monthlyRevenue:N0}", Desc = "VND", IsEco = false },
-                    new { Label = "Tồn kho thấp", Value = lowStockCount.ToString(), Desc = "Sản phẩm cần nhập", IsEco = false },
-                    new { Label = "Bao bì đang sử dụng", Value = packagingInUse.ToString(), Desc = "Chai/lọ lưu hành", IsEco = false },
-                    new { Label = "CO2 tiết kiệm", Value = $"{environmentalImpact} kg", Desc = "Giảm phát thải", IsEco = true }
-                };
-
-                UpdateStatsPanel(statsData);
+                // Cập nhật UI
+                UpdateStatCard("Đơn hàng hôm nay", todayOrderCount.ToString(), "Đơn hàng mới");
+                UpdateStatCard("Doanh thu tháng", $"{monthlyRevenue:N0}", "VND");
+                UpdateStatCard("Tồn kho thấp", lowStockCount.ToString(), "Sản phẩm cần nhập");
+                UpdateStatCard("Bao bì đang sử dụng", packagingInUse.ToString(), "Chai/lọ lưu hành");
+                UpdateStatCard("Đơn chờ xử lý", pendingOrdersCount.ToString(), "Cần xử lý");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Lỗi tải thống kê: {ex.Message}");
+                // Fallback to default values
+                UpdateStatCard("Đơn hàng hôm nay", "0", "Lỗi tải dữ liệu");
+                UpdateStatCard("Doanh thu tháng", "0", "Lỗi tải dữ liệu");
+                UpdateStatCard("Tồn kho thấp", "0", "Lỗi tải dữ liệu");
+                UpdateStatCard("Bao bì đang sử dụng", "0", "Lỗi tải dữ liệu");
+                UpdateStatCard("Đơn chờ xử lý", "0", "Lỗi tải dữ liệu");
             }
         }
 
-        // Khởi tạo và đổ dữ liệu cho DataGridView
+        private void UpdateStatCard(string label, string value, string description)
+        {
+            if (statsPanel == null) return;
+
+            var statCard = statsPanel.Controls
+                .Cast<Control>()
+                .FirstOrDefault(c => c.Tag?.ToString() == label);
+
+            if (statCard != null)
+            {
+                var valueLabel = statCard.Controls
+                    .OfType<Label>()
+                    .FirstOrDefault(l => l.Tag?.ToString() == "Value");
+
+                var descLabel = statCard.Controls
+                    .OfType<Label>()
+                    .FirstOrDefault(l => l.Tag?.ToString() == "Desc");
+
+                if (valueLabel != null) valueLabel.Text = value;
+                if (descLabel != null) descLabel.Text = description;
+            }
+        }
+
+        private async Task LoadRecentOrders()
+        {
+            try
+            {
+                // Sử dụng GetTodayOrdersAsync để lấy đơn hàng gần đây
+                var recentOrdersResult = await AppServices.OrderService.GetTodayOrdersAsync();
+
+                if (recentOrdersResult.Success && dgvRecentOrders != null)
+                {
+                    dgvRecentOrders.Rows.Clear();
+
+                    // Lấy 10 đơn hàng gần đây nhất
+                    var recentOrders = recentOrdersResult.Data
+                        .OrderByDescending(o => o.LastUpdated)
+                        .Take(10)
+                        .ToList();
+
+
+                    foreach (var order in recentOrders)
+                    {
+                        // Lấy thông tin khách hàng
+                        string customerName = "Khách lẻ";
+
+                        MessageBox.Show("1");
+                        if (order.CustomerId.HasValue)
+                        {
+                            MessageBox.Show("A");
+                            var customerResult = await AppServices.CustomerService.GetCustomerByIdAsync(order.CustomerId.Value);
+                            if (customerResult.Success)
+                            {
+                                customerName = customerResult.Data.Name;
+                            }
+                            else 
+                            {
+                            }
+                        }
+
+                        // Lấy thông tin sản phẩm từ chi tiết đơn hàng
+                        var orderDetailsResult = await AppServices.OrderService.GetOrderWithDetailsAsync(order.OrderId);
+                        string productInfo = "Đa dạng sản phẩm";
+
+                        if (orderDetailsResult.Success && orderDetailsResult.Data?.OrderDetails?.Any() == true)
+                        {
+                            var firstProduct = orderDetailsResult.Data.OrderDetails.First();
+                            var productResult = await AppServices.ProductService.GetProductByIdAsync(firstProduct.ProductId);
+                            if (productResult.Success)
+                            {
+                                var product = productResult.Data;
+                                productInfo = $"{product.Name} ({firstProduct.Quantity} {product.Unit})";
+                            }
+                        }
+
+                        dgvRecentOrders.Rows.Add(
+                            $"ORD-{order.OrderId:D5}",
+                            customerName,
+                            productInfo,
+                            GetOrderSourceDisplay(order.Source),
+                            GetOrderStatusDisplay(order.Status),
+                            order.LastUpdated.ToString("dd/MM/yyyy HH:mm")
+                        );
+                    }
+
+                    // Nếu không có đơn hàng nào, hiển thị thông báo
+                    if (!recentOrders.Any())
+                    {
+                        dgvRecentOrders.Rows.Add("", "Không có đơn hàng nào hôm nay", "", "", "", "");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi tải đơn hàng gần đây: {ex.Message}");
+            }
+        }
+
+        private async Task<decimal> CalculateMonthlyRevenue()
+        {
+            try
+            {
+                // Sử dụng GetOrderSummaryAsync để lấy doanh thu
+                var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                var endDate = startDate.AddMonths(1).AddDays(-1);
+
+                var summaryResult = await AppServices.OrderService.GetOrderSummaryAsync(startDate, endDate);
+                return summaryResult.Success ? summaryResult.Data.TotalRevenue : 0;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private async Task<int> GetLowStockCount()
+        {
+            try
+            {
+                // Giả định có service lấy số lượng sản phẩm tồn kho thấp
+                // Trong thực tế, bạn cần triển khai IInventoryService.GetLowStockItemsAsync()
+                var lowStockResult = await AppServices.InventoryService.GetLowStockItemsAsync();
+                return lowStockResult.Success ? lowStockResult.Data.Count() : 0;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private async Task<int> CalculatePackagingInUse()
+        {
+            try
+            {
+                // Giả định có service lấy thông tin bao bì
+                var packagingResult = await AppServices.PackagingInventoryService.GetAllAsync();
+                if (packagingResult != null && packagingResult.Success)
+                {
+                    return packagingResult.Data.Sum(p => p.QtyInUse);
+                }
+                return 0;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private async Task<int> GetPendingOrdersCount()
+        {
+            try
+            {
+                var pendingOrdersResult = await AppServices.OrderService.GetPendingOrdersAsync();
+                return pendingOrdersResult.Success ? pendingOrdersResult.Data.Count() : 0;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private string GetOrderSourceDisplay(OrderSource source)
+        {
+            switch (source)
+            {
+                case OrderSource.GOOGLEFORM:
+                    return "Online";
+                case OrderSource.MANUAL:
+                    return "Offline";
+                case OrderSource.EXCEL:
+                    return "Excel";
+                case OrderSource.EMAIL:
+                    return "Email";
+                default:
+                    return "Khác";
+            }
+        }
+
+        private string GetOrderStatusDisplay(OrderStatus status)
+        {
+            switch (status)
+            {
+                case OrderStatus.DRAFT:
+                    return "Nháp";
+                case OrderStatus.CONFIRMED:
+                    return "Đã xác nhận";
+                case OrderStatus.PROCESSING:
+                    return "Đang xử lý";
+                case OrderStatus.READY:
+                    return "Sẵn sàng";
+                case OrderStatus.SHIPPED:
+                    return "Đang giao";
+                case OrderStatus.COMPLETED:
+                    return "Hoàn thành";
+                case OrderStatus.CANCELLED:
+                    return "Đã hủy";
+                default:
+                    return "Không xác định";
+            }
+        }
+
+        private void ShowLoading(bool show)
+        {
+            // Implement loading indicator if needed
+            if (show)
+            {
+                Cursor = Cursors.WaitCursor;
+            }
+            else
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        // Khởi tạo DataGridView
         private void InitializeDataGrid()
         {
             if (dgvRecentOrders == null) return;
@@ -135,37 +362,29 @@ namespace EcoStationManagerApplication.UI.Controls
             dgvRecentOrders.DefaultCellStyle.SelectionForeColor = Color.Black;
             dgvRecentOrders.RowTemplate.Height = 35;
 
-            dgvRecentOrders.Columns.Add("MaDon", "Mã đơn");
-            dgvRecentOrders.Columns.Add("KhachHang", "Khách hàng");
-            dgvRecentOrders.Columns.Add("SanPham", "Sản phẩm");
-            dgvRecentOrders.Columns.Add("Loai", "Loại");
-            dgvRecentOrders.Columns.Add("TrangThai", "Trạng thái");
-            dgvRecentOrders.Columns.Add("NgayTao", "Ngày tạo");
-            dgvRecentOrders.Columns["SanPham"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvRecentOrders.Columns["KhachHang"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            // Clear existing columns
+            dgvRecentOrders.Columns.Clear();
 
-            string[,] data = {
-                { "ORD-00125", "Nguyễn Văn A", "Dầu gội thiên nhiên 500ml", "Online", "Đang giao", "15/03/2025" },
-                { "ORD-00124", "Trần Thị B", "Nước rửa chén 1L", "Offline", "Chuẩn bị", "15/03/2025" }
-            };
-
-            for (int row = 0; row < data.GetLength(0); row++)
-            {
-                dgvRecentOrders.Rows.Add(
-                    data[row, 0], data[row, 1], data[row, 2],
-                    data[row, 3], data[row, 4], data[row, 5]
-                );
-            }
+            dgvRecentOrders.Columns.Add("OrderCode", "Mã đơn");           // OrderCode
+            dgvRecentOrders.Columns.Add("CustomerName", "Khách hàng");    // CustomerName
+            dgvRecentOrders.Columns.Add("Products", "Sản phẩm");          // Nối từ OrderDetails.ProductName
+            dgvRecentOrders.Columns.Add("Source", "Loại");                // Source
+            dgvRecentOrders.Columns.Add("Status", "Trạng thái");          // Status
+            dgvRecentOrders.Columns.Add("LastUpdated", "Thời gian");      // LastUpdated
+            // Tự động co giãn cột
+            dgvRecentOrders.Columns["Products"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvRecentOrders.Columns["CustomerName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
             dgvRecentOrders.CellFormatting += dgvRecentOrders_CellFormatting;
         }
 
-        // Sự kiện này sẽ tô màu cho các ô "Loại" và "Trạng thái"
         private void dgvRecentOrders_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
             string colName = dgvRecentOrders.Columns[e.ColumnIndex].Name;
 
-            if (colName == "Loai" || colName == "TrangThai")
+            if (colName == "Source" || colName == "Status")
             {
                 if (e.Value != null)
                 {
@@ -223,8 +442,20 @@ namespace EcoStationManagerApplication.UI.Controls
                 case "Offline": return Color.FromArgb(224, 224, 224);
                 case "Đang giao": return Color.FromArgb(200, 230, 201);
                 case "Chuẩn bị": return Color.FromArgb(255, 249, 196);
+                case "Hoàn thành": return Color.FromArgb(200, 230, 201);
+                case "Đã xác nhận": return Color.FromArgb(255, 249, 196);
+                case "Đang xử lý": return Color.FromArgb(255, 243, 205);
+                case "Sẵn sàng": return Color.FromArgb(209, 231, 221);
+                case "Đã hủy": return Color.FromArgb(245, 198, 203);
+                case "Nháp": return Color.FromArgb(222, 226, 230);
                 default: return Color.LightGray;
             }
+        }
+
+        // Method để refresh dữ liệu từ bên ngoài
+        public async Task RefreshDataAsync()
+        {
+            await LoadDashboardData();
         }
     }
 }

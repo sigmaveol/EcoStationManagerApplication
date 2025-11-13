@@ -1,7 +1,8 @@
-﻿using EcoStationManagerApplication.Core.Interfaces;
+﻿using EcoStationManagerApplication.Core.Helpers;
+using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.DAL.Interfaces;
-using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Results;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,26 @@ namespace EcoStationManagerApplication.Core.Services
             _unitOfWork = unitOfWork;
             _packagingService = packagingService;
         }
+
+        public async Task<Result<IEnumerable<PackagingInventory>>> GetAllAsync()
+        {
+            return null;
+            try
+            {
+                var packagingInventories = await _unitOfWork.PackagingInventories.GetAllAsync();
+                if (!packagingInventories.Any())
+                {
+                    return NotFoundError<IEnumerable<PackagingInventory>>("Tồn kho bao bì");
+                }
+
+                return Result<IEnumerable<PackagingInventory>>.Ok(packagingInventories);
+            }
+            catch (Exception ex) 
+            {
+                return HandleException<IEnumerable<PackagingInventory>>(ex, "lấy thông tin tồn kho bao bì");
+            }
+        }
+
 
         public async Task<Result<PackagingInventory>> GetPackagingInventoryAsync(int packagingId)
         {

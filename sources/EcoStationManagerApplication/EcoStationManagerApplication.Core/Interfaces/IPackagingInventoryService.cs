@@ -11,6 +11,7 @@ namespace EcoStationManagerApplication.Core.Interfaces
 {
     public interface IPackagingInventoryService
     {
+        Task<Result<IEnumerable<PackagingInventory>>> GetAllAsync();
         Task<Result<PackagingInventory>> GetPackagingInventoryAsync(int packagingId);
         Task<Result<List<PackagingInventory>>> GetLowStockPackagingAsync();
         Task<Result<bool>> UpdatePackagingQuantitiesAsync(int packagingId, PackagingQuantities quantities);

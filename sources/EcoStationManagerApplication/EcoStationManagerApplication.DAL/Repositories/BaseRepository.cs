@@ -42,7 +42,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         {
             try
             {
-                var sql = $"SELECT * FROM {_tableName} WHERE is_active = TRUE";
+                var sql = $"SELECT * FROM {_tableName}";
                 return await _databaseHelper.QueryAsync<T>(sql);
             }
             catch (Exception ex)
@@ -60,7 +60,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
                     .Where(p => p.Name != _idColumn) // Exclude ID column for insert
                     .ToList();
 
-                var columns = string.Join(", ", properties.Select(p => p.Name));
+                var columns = string.Join(", ", properties.Select(p => ToSnakeCase(p.Name)));
                 var parameters = string.Join(", ", properties.Select(p => $"@{p.Name}"));
 
                 var sql = $"INSERT INTO {_tableName} ({columns}) VALUES ({parameters}); SELECT LAST_INSERT_ID();";
@@ -74,6 +74,12 @@ namespace EcoStationManagerApplication.DAL.Interfaces
             }
         }
 
+        private string ToSnakeCase(string name)
+        {
+            return string.Concat(name.Select((x, i) =>
+                i > 0 && char.IsUpper(x) ? "_" + char.ToLower(x) : char.ToLower(x).ToString()));
+        }
+
         public virtual async Task<bool> UpdateAsync(T entity)
         {
             try
@@ -82,7 +88,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
                     .Where(p => p.Name != _idColumn) // Exclude ID column from SET clause
                     .ToList();
 
-                var setClause = string.Join(", ", properties.Select(p => $"{p.Name} = @{p.Name}"));
+                var setClause = string.Join(", ", properties.Select(p => $"{ToSnakeCase(p.Name)} = @{p.Name}"));
 
                 var sql = $"UPDATE {_tableName} SET {setClause} WHERE {_idColumn} = @{_idColumn}";
                 var affectedRows = await _databaseHelper.ExecuteAsync(sql, entity);

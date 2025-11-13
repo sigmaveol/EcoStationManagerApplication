@@ -3,52 +3,92 @@
   "WorkspaceRootPath": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.ui\\forms\\addorderform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\forms\\addorderform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.ui\\controls\\orderscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\orderscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.ui\\controls\\dataimportcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\dataimportcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.ui\\controls\\dashboardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\dashboardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.dal\\repositories\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\repositories\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.core\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.core\\services\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\services\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.core\\services\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\services\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.dal\\repositories\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\repositories\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.ui\\controls\\dashboardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\dashboardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.dal\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.core\\interfaces\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\interfaces\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.ui\\controls\\dashboardcontrol.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\dashboardcontrol.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.core\\services\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\services\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.core\\interfaces\\icustomerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\interfaces\\icustomerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.models\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|solutionrelative:ecostationmanagerapplication.models\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.ui\\common\\appcolors.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\common\\appcolors.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.ui\\controls\\dashboardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\dashboardcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.ui\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.ui\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\forms\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.core\\helpers\\mappinghelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\helpers\\mappinghelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.ui\\common\\themmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\common\\themmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.core\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.core\\services\\packaginginventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\services\\packaginginventoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.models\\dtos\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E01BEF2E-87D7-4BB7-ACDE-0FFE069B4631}|EcoStationManagerApplication.Models\\EcoStationManagerApplication.Models.csproj|solutionrelative:ecostationmanagerapplication.models\\dtos\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.ui\\controls\\orderscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\orderscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.ui\\controls\\inventorycontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\inventorycontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.ui\\controls\\contentcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\contentcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.ui\\forms\\addorderform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\forms\\addorderform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.ui\\forms\\addproductform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\forms\\addproductform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.ui\\controls\\dataimportcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\dataimportcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.dal\\repositories\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\repositories\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.dal\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,7 +98,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,94 +110,248 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AddOrderForm.cs [Design]",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\AddOrderForm.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Forms\\AddOrderForm.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\AddOrderForm.cs [Design]",
-              "RelativeToolTip": "EcoStationManagerApplication.UI\\Forms\\AddOrderForm.cs [Design]",
+              "DocumentIndex": 4,
+              "Title": "Order.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\Entities\\Order.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.Models\\Entities\\Order.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\Entities\\Order.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.Models\\Entities\\Order.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T09:19:15.047Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-11-13T04:09:03.851Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DashboardControl.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAWwKsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T03:58:07.824Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "OrdersControl.cs [Design]",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\OrdersControl.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\OrdersControl.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\OrdersControl.cs [Design]*",
-              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\OrdersControl.cs [Design]*",
+              "Title": "IOrderService.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Interfaces\\IOrderService.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Interfaces\\IOrderService.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Interfaces\\IOrderService.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.Core\\Interfaces\\IOrderService.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAEwCQAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T09:18:53.407Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DataImportControl.cs [Design]",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DataImportControl.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\DataImportControl.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DataImportControl.cs [Design]",
-              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\DataImportControl.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T09:17:25.148Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-11-12T14:11:08.294Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "DashboardControl.cs [Design]",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs [Design]*",
-              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs [Design]*",
+              "Title": "ICustomerService.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Interfaces\\ICustomerService.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Interfaces\\ICustomerService.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Interfaces\\ICustomerService.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.Core\\Interfaces\\ICustomerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA0AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T09:17:18.893Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-11-12T14:23:43.494Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "CustomerService.cs",
               "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\CustomerService.cs",
               "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Services\\CustomerService.cs",
               "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\CustomerService.cs",
               "RelativeToolTip": "EcoStationManagerApplication.Core\\Services\\CustomerService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAwwB0AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-12T09:11:47.974Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "BaseService.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\BaseService.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Services\\BaseService.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\BaseService.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.Core\\Services\\BaseService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "AppColors.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Common\\AppColors.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Common\\AppColors.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Common\\AppColors.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Common\\AppColors.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T09:11:43.555Z",
+              "WhenOpened": "2025-11-13T03:47:46.306Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "BaseRepository.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Repositories\\BaseRepository.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.DAL\\Repositories\\BaseRepository.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Repositories\\BaseRepository.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.DAL\\Repositories\\BaseRepository.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "DashboardControl.cs [Design]",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs [Design]",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T09:11:28.131Z",
+              "WhenOpened": "2025-11-12T18:23:05.25Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\MainForm.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Forms\\MainForm.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\MainForm.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Forms\\MainForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T16:29:31.129Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
+              "Title": "MainForm.cs [Design]",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\MainForm.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Forms\\MainForm.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\MainForm.cs [Design]",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Forms\\MainForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T18:30:42.104Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MappingHelper.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Helpers\\MappingHelper.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Helpers\\MappingHelper.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Helpers\\MappingHelper.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.Core\\Helpers\\MappingHelper.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAACQAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:38:40.475Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ThemManager.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Common\\ThemManager.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Common\\ThemManager.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Common\\ThemManager.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Common\\ThemManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T16:50:12.372Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "PackagingInventoryService.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\PackagingInventoryService.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Services\\PackagingInventoryService.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\PackagingInventoryService.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.Core\\Services\\PackagingInventoryService.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAuwBkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T09:59:38.43Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "OrderService.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\OrderService.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Services\\OrderService.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\OrderService.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.Core\\Services\\OrderService.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwDYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T07:34:02.196Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Inventory.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\DTOs\\Inventory.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.Models\\DTOs\\Inventory.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Models\\DTOs\\Inventory.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.Models\\DTOs\\Inventory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:29:39.686Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "OrdersControl.cs [Design]",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\OrdersControl.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\OrdersControl.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\OrdersControl.cs [Design]",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\OrdersControl.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T09:18:53.407Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ContentControl.cs [Design]",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\ContentControl.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\ContentControl.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\ContentControl.cs [Design]",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\ContentControl.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T09:59:47.06Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "InventoryControl.cs [Design]",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\InventoryControl.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\InventoryControl.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\InventoryControl.cs [Design]",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\InventoryControl.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T09:59:52.076Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "AddProductForm.cs [Design]",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\AddProductForm.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Forms\\AddProductForm.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\AddProductForm.cs [Design]",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Forms\\AddProductForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T09:35:54.759Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "AddOrderForm.cs [Design]",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\AddOrderForm.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Forms\\AddOrderForm.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\AddOrderForm.cs [Design]",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Forms\\AddOrderForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T09:19:15.047Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "DataImportControl.cs [Design]",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DataImportControl.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\DataImportControl.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DataImportControl.cs [Design]",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\DataImportControl.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T09:17:25.148Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
               "Title": "CustomerRepository.cs",
               "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Repositories\\CustomerRepository.cs",
               "RelativeDocumentMoniker": "EcoStationManagerApplication.DAL\\Repositories\\CustomerRepository.cs",
@@ -165,25 +359,11 @@
               "RelativeToolTip": "EcoStationManagerApplication.DAL\\Repositories\\CustomerRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T09:11:21.634Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-12T09:11:21.634Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Services\\OrderService.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\OrderService.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Services\\OrderService.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\OrderService.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.Core\\Services\\OrderService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAM8BAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T07:34:02.196Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 21,
               "Title": "OrderRepository.cs",
               "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Repositories\\OrderRepository.cs",
               "RelativeDocumentMoniker": "EcoStationManagerApplication.DAL\\Repositories\\OrderRepository.cs",
@@ -192,32 +372,6 @@
               "ViewState": "AgIAADwAAAAAAAAAAAAkwLAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-12T07:32:08.685Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DashboardControl.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs*",
-              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\DashboardControl.cs*",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAYwCkAAAByAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-12T06:49:08.234Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "DashboardControl.Designer.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DashboardControl.Designer.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\DashboardControl.Designer.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\DashboardControl.Designer.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\DashboardControl.Designer.cs",
-              "ViewState": "AgIAAH0AAAAAAAAAAAAwwKEAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T18:04:15.382Z",
-              "EditorCaption": ""
             }
           ]
         }

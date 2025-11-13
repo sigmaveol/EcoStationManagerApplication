@@ -15,7 +15,6 @@ namespace EcoStationManagerApplication.Models.Entities
         public int? CustomerId { get; set; }  // customer_id INT
         public Customer Customer { get; set; }  // Navigation property
 
-
         public OrderSource Source { get; set; } = OrderSource.MANUAL; // source ENUM
 
         public decimal TotalAmount { get; set; } = 0; // total_amount DECIMAL(10,2)

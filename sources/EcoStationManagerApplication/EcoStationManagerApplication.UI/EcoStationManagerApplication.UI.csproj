@@ -73,7 +73,6 @@
     <Compile Include="Common\Helper.cs" />
     <Compile Include="Common\ResponsiveLayoutHelper.cs" />
     <Compile Include="Common\ThemManager.cs" />
-    <Compile Include="Common\Toggler.cs" />
     <Compile Include="Common\TogglerSidebar.cs" />
     <Compile Include="Common\UIHelper.cs" />
     <Compile Include="Controls\BackupControl.cs">

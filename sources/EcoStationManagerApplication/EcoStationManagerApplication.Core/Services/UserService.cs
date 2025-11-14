@@ -30,15 +30,30 @@ namespace EcoStationManagerApplication.Core.Services
                 if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                     return Result<User>.Fail("Tên đăng nhập và mật khẩu không được để trống");
 
-                // Hash password
-                var passwordHash = SecurityHelper.HashPassword(password);
-
-                var user = await _unitOfWork.Users.GetByUsernameAndPasswordAsync(username, passwordHash);
+                // Lấy user theo username trước
+                var user = await _unitOfWork.Users.GetByUsernameAsync(username);
                 if (user == null)
                     return Result<User>.Fail("Tên đăng nhập hoặc mật khẩu không đúng");
 
+                // Kiểm tra trạng thái active
                 if (user.IsActive != ActiveStatus.ACTIVE)
                     return Result<User>.Fail("Tài khoản đã bị vô hiệu hóa");
+
+                // So sánh password hash trong code (chính xác hơn so sánh trong SQL)
+                var inputPasswordHash = SecurityHelper.HashPassword(password);
+                
+                // Trim và so sánh để tránh lỗi do khoảng trắng
+                var storedHash = user.PasswordHash?.Trim();
+                var inputHash = inputPasswordHash?.Trim();
+                
+                // Debug logging (có thể xóa sau khi fix)
+                _logger.Info($"Authentication attempt - Username: {username}, StoredHash: '{storedHash}', InputHash: '{inputHash}', Match: {storedHash == inputHash}");
+                
+                if (string.IsNullOrEmpty(storedHash) || storedHash != inputHash)
+                {
+                    _logger.Warning($"Password mismatch for user: {username}. Stored length: {storedHash?.Length}, Input length: {inputHash?.Length}");
+                    return Result<User>.Fail("Tên đăng nhập hoặc mật khẩu không đúng");
+                }
 
                 _logger.Info($"User authenticated: {username} (ID: {user.UserId})");
                 return Result<User>.Ok(user, "Đăng nhập thành công");
@@ -91,6 +106,51 @@ namespace EcoStationManagerApplication.Core.Services
             catch (Exception ex)
             {
                 return HandleException<IEnumerable<User>>(ex, "lấy người dùng theo role");
+            }
+        }
+
+        public async Task<Result<int>> CreateUserAsync(string username, string password, UserRole role, string fullname = null)
+        {
+            try
+            {
+                // Validate input
+                if (string.IsNullOrWhiteSpace(username))
+                    return Result<int>.Fail("Tên đăng nhập không được để trống");
+
+                if (string.IsNullOrWhiteSpace(password))
+                    return Result<int>.Fail("Mật khẩu không được để trống");
+
+                // Cho phép password ngắn hơn cho admin user đầu tiên
+                bool isFirstAdmin = role == UserRole.ADMIN;
+                if (isFirstAdmin)
+                {
+                    // Kiểm tra xem đã có admin nào chưa
+                    var existingAdmins = await _unitOfWork.Users.GetByRoleAsync(UserRole.ADMIN);
+                    isFirstAdmin = !existingAdmins.Any();
+                }
+
+                if (!isFirstAdmin && password.Length < 6)
+                    return Result<int>.Fail("Mật khẩu phải có ít nhất 6 ký tự");
+
+                if (username.Length < 3)
+                    return Result<int>.Fail("Tên đăng nhập phải có ít nhất 3 ký tự");
+
+                // Tạo User entity
+                var user = new User
+                {
+                    Username = username.Trim(),
+                    Fullname = string.IsNullOrWhiteSpace(fullname) ? username.Trim() : fullname.Trim(),
+                    Role = role,
+                    IsActive = ActiveStatus.ACTIVE,
+                    CreatedDate = DateTime.Now
+                };
+
+                // Gọi CreateUserAsync để tạo user
+                return await CreateUserAsync(user, password);
+            }
+            catch (Exception ex)
+            {
+                return HandleException<int>(ex, "tạo người dùng");
             }
         }
 

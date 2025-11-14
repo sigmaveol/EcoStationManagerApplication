@@ -33,6 +33,11 @@ namespace EcoStationManagerApplication.Core.Interfaces
         Task<Result<IEnumerable<User>>> GetUsersByRoleAsync(UserRole role);
 
         /// <summary>
+        /// Tạo người dùng mới với username, password và role
+        /// </summary>
+        Task<Result<int>> CreateUserAsync(string username, string password, UserRole role, string fullname = null);
+
+        /// <summary>
         /// Tạo người dùng mới
         /// </summary>
         Task<Result<int>> CreateUserAsync(User user, string password);

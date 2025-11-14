@@ -35,7 +35,7 @@ namespace EcoStationManagerApplication.Models.Entities
 
         [StringLength(20)]
         [Column("rank")]
-        public string Rank { get; set; } = "MEMBER";
+        public CustomerRank  Rank { get; set; } = CustomerRank.MEMBER;
 
         [Column("is_active")]
         public bool IsActive { get; set; } = true;

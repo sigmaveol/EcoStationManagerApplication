@@ -1,6 +1,10 @@
 ﻿using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.UI.Forms;
+using EcoStationManagerApplication.Common.Exporters;
+using EcoStationManagerApplication.Core.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,9 +14,18 @@ namespace EcoStationManagerApplication.UI.Controls
     public partial class OrdersControl : UserControl
     {
         private string _currentFilter = "all";
+        
+        // Exporters từ tầng Common
+        private readonly IExcelExporter _excelExporter;
+        private readonly IPdfExporter _pdfExporter;
+        
         public OrdersControl()
         {
             InitializeComponent();
+
+            // Khởi tạo exporters
+            _excelExporter = new ExcelExporter();
+            _pdfExporter = new PdfExporter();
 
             SetupDataGridStyle(dgvOrders);
 
@@ -108,6 +121,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 // Lấy tag và gọi LoadOrdersAsync với tag đó
                 string filterTag = button.Tag?.ToString() ?? "all";
+                _currentFilter = filterTag; // Lưu filter hiện tại
                 await LoadOrdersAsync(filterTag);
             }
         }
@@ -170,7 +184,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 dgvOrders.Rows.Clear();
 
                 // Lấy danh sách đơn hàng
-                var ordersResult = await AppServices.OrderService.GetTodayOrdersAsync();
+                var ordersResult = await AppServices.OrderService.GetProcessingOrdersAsync();
 
                 if (!ordersResult.Success || !ordersResult.Data.Any())
                 {
@@ -310,19 +324,122 @@ namespace EcoStationManagerApplication.UI.Controls
 
         // --- HÀM XỬ LÝ SỰ KIỆN ---
 
-        private void btnExportPDF_Click(object sender, EventArgs e)
+        private async void btnExportPDF_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Xuất PDF đơn hàng", "Xuất PDF");
+            try
+            {
+                var saveDialog = new SaveFileDialog
+                {
+                    Filter = "PDF files (*.pdf)|*.pdf",
+                    FileName = $"DanhSachDonHang_{DateTime.Now:yyyyMMdd_HHmmss}.pdf",
+                    Title = "Xuất danh sách đơn hàng ra PDF"
+                };
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ShowLoading(true);
+                    
+                    // Tầng BLL: Lấy dữ liệu đã được chuẩn bị
+                    var exportData = await AppServices.ExportService.GetOrdersForExportAsync(_currentFilter);
+                    
+                    if (exportData == null || !exportData.Any())
+                    {
+                        MessageBox.Show("Không có dữ liệu để xuất!", "Thông báo", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    // Tầng Common: Export ra PDF
+                    var headers = new Dictionary<string, string>
+                    {
+                        { "STT", "STT" },
+                        { "MaDon", "Mã đơn" },
+                        { "KhachHang", "Khách hàng" },
+                        { "Nguon", "Nguồn" },
+                        { "TrangThai", "Trạng thái" },
+                        { "TongTien", "Tổng tiền" },
+                        { "ThanhToan", "Thanh toán" },
+                        { "NgayTao", "Ngày tạo" }
+                    };
+
+                    _pdfExporter.ExportToPdf(exportData, saveDialog.FileName, "DANH SÁCH ĐƠN HÀNG", headers);
+                    
+                    ShowLoading(false);
+                    MessageBox.Show($"Đã xuất PDF thành công!\nFile: {saveDialog.FileName}", 
+                        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowLoading(false);
+                MessageBox.Show($"Lỗi khi xuất PDF: {ex.Message}", 
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnExportExcel_Click(object sender, EventArgs e)
+        private async void btnExportExcel_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Xuất Excel đơn hàng", "Xuất Excel");
+            try
+            {
+                var saveDialog = new SaveFileDialog
+                {
+                    Filter = "Excel files (*.xlsx)|*.xlsx",
+                    FileName = $"DanhSachDonHang_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx",
+                    Title = "Xuất danh sách đơn hàng ra Excel"
+                };
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ShowLoading(true);
+                    
+                    // Tầng BLL: Lấy dữ liệu đã được chuẩn bị
+                    var exportData = await AppServices.ExportService.GetOrdersForExportAsync(_currentFilter);
+                    
+                    if (exportData == null || !exportData.Any())
+                    {
+                        MessageBox.Show("Không có dữ liệu để xuất!", "Thông báo", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    // Tầng Common: Export ra Excel
+                    var headers = new Dictionary<string, string>
+                    {
+                        { "STT", "STT" },
+                        { "MaDon", "Mã đơn" },
+                        { "KhachHang", "Khách hàng" },
+                        { "Nguon", "Nguồn" },
+                        { "TrangThai", "Trạng thái" },
+                        { "TongTien", "Tổng tiền" },
+                        { "ThanhToan", "Thanh toán" },
+                        { "NgayTao", "Ngày tạo" }
+                    };
+
+                    _excelExporter.ExportToExcel(exportData, saveDialog.FileName, "Danh sách đơn hàng", headers);
+                    
+                    ShowLoading(false);
+                    MessageBox.Show($"Đã xuất Excel thành công!\nFile: {saveDialog.FileName}", 
+                        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowLoading(false);
+                MessageBox.Show($"Lỗi khi xuất Excel: {ex.Message}", 
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        private void btnAddOrder_Click(object sender, EventArgs e)
+        private async void btnAddOrder_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Mở form Thêm Đơn Hàng");
+            using (var addOrderForm = new AddOrderForm())
+            {
+                if (addOrderForm.ShowDialog() == DialogResult.OK)
+                {
+                    // Đơn hàng đã được tạo thành công, refresh danh sách
+                    await LoadOrdersAsync(_currentFilter);
+                }
+            }
         }
 
 

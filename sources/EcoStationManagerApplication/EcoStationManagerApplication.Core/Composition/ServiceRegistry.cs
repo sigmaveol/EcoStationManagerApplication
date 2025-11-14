@@ -27,6 +27,7 @@ namespace EcoStationManagerApplication.UI.Common
         private static IPackagingTransactionService _packagingTransactionService;
         private static IStockInService _stockInService;
         private static IStockOutService _stockOutService;
+        private static IExportService _exportService;
 
         private static IUnitOfWork GetUnitOfWork()
         {
@@ -75,5 +76,9 @@ namespace EcoStationManagerApplication.UI.Common
             GetUnitOfWork(),
             InventoryService,
             PackagingInventoryService));
+
+        public static IExportService ExportService => _exportService ?? (_exportService = new ExportService(
+            OrderService,
+            CustomerService));
     }
 }

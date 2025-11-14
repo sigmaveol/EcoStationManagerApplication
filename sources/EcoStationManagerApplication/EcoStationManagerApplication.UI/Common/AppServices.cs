@@ -21,5 +21,6 @@ namespace EcoStationManagerApplication.UI.Common
         public static IStockInService StockInService => ServiceRegistry.StockInService;
         public static IStockOutService StockOutService => ServiceRegistry.StockOutService;
         public static ISupplierService SupplierService => ServiceRegistry.SupplierService;
+        public static IExportService ExportService => ServiceRegistry.ExportService;
     }
 }

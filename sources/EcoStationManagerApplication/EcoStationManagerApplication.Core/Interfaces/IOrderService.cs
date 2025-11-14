@@ -13,8 +13,13 @@ namespace EcoStationManagerApplication.Core.Interfaces
     public interface IOrderService
     {
         Task<Result<Order>> GetOrderByCode(string orderCode);
-
+        /// <summary>
+        /// Lây tất cả đơn hàng
+        /// </summary>
+        /// <returns></returns>
         Task<Result<IEnumerable<OrderDTO>>> GetAllAsync();
+
+        Task<Result<IEnumerable<OrderDTO>>> GetProcessingOrdersAsync();
 
         /// <summary>
         /// Lấy thông tin đơn hàng theo ID

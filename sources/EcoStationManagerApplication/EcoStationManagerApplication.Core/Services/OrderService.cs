@@ -52,6 +52,53 @@ namespace EcoStationManagerApplication.Core.Services
                 return HandleException<IEnumerable<OrderDTO>> (ex, "lấy thông tin đơn hàng");    
             }
         }
+        public async Task<Result<IEnumerable<OrderDTO>>> GetProcessingOrdersAsync()
+        {
+            try
+            {
+                var ordersResult = await _unitOfWork.Orders.GetAllAsync();
+                if (!ordersResult.Any())
+                {
+                    return NotFoundError<IEnumerable<OrderDTO>>("đơn hàng");
+                }
+
+                // Danh sách các trạng thái đang trong quá trình xử lý
+                var processingStatuses = new List<OrderStatus>
+                {
+                    OrderStatus.CONFIRMED,    // Mới
+                    OrderStatus.PROCESSING,   // Đang xử lý
+                    OrderStatus.READY,        // Chuẩn bị
+                    OrderStatus.SHIPPED       // Đang giao
+                };
+
+                var orderDTOs = new List<OrderDTO>();
+
+                foreach (var order in ordersResult)
+                {
+                    // Chỉ lấy đơn hàng có trạng thái đang xử lý
+                    if (processingStatuses.Contains(order.Status))
+                    {
+                        var orderDTO = MappingHelper.MapToOrderDTO(order);
+                        if (orderDTO != null)
+                        {
+                            orderDTOs.Add(orderDTO);
+                        }
+                    }
+                }
+
+                if (!orderDTOs.Any())
+                {
+                    return NotFoundError<IEnumerable<OrderDTO>>("đơn hàng đang xử lý");
+                }
+
+                return Result<IEnumerable<OrderDTO>>.Ok(orderDTOs, $"Đã thấy thành công {orderDTOs.Count} đơn hàng đang xử lý");
+
+            }
+            catch (Exception ex)
+            {
+                return HandleException<IEnumerable<OrderDTO>>(ex, "lấy thông tin đơn hàng đang xử lý");
+            }
+        }
 
         public async Task<Result<Order>> GetOrderByCode(string orderCode)
         {

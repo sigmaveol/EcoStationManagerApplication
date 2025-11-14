@@ -95,7 +95,9 @@ namespace EcoStationManagerApplication.Core.Helpers
         {
             var errors = new List<string>();
 
-            if (orderDetail.OrderId <= 0)
+            // OrderId có thể = 0 khi đang tạo mới (chưa có OrderId)
+            // Chỉ validate nếu OrderId đã được set (khi update)
+            if (orderDetail.OrderId < 0)
                 errors.Add("ID đơn hàng không hợp lệ");
 
             if (orderDetail.ProductId <= 0)
@@ -142,7 +144,8 @@ namespace EcoStationManagerApplication.Core.Helpers
             if (order.CustomerId.HasValue && order.CustomerId <= 0)
                 errors.Add("ID khách hàng không hợp lệ");
 
-            if (order.UserId <= 0)
+            // UserId có thể null (cho phép tạo đơn không cần user cụ thể)
+            if (order.UserId.HasValue && order.UserId <= 0)
                 errors.Add("ID người tạo không hợp lệ");
 
             if (!string.IsNullOrEmpty(order.Address) && order.Address.Length > 500)

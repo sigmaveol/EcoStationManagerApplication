@@ -41,6 +41,8 @@ namespace EcoStationManagerApplication.Core.Interfaces
         /// </summary>
         Task<Result<IEnumerable<Product>>> GetAllActiveProductsAsync();
 
+        Task<Result<IEnumerable<Product>>> GetAllProductsAsync();
+
         /// <summary>
         /// Lấy sản phẩm theo danh mục
         /// </summary>

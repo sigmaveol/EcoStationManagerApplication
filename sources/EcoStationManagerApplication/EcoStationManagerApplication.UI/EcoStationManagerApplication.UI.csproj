@@ -69,7 +69,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AppColors.cs" />
+    <Compile Include="Common\ApplicationContext.cs" />
     <Compile Include="Common\AppServices.cs" />
+    <Compile Include="Common\FormHelper.cs" />
     <Compile Include="Common\Helper.cs" />
     <Compile Include="Common\ResponsiveLayoutHelper.cs" />
     <Compile Include="Common\ThemManager.cs" />
@@ -231,12 +233,6 @@
     <Compile Include="Forms\AddProductForm.Designer.cs">
       <DependentUpon>AddProductForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\EditProductForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\EditProductForm.Designer.cs">
-      <DependentUpon>EditProductForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -315,6 +311,9 @@
     <EmbeddedResource Include="Controls\SystemSettingsControl.resx">
       <DependentUpon>SystemSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddProductForm.resx">
+      <DependentUpon>AddProductForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -346,6 +345,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Resources\Products\" />
     <Folder Include="Styles\" />
   </ItemGroup>
   <ItemGroup>
@@ -361,9 +361,6 @@
       <Project>{e01bef2e-87d7-4bb7-acde-0ffe069b4631}</Project>
       <Name>EcoStationManagerApplication.Models</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\image_pm1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

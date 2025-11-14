@@ -71,7 +71,7 @@ namespace EcoStationManagerApplication.UI.Forms
             // Thêm các menu item - sử dụng icon từ resources
             sidebarControl.AddMenuItem("Dashboard", Properties.Resources.dashboard_icon, "dashboard");
             sidebarControl.AddMenuItem("Đơn hàng", Properties.Resources.order_icon, "Orders");
-            sidebarControl.AddMenuItem("Sản phẩm && Phiên bản", Properties.Resources.product_icon, "Products");
+            sidebarControl.AddMenuItem("Sản phẩm && Bao bì", Properties.Resources.product_icon, "Products");
             sidebarControl.AddMenuItem("Nhà cung cấp", Properties.Resources.supplier_icon, "Suppliers");
             sidebarControl.AddMenuItem("Khách hàng", Properties.Resources.customer_icon, "Customers");
             sidebarControl.AddMenuItem("Tồn Kho", Properties.Resources.inventory_icon, "Inventory");

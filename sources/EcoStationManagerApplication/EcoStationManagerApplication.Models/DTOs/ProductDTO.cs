@@ -7,23 +7,25 @@ using System.Threading.Tasks;
 
 namespace EcoStationManagerApplication.Models.DTOs
 {
-	// OrderDTO.cs
-	public class ProductDTO
-	{
-		public int ProductId { get; set; }
-		public string SKU { get; set; }
-		public string Name { get; set; }
-		public ProductType ProductType { get; set; }
-		public string Unit { get; set; }
-		public decimal Price { get; set; }
-		public decimal MinStockLevel { get; set; }
-		public int? CategoryId { get; set; }
-		public string CategoryName { get; set; }
-		public bool IsActive { get; set; }
-		public DateTime CreatedDate { get; set; }
-	}
+    public class ProductDTO
+    {
+        public int ProductId { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public int? CategoryId { get; set; }
+        public string UnitMeasure { get; set; }
+        public decimal? BasePrice { get; set; }
+        public string ProductType { get; set; }
+        public bool IsActive { get; set; }
+    }
 
-	public class CreateProductDTO
+    public class CategoryDTO
+    {
+        public int CategoryId { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class CreateProductDTO
 	{
 		public string SKU { get; set; }
 		public string Name { get; set; }

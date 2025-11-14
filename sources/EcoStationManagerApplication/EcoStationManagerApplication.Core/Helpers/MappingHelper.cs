@@ -40,7 +40,7 @@ namespace EcoStationManagerApplication.Core.Helpers
                 OrderId = orderDetail.OrderId,
                 ProductId = orderDetail.ProductId,
                 ProductName = orderDetail.Product?.Name,
-                ProductSKU = orderDetail.Product?.SKU,
+                ProductSKU = orderDetail.Product?.Sku,
                 Quantity = orderDetail.Quantity,
                 UnitPrice = orderDetail.UnitPrice,
             };

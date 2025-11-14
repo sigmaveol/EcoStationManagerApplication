@@ -198,7 +198,6 @@ namespace EcoStationManagerApplication.UI.Controls
 
                     if (!recentOrders.Any())
                     {
-                        MessageBox.Show("Không có đơn hàng hôm nay");
                         return;
                     }
 

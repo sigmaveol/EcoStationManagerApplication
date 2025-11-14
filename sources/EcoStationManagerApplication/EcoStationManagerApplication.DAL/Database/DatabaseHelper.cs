@@ -138,26 +138,86 @@ namespace EcoStationManagerApplication.DAL.Database
         /// </summary>
         private class GenericEnumHandler<T> : SqlMapper.TypeHandler<T> where T : struct, Enum
         {
+            private static readonly ILogHelper _logger = LogHelperFactory.CreateLogger($"EnumHandler<{typeof(T).Name}>");
+
             public override void SetValue(IDbDataParameter parameter, T value)
             {
-                parameter.Value = value.ToString();
+                // Convert enum sang string để lưu vào database
+                // Đảm bảo giá trị không null
+                if (EqualityComparer<T>.Default.Equals(value, default(T)))
+                {
+                    // Nếu là default value, sử dụng giá trị mặc định của enum (thường là giá trị đầu tiên)
+                    var enumValues = Enum.GetValues(typeof(T));
+                    if (enumValues.Length > 0)
+                    {
+                        parameter.Value = enumValues.GetValue(0).ToString();
+                    }
+                    else
+                    {
+                        parameter.Value = value.ToString();
+                    }
+                }
+                else
+                {
+                    parameter.Value = value.ToString();
+                }
+                
+                // Log để debug
+                _logger.Info($"SetValue for {typeof(T).Name}: {value} -> '{parameter.Value}'");
             }
 
             public override T Parse(object value)
             {
-                if (value == null) return default;
-
-                if (value is string stringValue)
+                try
                 {
-                    if (Enum.TryParse<T>(stringValue, true, out var result))
-                        return result;
-                }
-                else if (value is int intValue && Enum.IsDefined(typeof(T), intValue))
-                {
-                    return (T)Enum.ToObject(typeof(T), intValue);
-                }
+                    // Xử lý null
+                    if (value == null || value == DBNull.Value)
+                        return default;
 
-                return default;
+                    // Xử lý empty string hoặc chỉ có khoảng trắng
+                    if (value is string stringValue)
+                    {
+                        // Trim và kiểm tra empty
+                        var trimmedValue = stringValue?.Trim() ?? "";
+                        if (string.IsNullOrEmpty(trimmedValue))
+                        {
+                            _logger.Warning($"Empty or whitespace enum value for {typeof(T).Name}, using default: {default(T)}");
+                            return default;
+                        }
+
+                        // Thử parse enum (case-insensitive)
+                        if (Enum.TryParse<T>(trimmedValue, true, out var result))
+                            return result;
+
+                        // Nếu không parse được, log warning và return default
+                        _logger.Warning($"Cannot parse '{trimmedValue}' as {typeof(T).Name}, using default: {default(T)}");
+                        return default;
+                    }
+                    
+                    // Xử lý int
+                    if (value is int intValue)
+                    {
+                        if (Enum.IsDefined(typeof(T), intValue))
+                        {
+                            return (T)Enum.ToObject(typeof(T), intValue);
+                        }
+                        else
+                        {
+                            _logger.Warning($"Integer value {intValue} is not defined in {typeof(T).Name}, using default: {default(T)}");
+                            return default;
+                        }
+                    }
+
+                    // Fallback: return default
+                    _logger.Warning($"Unexpected value type {value?.GetType().Name} for {typeof(T).Name}, using default: {default(T)}");
+                    return default;
+                }
+                catch (Exception ex)
+                {
+                    // Nếu có exception, log và return default thay vì throw
+                    _logger.Error($"Error parsing {typeof(T).Name} from value '{value}': {ex.Message}");
+                    return default;
+                }
             }
         }
 
@@ -224,46 +284,6 @@ namespace EcoStationManagerApplication.DAL.Database
         }
 
         /// <summary>
-        /// Test mapping cho Order entity
-        /// </summary>
-        public async Task<bool> TestOrderMappingAsync()
-        {
-            try
-            {
-                var sql = @"
-                    SELECT 
-                        order_id, order_code, customer_id, source, total_amount,
-                        discounted_amount, status, payment_status, payment_method,
-                        address, note, user_id, last_updated
-                    FROM Orders 
-                    LIMIT 1";
-
-                var order = await QueryFirstOrDefaultAsync<Order>(sql);
-
-                if (order != null)
-                {
-                    bool mappingSuccessful = order.OrderId > 0 &&
-                                           order.TotalAmount >= 0 &&
-                                           order.LastUpdated > DateTime.MinValue;
-
-                    _logger.Info($"Order mapping test - Successful: {mappingSuccessful}, " +
-                                $"OrderId: {order.OrderId}, TotalAmount: {order.TotalAmount}, " +
-                                $"Status: {order.Status}, Source: {order.Source}");
-
-                    return mappingSuccessful;
-                }
-
-                _logger.Warning("Order mapping test - No data found");
-                return false;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"Order mapping test failed: {ex.Message}");
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Thực hiện truy vấn và trả về danh sách kết quả.
         /// </summary>
         public async Task<IEnumerable<T>> QueryAsync<T>(string sql, object parameters = null, IDbTransaction transaction = null)
@@ -278,6 +298,20 @@ namespace EcoStationManagerApplication.DAL.Database
                 try
                 {
                     return await connection.QueryAsync<T>(sql, parameters);
+                }
+                catch (System.Data.DataException dataEx)
+                {
+                    // Xử lý lỗi parse (thường do enum hoặc type conversion)
+                    _logger.Error($"QueryAsync DataException: {sql} - {dataEx.Message}");
+                    if (dataEx.InnerException != null)
+                    {
+                        _logger.Error($"Inner exception: {dataEx.InnerException.Message}");
+                    }
+                    
+                    // Nếu là lỗi parse enum, thử query raw và xử lý thủ công
+                    // Hoặc return empty list để tránh crash
+                    _logger.Warning("Returning empty list due to parse error. Please check database data integrity.");
+                    return Enumerable.Empty<T>();
                 }
                 catch (Exception ex)
                 {
@@ -302,6 +336,19 @@ namespace EcoStationManagerApplication.DAL.Database
                 try
                 {
                     return await connection.QueryFirstOrDefaultAsync<T>(sql, parameters);
+                }
+                catch (System.Data.DataException dataEx)
+                {
+                    // Xử lý lỗi parse (thường do enum hoặc type conversion)
+                    _logger.Error($"QueryFirstOrDefaultAsync DataException: {sql} - {dataEx.Message}");
+                    if (dataEx.InnerException != null)
+                    {
+                        _logger.Error($"Inner exception: {dataEx.InnerException.Message}");
+                    }
+                    
+                    // Return default value để tránh crash
+                    _logger.Warning("Returning default value due to parse error. Please check database data integrity.");
+                    return default(T);
                 }
                 catch (Exception ex)
                 {

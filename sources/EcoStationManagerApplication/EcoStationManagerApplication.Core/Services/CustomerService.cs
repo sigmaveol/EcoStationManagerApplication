@@ -112,7 +112,7 @@ namespace EcoStationManagerApplication.Core.Services
                 }
 
                 // Set giá trị mặc định
-                customer.IsActive = true;
+                customer.IsActive = ActiveStatus.ACTIVE;
                 customer.CreatedDate = DateTime.Now;
 
                 // Thêm khách hàng

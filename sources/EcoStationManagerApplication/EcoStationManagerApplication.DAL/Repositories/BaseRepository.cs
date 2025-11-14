@@ -3,7 +3,9 @@ using EcoStationManagerApplication.DAL.Database;
 using EcoStationManagerApplication.Common.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Reflection;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,7 +58,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         {
             try
             {
-                var properties = typeof(T).GetProperties()
+                var properties = GetMappedProperties()
                     .Where(p => p.Name != _idColumn) // Exclude ID column for insert
                     .ToList();
 
@@ -80,17 +82,40 @@ namespace EcoStationManagerApplication.DAL.Interfaces
                 i > 0 && char.IsUpper(x) ? "_" + char.ToLower(x) : char.ToLower(x).ToString()));
         }
 
+        private string ToPascalCase(string snakeCase)
+        {
+            if (string.IsNullOrEmpty(snakeCase))
+                return snakeCase;
+
+            var parts = snakeCase.Split('_');
+            return string.Join("", parts.Select(p => 
+                string.IsNullOrEmpty(p) ? "" : char.ToUpper(p[0]) + (p.Length > 1 ? p.Substring(1).ToLower() : "")));
+        }
+
         public virtual async Task<bool> UpdateAsync(T entity)
         {
             try
             {
-                var properties = typeof(T).GetProperties()
-                    .Where(p => p.Name != _idColumn) // Exclude ID column from SET clause
+                // Tìm property name tương ứng với _idColumn (convert snake_case sang PascalCase)
+                var idPropertyName = ToPascalCase(_idColumn);
+                var idProperty = typeof(T).GetProperty(idPropertyName);
+                if (idProperty == null)
+                {
+                    // Fallback: thử tìm property có tên giống _idColumn (case-insensitive)
+                    idProperty = typeof(T).GetProperties()
+                        .FirstOrDefault(p => p.Name.Equals(_idColumn, StringComparison.OrdinalIgnoreCase) ||
+                                           ToSnakeCase(p.Name).Equals(_idColumn, StringComparison.OrdinalIgnoreCase));
+                    idPropertyName = idProperty?.Name ?? idPropertyName;
+                }
+
+                var properties = GetMappedProperties()
+                    .Where(p => !p.Name.Equals(idPropertyName, StringComparison.OrdinalIgnoreCase) && 
+                               !ToSnakeCase(p.Name).Equals(_idColumn, StringComparison.OrdinalIgnoreCase)) // Exclude ID column from SET clause
                     .ToList();
 
                 var setClause = string.Join(", ", properties.Select(p => $"{ToSnakeCase(p.Name)} = @{p.Name}"));
 
-                var sql = $"UPDATE {_tableName} SET {setClause} WHERE {_idColumn} = @{_idColumn}";
+                var sql = $"UPDATE {_tableName} SET {setClause} WHERE {ToSnakeCase(_idColumn)} = @{idPropertyName}";
                 var affectedRows = await _databaseHelper.ExecuteAsync(sql, entity);
                 return affectedRows > 0;
             }
@@ -99,6 +124,53 @@ namespace EcoStationManagerApplication.DAL.Interfaces
                 _logger.Error($"UpdateAsync error - Table: {_tableName} - {ex.Message}");
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Lấy các properties được map vào database (exclude navigation properties)
+        /// </summary>
+        protected virtual IEnumerable<PropertyInfo> GetMappedProperties()
+        {
+            return typeof(T).GetProperties()
+                .Where(p =>
+                {
+                    // Exclude navigation properties (complex types that are not primitives)
+                    var propType = p.PropertyType;
+                    
+                    // Exclude if has NotMapped attribute
+                    if (p.GetCustomAttribute<NotMappedAttribute>() != null)
+                        return false;
+
+                    // Exclude if it's a navigation property (complex type, not primitive, not enum, not nullable primitive)
+                    if (propType.IsClass && 
+                        propType != typeof(string) && 
+                        propType != typeof(DateTime) && 
+                        propType != typeof(DateTime?) &&
+                        !propType.IsPrimitive &&
+                        !propType.IsEnum &&
+                        !IsNullablePrimitive(propType))
+                    {
+                        return false;
+                    }
+
+                    return true;
+                });
+        }
+
+        /// <summary>
+        /// Kiểm tra xem type có phải là nullable primitive không
+        /// </summary>
+        private bool IsNullablePrimitive(Type type)
+        {
+            if (!type.IsGenericType || type.GetGenericTypeDefinition() != typeof(Nullable<>))
+                return false;
+
+            var underlyingType = Nullable.GetUnderlyingType(type);
+            return underlyingType != null && 
+                   (underlyingType.IsPrimitive || 
+                    underlyingType == typeof(decimal) || 
+                    underlyingType == typeof(DateTime) ||
+                    underlyingType.IsEnum);
         }
 
         public virtual async Task<bool> DeleteAsync(int id)

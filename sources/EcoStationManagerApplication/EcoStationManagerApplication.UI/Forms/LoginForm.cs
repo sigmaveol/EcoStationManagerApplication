@@ -83,6 +83,13 @@ namespace EcoStationManagerApplication.UI
 
                 if (result.Success && result.Data != null)
                 {
+                    var user = result.Data;
+                    
+                    // Lưu thông tin user vào AppUserContext
+                    AppUserContext.CurrentUserId = user.UserId;
+                    AppUserContext.CurrentUsername = user.Username;
+                    AppUserContext.CurrentUserRole = user.Role;
+
                     // Save credentials if Remember me is checked
                     if (checkBoxRemember.Checked)
                     {
@@ -95,7 +102,11 @@ namespace EcoStationManagerApplication.UI
                     // Open MainForm
                     this.Hide();
                     var mainForm = new MainForm();
-                    mainForm.FormClosed += (s, args) => this.Close();
+                    mainForm.FormClosed += (s, args) => 
+                    {
+                        AppUserContext.Clear(); // Clear context khi đóng MainForm
+                        this.Close();
+                    };
                     mainForm.Show();
                 }
                 else

@@ -44,12 +44,16 @@ namespace EcoStationManagerApplication.Models.Entities
 
         [StringLength(20)]
         [Column("sku")]
-        public string SKU { get; set; }
+        public string Sku { get; set; }
 
         [Required]
         [StringLength(255)]
         [Column("name")]
         public string Name { get; set; }
+
+        [StringLength(255)]
+        [Column("image")]
+        public string Image { get; set; } // Nullable - ảnh được lưu vào file system, không lưu vào DB
 
         [Required]
         [StringLength(20)]
@@ -77,6 +81,7 @@ namespace EcoStationManagerApplication.Models.Entities
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         // Navigation properties
+        [NotMapped]
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
     }

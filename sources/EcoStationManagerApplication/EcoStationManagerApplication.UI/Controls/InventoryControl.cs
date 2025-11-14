@@ -144,7 +144,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
             if (colName == "colEdit")
             {
-                using (var editForm = new EditProductForm(sku))
+                using (var editForm = new AddProductForm())
                 {
                     editForm.ShowDialog();
                 }

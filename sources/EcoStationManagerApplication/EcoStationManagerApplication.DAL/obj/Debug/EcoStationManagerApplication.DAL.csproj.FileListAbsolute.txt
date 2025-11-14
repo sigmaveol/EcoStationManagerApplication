@@ -86,3 +86,4 @@ D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplica
 D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.DAL\obj\Debug\EcoStati.D00EB038.Up2Date
 D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.DAL\obj\Debug\EcoStationManagerApplication.DAL.dll
 D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.DAL\obj\Debug\EcoStationManagerApplication.DAL.pdb
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.DAL\bin\Debug\System.ComponentModel.Annotations.dll

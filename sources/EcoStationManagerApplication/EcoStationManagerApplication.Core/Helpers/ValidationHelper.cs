@@ -36,10 +36,14 @@ namespace EcoStationManagerApplication.Core.Helpers
             else if (product.Name.Length > 255)
                 errors.Add("Tên sản phẩm không được vượt quá 255 ký tự");
 
-            if (string.IsNullOrWhiteSpace(product.SKU))
-                errors.Add("SKU không được để trống");
-            else if (!IsValidSku(product.SKU))
-                errors.Add("SKU không hợp lệ (chỉ cho phép chữ, số, gạch ngang)");
+            // SKU có thể null/empty (nullable trong DB), nhưng nếu có thì phải hợp lệ
+            if (!string.IsNullOrWhiteSpace(product.Sku))
+            {
+                if (!IsValidSku(product.Sku))
+                    errors.Add("SKU không hợp lệ (chỉ cho phép chữ, số, gạch ngang)");
+                else if (product.Sku.Length > 20)
+                    errors.Add("SKU không được vượt quá 20 ký tự");
+            }
 
             if (string.IsNullOrWhiteSpace(product.Unit))
                 errors.Add("Đơn vị tính không được để trống");
@@ -47,8 +51,16 @@ namespace EcoStationManagerApplication.Core.Helpers
             if (product.Price < 0)
                 errors.Add("Giá sản phẩm không được âm");
 
+            // Kiểm tra giá tối đa: DECIMAL(10,2) = tối đa 99,999,999.99
+            if (product.Price > 99999999.99m)
+                errors.Add("Giá sản phẩm không được vượt quá 99,999,999.99");
+
             if (product.MinStockLevel < 0)
                 errors.Add("Mức tồn kho tối thiểu không được âm");
+
+            // Kiểm tra min stock level tối đa: DECIMAL(10,2) = tối đa 99,999,999.99
+            if (product.MinStockLevel > 99999999.99m)
+                errors.Add("Mức tồn kho tối thiểu không được vượt quá 99,999,999.99");
 
             // Kiểm tra enum ProductType hợp lệ
             if (!Enum.IsDefined(typeof(ProductType), product.ProductType))

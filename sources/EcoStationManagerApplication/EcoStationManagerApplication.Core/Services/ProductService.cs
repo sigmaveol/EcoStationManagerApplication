@@ -76,6 +76,19 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
+        public async Task<Result<IEnumerable<Product>>> GetAllProductsAsync()
+        {
+            try
+            {
+                var products = await _unitOfWork.Products.GetAllAsync();
+                return Result<IEnumerable<Product>>.Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return HandleException<IEnumerable<Product>>(ex, "lấy tất cả danh sách sản phẩm");
+            }
+        }
+
         public async Task<Result<IEnumerable<Product>>> GetProductsByCategoryAsync(int categoryId)
         {
             try
@@ -164,10 +177,13 @@ namespace EcoStationManagerApplication.Core.Services
                 if (!validationResult.Success)
                     return Result<int>.Fail(validationResult.Message);
 
-                // Kiểm tra SKU trùng
-                var skuExistsResult = await IsSkuExistsAsync(product.SKU);
-                if (skuExistsResult.Success && skuExistsResult.Data)
-                    return BusinessError<int>($"SKU '{product.SKU}' đã tồn tại trong hệ thống");
+                // Kiểm tra SKU trùng (chỉ khi SKU không null)
+                if (!string.IsNullOrWhiteSpace(product.Sku))
+                {
+                    var skuExistsResult = await IsSkuExistsAsync(product.Sku);
+                    if (skuExistsResult.Success && skuExistsResult.Data)
+                        return BusinessError<int>($"SKU '{product.Sku}' đã tồn tại trong hệ thống");
+                }
 
                 // Kiểm tra danh mục tồn tại (nếu có)
                 if (product.CategoryId.HasValue)
@@ -211,10 +227,13 @@ namespace EcoStationManagerApplication.Core.Services
                 if (existingProduct == null)
                     return NotFoundError<bool>("Sản phẩm", product.ProductId);
 
-                // Kiểm tra SKU trùng (trừ chính nó)
-                var skuExistsResult = await IsSkuExistsAsync(product.SKU, product.ProductId);
-                if (skuExistsResult.Success && skuExistsResult.Data)
-                    return BusinessError<bool>($"SKU '{product.SKU}' đã được sử dụng bởi sản phẩm khác");
+                // Kiểm tra SKU trùng (trừ chính nó, chỉ khi SKU không null)
+                if (!string.IsNullOrWhiteSpace(product.Sku))
+                {
+                    var skuExistsResult = await IsSkuExistsAsync(product.Sku, product.ProductId);
+                    if (skuExistsResult.Success && skuExistsResult.Data)
+                        return BusinessError<bool>($"SKU '{product.Sku}' đã được sử dụng bởi sản phẩm khác");
+                }
 
                 // Kiểm tra danh mục tồn tại (nếu có)
                 if (product.CategoryId.HasValue)
@@ -370,8 +389,9 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
+                // Nếu SKU null hoặc empty, trả về false (không tồn tại)
                 if (string.IsNullOrWhiteSpace(sku))
-                    return BusinessError<bool>("SKU không được để trống");
+                    return Result<bool>.Ok(false);
 
                 var exists = await _unitOfWork.Products.IsSkuExistsAsync(sku, excludeProductId);
                 return Result<bool>.Ok(exists);

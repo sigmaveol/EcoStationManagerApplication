@@ -166,3 +166,4 @@ D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplica
 D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\System.Numerics.Vectors.xml
 D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\obj\Debug\EcoStati.518720DE.Up2Date
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\obj\Debug\EcoStationManagerApplication.UI.Controls.FooterControl.resources
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\obj\Debug\EcoStationManagerApplication.UI.LoginForm.resources

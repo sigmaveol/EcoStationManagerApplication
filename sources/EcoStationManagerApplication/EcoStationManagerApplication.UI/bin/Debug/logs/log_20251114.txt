@@ -126,3 +126,202 @@
 [ERROR] [Repo:Orders] 2025-11-14 00:07:06: GetPendingOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
 [ERROR] [Service:OrderService] 2025-11-14 00:07:06: lấy đơn hàng chờ xử lý error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
 [ERROR] [Service:OrderService] 2025-11-14 00:07:06: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 10:26:02: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:04: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:04: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 10:26:04: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:04: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:04: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:06: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:06: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 10:26:06: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:06: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:06: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:08: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:08: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 10:26:08: GetTotalRevenueAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:08: lấy thống kê đơn hàng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:08: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:10: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:10: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Inventories] 2025-11-14 10:26:10: GetLowStockItemsAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:InventoryService] 2025-11-14 10:26:10: lấy danh sách tồn kho thấp error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:InventoryService] 2025-11-14 10:26:10: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:12: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:12: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:PackagingInventories] 2025-11-14 10:26:12: GetAllAsync error - Table: PackagingInventories - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:PackagingInventoryService] 2025-11-14 10:26:12: lấy thông tin tồn kho bao bì error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:PackagingInventoryService] 2025-11-14 10:26:12: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 10:26:32: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:35: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:35: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 10:26:35: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:35: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:35: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:37: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:37: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 10:26:37: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:37: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:37: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:39: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:39: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 10:26:39: GetTotalRevenueAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:39: lấy thống kê đơn hàng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:39: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:41: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:41: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Inventories] 2025-11-14 10:26:41: GetLowStockItemsAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:InventoryService] 2025-11-14 10:26:41: lấy danh sách tồn kho thấp error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:InventoryService] 2025-11-14 10:26:41: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:43: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:43: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:PackagingInventories] 2025-11-14 10:26:43: GetAllAsync error - Table: PackagingInventories - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:PackagingInventoryService] 2025-11-14 10:26:43: lấy thông tin tồn kho bao bì error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:PackagingInventoryService] 2025-11-14 10:26:43: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:45: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:26:45: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 10:26:45: GetPendingOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:45: lấy đơn hàng chờ xử lý error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 10:26:45: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 10:59:24: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 10:59:26: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 10:59:26: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-14 10:59:26: GetByUsernameAndPasswordAsync error - Username: a - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 10:59:26: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 10:59:26: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 11:07:48: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 11:07:50: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:07:50: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-14 11:07:50: GetByUsernameAndPasswordAsync error - Username: Hùng - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:07:50: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:07:50: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:08:04: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:08:04: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-14 11:08:04: GetByUsernameAndPasswordAsync error - Username: hungminhss - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:08:04: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:08:04: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:08:11: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:08:11: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-14 11:08:11: GetByUsernameAndPasswordAsync error - Username: hungminhss - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:08:11: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:08:11: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:08:24: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:08:24: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-14 11:08:24: GetByUsernameAndPasswordAsync error - Username: hungminhss - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:08:24: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:08:24: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:08:27: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:08:27: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-14 11:08:27: GetByUsernameAndPasswordAsync error - Username: hungminhss - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:08:27: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:08:27: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:08:32: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:08:32: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-14 11:08:32: GetByUsernameAndPasswordAsync error - Username: hungminhss - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:08:32: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:08:32: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 11:08:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:09:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:10:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:10:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:10:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:10:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:10:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:02: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:14:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:14:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:15:55: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:15:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:22:06: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:22:07: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-14 11:22:07: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=', Match: False
+[WARN] [Service:UserService] 2025-11-14 11:22:07: Password mismatch for user: admin. Stored length: 44, Input length: 44
+[INFO] [DatabaseHelper] 2025-11-14 11:29:35: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 11:29:42: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 11:29:42: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-14 11:29:42: GetByUsernameAsync error - Username: admin - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:29:42: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-14 11:29:42: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 11:30:19: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:30:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:30:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:30:37: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:30:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:33:05: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:33:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:33:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:33:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:33:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:33:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:33:36: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:33:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:33:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:33:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:35:18: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:35:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:35:31: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:35:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:36:56: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:36:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:36:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:37:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:12: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:43:13: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:13: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:41: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:43:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:43:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:44:47: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:44:58: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:45:07: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 11:45:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:45:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:45:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:45:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:45:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:45:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 11:45:10: Connection opened - State: Open

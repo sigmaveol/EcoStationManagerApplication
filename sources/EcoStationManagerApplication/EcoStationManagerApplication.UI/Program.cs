@@ -1,4 +1,5 @@
-﻿using EcoStationManagerApplication.UI.Forms;
+﻿using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.UI.Forms;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,6 +20,8 @@ namespace EcoStationManagerApplication.UI
         static void Main()
         {
 
+            //AppServices.UserService.CreateUserAsync("admin", "123", Models.Enums.UserRole.ADMIN);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -34,6 +37,8 @@ namespace EcoStationManagerApplication.UI
             // Tối ưu GC cho ứng dụng desktop
             GCSettings.LatencyMode = GCLatencyMode.Batch;
 
+            // Hiển thị LoginForm trước
+            //Application.Run(new LoginForm());
             Application.Run(new MainForm());
         }
 

@@ -1,0 +1,128 @@
+[INFO] [DatabaseHelper] 2025-11-14 00:00:07: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 00:00:09: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:00:09: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:00:10: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:00:10: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:00:10: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:00:12: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:00:12: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:00:12: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:00:12: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:00:12: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 00:00:40: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 00:00:42: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:00:42: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:00:42: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:00:42: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:00:42: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:00:44: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:00:44: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:00:44: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:00:44: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:00:44: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 00:01:44: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:46: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:46: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:01:46: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:01:46: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:01:46: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:48: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:48: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:01:48: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:01:49: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:01:49: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:50: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:50: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:01:51: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:01:51: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:01:51: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:53: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:53: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:01:53: GetTotalRevenueAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:01:53: lấy thống kê đơn hàng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:01:53: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:55: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:55: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Inventories] 2025-11-14 00:01:55: GetLowStockItemsAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:InventoryService] 2025-11-14 00:01:55: lấy danh sách tồn kho thấp error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:InventoryService] 2025-11-14 00:01:55: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:57: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:57: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:PackagingInventories] 2025-11-14 00:01:57: GetAllAsync error - Table: PackagingInventories - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:PackagingInventoryService] 2025-11-14 00:01:57: lấy thông tin tồn kho bao bì error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:PackagingInventoryService] 2025-11-14 00:01:57: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:59: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:01:59: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:01:59: GetPendingOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:01:59: lấy đơn hàng chờ xử lý error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:01:59: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 00:04:38: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 00:04:40: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:04:40: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:04:40: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:04:40: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:04:40: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 00:05:08: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 00:05:11: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:05:11: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:05:11: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:05:11: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:05:11: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 00:05:49: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 00:06:30: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:33: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:33: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:06:33: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:33: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:33: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:35: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:35: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:06:35: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:35: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:35: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-14 00:06:47: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:49: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:49: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:06:49: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:49: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:49: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:51: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:51: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:06:51: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:51: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:51: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:53: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:53: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:06:54: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:54: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:54: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:56: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:56: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:06:56: GetTotalRevenueAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:56: lấy thống kê đơn hàng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:56: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:58: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:06:58: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:06:58: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:58: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:06:58: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:07:00: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:07:00: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:07:00: GetTodayOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:07:00: lấy đơn hàng hôm nay error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:07:00: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:07:02: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:07:02: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Inventories] 2025-11-14 00:07:02: GetLowStockItemsAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:InventoryService] 2025-11-14 00:07:02: lấy danh sách tồn kho thấp error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:InventoryService] 2025-11-14 00:07:02: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:07:04: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:07:04: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:PackagingInventories] 2025-11-14 00:07:04: GetAllAsync error - Table: PackagingInventories - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:PackagingInventoryService] 2025-11-14 00:07:04: lấy thông tin tồn kho bao bì error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:PackagingInventoryService] 2025-11-14 00:07:04: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:07:06: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-14 00:07:06: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Orders] 2025-11-14 00:07:06: GetPendingOrdersAsync error - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:07:06: lấy đơn hàng chờ xử lý error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:OrderService] 2025-11-14 00:07:06: Inner exception: Unable to connect to any of the specified MySQL hosts

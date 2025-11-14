@@ -68,7 +68,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.recentOrdersPanel.MinimumSize = new System.Drawing.Size(200, 200);
             this.recentOrdersPanel.Name = "recentOrdersPanel";
             this.recentOrdersPanel.Padding = new System.Windows.Forms.Padding(15);
-            this.recentOrdersPanel.Size = new System.Drawing.Size(905, 515);
+            this.recentOrdersPanel.Size = new System.Drawing.Size(905, 512);
             this.recentOrdersPanel.TabIndex = 2;
             // 
             // dgvRecentOrders
@@ -102,7 +102,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.titleLabel.Location = new System.Drawing.Point(0, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(203, 30);
+            this.titleLabel.Size = new System.Drawing.Size(224, 32);
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "Đơn hàng gần đây";
             // 

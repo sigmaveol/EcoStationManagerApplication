@@ -28,7 +28,6 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             this.titleLabelHeader = new System.Windows.Forms.Label();
             this.searchPanel = new System.Windows.Forms.Panel();
-            this.searchControl1 = new EcoStationManagerApplication.UI.Controls.SearchControl();
             this.titleLabelContent = new System.Windows.Forms.Label();
             this.headerPanel = new System.Windows.Forms.Panel();
             this.btnExportPDF = new System.Windows.Forms.Button();
@@ -37,6 +36,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.tabPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.contentPanel = new System.Windows.Forms.Panel();
             this.dgvOrders = new System.Windows.Forms.DataGridView();
+            this.searchControl1 = new EcoStationManagerApplication.UI.Controls.SearchControl();
             this.searchPanel.SuspendLayout();
             this.headerPanel.SuspendLayout();
             this.contentPanel.SuspendLayout();
@@ -65,20 +65,6 @@ namespace EcoStationManagerApplication.UI.Controls
             this.searchPanel.Size = new System.Drawing.Size(870, 40);
             this.searchPanel.TabIndex = 0;
             // 
-            // searchControl1
-            // 
-            this.searchControl1.BackColor = System.Drawing.Color.Transparent;
-            this.searchControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.searchControl1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.searchControl1.Location = new System.Drawing.Point(595, 0);
-            this.searchControl1.Margin = new System.Windows.Forms.Padding(2);
-            this.searchControl1.Name = "searchControl1";
-            this.searchControl1.PlaceholderText = "Tìm kiếm ....";
-            this.searchControl1.SearchText = "";
-            this.searchControl1.Size = new System.Drawing.Size(275, 25);
-            this.searchControl1.TabIndex = 1;
-            this.searchControl1.Load += new System.EventHandler(this.searchControl1_Load);
-            // 
             // titleLabelContent
             // 
             this.titleLabelContent.AutoSize = true;
@@ -102,6 +88,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.headerPanel.Name = "headerPanel";
             this.headerPanel.Size = new System.Drawing.Size(900, 60);
             this.headerPanel.TabIndex = 0;
+            this.headerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.headerPanel_Paint);
             // 
             // btnExportPDF
             // 
@@ -180,6 +167,20 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dgvOrders.TabIndex = 1;
             this.dgvOrders.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOrders_CellContentClick_1);
             // 
+            // searchControl1
+            // 
+            this.searchControl1.BackColor = System.Drawing.Color.Transparent;
+            this.searchControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.searchControl1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.searchControl1.Location = new System.Drawing.Point(595, 0);
+            this.searchControl1.Margin = new System.Windows.Forms.Padding(2);
+            this.searchControl1.Name = "searchControl1";
+            this.searchControl1.PlaceholderText = "Tìm kiếm ....";
+            this.searchControl1.SearchText = "";
+            this.searchControl1.Size = new System.Drawing.Size(275, 25);
+            this.searchControl1.TabIndex = 1;
+            this.searchControl1.Load += new System.EventHandler(this.searchControl1_Load);
+            // 
             // OrdersControl
             // 
             this.AutoScroll = true;
@@ -191,6 +192,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.Name = "OrdersControl";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.Size = new System.Drawing.Size(940, 640);
+            this.Load += new System.EventHandler(this.OrdersControl_Load);
             this.searchPanel.ResumeLayout(false);
             this.searchPanel.PerformLayout();
             this.headerPanel.ResumeLayout(false);

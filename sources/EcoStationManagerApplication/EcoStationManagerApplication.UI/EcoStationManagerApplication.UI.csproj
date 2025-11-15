@@ -233,6 +233,12 @@
     <Compile Include="Forms\AddProductForm.Designer.cs">
       <DependentUpon>AddProductForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AddSupplierForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddSupplierForm.Designer.cs">
+      <DependentUpon>AddSupplierForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -308,11 +314,17 @@
     <EmbeddedResource Include="Controls\StationsControl.resx">
       <DependentUpon>StationsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SuppliersControl.resx">
+      <DependentUpon>SuppliersControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SystemSettingsControl.resx">
       <DependentUpon>SystemSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddProductForm.resx">
       <DependentUpon>AddProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddSupplierForm.resx">
+      <DependentUpon>AddSupplierForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>

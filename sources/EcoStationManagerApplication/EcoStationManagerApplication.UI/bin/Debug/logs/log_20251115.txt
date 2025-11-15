@@ -1,0 +1,114 @@
+[INFO] [DatabaseHelper] 2025-11-15 23:23:17: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-15 23:23:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:23:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:23:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:23:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:23:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:23:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:23:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:23:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:23:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:23:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:47: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-15 23:53:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:53:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:54:24: Connection opened - State: Open
+[INFO] [UnitOfWork] 2025-11-15 23:54:24: Transaction started
+[INFO] [DatabaseHelper] 2025-11-15 23:54:24: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-15 23:54:25: ExecuteScalarAsync error: INSERT INTO Orders (order_id, customer_id, order_code, source, total_amount, discounted_amount, status, payment_status, payment_method, address, note, user_id, last_updated, order_details) VALUES (@OrderId, @CustomerId, @OrderCode, @Source, @TotalAmount, @DiscountedAmount, @Status, @PaymentStatus, @PaymentMethod, @Address, @Note, @UserId, @LastUpdated, @OrderDetails); SELECT LAST_INSERT_ID(); - Unknown column 'order_details' in 'field list'
+[ERROR] [Repo:Orders] 2025-11-15 23:54:25: AddAsync error - Table: Orders - Unknown column 'order_details' in 'field list'
+[INFO] [UnitOfWork] 2025-11-15 23:54:25: Transaction rolled back
+[ERROR] [Service:OrderService] 2025-11-15 23:54:25: tạo đơn hàng error: Unknown column 'order_details' in 'field list'
+[INFO] [DatabaseHelper] 2025-11-15 23:55:09: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:55:17: Connection opened - State: Open
+[INFO] [UnitOfWork] 2025-11-15 23:55:17: Transaction started
+[INFO] [DatabaseHelper] 2025-11-15 23:55:17: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-15 23:55:17: ExecuteScalarAsync error: INSERT INTO Orders (order_id, customer_id, order_code, source, total_amount, discounted_amount, status, payment_status, payment_method, address, note, user_id, last_updated, order_details) VALUES (@OrderId, @CustomerId, @OrderCode, @Source, @TotalAmount, @DiscountedAmount, @Status, @PaymentStatus, @PaymentMethod, @Address, @Note, @UserId, @LastUpdated, @OrderDetails); SELECT LAST_INSERT_ID(); - Unknown column 'order_details' in 'field list'
+[ERROR] [Repo:Orders] 2025-11-15 23:55:17: AddAsync error - Table: Orders - Unknown column 'order_details' in 'field list'
+[INFO] [UnitOfWork] 2025-11-15 23:55:18: Transaction rolled back
+[ERROR] [Service:OrderService] 2025-11-15 23:55:18: tạo đơn hàng error: Unknown column 'order_details' in 'field list'
+[INFO] [DatabaseHelper] 2025-11-15 23:58:01: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-15 23:58:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:58:11: Connection opened - State: Open
+[INFO] [UnitOfWork] 2025-11-15 23:58:11: Transaction started
+[INFO] [DatabaseHelper] 2025-11-15 23:58:11: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-15 23:58:11: ExecuteScalarAsync error: INSERT INTO Orders (order_id, customer_id, order_code, source, total_amount, discounted_amount, status, payment_status, payment_method, address, note, user_id, last_updated, order_details) VALUES (@OrderId, @CustomerId, @OrderCode, @Source, @TotalAmount, @DiscountedAmount, @Status, @PaymentStatus, @PaymentMethod, @Address, @Note, @UserId, @LastUpdated, @OrderDetails); SELECT LAST_INSERT_ID(); - Unknown column 'order_details' in 'field list'
+[ERROR] [Repo:Orders] 2025-11-15 23:58:11: AddAsync error - Table: Orders - Unknown column 'order_details' in 'field list'
+[INFO] [UnitOfWork] 2025-11-15 23:58:11: Transaction rolled back
+[ERROR] [Service:OrderService] 2025-11-15 23:58:11: tạo đơn hàng error: Unknown column 'order_details' in 'field list'
+[INFO] [DatabaseHelper] 2025-11-15 23:59:09: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-15 23:59:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:59:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:59:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:59:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:59:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-15 23:59:10: Connection opened - State: Open

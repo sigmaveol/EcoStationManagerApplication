@@ -4192,3 +4192,22 @@
 [INFO] [DatabaseHelper] 2025-11-14 19:59:31: Connection opened - State: Open
 [INFO] [DatabaseHelper] 2025-11-14 19:59:31: Connection opened - State: Open
 [INFO] [DatabaseHelper] 2025-11-14 19:59:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:32:00: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 22:32:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:32:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:32:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:32:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:32:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:32:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:32:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:32:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:32:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:32:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:37:41: DatabaseHelper initialized - Server: localhost, Database: EcoStationManager
+[INFO] [DatabaseHelper] 2025-11-14 22:37:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:37:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:37:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:37:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:37:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:37:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-14 22:37:44: Connection opened - State: Open

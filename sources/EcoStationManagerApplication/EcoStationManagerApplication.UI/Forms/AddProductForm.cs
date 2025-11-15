@@ -646,14 +646,14 @@ namespace EcoStationManagerApplication.UI.Forms
                         {
                             productType = (ProductType)selectedValue;
                         }
-                        else if (selectedValue != null)
-                        {
-                            // Thử parse nếu không phải ProductType trực tiếp
-                            if (Enum.TryParse<ProductType>(selectedValue.ToString(), true, out var parsedType))
-                            {
-                                productType = parsedType;
-                            }
-                        }
+                        //else if (selectedValue != null)
+                        //{
+                        //    // Thử parse nếu không phải ProductType trực tiếp
+                        //    if (Enum.TryParse<ProductType>(selectedValue.ToString(), true, out var parsedType))
+                        //    {
+                        //        productType = parsedType;
+                        //    }
+                        //}
                     }
                     catch (Exception ex)
                     {
@@ -976,6 +976,11 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void panelLeft_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

@@ -99,18 +99,28 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
 
         // Nhật ký nhập kho với thông tin chi tiết
         public const string GetStockInDetails = @"
-            SELECT si.*,
+            SELECT si.stockin_id as StockInId,
+                   si.batch_no as BatchNo,
+                   si.ref_type as RefType,
+                   si.ref_id as RefId,
+                   si.quantity as Quantity,
+                   si.unit_price as UnitPrice,
+                   si.notes as Notes,
+                   si.supplier_id as SupplierId,
+                   si.expiry_date as ExpiryDate,
+                   si.created_by,
+                   si.created_date as CreatedDate,
                    CASE 
                        WHEN si.ref_type = 'PRODUCT' THEN p.name
-                       WHEN si.ref_type = 'PACKAGING' THEN pk.name
-                   END as ref_name,
+                       ELSE NULL
+                   END as ProductName,
                    CASE 
-                       WHEN si.ref_type = 'PRODUCT' THEN p.sku
-                       WHEN si.ref_type = 'PACKAGING' THEN pk.barcode
-                   END as ref_code,
-                   s.name as supplier_name,
-                   u.fullname as created_by_name,
-                   (si.quantity * si.unit_price) as total_value
+                       WHEN si.ref_type = 'PACKAGING' THEN pk.name
+                       ELSE NULL
+                   END as PackagingName,
+                   s.name as SupplierName,
+                   u.fullname as CreatedBy,
+                   (si.quantity * si.unit_price) as TotalValue
             FROM StockIn si
             LEFT JOIN Products p ON si.ref_type = 'PRODUCT' AND si.ref_id = p.product_id
             LEFT JOIN Packaging pk ON si.ref_type = 'PACKAGING' AND si.ref_id = pk.packaging_id

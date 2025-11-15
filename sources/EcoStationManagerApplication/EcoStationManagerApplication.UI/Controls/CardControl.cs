@@ -101,7 +101,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 if (_icon != value)
                 {
                     _icon = value;
-                    pictureIcon.Image = value;
+                    // Icon đã bị bỏ, không còn pictureIcon
                     IconChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
@@ -179,7 +179,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         public void SetIconColor(Color color)
         {
-            pictureIcon.FillColor = color;
+            // Icon đã bị bỏ, không còn pictureIcon
         }
 
         public void SetCardStyle(Color backgroundColor, Color textColor)

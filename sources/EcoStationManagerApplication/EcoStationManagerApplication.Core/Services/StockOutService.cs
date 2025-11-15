@@ -80,6 +80,24 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
+        public async Task<Result<List<StockOutDetail>>> GetStockOutDetailsByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                // Validate date range
+                var dateErrors = ValidationHelper.ValidateDateRange(startDate, endDate);
+                if (dateErrors.Any())
+                    return ValidationError<List<StockOutDetail>>(dateErrors);
+
+                var stockOutDetails = await _unitOfWork.StockOut.GetStockOutDetailsAsync(startDate, endDate);
+                return Result<List<StockOutDetail>>.Ok(stockOutDetails.ToList());
+            }
+            catch (Exception ex)
+            {
+                return HandleException<List<StockOutDetail>>(ex, "lấy chi tiết phiếu xuất kho theo khoảng thời gian");
+            }
+        }
+
         public async Task<Result<StockOut>> CreateStockOutAsync(StockOut stockOut)
         {
             try
@@ -162,6 +180,115 @@ namespace EcoStationManagerApplication.Core.Services
             catch (Exception ex)
             {
                 return HandleException<StockOut>(ex, "tạo phiếu xuất kho");
+            }
+        }
+
+        public async Task<Result<List<StockOut>>> CreateMultipleStockOutsAsync(List<StockOut> stockOuts)
+        {
+            try
+            {
+                if (stockOuts == null || !stockOuts.Any())
+                    return BusinessError<List<StockOut>>("Danh sách phiếu xuất kho không được để trống");
+
+                // Validate tất cả các phiếu
+                var allErrors = new List<string>();
+                foreach (var stockOut in stockOuts)
+                {
+                    var validationErrors = ValidationHelper.ValidateStockOut(stockOut);
+                    if (validationErrors.Any())
+                    {
+                        allErrors.AddRange(validationErrors);
+                    }
+                }
+
+                if (allErrors.Any())
+                    return ValidationError<List<StockOut>>(allErrors);
+
+                // Kiểm tra tồn kho cho tất cả các sản phẩm trước
+                var insufficientItems = new List<string>();
+                foreach (var stockOut in stockOuts)
+                {
+                    if (stockOut.RefType == RefType.PRODUCT)
+                    {
+                        var isSufficient = await _inventoryService.IsStockSufficientAsync(stockOut.RefId, stockOut.Quantity);
+                        if (!isSufficient.Data)
+                        {
+                            var totalStock = await _inventoryService.GetTotalStockQuantityAsync(stockOut.RefId);
+                            insufficientItems.Add($"Sản phẩm ID {stockOut.RefId}: Tồn kho hiện có: {totalStock.Data}, yêu cầu: {stockOut.Quantity}");
+                        }
+                    }
+                    else if (stockOut.RefType == RefType.PACKAGING)
+                    {
+                        var isSufficient = await _packagingInventoryService.IsNewPackagingSufficientAsync(stockOut.RefId, (int)stockOut.Quantity);
+                        if (!isSufficient.Data)
+                        {
+                            var packagingInventory = await _packagingInventoryService.GetPackagingInventoryAsync(stockOut.RefId);
+                            insufficientItems.Add($"Bao bì ID {stockOut.RefId}: Số lượng hiện có: {packagingInventory.Data?.QtyNew ?? 0}, yêu cầu: {stockOut.Quantity}");
+                        }
+                    }
+                }
+
+                if (insufficientItems.Any())
+                {
+                    return BusinessError<List<StockOut>>($"Không đủ tồn kho:\n{string.Join("\n", insufficientItems)}");
+                }
+
+                // Thực hiện xuất kho cho tất cả các phiếu
+                await _unitOfWork.BeginTransactionAsync();
+                var createdStockOuts = new List<StockOut>();
+                try
+                {
+                    foreach (var stockOut in stockOuts)
+                    {
+                        // Thêm phiếu xuất kho
+                        var stockOutId = await _unitOfWork.StockOut.AddAsync(stockOut);
+                        if (stockOutId <= 0)
+                        {
+                            await _unitOfWork.RollbackTransactionAsync();
+                            return BusinessError<List<StockOut>>("Không thể tạo phiếu xuất kho");
+                        }
+
+                        // Cập nhật tồn kho tương ứng
+                        if (stockOut.RefType == RefType.PRODUCT)
+                        {
+                            var reduceResult = await _inventoryService.ReduceStockAsync(
+                                stockOut.RefId, stockOut.BatchNo, stockOut.Quantity);
+
+                            if (!reduceResult.Success)
+                            {
+                                await _unitOfWork.RollbackTransactionAsync();
+                                return Result<List<StockOut>>.Fail(reduceResult.Message);
+                            }
+                        }
+                        else if (stockOut.RefType == RefType.PACKAGING)
+                        {
+                            var transferResult = await _packagingInventoryService.TransferToInUseAsync(
+                                stockOut.RefId, (int)stockOut.Quantity);
+
+                            if (!transferResult.Success)
+                            {
+                                await _unitOfWork.RollbackTransactionAsync();
+                                return Result<List<StockOut>>.Fail(transferResult.Message);
+                            }
+                        }
+
+                        // Lấy thông tin phiếu xuất kho vừa tạo
+                        var createdStockOut = await _unitOfWork.StockOut.GetByIdAsync(stockOutId);
+                        createdStockOuts.Add(createdStockOut);
+                    }
+
+                    await _unitOfWork.CommitTransactionAsync();
+                    return Result<List<StockOut>>.Ok(createdStockOuts, $"Đã xuất kho thành công {createdStockOuts.Count} sản phẩm");
+                }
+                catch (Exception)
+                {
+                    await _unitOfWork.RollbackTransactionAsync();
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                return HandleException<List<StockOut>>(ex, "tạo nhiều phiếu xuất kho");
             }
         }
 

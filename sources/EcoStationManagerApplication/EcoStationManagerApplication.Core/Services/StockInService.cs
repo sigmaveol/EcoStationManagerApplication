@@ -80,6 +80,40 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
+        public async Task<Result<List<StockInDetail>>> GetStockInDetailsByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                // Validate date range
+                var dateErrors = ValidationHelper.ValidateDateRange(startDate, endDate);
+                if (dateErrors.Any())
+                    return ValidationError<List<StockInDetail>>(dateErrors);
+
+                var stockInDetails = await _unitOfWork.StockIn.GetStockInDetailsAsync(startDate, endDate);
+                return Result<List<StockInDetail>>.Ok(stockInDetails.ToList());
+            }
+            catch (Exception ex)
+            {
+                return HandleException<List<StockInDetail>>(ex, "lấy chi tiết phiếu nhập kho theo khoảng thời gian");
+            }
+        }
+
+        public async Task<Result<List<StockInDetail>>> GetStockInDetailsByBatchAsync(string batchNo)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(batchNo))
+                    return ValidationError<List<StockInDetail>>(new List<string> { "Mã lô không được để trống" });
+
+                var stockInDetails = await _unitOfWork.StockIn.GetStockInDetailsByBatchAsync(batchNo);
+                return Result<List<StockInDetail>>.Ok(stockInDetails.ToList());
+            }
+            catch (Exception ex)
+            {
+                return HandleException<List<StockInDetail>>(ex, "lấy chi tiết phiếu nhập kho theo lô hàng");
+            }
+        }
+
         public async Task<Result<StockIn>> CreateStockInAsync(StockIn stockIn)
         {
             try
@@ -156,6 +190,103 @@ namespace EcoStationManagerApplication.Core.Services
             catch (Exception ex)
             {
                 return HandleException<StockIn>(ex, "tạo phiếu nhập kho");
+            }
+        }
+
+        public async Task<Result<List<StockIn>>> CreateMultipleStockInsAsync(List<StockIn> stockIns)
+        {
+            try
+            {
+                if (stockIns == null || !stockIns.Any())
+                    return BusinessError<List<StockIn>>("Danh sách phiếu nhập kho không được để trống");
+
+                // Validate tất cả các phiếu
+                var allErrors = new List<string>();
+                foreach (var stockIn in stockIns)
+                {
+                    var validationErrors = ValidationHelper.ValidateStockIn(stockIn);
+                    if (validationErrors.Any())
+                    {
+                        allErrors.AddRange(validationErrors);
+                    }
+                }
+
+                if (allErrors.Any())
+                    return ValidationError<List<StockIn>>(allErrors);
+
+                // Kiểm tra số lô trùng
+                foreach (var stockIn in stockIns)
+                {
+                    if (!string.IsNullOrWhiteSpace(stockIn.BatchNo))
+                    {
+                        var isBatchExists = await _unitOfWork.StockIn.IsBatchExistsAsync(
+                            stockIn.BatchNo, stockIn.RefType, stockIn.RefId);
+                        if (isBatchExists)
+                            return BusinessError<List<StockIn>>($"Số lô '{stockIn.BatchNo}' đã tồn tại cho sản phẩm/bao bì này");
+                    }
+                }
+
+                // Thực hiện nhập kho cho tất cả các phiếu
+                await _unitOfWork.BeginTransactionAsync();
+                var createdStockIns = new List<StockIn>();
+                try
+                {
+                    foreach (var stockIn in stockIns)
+                    {
+                        // Thêm phiếu nhập kho
+                        var stockInId = await _unitOfWork.StockIn.AddAsync(stockIn);
+                        if (stockInId <= 0)
+                        {
+                            await _unitOfWork.RollbackTransactionAsync();
+                            return BusinessError<List<StockIn>>("Không thể tạo phiếu nhập kho");
+                        }
+
+                        // Cập nhật tồn kho tương ứng
+                        if (stockIn.RefType == RefType.PRODUCT)
+                        {
+                            var addStockResult = await _inventoryService.AddStockAsync(
+                                stockIn.RefId, stockIn.BatchNo, stockIn.Quantity, stockIn.ExpiryDate);
+
+                            if (!addStockResult.Success)
+                            {
+                                await _unitOfWork.RollbackTransactionAsync();
+                                return Result<List<StockIn>>.Fail(addStockResult.Message);
+                            }
+                        }
+                        else if (stockIn.RefType == RefType.PACKAGING)
+                        {
+                            var quantities = new PackagingQuantities
+                            {
+                                QtyNew = (int)stockIn.Quantity
+                            };
+
+                            var updateResult = await _packagingInventoryService.UpdatePackagingQuantitiesAsync(
+                                stockIn.RefId, quantities);
+
+                            if (!updateResult.Success)
+                            {
+                                await _unitOfWork.RollbackTransactionAsync();
+                                return Result<List<StockIn>>.Fail(updateResult.Message);
+                            }
+                        }
+
+                        // Lấy thông tin phiếu nhập kho vừa tạo
+                        var createdStockIn = await _unitOfWork.StockIn.GetByIdAsync(stockInId);
+                        createdStockIns.Add(createdStockIn);
+                    }
+
+                    await _unitOfWork.CommitTransactionAsync();
+                    return Result<List<StockIn>>.Ok(createdStockIns, $"Đã nhập kho thành công {createdStockIns.Count} sản phẩm");
+                }
+                catch (Exception)
+                {
+                    await _unitOfWork.RollbackTransactionAsync();
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                return HandleException<List<StockIn>>(ex, "tạo nhiều phiếu nhập kho");
             }
         }
 

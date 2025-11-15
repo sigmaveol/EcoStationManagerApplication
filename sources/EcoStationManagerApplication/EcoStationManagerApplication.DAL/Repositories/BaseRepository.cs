@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
-using System.Security.Permissions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EcoStationManagerApplication.DAL.Interfaces
@@ -58,8 +56,12 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         {
             try
             {
+                // Tìm property name tương ứng với _idColumn để loại bỏ
+                var idPropertyName = GetIdPropertyName();
+                
                 var properties = GetMappedProperties()
-                    .Where(p => p.Name != _idColumn) // Exclude ID column for insert
+                    .Where(p => !p.Name.Equals(idPropertyName, StringComparison.OrdinalIgnoreCase) &&
+                               !ToSnakeCase(p.Name).Equals(_idColumn, StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
                 var columns = string.Join(", ", properties.Select(p => ToSnakeCase(p.Name)));
@@ -92,26 +94,44 @@ namespace EcoStationManagerApplication.DAL.Interfaces
                 string.IsNullOrEmpty(p) ? "" : char.ToUpper(p[0]) + (p.Length > 1 ? p.Substring(1).ToLower() : "")));
         }
 
+        /// <summary>
+        /// Tìm property name tương ứng với _idColumn (convert snake_case sang PascalCase)
+        /// </summary>
+        private string GetIdPropertyName()
+        {
+            var idPropertyName = ToPascalCase(_idColumn);
+            var idProperty = typeof(T).GetProperty(idPropertyName);
+            
+            if (idProperty == null)
+            {
+                // Fallback: thử tìm property có tên giống _idColumn (case-insensitive)
+                idProperty = typeof(T).GetProperties()
+                    .FirstOrDefault(p => p.Name.Equals(_idColumn, StringComparison.OrdinalIgnoreCase) ||
+                                       ToSnakeCase(p.Name).Equals(_idColumn, StringComparison.OrdinalIgnoreCase));
+                idPropertyName = idProperty?.Name ?? idPropertyName;
+            }
+            
+            return idPropertyName;
+        }
+
         public virtual async Task<bool> UpdateAsync(T entity)
         {
             try
             {
-                // Tìm property name tương ứng với _idColumn (convert snake_case sang PascalCase)
-                var idPropertyName = ToPascalCase(_idColumn);
-                var idProperty = typeof(T).GetProperty(idPropertyName);
-                if (idProperty == null)
-                {
-                    // Fallback: thử tìm property có tên giống _idColumn (case-insensitive)
-                    idProperty = typeof(T).GetProperties()
-                        .FirstOrDefault(p => p.Name.Equals(_idColumn, StringComparison.OrdinalIgnoreCase) ||
-                                           ToSnakeCase(p.Name).Equals(_idColumn, StringComparison.OrdinalIgnoreCase));
-                    idPropertyName = idProperty?.Name ?? idPropertyName;
-                }
+                if (entity == null)
+                    throw new ArgumentNullException(nameof(entity));
+                
+                var idPropertyName = GetIdPropertyName();
+                if (string.IsNullOrEmpty(idPropertyName))
+                    throw new InvalidOperationException($"Cannot find ID property for table {_tableName} with ID column {_idColumn}");
 
                 var properties = GetMappedProperties()
                     .Where(p => !p.Name.Equals(idPropertyName, StringComparison.OrdinalIgnoreCase) && 
-                               !ToSnakeCase(p.Name).Equals(_idColumn, StringComparison.OrdinalIgnoreCase)) // Exclude ID column from SET clause
+                               !ToSnakeCase(p.Name).Equals(_idColumn, StringComparison.OrdinalIgnoreCase))
                     .ToList();
+
+                if (!properties.Any())
+                    throw new InvalidOperationException($"No properties to update for table {_tableName}");
 
                 var setClause = string.Join(", ", properties.Select(p => $"{ToSnakeCase(p.Name)} = @{p.Name}"));
 

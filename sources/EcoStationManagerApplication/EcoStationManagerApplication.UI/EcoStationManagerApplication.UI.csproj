@@ -197,17 +197,23 @@
     <Compile Include="Controls\StationsControl.Designer.cs">
       <DependentUpon>StationsControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\StockInControl.cs">
+    <Compile Include="Controls\StockControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\StockInControl.Designer.cs">
-      <DependentUpon>StockInControl.cs</DependentUpon>
+    <Compile Include="Controls\StockControl.Designer.cs">
+      <DependentUpon>StockControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\StockOutControl.cs">
+    <Compile Include="Controls\StockInManagementControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\StockOutControl.Designer.cs">
-      <DependentUpon>StockOutControl.cs</DependentUpon>
+    <Compile Include="Controls\StockInManagementControl.Designer.cs">
+      <DependentUpon>StockInManagementControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StockOutManagementControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StockOutManagementControl.Designer.cs">
+      <DependentUpon>StockOutManagementControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SuppliersControl.cs">
       <SubType>UserControl</SubType>
@@ -226,6 +232,18 @@
     </Compile>
     <Compile Include="Forms\AddOrderForm.Designer.cs">
       <DependentUpon>AddOrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddCustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddCustomerForm.Designer.cs">
+      <DependentUpon>AddCustomerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddPackagingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddPackagingForm.Designer.cs">
+      <DependentUpon>AddPackagingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\AddProductForm.cs">
       <SubType>Form</SubType>
@@ -251,11 +269,41 @@
     <Compile Include="Forms\NotificationForm.Designer.cs">
       <DependentUpon>NotificationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\StockMovementForm.cs">
+    <Compile Include="Forms\StockInForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\StockMovementForm.Designer.cs">
-      <DependentUpon>StockMovementForm.cs</DependentUpon>
+    <Compile Include="Forms\StockInForm.Designer.cs">
+      <DependentUpon>StockInForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MultiProductStockInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MultiProductStockInForm.Designer.cs">
+      <DependentUpon>MultiProductStockInForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockOutForm.Designer.cs">
+      <DependentUpon>StockOutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MultiProductStockOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MultiProductStockOutForm.Designer.cs">
+      <DependentUpon>MultiProductStockOutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockInDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockInDetailForm.Designer.cs">
+      <DependentUpon>StockInDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockOutDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockOutDetailForm.Designer.cs">
+      <DependentUpon>StockOutDetailForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -268,6 +316,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ContentControl.resx">
       <DependentUpon>ContentControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CustomersControl.resx">
+      <DependentUpon>CustomersControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DashboardControl.resx">
       <DependentUpon>DashboardControl.cs</DependentUpon>
@@ -308,8 +359,17 @@
     <EmbeddedResource Include="Controls\StationsControl.resx">
       <DependentUpon>StationsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StockInManagementControl.resx">
+      <DependentUpon>StockInManagementControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StockOutManagementControl.resx">
+      <DependentUpon>StockOutManagementControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SystemSettingsControl.resx">
       <DependentUpon>SystemSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddPackagingForm.resx">
+      <DependentUpon>AddPackagingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddProductForm.resx">
       <DependentUpon>AddProductForm.cs</DependentUpon>
@@ -319,6 +379,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MultiProductStockInForm.resx">
+      <DependentUpon>MultiProductStockInForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MultiProductStockOutForm.resx">
+      <DependentUpon>MultiProductStockOutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockInForm.resx">
+      <DependentUpon>StockInForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockOutForm.resx">
+      <DependentUpon>StockOutForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

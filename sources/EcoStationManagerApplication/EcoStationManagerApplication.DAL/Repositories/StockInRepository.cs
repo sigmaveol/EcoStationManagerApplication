@@ -197,6 +197,27 @@ namespace EcoStationManagerApplication.DAL.Repositories
             }
         }
 
+        public async Task<IEnumerable<StockInDetail>> GetStockInDetailsByBatchAsync(string batchNo)
+        {
+            try
+            {
+                var sql = StockInQueries.GetStockInDetails;
+                var parameters = new DynamicParameters();
+
+                sql += " AND si.batch_no = @BatchNo";
+                parameters.Add("BatchNo", batchNo);
+
+                sql += " ORDER BY si.created_date DESC";
+
+                return await _databaseHelper.QueryAsync<StockInDetail>(sql, parameters);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"GetStockInDetailsByBatchAsync error - BatchNo: {batchNo} - {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<SupplierStockInSummary>> GetStockInBySupplierAsync(DateTime? fromDate = null, DateTime? toDate = null)
         {
             try

@@ -113,12 +113,14 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewProducts.Columns.Add("ProductAction", "Thao tác");
 
             // Initialize Packagings DataGridView
-            dataGridViewVariants.Columns.Clear();
-            dataGridViewVariants.Columns.Add("PackagingBarcode", "Barcode");
-            dataGridViewVariants.Columns.Add("PackagingName", "Tên bao bì");
-            dataGridViewVariants.Columns.Add("PackagingType", "Loại");
-            dataGridViewVariants.Columns.Add("DepositPrice", "Giá ký quỹ");
-            dataGridViewVariants.Columns.Add("PackagingAction", "Thao tác");
+            dataGridViewPackagings.Columns.Clear();
+            var colPackagingId = new DataGridViewTextBoxColumn { Name = "PackagingId", HeaderText = "ID", Visible = false };
+            dataGridViewPackagings.Columns.Add(colPackagingId);
+            dataGridViewPackagings.Columns.Add("PackagingBarcode", "Barcode");
+            dataGridViewPackagings.Columns.Add("PackagingName", "Tên bao bì");
+            dataGridViewPackagings.Columns.Add("PackagingType", "Loại");
+            dataGridViewPackagings.Columns.Add("DepositPrice", "Giá ký quỹ");
+            dataGridViewPackagings.Columns.Add("PackagingAction", "Thao tác");
         }
 
         private void BindProductsData()
@@ -154,7 +156,7 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             if (packagings == null)
             {
-                dataGridViewVariants.Rows.Clear();
+                dataGridViewPackagings.Rows.Clear();
                 return;
             }
 
@@ -164,10 +166,11 @@ namespace EcoStationManagerApplication.UI.Controls
                 packaging.Type?.ToLower().Contains(searchTerm.ToLower()) == true
             ).ToList();
 
-            dataGridViewVariants.Rows.Clear();
+            dataGridViewPackagings.Rows.Clear();
             foreach (var packaging in filteredPackagings)
             {
-                dataGridViewVariants.Rows.Add(
+                int rowIndex = dataGridViewPackagings.Rows.Add(
+                    packaging.PackagingId,
                     packaging.Barcode ?? "",
                     packaging.Name,
                     packaging.Type ?? "",
@@ -194,50 +197,86 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private async void btnAddProduct_Click(object sender, EventArgs e)
         {
-            // Tìm MainForm
             Form mainForm = this.FindForm();
             while (mainForm != null && !(mainForm is MainForm))
             {
                 mainForm = mainForm.ParentForm ?? mainForm.Owner;
             }
 
-            using (var addProductForm = new AddProductForm())
+            if (tabControl.SelectedTab == tabPageProducts)
             {
-                DialogResult result;
-                if (mainForm != null)
+                using (var addProductForm = new AddProductForm())
                 {
-                    // Hiển thị với hiệu ứng làm mờ MainForm
-                    result = FormHelper.ShowModalWithDim(mainForm, addProductForm);
-                }
-                else
-                {
-                    // Fallback nếu không tìm thấy MainForm
-                    result = addProductForm.ShowDialog();
-                }
+                    DialogResult result = mainForm != null
+                        ? FormHelper.ShowModalWithDim(mainForm, addProductForm)
+                        : addProductForm.ShowDialog();
 
-                if (result == DialogResult.OK)
-                {
-                    // Refresh danh sách sản phẩm sau khi thêm thành công
-                    await RefreshProductsData();
+                    if (result == DialogResult.OK)
+                        await RefreshProductsData();
                 }
             }
-            await RefreshProductsData();
+            else if (tabControl.SelectedTab == tabPagePackagings)
+            {
+                using (var addPackagingForm = new AddPackagingForm())
+                {
+                    DialogResult result = mainForm != null
+                        ? FormHelper.ShowModalWithDim(mainForm, addPackagingForm)
+                        : addPackagingForm.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                        await RefreshPackagingsData();
+                }
+            }
         }
 
         private async Task RefreshProductsData()
         {
-            await LoadDataAsync();
+            var productsResult = await AppServices.ProductService.GetAllProductsAsync();
+            if (productsResult.Success && productsResult.Data != null)
+            {
+                products = productsResult.Data.Select(p => new ProductDTO
+                {
+                    ProductId = p.ProductId,
+                    Code = p.Sku ?? "",
+                    Name = p.Name,
+                    CategoryId = p.CategoryId,
+                    UnitMeasure = p.Unit,
+                    BasePrice = p.Price,
+                    ProductType = p.ProductType.ToString(),
+                    IsActive = p.IsActive == ActiveStatus.ACTIVE
+                }).ToList();
+            }
+            else
+            {
+                products = new List<ProductDTO>();
+            }
+            BindProductsData();
+        }
+
+        private async Task RefreshPackagingsData()
+        {
+            var packagingsResult = await AppServices.PackagingService.GetAllPackagingsAsync();
+            if (packagingsResult.Success && packagingsResult.Data != null)
+            {
+                packagings = packagingsResult.Data.ToList();
+            }
+            else
+            {
+                packagings = new List<Packaging>();
+            }
+            BindPackagingsData();
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Refresh data when switching tabs
             if (tabControl.SelectedTab == tabPageProducts)
             {
+                btnAddProduct.Text = "Thêm sản phẩm";
                 BindProductsData();
             }
             else if (tabControl.SelectedTab == tabPagePackagings)
             {
+                btnAddProduct.Text = "Thêm bao bì";
                 BindPackagingsData();
             }
         }
@@ -285,15 +324,38 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        private void dataGridViewVariants_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridViewPackagings_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == dataGridViewVariants.Columns["PackagingAction"].Index)
+            if (e.RowIndex < 0) return;
+
+            if (e.ColumnIndex == dataGridViewPackagings.Columns["PackagingAction"].Index)
             {
-                var packagingId = dataGridViewVariants.Rows[e.RowIndex].Cells["PackagingId"].Value;
-                if (packagingId != null && int.TryParse(packagingId.ToString(), out int id))
+                var packagingIdCell = dataGridViewPackagings.Rows[e.RowIndex].Cells["PackagingId"];
+                if (packagingIdCell?.Value == null || !int.TryParse(packagingIdCell.Value.ToString(), out int packagingId))
+                    return;
+
+                Form mainForm = this.FindForm();
+                while (mainForm != null && !(mainForm is MainForm))
                 {
-                    MessageBox.Show($"Xem chi tiết bao bì: {id}", "Chi tiết bao bì", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // TODO: Mở form chi tiết/sửa bao bì
+                    mainForm = mainForm.ParentForm ?? mainForm.Owner;
+                }
+
+                using (var editPackagingForm = new AddPackagingForm(packagingId))
+                {
+                    DialogResult result;
+                    if (mainForm != null)
+                    {
+                        result = FormHelper.ShowModalWithDim(mainForm, editPackagingForm);
+                    }
+                    else
+                    {
+                        result = editPackagingForm.ShowDialog();
+                    }
+
+                    if (result == DialogResult.OK)
+                    {
+                        await RefreshPackagingsData();
+                    }
                 }
             }
         }

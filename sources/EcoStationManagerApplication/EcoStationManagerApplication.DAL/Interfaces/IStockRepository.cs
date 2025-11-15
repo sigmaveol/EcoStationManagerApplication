@@ -55,6 +55,11 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         Task<IEnumerable<StockInDetail>> GetStockInDetailsAsync(DateTime? fromDate = null, DateTime? toDate = null);
 
         /// <summary>
+        /// Lấy nhật ký nhập kho với thông tin chi tiết theo lô hàng
+        /// </summary>
+        Task<IEnumerable<StockInDetail>> GetStockInDetailsByBatchAsync(string batchNo);
+
+        /// <summary>
         /// Thống kê nhập kho theo nhà cung cấp
         /// </summary>
         Task<IEnumerable<SupplierStockInSummary>> GetStockInBySupplierAsync(DateTime? fromDate = null, DateTime? toDate = null);

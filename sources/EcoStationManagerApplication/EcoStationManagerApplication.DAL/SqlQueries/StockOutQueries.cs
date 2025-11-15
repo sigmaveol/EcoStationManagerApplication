@@ -105,22 +105,24 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
 
         // Nhật ký xuất kho với thông tin chi tiết
         public const string GetStockOutDetails = @"
-            SELECT so.*,
+            SELECT so.stockout_id as StockOutId,
+                   so.batch_no as BatchNo,
+                   so.ref_type as RefType,
+                   so.ref_id as RefId,
+                   so.quantity as Quantity,
+                   so.purpose as Purpose,
+                   so.notes as Notes,
+                   so.created_by,
+                   so.created_date as CreatedDate,
                    CASE 
                        WHEN so.ref_type = 'PRODUCT' THEN p.name
-                       WHEN so.ref_type = 'PACKAGING' THEN pk.name
-                   END as ref_name,
+                       ELSE NULL
+                   END as ProductName,
                    CASE 
-                       WHEN so.ref_type = 'PRODUCT' THEN p.sku
-                       WHEN so.ref_type = 'PACKAGING' THEN pk.barcode
-                   END as ref_code,
-                   u.fullname as created_by_name,
-                   (so.quantity * 
-                    CASE 
-                        WHEN so.ref_type = 'PRODUCT' THEN p.price
-                        WHEN so.ref_type = 'PACKAGING' THEN pk.deposit_price
-                        ELSE 0 
-                    END) as estimated_value
+                       WHEN so.ref_type = 'PACKAGING' THEN pk.name
+                       ELSE NULL
+                   END as PackagingName,
+                   u.fullname as CreatedBy
             FROM StockOut so
             LEFT JOIN Products p ON so.ref_type = 'PRODUCT' AND so.ref_id = p.product_id
             LEFT JOIN Packaging pk ON so.ref_type = 'PACKAGING' AND so.ref_id = pk.packaging_id

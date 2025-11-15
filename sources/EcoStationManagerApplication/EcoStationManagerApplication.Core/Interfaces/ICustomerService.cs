@@ -12,7 +12,7 @@ namespace EcoStationManagerApplication.Core.Interfaces
     public interface ICustomerService
     {
         /// <summary>
-        /// Tìm kiếm khách hàng theo tên hoặc số điện thoại
+        /// Tìm kiếm khách hàng theo tên hoặc số điện thoại. Nếu searchTerm rỗng, trả về tất cả khách hàng.
         /// </summary>
         Task<Result<IEnumerable<Customer>>> SearchCustomersAsync(string searchTerm);
 

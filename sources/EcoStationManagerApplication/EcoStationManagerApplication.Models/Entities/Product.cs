@@ -53,7 +53,7 @@ namespace EcoStationManagerApplication.Models.Entities
 
         [StringLength(255)]
         [Column("image")]
-        public string Image { get; set; } // Nullable - ảnh được lưu vào file system, không lưu vào DB
+        public string Image { get; set; }
 
         [Required]
         [StringLength(20)]

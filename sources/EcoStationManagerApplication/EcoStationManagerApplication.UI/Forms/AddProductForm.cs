@@ -97,45 +97,36 @@ namespace EcoStationManagerApplication.UI.Forms
                     {
                         LoadProductTypes();
                     }
-                    
-                    bool found = false;
-                    for (int i = 0; i < cmbProductType.Items.Count; i++)
+
+                    var selectedProductType = cmbProductType.Items
+                        .OfType<ComboItem<ProductType>>()
+                        .FirstOrDefault(x => x.Value == product.ProductType);
+
+                    if (selectedProductType != null)
                     {
-                        try
-                        {
-                            var item = (dynamic)cmbProductType.Items[i];
-                            if (item.Value == product.ProductType)
-                            {
-                                cmbProductType.SelectedIndex = i;
-                                found = true;
-                                System.Diagnostics.Debug.WriteLine($"ProductType loaded: {product.ProductType} at index {i}");
-                                break;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"Error comparing ProductType at index {i}: {ex.Message}");
-                        }
+                        cmbProductType.SelectedItem = selectedProductType;
+                        System.Diagnostics.Debug.WriteLine($"ProductType loaded: {product.ProductType}");
                     }
-                    
-                    // Nếu không tìm thấy, set về default (PACKED = index 0)
-                    if (!found)
+                    else
                     {
-                        cmbProductType.SelectedIndex = 0;
+                        cmbProductType.SelectedIndex = 0; // default PACKED
                         System.Diagnostics.Debug.WriteLine($"ProductType {product.ProductType} not found, using default PACKED");
                     }
 
                     // Set Category
                     if (product.CategoryId.HasValue)
                     {
-                        for (int i = 0; i < cmbCategory.Items.Count; i++)
+                        var selectedCategory = cmbCategory.Items
+                            .OfType<ComboItem<int?>>()
+                            .FirstOrDefault(x => x.Value == product.CategoryId);
+
+                        if (selectedCategory != null)
                         {
-                            var item = (dynamic)cmbCategory.Items[i];
-                            if (item.Value == product.CategoryId.Value)
-                            {
-                                cmbCategory.SelectedIndex = i;
-                                break;
-                            }
+                            cmbCategory.SelectedItem = selectedCategory;
+                        }
+                        else
+                        {
+                            cmbCategory.SelectedIndex = 0; // default "-- Chọn danh mục --"
                         }
                     }
 
@@ -215,10 +206,10 @@ namespace EcoStationManagerApplication.UI.Forms
         private void LoadProductTypes()
         {
             cmbProductType.Items.Clear();
-            cmbProductType.Items.Add(new { Text = "Hàng đóng chai, sản phẩm đóng gói", Value = ProductType.PACKED });
-            cmbProductType.Items.Add(new { Text = "Hàng refill từ bồn", Value = ProductType.REFILLED });
-            cmbProductType.Items.Add(new { Text = "Khác", Value = ProductType.OTHER });
-            
+            cmbProductType.Items.Add(new ComboItem<ProductType> { Text = "Hàng đóng chai, sản phẩm đóng gói", Value = ProductType.PACKED });
+            cmbProductType.Items.Add(new ComboItem<ProductType> { Text = "Hàng refill từ bồn", Value = ProductType.REFILLED });
+            cmbProductType.Items.Add(new ComboItem<ProductType> { Text = "Khác", Value = ProductType.OTHER });
+
             cmbProductType.DisplayMember = "Text";
             cmbProductType.ValueMember = "Value";
             cmbProductType.SelectedIndex = 0; // Mặc định PACKED
@@ -229,7 +220,7 @@ namespace EcoStationManagerApplication.UI.Forms
             try
             {
                 cmbCategory.Items.Clear();
-                cmbCategory.Items.Add(new { Text = "-- Chọn danh mục --", Value = (int?)null });
+                cmbCategory.Items.Add(new ComboItem<int?> { Text = "-- Chọn danh mục --", Value = null });
 
                 // Load từ database
                 var categoriesResult = await AppServices.CategoryService.GetActiveCategoriesAsync();
@@ -237,7 +228,7 @@ namespace EcoStationManagerApplication.UI.Forms
                 {
                     foreach (var category in categoriesResult.Data)
                     {
-                        cmbCategory.Items.Add(new { Text = category.Name, Value = (int?)category.CategoryId });
+                        cmbCategory.Items.Add(new ComboItem<int?> { Text = category.Name, Value = category.CategoryId });
                     }
                 }
 
@@ -637,59 +628,30 @@ namespace EcoStationManagerApplication.UI.Forms
 
                 // Lấy ProductType từ combobox - đảm bảo luôn có giá trị hợp lệ
                 ProductType productType = ProductType.PACKED; // Default value
-                if (cmbProductType.SelectedItem != null)
+                
+                if (cmbProductType.SelectedItem is ComboItem<ProductType> selectedItem)
                 {
-                    try
-                    {
-                        var selectedValue = ((dynamic)cmbProductType.SelectedItem).Value;
-                        if (selectedValue is ProductType)
-                        {
-                            productType = (ProductType)selectedValue;
-                        }
-                        else if (selectedValue != null)
-                        {
-                            // Thử parse nếu không phải ProductType trực tiếp
-                            if (Enum.TryParse<ProductType>(selectedValue.ToString(), true, out var parsedType))
-                            {
-                                productType = parsedType;
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Error getting ProductType from combobox: {ex.Message}");
-                        // Sử dụng default value (PACKED)
-                    }
+                    productType = selectedItem.Value;
                 }
                 else if (cmbProductType.SelectedIndex >= 0 && cmbProductType.SelectedIndex < cmbProductType.Items.Count)
                 {
-                    // Nếu SelectedItem null nhưng có SelectedIndex, lấy từ Items
-                    try
+                    // Fallback: lấy từ SelectedIndex nếu SelectedItem null
+                    var item = cmbProductType.Items[cmbProductType.SelectedIndex] as ComboItem<ProductType>;
+                    if (item != null)
                     {
-                        var item = (dynamic)cmbProductType.Items[cmbProductType.SelectedIndex];
-                        if (item.Value is ProductType)
-                        {
-                            productType = (ProductType)item.Value;
-                        }
-                    }
-                    catch
-                    {
-                        // Sử dụng default
+                        productType = item.Value;
                     }
                 }
-
                 var product = new Product
                 {
                     Sku = string.IsNullOrWhiteSpace(txtSKU.Text) ? null : txtSKU.Text.Trim(),
                     Name = txtName.Text.Trim(),
                     Image = imageFileName, // Chỉ lưu tên file, không lưu đường dẫn đầy đủ
-                    ProductType = productType, // Đảm bảo luôn có giá trị hợp lệ
+                    ProductType = (ProductType) productType, // Đảm bảo luôn có giá trị hợp lệ
                     Unit = txtUnit.Text.Trim(),
                     Price = price,
                     MinStockLevel = minStockLevel,
-                    CategoryId = cmbCategory.SelectedItem != null && ((dynamic)cmbCategory.SelectedItem).Value != null
-                        ? ((dynamic)cmbCategory.SelectedItem).Value
-                        : null,
+                    CategoryId = cmbCategory.SelectedItem is ComboItem<int?> categoryItem ? categoryItem.Value : null,
                     IsActive = chkIsActive.Checked ? ActiveStatus.ACTIVE : ActiveStatus.INACTIVE
                 };
 
@@ -737,7 +699,7 @@ namespace EcoStationManagerApplication.UI.Forms
                         _productId = createResult.Data; // Lưu ProductId mới tạo
                     }
                 }
-                
+
                 if (success)
                 {
                     // Xử lý hình ảnh

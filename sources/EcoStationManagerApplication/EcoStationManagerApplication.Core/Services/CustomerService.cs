@@ -26,11 +26,17 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(searchTerm))
-                    return Result<IEnumerable<Customer>>.Fail("Từ khóa tìm kiếm không được để trống");
-
-                var customers = await _unitOfWork.Customers.SearchAsync(searchTerm);
-                return Result<IEnumerable<Customer>>.Ok(customers, "Tìm kiếm khách hàng thành công");
+                // Nếu searchTerm rỗng, repository sẽ tự động trả về tất cả khách hàng
+                var customers = await _unitOfWork.Customers.SearchAsync(searchTerm ?? "");
+                
+                if (!string.IsNullOrWhiteSpace(searchTerm))
+                {
+                    return Result<IEnumerable<Customer>>.Ok(customers, "Lấy danh sách khách hàng thành công");
+                }
+                else
+                {
+                    return Result<IEnumerable<Customer>>.Ok(customers, "Tìm kiếm khách hàng thành công");
+                }
             }
             catch (Exception ex)
             {

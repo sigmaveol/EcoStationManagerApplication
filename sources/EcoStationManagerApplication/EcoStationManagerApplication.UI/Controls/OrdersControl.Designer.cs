@@ -50,7 +50,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelHeader.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabelHeader.Location = new System.Drawing.Point(0, 0);
             this.titleLabelHeader.Name = "titleLabelHeader";
-            this.titleLabelHeader.Size = new System.Drawing.Size(225, 35);
+            this.titleLabelHeader.Size = new System.Drawing.Size(245, 37);
             this.titleLabelHeader.TabIndex = 0;
             this.titleLabelHeader.Text = "Quản lý Đơn hàng";
             // 
@@ -86,7 +86,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelContent.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.titleLabelContent.Location = new System.Drawing.Point(0, 0);
             this.titleLabelContent.Name = "titleLabelContent";
-            this.titleLabelContent.Size = new System.Drawing.Size(193, 25);
+            this.titleLabelContent.Size = new System.Drawing.Size(207, 28);
             this.titleLabelContent.TabIndex = 0;
             this.titleLabelContent.Text = "Danh sách đơn hàng";
             // 

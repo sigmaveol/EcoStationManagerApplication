@@ -38,7 +38,6 @@ namespace EcoStationManagerApplication.UI.Controls
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.lblDescription = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnAddProduct = new Guna.UI2.WinForms.Guna2Button();
             this.guna2PanelHeader.SuspendLayout();
             this.headerPanel.SuspendLayout();
             this.guna2Panel1.SuspendLayout();
@@ -111,7 +110,6 @@ namespace EcoStationManagerApplication.UI.Controls
             this.guna2Panel1.BackColor = System.Drawing.Color.White;
             this.guna2Panel1.Controls.Add(this.lblDescription);
             this.guna2Panel1.Controls.Add(this.label1);
-            this.guna2Panel1.Controls.Add(this.btnAddProduct);
             this.guna2Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2Panel1.Location = new System.Drawing.Point(0, 0);
             this.guna2Panel1.Name = "guna2Panel1";
@@ -125,9 +123,8 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblDescription.ForeColor = System.Drawing.Color.Gray;
             this.lblDescription.Location = new System.Drawing.Point(22, 46);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(486, 20);
+            this.lblDescription.Size = new System.Drawing.Size(0, 20);
             this.lblDescription.TabIndex = 1;
-            this.lblDescription.Text = "Quản lý Products, Variants, barcode (EAN13), SKU, ảnh, mô tả, danh mục.";
             // 
             // label1
             // 
@@ -135,24 +132,8 @@ namespace EcoStationManagerApplication.UI.Controls
             this.label1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(19, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(284, 37);
+            this.label1.Size = new System.Drawing.Size(0, 37);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Sản phẩm & Phiên bản";
-            // 
-            // btnAddProduct
-            // 
-            this.btnAddProduct.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnAddProduct.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnAddProduct.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnAddProduct.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnAddProduct.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
-            this.btnAddProduct.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnAddProduct.ForeColor = System.Drawing.Color.White;
-            this.btnAddProduct.Location = new System.Drawing.Point(993, 20);
-            this.btnAddProduct.Name = "btnAddProduct";
-            this.btnAddProduct.Size = new System.Drawing.Size(157, 45);
-            this.btnAddProduct.TabIndex = 2;
-            this.btnAddProduct.Text = "Thêm sản phẩm";
             // 
             // HeaderControl
             // 
@@ -178,6 +159,5 @@ namespace EcoStationManagerApplication.UI.Controls
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.Label label1;
-        private Guna.UI2.WinForms.Guna2Button btnAddProduct;
     }
 }

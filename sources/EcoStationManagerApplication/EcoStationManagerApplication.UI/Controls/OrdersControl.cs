@@ -138,6 +138,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 new { Name = "Product", Header = "Sản phẩm" },
                 new { Name = "Type", Header = "Loại" },
                 new { Name = "Quantity", Header = "Số lượng" },
+                new { Name = "TotalAmount", Header = "Tổng tiền" },
                 new { Name = "Status", Header = "Trạng thái" },
                 new { Name = "CreatedDate", Header = "Ngày tạo" },
             };
@@ -149,7 +150,9 @@ namespace EcoStationManagerApplication.UI.Controls
                     Name = col.Name,
                     HeaderText = col.Header,
                     ReadOnly = true,
-                    DataPropertyName = col.Name
+                    DefaultCellStyle = (col.Name == "TotalAmount" || col.Name == "Quantity")
+                        ? new DataGridViewCellStyle { Format = "N0" }
+                        : null
                 });
             }
 
@@ -532,6 +535,16 @@ namespace EcoStationManagerApplication.UI.Controls
         }
 
         private void searchControl1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void headerPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void OrdersControl_Load(object sender, EventArgs e)
         {
 
         }

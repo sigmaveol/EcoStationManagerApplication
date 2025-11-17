@@ -259,3 +259,696 @@
 [INFO] [UnitOfWork] 2025-11-16 01:32:23: Transaction committed
 [INFO] [DatabaseHelper] 2025-11-16 01:32:24: Connection opened - State: Open
 [INFO] [DatabaseHelper] 2025-11-16 01:32:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:53:44: Connection opened - State: Open
+[ERROR] [Service:ReportService] 2025-11-16 17:53:45: lấy báo cáo doanh thu error: Cannot implicitly convert type 'long' to 'int'. An explicit conversion exists (are you missing a cast?)
+[INFO] [DatabaseHelper] 2025-11-16 17:53:49: Connection opened - State: Open
+[ERROR] [Service:ReportService] 2025-11-16 17:53:49: lấy báo cáo doanh thu error: Cannot implicitly convert type 'long' to 'int'. An explicit conversion exists (are you missing a cast?)
+[INFO] [DatabaseHelper] 2025-11-16 17:53:51: Connection opened - State: Open
+[ERROR] [Service:ReportService] 2025-11-16 17:53:51: lấy báo cáo tỷ lệ thu hồi bao bì error: Cannot implicitly convert type 'decimal' to 'int'. An explicit conversion exists (are you missing a cast?)
+[INFO] [DatabaseHelper] 2025-11-16 17:53:52: Connection opened - State: Open
+[ERROR] [Service:ReportService] 2025-11-16 17:53:52: lấy báo cáo doanh thu error: Cannot implicitly convert type 'long' to 'int'. An explicit conversion exists (are you missing a cast?)
+[INFO] [DatabaseHelper] 2025-11-16 17:56:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:56:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:57:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:57:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:57:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:57:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:57:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:57:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:57:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 17:57:43: Connection opened - State: Open
+[ERROR] [Service:ReportService] 2025-11-16 17:57:43: lấy báo cáo doanh thu error: Cannot implicitly convert type 'long' to 'int'. An explicit conversion exists (are you missing a cast?)
+[INFO] [DatabaseHelper] 2025-11-16 17:57:46: Connection opened - State: Open
+[ERROR] [Service:ReportService] 2025-11-16 17:57:46: lấy báo cáo doanh thu error: Cannot implicitly convert type 'long' to 'int'. An explicit conversion exists (are you missing a cast?)
+[INFO] [DatabaseHelper] 2025-11-16 18:01:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:01:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:01:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:01:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:01:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:01:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:01:20: Connection opened - State: Open
+[ERROR] [Service:ReportService] 2025-11-16 18:01:20: lấy báo cáo doanh thu error: Cannot implicitly convert type 'long' to 'int'. An explicit conversion exists (are you missing a cast?)
+[INFO] [DatabaseHelper] 2025-11-16 18:02:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:02:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:02:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:02:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:02:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:02:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:02:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:02:51: Connection opened - State: Open
+[ERROR] [Service:ReportService] 2025-11-16 18:02:52: lấy báo cáo doanh thu error: Cannot implicitly convert type 'long' to 'int'. An explicit conversion exists (are you missing a cast?)
+[INFO] [DatabaseHelper] 2025-11-16 18:02:54: Connection opened - State: Open
+[ERROR] [Service:ReportService] 2025-11-16 18:02:54: lấy báo cáo doanh thu error: Cannot implicitly convert type 'long' to 'int'. An explicit conversion exists (are you missing a cast?)
+[INFO] [DatabaseHelper] 2025-11-16 18:04:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:04:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:04:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:04:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:04:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:04:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:04:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:04:56: Connection opened - State: Open
+[ERROR] [Service:ReportService] 2025-11-16 18:04:56: lấy báo cáo doanh thu error: Cannot implicitly convert type 'long' to 'int'. An explicit conversion exists (are you missing a cast?)
+[INFO] [DatabaseHelper] 2025-11-16 18:08:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:08:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:08:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:08:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:08:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:08:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:08:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:08:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:05: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-16 18:09:05: QueryAsync error: 
+            SELECT p.packaging_id,
+                   p.name as packaging_name,
+                   COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) as issued,
+                   COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) as returned,
+                   CASE 
+                       WHEN COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) > 0
+                       THEN ROUND(COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) * 100.0 / 
+                                  COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0), 2)
+                       ELSE 0
+                   END as recovery_rate
+            FROM Packaging p
+            LEFT JOIN PackagingTransactions pt ON p.packaging_id = pt.packaging_id
+                AND DATE(pt.created_date) BETWEEN @FromDate AND @ToDate
+            WHERE p.is_active = TRUE
+            GROUP BY p.packaging_id, p.name
+            HAVING issued > 0
+            ORDER BY recovery_rate DESC - Unknown column 'p.is_active' in 'where clause'
+[ERROR] [ReportRepository] 2025-11-16 18:09:05: GetPackagingRecoveryRateAsync error - Unknown column 'p.is_active' in 'where clause'
+[ERROR] [Service:ReportService] 2025-11-16 18:09:06: lấy tỷ lệ thu hồi bao bì error: Unknown column 'p.is_active' in 'where clause'
+[INFO] [DatabaseHelper] 2025-11-16 18:09:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:09:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:10:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:14:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:15:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:16:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:16:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:16:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:16:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:16:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:16:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:16:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:16:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:16:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:16:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:17:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:18:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:19:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:19:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:19:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:19:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:19:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:19:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:24:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:10: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-16 18:30:10: QueryAsync error: 
+            SELECT p.packaging_id,
+                   p.name as packaging_name,
+                   COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) as issued,
+                   COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) as returned,
+                   CASE 
+                       WHEN COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) > 0
+                       THEN ROUND(COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) * 100.0 / 
+                                  COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0), 2)
+                       ELSE 0
+                   END as recovery_rate
+            FROM Packaging p
+            LEFT JOIN PackagingTransactions pt ON p.packaging_id = pt.packaging_id
+                AND DATE(pt.created_date) BETWEEN @FromDate AND @ToDate
+            WHERE p.is_active = TRUE
+            GROUP BY p.packaging_id, p.name
+            HAVING issued > 0
+            ORDER BY recovery_rate DESC - Unknown column 'p.is_active' in 'where clause'
+[ERROR] [ReportRepository] 2025-11-16 18:30:10: GetPackagingRecoveryRateAsync error - Unknown column 'p.is_active' in 'where clause'
+[ERROR] [Service:ReportService] 2025-11-16 18:30:10: lấy tỷ lệ thu hồi bao bì error: Unknown column 'p.is_active' in 'where clause'
+[INFO] [DatabaseHelper] 2025-11-16 18:30:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 18:30:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:31:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:32:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:32:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:32:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:33:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:14: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-16 19:37:14: QueryAsync error: 
+            SELECT p.packaging_id,
+                   p.name as packaging_name,
+                   COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) as issued,
+                   COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) as returned,
+                   CASE 
+                       WHEN COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) > 0
+                       THEN ROUND(COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) * 100.0 / 
+                                  COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0), 2)
+                       ELSE 0
+                   END as recovery_rate
+            FROM Packaging p
+            LEFT JOIN PackagingTransactions pt ON p.packaging_id = pt.packaging_id
+                AND DATE(pt.created_date) BETWEEN @FromDate AND @ToDate
+            WHERE p.is_active = TRUE
+            GROUP BY p.packaging_id, p.name
+            HAVING issued > 0
+            ORDER BY recovery_rate DESC - Unknown column 'p.is_active' in 'where clause'
+[ERROR] [ReportRepository] 2025-11-16 19:37:14: GetPackagingRecoveryRateAsync error - Unknown column 'p.is_active' in 'where clause'
+[ERROR] [Service:ReportService] 2025-11-16 19:37:14: lấy tỷ lệ thu hồi bao bì error: Unknown column 'p.is_active' in 'where clause'
+[INFO] [DatabaseHelper] 2025-11-16 19:37:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:37:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 19:52:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:00:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:11: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-16 20:09:12: QueryAsync error: 
+            SELECT p.packaging_id,
+                   p.name as packaging_name,
+                   COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) as issued,
+                   COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) as returned,
+                   CASE 
+                       WHEN COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) > 0
+                       THEN ROUND(COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) * 100.0 / 
+                                  COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0), 2)
+                       ELSE 0
+                   END as recovery_rate
+            FROM Packaging p
+            LEFT JOIN PackagingTransactions pt ON p.packaging_id = pt.packaging_id
+                AND DATE(pt.created_date) BETWEEN @FromDate AND @ToDate
+            WHERE p.is_active = TRUE
+            GROUP BY p.packaging_id, p.name
+            HAVING issued > 0
+            ORDER BY recovery_rate DESC - Unknown column 'p.is_active' in 'where clause'
+[ERROR] [ReportRepository] 2025-11-16 20:09:12: GetPackagingRecoveryRateAsync error - Unknown column 'p.is_active' in 'where clause'
+[ERROR] [Service:ReportService] 2025-11-16 20:09:12: lấy tỷ lệ thu hồi bao bì error: Unknown column 'p.is_active' in 'where clause'
+[INFO] [DatabaseHelper] 2025-11-16 20:09:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:09:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:11:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:27: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-16 20:12:27: QueryAsync error: 
+            SELECT p.packaging_id,
+                   p.name as packaging_name,
+                   COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) as issued,
+                   COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) as returned,
+                   CASE 
+                       WHEN COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) > 0
+                       THEN ROUND(COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) * 100.0 / 
+                                  COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0), 2)
+                       ELSE 0
+                   END as recovery_rate
+            FROM Packaging p
+            LEFT JOIN PackagingTransactions pt ON p.packaging_id = pt.packaging_id
+                AND DATE(pt.created_date) BETWEEN @FromDate AND @ToDate
+            WHERE p.is_active = TRUE
+            GROUP BY p.packaging_id, p.name
+            HAVING issued > 0
+            ORDER BY recovery_rate DESC - Unknown column 'p.is_active' in 'where clause'
+[ERROR] [ReportRepository] 2025-11-16 20:12:27: GetPackagingRecoveryRateAsync error - Unknown column 'p.is_active' in 'where clause'
+[ERROR] [Service:ReportService] 2025-11-16 20:12:27: lấy tỷ lệ thu hồi bao bì error: Unknown column 'p.is_active' in 'where clause'
+[INFO] [DatabaseHelper] 2025-11-16 20:12:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:12:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:17:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 20:18:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:09:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:09:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:09:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:09:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:09:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:09:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:10:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:11:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:21:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:36:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:36:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:36:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:36:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:36:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:36:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:38:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:38:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:38:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:38:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:38:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:38:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:46:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:46:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:46:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:46:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:46:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:46:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:49:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:49:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:49:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:49:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:49:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:49:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:51:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:51:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:51:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:51:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:51:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-16 23:51:04: Connection opened - State: Open

@@ -105,6 +105,12 @@ namespace EcoStationManagerApplication.Core.Services
                         return Result<PackagingTransaction>.Fail(customerResult.Message);
                 }
 
+                // Tự động gán userId từ context nếu chưa có
+                if (!userId.HasValue)
+                {
+                    userId = GetCurrentUserId();
+                }
+
                 // Thực hiện phát hành bao bì
                 var success = await _unitOfWork.PackagingTransactions.IssuePackagingAsync(
                     packagingId, customerId, quantity, depositPrice, userId, notes);
@@ -154,6 +160,12 @@ namespace EcoStationManagerApplication.Core.Services
                 var holdingQuantity = await _unitOfWork.PackagingTransactions.GetCustomerHoldingQuantityAsync(customerId, packagingId);
                 if (holdingQuantity < quantity)
                     return BusinessError<PackagingTransaction>($"Khách hàng chỉ đang giữ {holdingQuantity} bao bì, không đủ để trả {quantity}");
+
+                // Tự động gán userId từ context nếu chưa có
+                if (!userId.HasValue)
+                {
+                    userId = GetCurrentUserId();
+                }
 
                 // Thực hiện thu hồi bao bì
                 var success = await _unitOfWork.PackagingTransactions.ReturnPackagingAsync(

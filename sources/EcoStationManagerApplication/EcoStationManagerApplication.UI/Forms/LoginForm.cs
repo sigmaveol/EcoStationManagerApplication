@@ -2,17 +2,25 @@
 using EcoStationManagerApplication.UI.Forms;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI
 {
     public partial class LoginForm : Form
     {
+        private System.Timers.Timer _countdownTimer;
+        private int _countdownSeconds = 3;
+        private Label _countdownLabel;
+        private Panel _successPanel;
+
         public LoginForm()
         {
             InitializeComponent();
             InitializeForm();
+            InitializeSuccessPanel();
         }
 
         private void InitializeForm()
@@ -25,22 +33,144 @@ namespace EcoStationManagerApplication.UI
             this.Shown += (s, e) => txtUsername.Focus();
         }
 
+        private void InitializeSuccessPanel()
+        {
+            // Tạo panel thông báo thành công (ban đầu ẩn)
+            _successPanel = new Panel
+            {
+                Size = new Size(500, 200),
+                BackColor = Color.FromArgb(240, 255, 240),
+                BorderStyle = BorderStyle.FixedSingle,
+                Visible = false
+            };
+
+            var successIcon = new Label
+            {
+                Text = "✓",
+                Font = new Font("Arial", 24, FontStyle.Bold),
+                ForeColor = AppColors.Primary,
+                Size = new Size(40, 40),
+                Location = new Point(20, 20),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            var successMessage = new Label
+            {
+                Text = "Đăng nhập thành công!",
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                ForeColor = AppColors.Primary,
+                AutoSize = true,
+                Location = new Point(70, 25)
+            };
+
+            _countdownLabel = new Label
+            {
+                Text = $"Tự động chuyển sang màn hình chính sau {_countdownSeconds} giây...",
+                Font = new Font("Arial", 9),
+                ForeColor = AppColors.Primary,
+                AutoSize = true,
+                Location = new Point(70, 55)
+            };
+
+            var continueButton = new Button
+            {
+                Text = "Tiếp tục ngay",
+                Size = new Size(100, 30),
+                Location = new Point(100, 90),
+                BackColor = Color.Green,
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat
+            };
+
+            continueButton.Click += (s, e) =>
+            {
+                StopTimerAndOpenMainForm();
+            };
+
+            _successPanel.Controls.Add(successIcon);
+            _successPanel.Controls.Add(successMessage);
+            _successPanel.Controls.Add(_countdownLabel);
+            _successPanel.Controls.Add(continueButton);
+
+            // Căn giữa panel
+            _successPanel.Location = new Point(
+                (this.ClientSize.Width - _successPanel.Width) / 2,
+                (this.ClientSize.Height - _successPanel.Height) / 2
+            );
+
+            this.Controls.Add(_successPanel);
+            _successPanel.BringToFront();
+        }
+
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            // Load thông tin đã lưu nếu có (Remember me)
             LoadSavedCredentials();
         }
 
         private void LoadSavedCredentials()
         {
-            // TODO: Implement load saved credentials from settings if needed
-            // For now, leave empty
+            try
+            {
+                // Kiểm tra xem có lưu thông tin đăng nhập không
+                if (Properties.Settings.Default.RememberMe)
+                {
+                    // Load thông tin đã lưu
+                    txtUsername.Text = Properties.Settings.Default.SavedUsername ?? "";
+                    txtPassword.Text = Properties.Settings.Default.SavedPassword ?? "";
+                    checkBoxRemember.Checked = true;
+
+                    // Focus vào password nếu đã có username
+                    if (!string.IsNullOrWhiteSpace(txtUsername.Text))
+                    {
+                        txtPassword.Focus();
+                    }
+                }
+                else
+                {
+                    // Reset nếu không có Remember me
+                    txtUsername.Text = "";
+                    txtPassword.Text = "";
+                    checkBoxRemember.Checked = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi nhưng không hiển thị cho user
+                System.Diagnostics.Debug.WriteLine($"Lỗi khi load saved credentials: {ex.Message}");
+                // Reset về trạng thái mặc định
+                txtUsername.Text = "";
+                txtPassword.Text = "";
+                checkBoxRemember.Checked = false;
+            }
         }
 
         private void SaveCredentials()
         {
-            // TODO: Implement save credentials to settings if Remember me is checked
-            // For now, leave empty
+            try
+            {
+                if (checkBoxRemember.Checked)
+                {
+                    // Lưu thông tin đăng nhập
+                    Properties.Settings.Default.SavedUsername = txtUsername.Text.Trim();
+                    Properties.Settings.Default.SavedPassword = txtPassword.Text; // Lưu cả password
+                    Properties.Settings.Default.RememberMe = true;
+                }
+                else
+                {
+                    // Xóa thông tin đã lưu
+                    Properties.Settings.Default.SavedUsername = "";
+                    Properties.Settings.Default.SavedPassword = "";
+                    Properties.Settings.Default.RememberMe = false;
+                }
+
+                // Lưu settings
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi nhưng không làm ảnh hưởng đến trải nghiệm user
+                System.Diagnostics.Debug.WriteLine($"Lỗi khi save credentials: {ex.Message}");
+            }
         }
 
         private async void btnLogin_Click(object sender, EventArgs e)
@@ -84,11 +214,12 @@ namespace EcoStationManagerApplication.UI
                 if (result.Success && result.Data != null)
                 {
                     var user = result.Data;
-                    
+
                     // Lưu thông tin user vào AppUserContext
                     AppUserContext.CurrentUserId = user.UserId;
                     AppUserContext.CurrentUsername = user.Username;
                     AppUserContext.CurrentUserRole = user.Role;
+                    AppUserContext.CurrentFullname = user.Fullname;
 
                     // Save credentials if Remember me is checked
                     if (checkBoxRemember.Checked)
@@ -96,18 +227,9 @@ namespace EcoStationManagerApplication.UI
                         SaveCredentials();
                     }
 
-                    // Show success message
-                    UIHelper.ShowSuccessMessage(result.Message ?? "Đăng nhập thành công!");
+                    // Hiển thị thông báo thành công và bắt đầu đếm ngược
+                    ShowSuccessAndStartCountdown(result.Message ?? "Đăng nhập thành công!");
 
-                    // Open MainForm
-                    this.Hide();
-                    var mainForm = new MainForm();
-                    mainForm.FormClosed += (s, args) => 
-                    {
-                        AppUserContext.Clear(); // Clear context khi đóng MainForm
-                        this.Close();
-                    };
-                    mainForm.Show();
                 }
                 else
                 {
@@ -127,6 +249,104 @@ namespace EcoStationManagerApplication.UI
                 // Re-enable controls
                 SetControlsEnabled(true);
                 btnLogin.Text = "Đăng nhập";
+            }
+        }
+
+        private void ShowSuccessAndStartCountdown(string message)
+        {
+            // Cập nhật thông báo thành công
+            _countdownLabel.Text = $"Đăng nhập thành công! Tự động chuyển sau {_countdownSeconds} giây...";
+
+            // Hiển thị panel thông báo thành công
+            _successPanel.Visible = true;
+            _successPanel.BringToFront();
+
+            // Focus vào nút "Tiếp tục ngay"
+            var continueButton = _successPanel.Controls.OfType<Button>().FirstOrDefault();
+            if (continueButton != null)
+            {
+                continueButton.Focus();
+            }
+
+            // Khởi tạo và bắt đầu timer đếm ngược
+            InitializeTimer();
+        }
+
+        private void InitializeTimer()
+        {
+            _countdownTimer = new System.Timers.Timer(1000); // 1 giây
+            _countdownTimer.Elapsed += OnTimedEvent;
+            _countdownTimer.AutoReset = true;
+            _countdownTimer.Enabled = true;
+        }
+
+        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+        {
+            // Giảm thời gian đếm ngược
+            _countdownSeconds--;
+
+            // Cập nhật UI từ thread chính
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    UpdateCountdownDisplay();
+                }));
+            }
+            else
+            {
+                UpdateCountdownDisplay();
+            }
+        }
+
+        private void UpdateCountdownDisplay()
+        {
+            if (_countdownSeconds > 0)
+            {
+                _countdownLabel.Text = $"Đăng nhập thành công! Tự động chuyển sau {_countdownSeconds} giây...";
+            }
+            else
+            {
+                StopTimerAndOpenMainForm();
+            }
+        }
+
+        private void StopTimerAndOpenMainForm()
+        {
+            // Dừng timer
+            if (_countdownTimer != null)
+            {
+                _countdownTimer.Stop();
+                _countdownTimer.Dispose();
+                _countdownTimer = null;
+            }
+
+            // Ẩn panel thông báo
+            _successPanel.Visible = false;
+
+            // Mở MainForm
+            OpenMainForm();
+        }
+
+        private void OpenMainForm()
+        {
+            try
+            {
+                this.Hide();
+                var mainForm = new MainForm();
+                mainForm.FormClosed += (s, args) =>
+                {
+                    AppUserContext.Clear(); // Clear context khi đóng MainForm
+                    this.Close();
+                };
+                mainForm.Show();
+            }
+            catch (Exception mainFormEx)
+            {
+                // Nếu MainForm không load được, hiển thị lại LoginForm
+                this.Show();
+                UIHelper.ShowExceptionError(mainFormEx, "mở màn hình chính");
+                ShowError("Không thể mở màn hình chính. Vui lòng thử lại.");
             }
         }
 
@@ -164,7 +384,15 @@ namespace EcoStationManagerApplication.UI
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
-                txtPassword.Focus();
+                if (string.IsNullOrEmpty(txtPassword.Text))
+                {
+                    txtPassword.Focus();
+                }
+                else
+                {
+                    btnLogin.PerformClick();
+
+                }
             }
         }
 
@@ -176,5 +404,6 @@ namespace EcoStationManagerApplication.UI
                 btnLogin.PerformClick();
             }
         }
+
     }
 }

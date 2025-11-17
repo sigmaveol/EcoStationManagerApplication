@@ -31,6 +31,8 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
         private ISupplierRepository _suppliers;
         private IStockInRepository _stockIn;
         private IStockOutRepository _stockOut;
+        private IReportRepository _reports;
+        private IWorkShiftRepository _workShifts;
 
         public UnitOfWork(IDatabaseHelper databaseHelper)
         {
@@ -65,9 +67,14 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
         public IStockInRepository StockIn => _stockIn ?? (_stockIn = new StockInRepository(_databaseHelper));
         public IStockOutRepository StockOut => _stockOut ?? (_stockOut = new StockOutRepository(_databaseHelper, Inventories, PackagingInventories));
 
+        // Reports
+        public IReportRepository Reports => _reports ?? (_reports = new ReportRepository(_databaseHelper));
+
+        // Work Shift Management
+        public IWorkShiftRepository WorkShifts => _workShifts ?? (_workShifts = new WorkShiftRepository(_databaseHelper));
+
         // TODO: Triển khai sau
         // public IDeliveryAssignmentRepository DeliveryAssignments => throw new NotImplementedException();
-        // public IWorkShiftRepository WorkShifts => throw new NotImplementedException();
         // public ICleaningScheduleRepository CleaningSchedules => throw new NotImplementedException();
 
         public async Task<int> SaveChangesAsync()

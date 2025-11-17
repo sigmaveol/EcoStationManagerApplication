@@ -40,9 +40,14 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         // Packaging Transactions
         IPackagingTransactionRepository PackagingTransactions { get; }
 
+        // Reports
+        IReportRepository Reports { get; }
+
+        // Work Shift Management
+        IWorkShiftRepository WorkShifts { get; }
+
         // TODO: Triển khai sau
         // IDeliveryAssignmentRepository DeliveryAssignments { get; }
-        // IWorkShiftRepository WorkShifts { get; }
         // ICleaningScheduleRepository CleaningSchedules { get; }
 
         /// <summary>

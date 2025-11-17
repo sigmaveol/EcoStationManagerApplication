@@ -28,6 +28,7 @@ namespace EcoStationManagerApplication.UI.Common
         private static IStockInService _stockInService;
         private static IStockOutService _stockOutService;
         private static IExportService _exportService;
+        private static IReportService _reportService;
 
         private static IUnitOfWork GetUnitOfWork()
         {
@@ -80,5 +81,7 @@ namespace EcoStationManagerApplication.UI.Common
         public static IExportService ExportService => _exportService ?? (_exportService = new ExportService(
             OrderService,
             CustomerService));
+
+        public static IReportService ReportService => _reportService ?? (_reportService = new ReportService(GetUnitOfWork()));
     }
 }

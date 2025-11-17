@@ -266,7 +266,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.btnClose.TabIndex = 23;
             this.btnClose.Text = "Đóng";
             this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.BtnClose_Click);
+            //this.btnClose.Click += new System.EventHandler(this.BtnClose_Click);
 
             // dgvProducts
             this.dgvProducts.AllowUserToAddRows = false;

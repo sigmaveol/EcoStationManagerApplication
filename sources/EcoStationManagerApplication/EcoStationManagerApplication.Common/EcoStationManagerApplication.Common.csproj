@@ -184,6 +184,7 @@
     <Compile Include="Exporters\PdfFontResolver.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\SecurityHelper.cs" />
+    <Compile Include="Helpers\UserContextHelper.cs" />
     <Compile Include="Logging\LogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

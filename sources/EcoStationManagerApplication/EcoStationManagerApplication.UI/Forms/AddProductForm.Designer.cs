@@ -80,7 +80,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.panelLeft.Padding = new System.Windows.Forms.Padding(30);
             this.panelLeft.Size = new System.Drawing.Size(600, 730);
             this.panelLeft.TabIndex = 0;
-            this.panelLeft.Paint += new System.Windows.Forms.PaintEventHandler(this.panelLeft_Paint);
+            //this.panelLeft.Paint += new System.Windows.Forms.PaintEventHandler(this.panelLeft_Paint);
             // 
             // labelError
             // 

@@ -14,7 +14,6 @@ namespace EcoStationManagerApplication.UI.Forms
 {
     public partial class MainForm : Form
     {
-        //private UserControl currentContent;
 
         private Dictionary<string, UserControl> _contentCache = new Dictionary<string, UserControl>();
 
@@ -23,20 +22,19 @@ namespace EcoStationManagerApplication.UI.Forms
             InitializeComponent();
         }
 
-        private void SetupEventHandlers()
-        {
-            if (sidebarControl != null)
-            {
-                sidebarControl.MenuClicked += OnMenuClicked;
-            }
-        }
+        //private void SetupEventHandlers()
+        //{
+        //    if (sidebarControl != null)
+        //    {
+        //        sidebarControl.MenuClicked += OnMenuClicked;
+        //    }
+        //}
 
-        private void OnMenuClicked(object sender, string menuName)
-        {
-            // menuName chính là "dashboard", "reports", "devices"... 
-            // mà bạn đã truyền khi gọi AddMenuItem
-            ShowContent(menuName);
-        }
+        //private void OnMenuClicked(object sender, string menuName)
+        //{
+        //    // menuName chính là "dashboard", "reports", "devices"...
+        //    ShowContent(menuName);
+        //}
 
 
 
@@ -45,7 +43,6 @@ namespace EcoStationManagerApplication.UI.Forms
             InitializeSidebar();
             InitializeSidebarMenu();
             ShowContent("dashboard");
-
 
             //sidebarControl.MenuClicked += SidebarControl_MenuClicked;
 
@@ -145,7 +142,7 @@ namespace EcoStationManagerApplication.UI.Forms
                     case "payment":
                         return new PaymentControl();
                     case "reports":
-                        return new ReportsControl();
+                        return new ReportControl();
                     case "systemsettings":
                         return new SystemSettingsControl();
                     default:

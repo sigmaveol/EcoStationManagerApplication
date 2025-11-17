@@ -56,11 +56,63 @@ namespace EcoStationManagerApplication.Core.Services
                 }
 
                 _logger.Info($"User authenticated: {username} (ID: {user.UserId})");
+                
+                // Tự động tạo WorkShift cho user nếu chưa có ca làm việc hôm nay
+                await EnsureWorkShiftForTodayAsync(user.UserId);
+                
                 return Result<User>.Ok(user, "Đăng nhập thành công");
             }
             catch (Exception ex)
             {
                 return HandleException<User>(ex, "xác thực người dùng");
+            }
+        }
+
+        /// <summary>
+        /// Đảm bảo user có WorkShift cho ngày hôm nay (tự động tạo nếu chưa có)
+        /// </summary>
+        private async Task EnsureWorkShiftForTodayAsync(int userId)
+        {
+            try
+            {
+                var today = DateTime.Now.Date;
+                
+                // Kiểm tra xem đã có ca làm việc hôm nay chưa
+                var exists = await _unitOfWork.WorkShifts.ExistsByUserIdAndDateAsync(userId, today);
+                
+                if (!exists)
+                {
+                    // Tạo WorkShift mới cho ngày hôm nay
+                    var workShift = new WorkShift
+                    {
+                        UserId = userId,
+                        ShiftDate = today,
+                        StartTime = DateTime.Now.TimeOfDay, // Thời gian bắt đầu ca (thời điểm đăng nhập)
+                        EndTime = null, // Chưa kết thúc
+                        KpiScore = null,
+                        Notes = "Tự động tạo khi đăng nhập",
+                        UpdatedDate = DateTime.Now
+                    };
+
+                    var shiftId = await _unitOfWork.WorkShifts.AddAsync(workShift);
+                    _logger.Info($"Đã tạo WorkShift mới cho user - UserId: {userId}, ShiftId: {shiftId}, Date: {today:yyyy-MM-dd}");
+                }
+                else
+                {
+                    // Nếu đã có ca làm việc nhưng chưa có start_time, cập nhật start_time
+                    var existingShift = await _unitOfWork.WorkShifts.GetByUserIdAndDateAsync(userId, today);
+                    if (existingShift != null && !existingShift.StartTime.HasValue)
+                    {
+                        await _unitOfWork.WorkShifts.UpdateStartTimeAsync(existingShift.ShiftId, DateTime.Now.TimeOfDay);
+                        _logger.Info($"Đã cập nhật start_time cho WorkShift - UserId: {userId}, ShiftId: {existingShift.ShiftId}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi nhưng không làm ảnh hưởng đến quá trình đăng nhập
+                _logger.Warning($"Không thể tạo WorkShift cho user - UserId: {userId} - {ex.Message}");
+                // Không throw exception để không làm gián đoạn quá trình đăng nhập
             }
         }
 

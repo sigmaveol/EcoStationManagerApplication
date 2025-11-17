@@ -1,4 +1,5 @@
-﻿using EcoStationManagerApplication.UI.Common;
+﻿using EcoStationManagerApplication.Common.Helpers;
+using EcoStationManagerApplication.UI.Common;
 using EcoStationManagerApplication.UI.Forms;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,6 @@ namespace EcoStationManagerApplication.UI
         static void Main()
         {
 
-            //AppServices.UserService.CreateUserAsync("admin", "123", Models.Enums.UserRole.ADMIN);
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -38,8 +37,7 @@ namespace EcoStationManagerApplication.UI
             GCSettings.LatencyMode = GCLatencyMode.Batch;
 
             // Hiển thị LoginForm trước
-            //Application.Run(new LoginForm());
-            Application.Run(new MainForm());
+            Application.Run(new LoginForm());
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -64,7 +62,7 @@ namespace EcoStationManagerApplication.UI
             {
                 var ex = e.ExceptionObject as Exception;
                 MessageBox.Show(
-                    $"Đã xảy ra lỗi nghiêm trọng:\n\n{ex?.Message ?? "Unknown error"}\n\nỨng dụng sẽ đóng.",
+                    $"Đã xảy ra lỗi:\n\n{ex?.Message ?? "Unknown error"}\n\nỨng dụng sẽ đóng.",
                     "Lỗi nghiêm trọng",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);

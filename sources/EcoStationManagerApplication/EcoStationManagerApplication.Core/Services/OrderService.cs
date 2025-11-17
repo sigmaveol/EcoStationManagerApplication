@@ -242,6 +242,12 @@ namespace EcoStationManagerApplication.Core.Services
                 // Set order defaults
                 order.Status = OrderStatus.DRAFT;
                 order.LastUpdated = DateTime.Now;
+                
+                // Tự động gán userId từ context (người tạo đơn)
+                if (!order.UserId.HasValue)
+                {
+                    order.UserId = GetCurrentUserId();
+                }
 
                 // 1. Tạo order
                 var orderId = await _unitOfWork.Orders.AddAsync(order);

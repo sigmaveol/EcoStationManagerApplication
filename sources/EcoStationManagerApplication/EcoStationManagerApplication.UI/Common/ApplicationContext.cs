@@ -1,3 +1,4 @@
+using EcoStationManagerApplication.Common.Helpers;
 using EcoStationManagerApplication.Models.Enums;
 
 namespace EcoStationManagerApplication.UI.Common
@@ -15,7 +16,11 @@ namespace EcoStationManagerApplication.UI.Common
         /// <summary>
         /// ID của user hiện tại
         /// </summary>
-        public static int? CurrentUserId { get; set; }
+        public static int? CurrentUserId 
+        { 
+            get => UserContextHelper.CurrentUserId;
+            set => UserContextHelper.CurrentUserId = value;
+        }
 
         /// <summary>
         /// Username của user hiện tại
@@ -27,6 +32,8 @@ namespace EcoStationManagerApplication.UI.Common
         /// </summary>
         public static bool IsAdmin => CurrentUserRole == UserRole.ADMIN;
 
+        public static string CurrentFullname { get; set; }
+
         /// <summary>
         /// Clear context khi logout
         /// </summary>
@@ -35,6 +42,8 @@ namespace EcoStationManagerApplication.UI.Common
             CurrentUserRole = null;
             CurrentUserId = null;
             CurrentUsername = null;
+            CurrentFullname = null;
+            UserContextHelper.Clear();
         }
     }
 }

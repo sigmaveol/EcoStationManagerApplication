@@ -33,6 +33,7 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
         private IStockOutRepository _stockOut;
         private IReportRepository _reports;
         private IWorkShiftRepository _workShifts;
+        private IStationRepository _stations;
 
         public UnitOfWork(IDatabaseHelper databaseHelper)
         {
@@ -72,6 +73,9 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
 
         // Work Shift Management
         public IWorkShiftRepository WorkShifts => _workShifts ?? (_workShifts = new WorkShiftRepository(_databaseHelper));
+
+        // Station Management
+        public IStationRepository Stations => _stations ?? (_stations = new StationRepository(_databaseHelper));
 
         // TODO: Triển khai sau
         // public IDeliveryAssignmentRepository DeliveryAssignments => throw new NotImplementedException();

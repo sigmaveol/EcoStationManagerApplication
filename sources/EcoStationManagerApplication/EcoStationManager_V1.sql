@@ -34,10 +34,10 @@ CREATE TABLE IF NOT EXISTS Stations (
     address TEXT NOT NULL,
     phone VARCHAR(50),
     station_type ENUM('warehouse', 'refill', 'hybrid', 'other') DEFAULT 'refill',
-    created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     manager INT, -- User_id của quản lý trạm
     is_active BOOLEAN DEFAULT TRUE,
+    created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (manager) REFERENCES Users(user_id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 

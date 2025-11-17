@@ -215,6 +215,20 @@ CREATE TABLE IF NOT EXISTS WorkShifts (
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 ) ENGINE=InnoDB;
 
+-- Bảng trạm
+CREATE TABLE IF NOT EXISTS Stations (
+    station_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    address TEXT NOT NULL,
+    phone VARCHAR(50),
+    station_type ENUM('warehouse', 'refill', 'hybrid', 'other') DEFAULT 'refill',
+    manager INT, -- User_id của quản lý trạm
+    is_active BOOLEAN DEFAULT TRUE,
+    created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (manager) REFERENCES Users(user_id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
 -- Tạo indexes TỐI ƯU NHẤT - chỉ những index thực sự cần thiết
 
 -- USERS (đăng nhập, phân quyền, tìm kiếm)

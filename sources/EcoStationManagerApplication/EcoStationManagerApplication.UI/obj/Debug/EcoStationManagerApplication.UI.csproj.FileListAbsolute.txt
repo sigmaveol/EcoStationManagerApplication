@@ -205,3 +205,4 @@ D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationM
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\FastReport.dll
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\FastReport.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\obj\Debug\EcoStationManagerApplication.UI.Controls.ReportsControl.resources
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\obj\Debug\EcoStationManagerApplication.UI.Controls.SettingsControl.resources

@@ -27,6 +27,7 @@ namespace EcoStationManagerApplication.UI.Common
         private static IPackagingTransactionService _packagingTransactionService;
         private static IStockInService _stockInService;
         private static IStockOutService _stockOutService;
+        private static IOrderDetailService _orderDetailService;
         private static IExportService _exportService;
         private static IReportService _reportService;
         private static IStationService _stationService;
@@ -87,6 +88,7 @@ namespace EcoStationManagerApplication.UI.Common
 
         public static IReportService ReportService => _reportService ?? (_reportService = new ReportService(GetUnitOfWork()));
 
+        public static IOrderDetailService OrderDetailService => _orderDetailService ?? (_orderDetailService = new OrderDetailService(GetUnitOfWork()));
         public static IStationService StationService => _stationService ?? (_stationService = new StationService(GetUnitOfWork()));
 
         public static IDeliveryService DeliveryService => _deliveryService ?? (_deliveryService = new DeliveryService(GetUnitOfWork()));

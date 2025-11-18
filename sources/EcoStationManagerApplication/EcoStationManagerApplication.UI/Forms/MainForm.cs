@@ -113,6 +113,94 @@ namespace EcoStationManagerApplication.UI.Forms
 
         }
 
+        /// <summary>
+        /// Public method để các control khác có thể chuyển tab
+        /// </summary>
+        public void NavigateToTab(string menuName)
+        {
+            ShowContent(menuName);
+        }
+
+        /// <summary>
+        /// Chuyển tab và mở form tạo phiếu nhập kho
+        /// </summary>
+        public void NavigateToStockInAndOpenCreateForm()
+        {
+            NavigateToTab("stockin");
+            
+            // Delay nhỏ để đảm bảo control đã được load và hiển thị
+            System.Threading.Tasks.Task.Delay(100).ContinueWith(_ =>
+            {
+                if (this.InvokeRequired)
+                {
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        // Tìm StockInManagementControl từ contentControl
+                        foreach (Control ctrl in contentControl.Controls)
+                        {
+                            if (ctrl is StockInManagementControl stockInControl)
+                            {
+                                stockInControl.OpenCreateStockInForm();
+                                return;
+                            }
+                        }
+                    }));
+                }
+                else
+                {
+                    // Tìm StockInManagementControl từ contentControl
+                    foreach (Control ctrl in contentControl.Controls)
+                    {
+                        if (ctrl is StockInManagementControl stockInControl)
+                        {
+                            stockInControl.OpenCreateStockInForm();
+                            return;
+                        }
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        /// Chuyển tab và mở form tạo phiếu xuất kho
+        /// </summary>
+        public void NavigateToStockOutAndOpenCreateForm()
+        {
+            NavigateToTab("stockout");
+            
+            // Delay nhỏ để đảm bảo control đã được load và hiển thị
+            System.Threading.Tasks.Task.Delay(100).ContinueWith(_ =>
+            {
+                if (this.InvokeRequired)
+                {
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        // Tìm StockOutManagementControl từ contentControl
+                        foreach (Control ctrl in contentControl.Controls)
+                        {
+                            if (ctrl is StockOutManagementControl stockOutControl)
+                            {
+                                stockOutControl.OpenCreateStockOutForm();
+                                return;
+                            }
+                        }
+                    }));
+                }
+                else
+                {
+                    // Tìm StockOutManagementControl từ contentControl
+                    foreach (Control ctrl in contentControl.Controls)
+                    {
+                        if (ctrl is StockOutManagementControl stockOutControl)
+                        {
+                            stockOutControl.OpenCreateStockOutForm();
+                            return;
+                        }
+                    }
+                }
+            });
+        }
+
 
         private UserControl CreateUserControlForMenu(string menuName)
         {
@@ -143,7 +231,10 @@ namespace EcoStationManagerApplication.UI.Forms
                     case "payment":
                         return new PaymentControl();
                     case "reports":
-                        return new ReportControl();
+                        return new ReportControl(
+                            AppServices.ReportService,
+                            AppServices.OrderService,
+                            AppServices.OrderDetailService);
                     case "systemsettings":
                         return new SystemSettingsControl();
                     default:

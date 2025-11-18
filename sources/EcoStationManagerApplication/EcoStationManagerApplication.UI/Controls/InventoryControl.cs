@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static EcoStationManagerApplication.UI.Common.AppColors;
 using static EcoStationManagerApplication.UI.Common.AppFonts;
+using MainForm = EcoStationManagerApplication.UI.Forms.MainForm;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
@@ -751,26 +752,34 @@ namespace EcoStationManagerApplication.UI.Controls
             SwitchToMode(ViewMode.Packaging);
         }
 
-        private async void btnStockIn_Click(object sender, EventArgs e)
+        private void btnStockIn_Click(object sender, EventArgs e)
         {
             try
             {
-                if (currentMode == ViewMode.Products)
+                // Tìm MainForm parent và chuyển tới tab Nhập kho, sau đó mở form tạo phiếu
+                var mainForm = FindMainForm();
+                if (mainForm != null)
                 {
-                    // Mở form nhập kho sản phẩm
-                    using (var form = new StockInForm())
-                    {
-                        if (form.ShowDialog() == DialogResult.OK)
-                        {
-                            await LoadDataAsync();
-                        }
-                    }
+                    mainForm.NavigateToStockInAndOpenCreateForm();
                 }
                 else
                 {
-                    // Mở form nhập kho bao bì
-                    MessageBox.Show("Chức năng nhập kho bao bì sẽ được triển khai sau.", "Thông báo", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Fallback: mở form trực tiếp nếu không tìm thấy MainForm
+                    if (currentMode == ViewMode.Products)
+                    {
+                        using (var form = new StockInForm())
+                        {
+                            if (form.ShowDialog() == DialogResult.OK)
+                            {
+                                _ = LoadDataAsync();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Chức năng nhập kho bao bì sẽ được triển khai sau.", "Thông báo", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
             catch (Exception ex)
@@ -779,32 +788,61 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        private async void btnStockOut_Click(object sender, EventArgs e)
+        private void btnStockOut_Click(object sender, EventArgs e)
         {
             try
             {
-                if (currentMode == ViewMode.Products)
+                // Tìm MainForm parent và chuyển tới tab Xuất kho, sau đó mở form tạo phiếu
+                var mainForm = FindMainForm();
+                if (mainForm != null)
                 {
-                    // Mở form xuất kho sản phẩm
-                    using (var form = new StockOutForm())
-                    {
-                        if (form.ShowDialog() == DialogResult.OK)
-                        {
-                            await LoadDataAsync();
-                        }
-                    }
+                    mainForm.NavigateToStockOutAndOpenCreateForm();
                 }
                 else
                 {
-                    // Mở form xuất kho bao bì
-                    MessageBox.Show("Chức năng xuất kho bao bì sẽ được triển khai sau.", "Thông báo", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Fallback: mở form trực tiếp nếu không tìm thấy MainForm
+                    if (currentMode == ViewMode.Products)
+                    {
+                        using (var form = new StockOutForm())
+                        {
+                            if (form.ShowDialog() == DialogResult.OK)
+                            {
+                                _ = LoadDataAsync();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Chức năng xuất kho bao bì sẽ được triển khai sau.", "Thông báo", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 UIHelper.ShowExceptionError(ex, "mở form xuất kho");
             }
+        }
+
+        /// <summary>
+        /// Tìm MainForm từ control hierarchy
+        /// </summary>
+        private MainForm FindMainForm()
+        {
+            // Sử dụng FindForm() để tìm Form chứa control này
+            var form = this.FindForm();
+            if (form is MainForm mainForm)
+            {
+                return mainForm;
+            }
+            
+            // Fallback: tìm qua TopLevelControl
+            if (this.TopLevelControl is MainForm topLevelMainForm)
+            {
+                return topLevelMainForm;
+            }
+            
+            return null;
         }
 
         private void btnExportPDF_Click(object sender, EventArgs e)

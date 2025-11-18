@@ -1,4 +1,3 @@
-using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Enums;
 using System;
@@ -12,47 +11,49 @@ using System.Windows.Forms;
 namespace EcoStationManagerApplication.UI.Controls
 {
     /// <summary>
-    /// Partial class for Customer Refill Report functionality
+    /// Partial class handling the customer refill / loyalty report.
     /// </summary>
     public partial class ReportControl
     {
-        private async Task LoadCustomerRefillReport(DateTime fromDate, DateTime toDate)
+        protected async Task LoadCustomerRefillReport(DateTime fromDate, DateTime toDate)
         {
             try
             {
-                var reportResult = await _reportService.GetCustomerReturnReportAsync(fromDate, toDate);
+                ShowLoadingMessage("Đang tải dữ liệu báo cáo tần suất khách hàng...");
 
-                if (!reportResult.Success)
+                var reportResult = await _reportService.GetCustomerReturnReportAsync(fromDate, toDate);
+                if (!reportResult.Success || reportResult.Data?.CustomerData == null)
                 {
                     ShowPlaceholderMessage($"Không thể tải dữ liệu: {reportResult.Message ?? "Lỗi không xác định"}");
                     return;
                 }
 
-                if (reportResult.Data == null || reportResult.Data.CustomerData == null || reportResult.Data.CustomerData.Count == 0)
+                var customerData = reportResult.Data.CustomerData;
+                if (!customerData.Any())
                 {
-                    ShowPlaceholderMessage("Không có dữ liệu để hiển thị");
+                    ShowPlaceholderMessage("Không có dữ liệu khách hàng quay lại trong giai đoạn này.");
                     return;
                 }
 
-                var customerData = reportResult.Data.CustomerData;
+                var orderCriteria = new OrderSearchCriteria
+                {
+                    FromDate = fromDate,
+                    ToDate = toDate,
+                    Status = OrderStatus.COMPLETED
+                };
 
-                var ordersResult = await _orderService.GetPagedOrdersAsync(
-                    1, 10000,
-                    new Models.DTOs.OrderSearchCriteria
-                    {
-                        FromDate = fromDate,
-                        ToDate = toDate,
-                        Status = OrderStatus.COMPLETED
-                    });
+                var ordersResult = await _orderService.GetPagedOrdersAsync(1, 10000, orderCriteria);
+                var customerTotals = new Dictionary<int, decimal>();
 
-                Dictionary<int, decimal> customerTotalValues = new Dictionary<int, decimal>();
                 if (ordersResult.Success && ordersResult.Data.Orders != null)
                 {
                     var orders = ordersResult.Data.Orders.ToList();
-                    customerTotalValues = orders
+                    customerTotals = orders
                         .Where(o => o.CustomerId.HasValue)
                         .GroupBy(o => o.CustomerId.Value)
-                        .ToDictionary(g => g.Key, g => g.Sum(o => o.TotalAmount - o.DiscountedAmount));
+                        .ToDictionary(
+                            g => g.Key,
+                            g => g.Sum(o => Math.Max(0, o.TotalAmount - o.DiscountedAmount)));
                 }
 
                 RemovePlaceholder();
@@ -61,9 +62,9 @@ namespace EcoStationManagerApplication.UI.Controls
                 dataGridViewReport.Visible = true;
                 panelChart.Visible = true;
 
-                CreateCustomerRefillKPICards(customerData, customerTotalValues);
-                CreateCustomerRefillDataTable(customerData, customerTotalValues);
-                CreateChartPlaceholder();
+                CreateCustomerRefillKPICards(customerData.ToList(), customerTotals);
+                CreateCustomerRefillDataTable(customerData.ToList(), customerTotals);
+                CreateCustomerRefillChart(customerData.ToList());
             }
             catch (Exception ex)
             {
@@ -73,77 +74,170 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        private void CreateCustomerRefillKPICards(List<CustomerReturnData> customerData, Dictionary<int, decimal> customerTotalValues)
+        private void CreateCustomerRefillKPICards(List<CustomerReturnData> customerData, Dictionary<int, decimal> customerTotals)
         {
             flowPanelKPICards.Controls.Clear();
 
-            int totalReturningCustomers = customerData.Count(c => c.ReturnCount >= 2);
-            int firstTimeRefillCustomers = customerData.Count(c => c.ReturnCount == 1);
+            int returningCustomers = customerData.Count(c => c.ReturnCount >= 2);
+            int firstTimer = customerData.Count(c => c.ReturnCount == 1);
+            int loyalCustomers = customerData.Count(c => c.ReturnCount >= 5);
+            decimal totalRevenue = customerTotals.Values.Sum();
 
-            var mostFrequentCustomer = customerData
+            var bestCustomer = customerData
                 .OrderByDescending(c => c.ReturnCount)
                 .ThenByDescending(c => c.TotalOrders)
                 .FirstOrDefault();
 
-            string mostFrequentCustomerName = mostFrequentCustomer != null
-                ? mostFrequentCustomer.CustomerName
-                : "N/A";
-            int mostFrequentRefillCount = mostFrequentCustomer?.ReturnCount ?? 0;
-
-            var kpiData = new[]
+            var cards = new[]
             {
-                new { Label = "KH quay lại >= 2 lần", Value = totalReturningCustomers.ToString("N0"), Icon = "🔄" },
-                new { Label = "KH refill lần đầu", Value = firstTimeRefillCustomers.ToString("N0"), Icon = "🆕" },
-                new { Label = "KH refill nhiều nhất", Value = mostFrequentCustomerName, Icon = "⭐" },
-                new { Label = "Số lần refill (cao nhất)", Value = mostFrequentRefillCount.ToString("N0"), Icon = "📊" },
-                new { Label = "Tổng số KH quay lại", Value = customerData.Count.ToString("N0"), Icon = "👥" }
+                new { Label = "KH quay lại ≥ 2 lần", Value = returningCustomers.ToString("N0"), Icon = "🔁", Color = Color.FromArgb(41, 128, 185) },
+                new { Label = "KH refill lần đầu", Value = firstTimer.ToString("N0"), Icon = "🆕", Color = Color.FromArgb(39, 174, 96) },
+                new { Label = "KH trung thành (≥5)", Value = loyalCustomers.ToString("N0"), Icon = "⭐", Color = Color.FromArgb(243, 156, 18) },
+                new { Label = "KH refill nhiều nhất", Value = bestCustomer?.CustomerName ?? "N/A", Icon = "👑", Color = Color.FromArgb(155, 89, 182) },
+                new { Label = "Số lần refill cao nhất", Value = (bestCustomer?.ReturnCount ?? 0).ToString("N0"), Icon = "📊", Color = Color.FromArgb(231, 76, 60) },
+                new { Label = "Tổng doanh thu", Value = FormatCurrency(totalRevenue), Icon = "💰", Color = Color.FromArgb(52, 152, 219) }
             };
 
-            foreach (var kpi in kpiData)
+            foreach (var card in cards)
             {
-                var card = ReportControlHelpers.CreateKPICard(kpi.Label, kpi.Value, kpi.Icon);
-                card.Margin = new Padding(10, 5, 10, 5);
-                card.Size = new Size(200, 100);
-                flowPanelKPICards.Controls.Add(card);
+                var control = CreateKPICard(card.Label, card.Value, card.Icon, card.Color);
+                control.Margin = new Padding(10, 5, 10, 5);
+                control.Size = new Size(220, 100);
+                flowPanelKPICards.Controls.Add(control);
             }
         }
 
-        private void CreateCustomerRefillDataTable(List<CustomerReturnData> customerData, Dictionary<int, decimal> customerTotalValues)
+        private void CreateCustomerRefillDataTable(List<CustomerReturnData> customerData, Dictionary<int, decimal> customerTotals)
         {
-            dataGridViewReport.DataSource = null;
-            dataGridViewReport.Columns.Clear();
+            var table = new DataTable();
+            table.Columns.Add("STT", typeof(int));
+            table.Columns.Add("Mã KH", typeof(string));
+            table.Columns.Add("Tên KH", typeof(string));
+            table.Columns.Add("Số điện thoại", typeof(string));
+            table.Columns.Add("Lần refill", typeof(int));
+            table.Columns.Add("Tổng đơn", typeof(int));
+            table.Columns.Add("Ngày gần nhất", typeof(string));
+            table.Columns.Add("Tổng giá trị", typeof(string));
+            table.Columns.Add("Loại KH", typeof(string));
 
-            if (customerData == null || customerData.Count == 0)
-                return;
-
-            var dataTable = new DataTable();
-            dataTable.TableName = "Báo cáo Tần suất khách hàng quay lại";
-            dataTable.Columns.Add("Mã KH", typeof(string));
-            dataTable.Columns.Add("Tên KH", typeof(string));
-            dataTable.Columns.Add("Lần refill", typeof(int));
-            dataTable.Columns.Add("Ngày gần nhất", typeof(string));
-            dataTable.Columns.Add("Tổng giá trị", typeof(string));
-
-            foreach (var customer in customerData.OrderByDescending(c => c.ReturnCount).ThenByDescending(c => c.TotalOrders))
+            int index = 1;
+            foreach (var customer in customerData
+                .OrderByDescending(c => c.ReturnCount)
+                .ThenByDescending(c => c.TotalOrders))
             {
-                decimal totalValue = customerTotalValues.ContainsKey(customer.CustomerId)
-                    ? customerTotalValues[customer.CustomerId]
+                decimal totalValue = customerTotals.TryGetValue(customer.CustomerId, out var sum)
+                    ? sum
                     : 0;
 
-                dataTable.Rows.Add(
+                table.Rows.Add(
+                    index++,
                     $"KH-{customer.CustomerId:D5}",
                     customer.CustomerName,
+                    customer.Phone ?? "N/A",
                     customer.ReturnCount,
+                    customer.TotalOrders,
                     customer.LastOrderDate != DateTime.MinValue ? customer.LastOrderDate.ToString("dd/MM/yyyy") : "N/A",
-                    ReportControlHelpers.FormatCurrency(totalValue)
-                );
+                    FormatCurrency(totalValue),
+                    GetCustomerType(customer.ReturnCount));
             }
 
-            dataGridViewReport.DataSource = dataTable;
+            dataGridViewReport.DataSource = table;
             dataGridViewReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewReport.ColumnHeadersVisible = true;
             dataGridViewReport.EnableHeadersVisualStyles = false;
         }
+
+        private string GetCustomerType(int refillCount)
+        {
+            if (refillCount == 1) return "Mới";
+            if (refillCount >= 2 && refillCount <= 4) return "Thường xuyên";
+            if (refillCount >= 5) return "Trung thành";
+            return "Khác";
+        }
+
+        private void CreateCustomerRefillChart(List<CustomerReturnData> customerData)
+        {
+            panelChart.Controls.Clear();
+            panelChart.Padding = new Padding(20);
+
+            var grouped = customerData
+                .GroupBy(c => c.ReturnCount)
+                .OrderBy(g => g.Key)
+                .Select(g => new { ReturnCount = g.Key, CustomerCount = g.Count() })
+                .ToList();
+
+            if (!grouped.Any())
+            {
+                panelChart.Controls.Add(new Label
+                {
+                    Text = "Không có dữ liệu biểu đồ",
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter
+                });
+                return;
+            }
+
+            var container = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                AutoScroll = true
+            };
+
+            int maxCount = grouped.Max(g => g.CustomerCount);
+
+            foreach (var group in grouped)
+            {
+                var row = new Panel
+                {
+                    Width = panelChart.Width - 80,
+                    Height = 45,
+                    Margin = new Padding(0, 5, 0, 5)
+                };
+
+                var lblRange = new Label
+                {
+                    Text = $"{group.ReturnCount} lần",
+                    Location = new Point(0, 10),
+                    Width = 80,
+                    Font = new Font("Segoe UI", 9, FontStyle.Bold)
+                };
+
+                var progress = new ProgressBar
+                {
+                    Location = new Point(90, 10),
+                    Width = 300,
+                    Height = 18,
+                    Maximum = Math.Max(1, maxCount),
+                    Value = group.CustomerCount
+                };
+
+                var percent = (double)group.CustomerCount / customerData.Count * 100;
+                var lblPercent = new Label
+                {
+                    Text = $"{group.CustomerCount} KH ({percent:0.0}%)",
+                    Location = new Point(400, 10),
+                    Width = 160,
+                    Font = new Font("Segoe UI", 9),
+                    ForeColor = Color.FromArgb(31, 107, 59)
+                };
+
+                row.Controls.AddRange(new Control[] { lblRange, progress, lblPercent });
+                container.Controls.Add(row);
+            }
+
+            var title = new Label
+            {
+                Text = "PHÂN BỐ SỐ LẦN REFILL",
+                Dock = DockStyle.Top,
+                Height = 30,
+                Font = new Font("Segoe UI", 11, FontStyle.Bold),
+                ForeColor = Color.FromArgb(31, 107, 59)
+            };
+
+            panelChart.Controls.Add(container);
+            panelChart.Controls.Add(title);
+        }
+
     }
 }
-

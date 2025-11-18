@@ -1,6 +1,7 @@
 ﻿using EcoStationManagerApplication.UI.Common;
 using EcoStationManagerApplication.UI.Properties;
 using Guna.UI2.WinForms;
+using EcoStationManagerApplication.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace EcoStationManagerApplication.UI.Controls
 {
     public partial class SystemSettingsControl : UserControl, IRefreshableControl
     {
-        private List<EcoStationManagerApplication.Models.Entities.Station> stations;
+        private List<Station> stations;
         private List<Role> roles;
         private bool _pinVerified;
         private const int PinMaxAttempts = 3;
@@ -26,7 +27,7 @@ namespace EcoStationManagerApplication.UI.Controls
             try
         {
             InitializeComponent();
-                stations = new List<EcoStationManagerApplication.Models.Entities.Station>();
+                stations = new List<Station>();
                 roles = SystemSettingsMockData.GetRoles();
 
                 if (IsInDesignMode())
@@ -46,7 +47,7 @@ namespace EcoStationManagerApplication.UI.Controls
             catch (Exception ex)
             {
                 Console.WriteLine($"Error in SystemSettingsControl constructor: {ex.Message}");
-                stations = new List<EcoStationManagerApplication.Models.Entities.Station>();
+                stations = new List<Station>();
             roles = SystemSettingsMockData.GetRoles();
             }
         }
@@ -80,7 +81,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 }
                 else
                 {
-                    stations = new List<EcoStationManagerApplication.Models.Entities.Station>();
+                    stations = new List<Station>();
                     if (!string.IsNullOrEmpty(stationsResult?.Message))
                         Console.WriteLine($"Warning: {stationsResult.Message}");
                 }
@@ -89,7 +90,7 @@ namespace EcoStationManagerApplication.UI.Controls
             catch (Exception ex)
             {
                 Console.WriteLine($"Error in LoadData: {ex.Message}\n{ex.StackTrace}");
-                stations = new List<EcoStationManagerApplication.Models.Entities.Station>();
+                stations = new List<Station>();
                 roles = SystemSettingsMockData.GetRoles();
                 
                 if (!ex.Message.Contains("database") && !ex.Message.Contains("connection"))
@@ -1124,23 +1125,6 @@ namespace EcoStationManagerApplication.UI.Controls
 
     public static class SystemSettingsMockData
     {
-        public static List<Stations> GetStations()
-        {
-            return new List<Stations>
-            {
-                new Stations {
-                    StationId = 1,
-                    Name = "Trạm Hà Nội",
-                    Code = "HN-001",
-                    Address = "123 Nguyễn Huệ, Q.1, Hà Nội",
-                    Phone = "(+84) 24 1234 5678",
-                    Manager = "Nguyễn Văn A",
-                    Capacity = 1000,
-                    IsActive = true
-                }
-            };
-        }
-
         public static List<Role> GetRoles()
         {
             return new List<Role>

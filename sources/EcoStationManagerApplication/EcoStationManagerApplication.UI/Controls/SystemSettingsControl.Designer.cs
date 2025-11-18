@@ -239,6 +239,7 @@
             this.guna2GroupBox3.Location = new System.Drawing.Point(4, 423);
             this.guna2GroupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.guna2GroupBox3.Name = "guna2GroupBox3";
+            this.guna2GroupBox3.Padding = new System.Windows.Forms.Padding(0, 0, 0, 30);
             this.guna2GroupBox3.Size = new System.Drawing.Size(1184, 123);
             this.guna2GroupBox3.TabIndex = 3;
             this.guna2GroupBox3.Text = "Sao lưu dữ liệu";
@@ -328,6 +329,7 @@
             this.guna2GroupBox2.Location = new System.Drawing.Point(4, 275);
             this.guna2GroupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.guna2GroupBox2.Name = "guna2GroupBox2";
+            this.guna2GroupBox2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 30);
             this.guna2GroupBox2.Size = new System.Drawing.Size(1184, 148);
             this.guna2GroupBox2.TabIndex = 2;
             this.guna2GroupBox2.Text = "Cài đặt hoạt động";
@@ -447,6 +449,7 @@
             this.guna2GroupBox1.Location = new System.Drawing.Point(4, 4);
             this.guna2GroupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.guna2GroupBox1.Name = "guna2GroupBox1";
+            this.guna2GroupBox1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 30);
             this.guna2GroupBox1.Size = new System.Drawing.Size(1184, 271);
             this.guna2GroupBox1.TabIndex = 1;
             this.guna2GroupBox1.Text = "Thông tin công ty";

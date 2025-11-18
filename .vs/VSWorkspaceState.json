@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\sources",
+    "\\sources\\EcoStationManagerApplication",
+    "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Common",
+    "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Common\\Exporters",
+    "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls"
   ],
-  "SelectedNode": "\\EcoStationManagerApplication.sln",
+  "SelectedNode": "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Common\\Exporters\\PdfExporter.cs",
   "PreviewInSolutionExplorer": false
 }

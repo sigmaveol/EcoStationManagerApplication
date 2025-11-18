@@ -1,14 +1,31 @@
-﻿using System;
+﻿using EcoStationManagerApplication.Common.Exporters;
+using EcoStationManagerApplication.Core.Interfaces;
+using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.UI.Common;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
     public partial class BackupControl : UserControl
     {
+        private readonly IExportService _exportService;
+        private readonly IExcelExporter _excelExporter;
+        private readonly IPdfExporter _pdfExporter;
+        private DateTime? _lastBackupTime;
+        private bool _isProcessing;
+
         public BackupControl()
         {
             InitializeComponent();
+            _exportService = AppServices.ExportService ?? throw new InvalidOperationException("Không thể khởi tạo dịch vụ export.");
+            _excelExporter = new ExcelExporter();
+            _pdfExporter = new PdfExporter();
             InitializeEvents();
         }
 
@@ -28,20 +45,29 @@ namespace EcoStationManagerApplication.UI.Controls
                 browseButton.Click += BrowseButton_Click;
         }
 
-        private void BtnBackupExcel_Click(object sender, EventArgs e)
+        private async void BtnBackupExcel_Click(object sender, EventArgs e)
         {
+            if (_isProcessing) return;
+
             try
             {
-                var saveDialog = new SaveFileDialog();
-                saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
-                saveDialog.FileName = $"EcoStation_Backup_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
-
-                if (saveDialog.ShowDialog() == DialogResult.OK)
+                using (var saveDialog = new SaveFileDialog
                 {
-                    // Gọi service sao lưu Excel
-                    BackupExcelData(saveDialog.FileName);
-                    ShowSuccessMessage($"Đã sao lưu Excel thành công!\nFile: {saveDialog.FileName}");
+                    Filter = "Excel files (*.xlsx)|*.xlsx",
+                    FileName = $"EcoStation_Backup_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx",
+                    Title = "Chọn nơi lưu file sao lưu Excel"
+                })
+                {
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        await RunWithProcessingStateAsync(() => BackupExcelDataAsync(saveDialog.FileName));
+                        ShowSuccessMessage($"Đã sao lưu Excel thành công!\nFile: {saveDialog.FileName}");
+                    }
                 }
+            }
+            catch (InvalidOperationException ex)
+            {
+                ShowWarningMessage(ex.Message);
             }
             catch (Exception ex)
             {
@@ -49,20 +75,29 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        private void BtnBackupPDF_Click(object sender, EventArgs e)
+        private async void BtnBackupPDF_Click(object sender, EventArgs e)
         {
+            if (_isProcessing) return;
+
             try
             {
-                var saveDialog = new SaveFileDialog();
-                saveDialog.Filter = "PDF files (*.pdf)|*.pdf";
-                saveDialog.FileName = $"EcoStation_Report_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
-
-                if (saveDialog.ShowDialog() == DialogResult.OK)
+                using (var saveDialog = new SaveFileDialog
                 {
-                    // Gọi service sao lưu PDF
-                    BackupPDFData(saveDialog.FileName);
-                    ShowSuccessMessage($"Đã sao lưu PDF thành công!\nFile: {saveDialog.FileName}");
+                    Filter = "PDF files (*.pdf)|*.pdf",
+                    FileName = $"EcoStation_Report_{DateTime.Now:yyyyMMdd_HHmmss}.pdf",
+                    Title = "Chọn nơi lưu file sao lưu PDF"
+                })
+                {
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        await RunWithProcessingStateAsync(() => BackupPdfDataAsync(saveDialog.FileName));
+                        ShowSuccessMessage($"Đã sao lưu PDF thành công!\nFile: {saveDialog.FileName}");
+                    }
                 }
+            }
+            catch (InvalidOperationException ex)
+            {
+                ShowWarningMessage(ex.Message);
             }
             catch (Exception ex)
             {
@@ -70,7 +105,7 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        private void BtnRestore_Click(object sender, EventArgs e)
+        private async void BtnRestore_Click(object sender, EventArgs e)
         {
             try
             {
@@ -88,8 +123,11 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 if (result == DialogResult.Yes)
                 {
-                    // Gọi service phục hồi dữ liệu
-                    RestoreData(txtRestoreFile.Text);
+                    await RunWithProcessingStateAsync(() =>
+                    {
+                        RestoreData(txtRestoreFile.Text);
+                        return Task.CompletedTask;
+                    });
                     ShowSuccessMessage("Đã phục hồi dữ liệu thành công!");
                 }
             }
@@ -136,55 +174,101 @@ namespace EcoStationManagerApplication.UI.Controls
         #endregion
 
         #region Service Methods
-        private void BackupExcelData(string filePath)
+        private async Task BackupExcelDataAsync(string filePath)
         {
-            // TODO: Triển khai logic sao lưu Excel
-            // Gọi service hoặc database để export dữ liệu
-            System.Threading.Thread.Sleep(1000); // Giả lập thời gian xử lý
+            ValidateBackupPath(filePath);
 
-            // Log activity
-            Console.WriteLine($"Excel backup created: {filePath}");
+            var orderData = await GetOrderExportDataAsync();
+            if (orderData == null || !orderData.Any())
+                throw new InvalidOperationException("Không có dữ liệu để sao lưu.");
+
+            var headers = GetOrderColumnHeaders();
+            _excelExporter.ExportToExcel(orderData, filePath, "SAO LƯU ĐƠN HÀNG", headers);
+
+            UpdateLastBackupTime();
         }
 
-        private void BackupPDFData(string filePath)
+        private async Task BackupPdfDataAsync(string filePath)
         {
-            // TODO: Triển khai logic sao lưu PDF
-            // Gọi service để tạo báo cáo PDF
-            System.Threading.Thread.Sleep(1000); // Giả lập thời gian xử lý
+            ValidateBackupPath(filePath);
 
-            // Log activity
-            Console.WriteLine($"PDF backup created: {filePath}");
+            var orderData = await GetOrderExportDataAsync();
+            if (orderData == null || !orderData.Any())
+                throw new InvalidOperationException("Không có dữ liệu để sao lưu.");
+
+            var headers = GetOrderColumnHeaders();
+            _pdfExporter.ExportToPdf(orderData, filePath, "DANH SÁCH ĐƠN HÀNG", headers);
+
+            UpdateLastBackupTime();
         }
 
         private void RestoreData(string filePath)
         {
-            // TODO: Triển khai logic phục hồi dữ liệu
-            // Đọc file và import dữ liệu vào database
-            System.Threading.Thread.Sleep(2000); // Giả lập thời gian xử lý
+            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+                throw new FileNotFoundException("Không tìm thấy file sao lưu để phục hồi.", filePath);
 
-            // Log activity
+            // TODO: Thực hiện import dữ liệu vào database
             Console.WriteLine($"Data restored from: {filePath}");
+        }
+
+        private async Task<List<OrderExportDTO>> GetOrderExportDataAsync()
+        {
+            var data = await _exportService.GetOrdersForExportAsync("all");
+            return data?.OrderByDescending(o => o.NgayTao).ToList() ?? new List<OrderExportDTO>();
+        }
+
+        private Dictionary<string, string> GetOrderColumnHeaders() => new Dictionary<string, string>
+        {
+            { "STT", "STT" },
+            { "MaDon", "Mã đơn" },
+            { "KhachHang", "Khách hàng" },
+            { "Nguon", "Nguồn" },
+            { "TrangThai", "Trạng thái" },
+            { "TongTien", "Tổng tiền" },
+            { "ThanhToan", "Thanh toán" },
+            { "NgayTao", "Ngày tạo" }
+        };
+
+        private void ValidateBackupPath(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("Đường dẫn file sao lưu không hợp lệ.", nameof(filePath));
+
+            var directory = Path.GetDirectoryName(filePath);
+            if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+        }
+
+        private void UpdateLastBackupTime()
+        {
+            _lastBackupTime = DateTime.Now;
         }
         #endregion
 
         #region Public Methods
-        public void PerformAutoBackup()
+        public async Task PerformAutoBackupAsync()
         {
             try
             {
-                string autoBackupPath = $@"C:\EcoStationBackups\AutoBackup_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
-                BackupExcelData(autoBackupPath);
+                string autoBackupDirectory = @"C:\EcoStationBackups";
+                Directory.CreateDirectory(autoBackupDirectory);
+
+                string autoBackupPath = Path.Combine(autoBackupDirectory, $"AutoBackup_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx");
+                await BackupExcelDataAsync(autoBackupPath);
             }
             catch (Exception ex)
             {
-                // Log lỗi, không hiển thị message box cho backup tự động
                 System.Diagnostics.Debug.WriteLine($"Auto backup failed: {ex.Message}");
             }
         }
 
         public string GetLastBackupInfo()
         {
-            return $"Last backup: {DateTime.Now:dd/MM/yyyy HH:mm}";
+            return _lastBackupTime.HasValue
+                ? $"Last backup: {_lastBackupTime:dd/MM/yyyy HH:mm}"
+                : "Chưa có bản sao lưu nào.";
         }
 
         public void SetRestoreFilePath(string filePath)
@@ -193,6 +277,32 @@ namespace EcoStationManagerApplication.UI.Controls
             {
                 txtRestoreFile.Text = filePath;
             }
+        }
+        #endregion
+
+        #region Private Helpers
+        private async Task RunWithProcessingStateAsync(Func<Task> operation)
+        {
+            SetProcessingState(true);
+            try
+            {
+                await operation();
+            }
+            finally
+            {
+                SetProcessingState(false);
+            }
+        }
+
+        private void SetProcessingState(bool isProcessing)
+        {
+            _isProcessing = isProcessing;
+            UseWaitCursor = isProcessing;
+
+            if (btnBackupExcel != null) btnBackupExcel.Enabled = !isProcessing;
+            if (btnBackupPDF != null) btnBackupPDF.Enabled = !isProcessing;
+            if (btnRestore != null) btnRestore.Enabled = !isProcessing;
+            if (browseButton != null) browseButton.Enabled = !isProcessing;
         }
         #endregion
     }

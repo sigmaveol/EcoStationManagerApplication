@@ -1,7 +1,6 @@
 ﻿using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Enums;
-using EcoStationManagerApplication.UI.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,350 +11,338 @@ using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
+    /// <summary>
+    /// Report Control for displaying various business reports
+    /// </summary>
     public partial class ReportControl : UserControl
     {
         private readonly IReportService _reportService;
         private readonly IOrderService _orderService;
-        private string _currentReportType = "Revenue"; // Default report type
+        private readonly IOrderDetailService _orderDetailService;
+        private ReportType _currentReportType = ReportType.REVENUE;
+        private bool _isLoadingReport = false;
 
-        public ReportControl()
+        public ReportControl(IReportService reportService, IOrderService orderService, IOrderDetailService orderDetailService)
         {
-            _reportService = AppServices.ReportService;
-            _orderService = AppServices.OrderService;
+            _reportService = reportService;
+            _orderService = orderService;
+            _orderDetailService = orderDetailService;
             InitializeComponent();
-            InitializeControls();
+            InitializeEvents();
+            SetDefaultDates();
         }
 
-        private void InitializeControls()
+        private void InitializeEvents()
         {
-            // Set default toggle (Revenue) - already set in Designer
-            SetToggleButtonActive(btnToggleRevenue);
-
-            // Set default time range to "Tháng này"
-            cmbTimeRange.SelectedIndex = 2;
-            UpdateDateRange();
-
-            // Set default dates
-            var today = DateTime.Now;
-            dtpFromDate.Value = new DateTime(today.Year, today.Month, 1);
-            dtpToDate.Value = today;
-
-            // Add tooltips for export buttons
-            var toolTip = new ToolTip();
-            toolTip.SetToolTip(btnExportPDF, "Xuất báo cáo ra PDF");
-            toolTip.SetToolTip(btnExportExcel, "Xuất báo cáo ra Excel");
-
-            // Initialize report content
-            InitializeReportContent();
+            cmbTimeRange.SelectedIndexChanged += cmbTimeRange_SelectedIndexChanged;
+            btnGenerateReport.Click += btnGenerateReport_Click;
+            btnExportPDF.Click += btnExportPDF_Click;
+            btnExportExcel.Click += btnExportExcel_Click;
         }
 
-        private void InitializeReportContent()
+        private void SetDefaultDates()
         {
-            // Show placeholder
-            ShowPlaceholderMessage("Chọn loại báo cáo và nhấn 'Tạo báo cáo' để xem dữ liệu");
+            dtpFromDate.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            dtpToDate.Value = DateTime.Now;
+            cmbTimeRange.SelectedIndex = 2; // Tháng này
         }
 
-        private void ShowPlaceholderMessage(string message)
+        private void cmbTimeRange_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Remove loading indicator
-            RemovePlaceholder();
+            var today = DateTime.Today;
+            panelCustomDateRange.Visible = cmbTimeRange.SelectedIndex == 4; // Custom range
 
-            // Hide content panels
-            flowPanelKPICards.Visible = false;
-            dataGridViewReport.Visible = false;
-            panelChart.Visible = false;
+            switch (cmbTimeRange.SelectedIndex)
+            {
+                case 0: // Hôm nay
+                    dtpFromDate.Value = today;
+                    dtpToDate.Value = today;
+                    break;
+                case 1: // 7 ngày qua
+                    dtpFromDate.Value = today.AddDays(-6);
+                    dtpToDate.Value = today;
+                    break;
+                case 2: // Tháng này
+                    dtpFromDate.Value = new DateTime(today.Year, today.Month, 1);
+                    dtpToDate.Value = today;
+                    break;
+                case 3: // Tháng trước
+                    var firstDayLastMonth = new DateTime(today.Year, today.Month, 1).AddMonths(-1);
+                    dtpFromDate.Value = firstDayLastMonth;
+                    dtpToDate.Value = firstDayLastMonth.AddMonths(1).AddDays(-1);
+                    break;
+            }
+        }
 
-            // Show placeholder
-            var lblPlaceholder = new Label
+        private async void btnGenerateReport_Click(object sender, EventArgs e)
+        {
+            if (dtpFromDate.Value > dtpToDate.Value)
+            {
+                MessageBox.Show("Ngày bắt đầu không thể lớn hơn ngày kết thúc", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            await LoadReport();
+        }
+
+        private async Task LoadReport()
+        {
+            // Tránh reload đồng thời nhiều lần
+            if (_isLoadingReport) return;
+            
+            try
+            {
+                _isLoadingReport = true;
+                var fromDate = dtpFromDate.Value.Date;
+                var toDate = dtpToDate.Value.Date.AddDays(1).AddSeconds(-1);
+
+                switch (_currentReportType)
+                {
+                    case ReportType.REVENUE:
+                        await LoadRevenueReport(fromDate, toDate);
+                        break;
+                    case ReportType.CUSTOMER_REFILL:
+                        await LoadCustomerRefillReport(fromDate, toDate);
+                        break;
+                    case ReportType.PACKAGING_RECOVERY:
+                        await LoadPackagingRecoveryReport(fromDate, toDate);
+                        break;
+                    case ReportType.PLASTIC_REDUCTION:
+                        await LoadPlasticReductionReport(fromDate, toDate);
+                        break;
+                    case ReportType.PAYMENT_METHOD:
+                        await LoadPaymentMethodReport(fromDate, toDate);
+                        break;
+                    case ReportType.BEST_SELLING:
+                        await LoadBestSellingReport(fromDate, toDate);
+                        break;
+                }
+
+                // Refresh UI để đảm bảo các thay đổi được hiển thị
+                this.Refresh();
+            }
+            finally
+            {
+                _isLoadingReport = false;
+            }
+        }
+
+        // UI Helper Methods
+        private void ShowLoadingMessage(string message)
+        {
+            ClearReportContent();
+            var label = new Label
             {
                 Text = message,
                 Font = new Font("Segoe UI", 12, FontStyle.Regular),
                 ForeColor = Color.FromArgb(85, 85, 85),
-                Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Name = "lblPlaceholder"
+                Dock = DockStyle.Fill,
+                AutoSize = false
             };
-            panelReportContent.Controls.Add(lblPlaceholder);
+            panelReportContent.Controls.Add(label);
+        }
+        private void ShowPlaceholderMessage(string message)
+        {
+            ClearReportContent();
+            flowPanelKPICards.Visible = false;
+            dataGridViewReport.Visible = false;
+            panelChart.Visible = false;
+
+            var label = new Label
+            {
+                Text = message,
+                Font = new Font("Segoe UI", 14, FontStyle.Regular),
+                ForeColor = Color.FromArgb(85, 85, 85),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Dock = DockStyle.Fill,
+                AutoSize = false
+            };
+            panelReportContent.Controls.Add(label);
         }
 
-        private void RemovePlaceholder()
+        protected void RemovePlaceholder()
         {
-            var placeholder = panelReportContent.Controls.Find("lblPlaceholder", false).FirstOrDefault();
-            if (placeholder != null)
+            foreach (Control control in panelReportContent.Controls.OfType<Label>().ToList())
             {
-                panelReportContent.Controls.Remove(placeholder);
-                placeholder.Dispose();
-            }
-
-            var loading = panelReportContent.Controls.Find("lblLoading", false).FirstOrDefault();
-            if (loading != null)
-            {
-                panelReportContent.Controls.Remove(loading);
-                loading.Dispose();
-            }
-        }
-
-        private void btnToggleReportType_Click(object sender, EventArgs e)
-        {
-            if (sender is Guna.UI2.WinForms.Guna2Button clickedButton)
-            {
-                // Set all buttons to inactive state
-                SetAllToggleButtonsInactive();
-
-                // Set clicked button to active state
-                SetToggleButtonActive(clickedButton);
-
-                // Update current report type
-                if (clickedButton == btnToggleRevenue)
-                    _currentReportType = "Revenue";
-                else if (clickedButton == btnToggleCustomerRefill)
-                    _currentReportType = "CustomerRefill";
-                else if (clickedButton == btnTogglePackagingRecovery)
-                    _currentReportType = "PackagingRecovery";
-                else if (clickedButton == btnTogglePlasticReduction)
-                    _currentReportType = "PlasticReduction";
-                else if (clickedButton == btnTogglePaymentMethod)
-                    _currentReportType = "PaymentMethod";
-                else if (clickedButton == btnToggleBestSelling)
-                    _currentReportType = "BestSelling";
-
-                // Clear current content
-                ClearReportContent();
+                panelReportContent.Controls.Remove(control);
+                control.Dispose();
             }
         }
 
-        private void SetToggleButtonActive(Guna.UI2.WinForms.Guna2Button button)
-        {
-            button.FillColor = Color.FromArgb(31, 107, 59); // EcoStation green
-            button.ForeColor = Color.White;
-        }
-
-        private void SetToggleButtonInactive(Guna.UI2.WinForms.Guna2Button button)
-        {
-            button.FillColor = Color.FromArgb(200, 200, 200); // Light gray
-            button.ForeColor = Color.FromArgb(51, 51, 51); // Dark text
-        }
-
-        private void SetAllToggleButtonsInactive()
-        {
-            SetToggleButtonInactive(btnToggleRevenue);
-            SetToggleButtonInactive(btnToggleCustomerRefill);
-            SetToggleButtonInactive(btnTogglePackagingRecovery);
-            SetToggleButtonInactive(btnTogglePlasticReduction);
-            SetToggleButtonInactive(btnTogglePaymentMethod);
-            SetToggleButtonInactive(btnToggleBestSelling);
-        }
-
-        private void ClearReportContent()
+        protected void ClearReportContent()
         {
             flowPanelKPICards.Controls.Clear();
             dataGridViewReport.DataSource = null;
             dataGridViewReport.Columns.Clear();
             panelChart.Controls.Clear();
-        }
 
-        private void cmbTimeRange_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            UpdateDateRange();
-            // Show/hide custom date range panel
-            panelCustomDateRange.Visible = (cmbTimeRange.SelectedIndex == 4); // "Khoảng thời gian tùy chỉnh"
-        }
-
-        private void UpdateDateRange()
-        {
-            var today = DateTime.Now;
-            DateTime fromDate, toDate;
-
-            switch (cmbTimeRange.SelectedIndex)
+            foreach (Control control in panelReportContent.Controls.OfType<Label>().ToList())
             {
-                case 0: // Hôm nay
-                    fromDate = today.Date;
-                    toDate = today.Date.AddDays(1).AddSeconds(-1);
-                    break;
-                case 1: // 7 ngày qua
-                    fromDate = today.Date.AddDays(-6);
-                    toDate = today.Date.AddDays(1).AddSeconds(-1);
-                    break;
-                case 2: // Tháng này
-                    fromDate = new DateTime(today.Year, today.Month, 1);
-                    toDate = today.Date.AddDays(1).AddSeconds(-1);
-                    break;
-                case 3: // Tháng trước
-                    var lastMonth = today.AddMonths(-1);
-                    fromDate = new DateTime(lastMonth.Year, lastMonth.Month, 1);
-                    toDate = new DateTime(today.Year, today.Month, 1).AddSeconds(-1);
-                    break;
-                case 4: // Khoảng thời gian tùy chỉnh
-                    fromDate = dtpFromDate.Value.Date;
-                    toDate = dtpToDate.Value.Date.AddDays(1).AddSeconds(-1);
-                    break; // Don't update date pickers if custom range
-                default:
-                    fromDate = new DateTime(today.Year, today.Month, 1);
-                    toDate = today.Date.AddDays(1).AddSeconds(-1);
-                    break;
-            }
-
-            // Update date pickers
-            dtpFromDate.Value = fromDate;
-            dtpToDate.Value = toDate;
-        }
-
-        private void btnGenerateReport_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Get date range
-                DateTime fromDate = dtpFromDate.Value.Date;
-                DateTime toDate = dtpToDate.Value.Date.AddDays(1).AddSeconds(-1);
-
-                // Validate date range
-                if (fromDate > toDate)
-                {
-                    MessageBox.Show("Ngày bắt đầu không thể lớn hơn ngày kết thúc!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Load report data based on current report type
-                LoadReportData(fromDate, toDate);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi tạo báo cáo: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                panelReportContent.Controls.Remove(control);
+                control.Dispose();
             }
         }
 
-        private async void LoadReportData(DateTime fromDate, DateTime toDate)
+        protected Panel CreateKPICard(string title, string value, string icon, Color color)
         {
-            try
+            var card = new Panel
             {
-                // Show loading indicator
-                ShowLoadingIndicator();
-
-                // Load data based on report type
-                switch (_currentReportType)
-                {
-                    case "Revenue":
-                        await LoadRevenueReport(fromDate, toDate);
-                        break;
-                    case "CustomerRefill":
-                        await LoadCustomerRefillReport(fromDate, toDate);
-                        break;
-                    case "PackagingRecovery":
-                        await LoadPackagingRecoveryReport(fromDate, toDate);
-                        break;
-                    case "PlasticReduction":
-                        await LoadPlasticReductionReport(fromDate, toDate);
-                        break;
-                    case "PaymentMethod":
-                        await LoadPaymentMethodReport(fromDate, toDate);
-                        break;
-                    case "BestSelling":
-                        await LoadBestSellingReport(fromDate, toDate);
-                        break;
-                    default:
-                        ShowPlaceholderMessage("Loại báo cáo chưa được triển khai");
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}\n\nChi tiết: {ex.StackTrace}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                ShowPlaceholderMessage($"Có lỗi xảy ra khi tải dữ liệu: {ex.Message}");
-            }
-        }
-
-        private void ShowLoadingIndicator()
-        {
-            // Remove placeholder if exists
-            RemovePlaceholder();
-
-            // Hide content panels
-            flowPanelKPICards.Visible = false;
-            dataGridViewReport.Visible = false;
-            panelChart.Visible = false;
-
-            // Show loading
-            var lblLoading = new Label
-            {
-                Text = "Đang tải dữ liệu từ cơ sở dữ liệu...",
-                Font = new Font("Segoe UI", 12, FontStyle.Regular),
-                ForeColor = Color.FromArgb(85, 85, 85),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Name = "lblLoading"
+                Size = new Size(200, 100),
+                BackColor = Color.White,
+                BorderStyle = BorderStyle.None,
+                Padding = new Padding(15)
             };
-            panelReportContent.Controls.Add(lblLoading);
-        }
 
-        private void CreateChartPlaceholder()
-        {
-            panelChart.Controls.Clear();
-            var lblChart = new Label
+            // Add shadow effect
+            card.Paint += (s, e) =>
             {
-                Text = "\n(Biểu đồ sẽ được tích hợp sau)",
-                Font = new Font("Segoe UI", 10, FontStyle.Regular),
-                ForeColor = Color.FromArgb(85, 85, 85),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter
+                using (var pen = new Pen(Color.FromArgb(30, 0, 0, 0), 1))
+                {
+                    e.Graphics.DrawRectangle(pen, 0, 0, card.Width - 1, card.Height - 1);
+                }
             };
-            panelChart.Controls.Add(lblChart);
+
+            var lblIcon = new Label
+            {
+                Text = icon,
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                ForeColor = color,
+                Location = new Point(15, 15),
+                AutoSize = true
+            };
+
+            var lblValue = new Label
+            {
+                Text = value,
+                Font = new Font("Segoe UI", 18, FontStyle.Bold),
+                ForeColor = Color.FromArgb(51, 51, 51),
+                Location = new Point(50, 12),
+                AutoSize = true
+            };
+
+            var lblTitle = new Label
+            {
+                Text = title,
+                Font = new Font("Segoe UI", 9, FontStyle.Regular),
+                ForeColor = Color.FromArgb(85, 85, 85),
+                Location = new Point(15, 55),
+                AutoSize = true
+            };
+
+            card.Controls.Add(lblIcon);
+            card.Controls.Add(lblValue);
+            card.Controls.Add(lblTitle);
+
+            return card;
         }
 
-        private async Task LoadPackagingRecoveryReport(DateTime fromDate, DateTime toDate)
+        protected string FormatCurrency(decimal amount)
         {
-            await Task.Delay(100);
-            ShowPlaceholderMessage("Báo cáo Tỷ lệ thu hồi bao bì sẽ được triển khai sau");
+            return amount.ToString("C0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"));
         }
 
-        private async Task LoadPlasticReductionReport(DateTime fromDate, DateTime toDate)
+        // Event Handlers
+        private void btnToggleReportType_Click(object sender, EventArgs e)
         {
-            await Task.Delay(100);
-            ShowPlaceholderMessage("Báo cáo Lượng nhựa giảm phát thải sẽ được triển khai sau");
+            var clickedButton = sender as Guna.UI2.WinForms.Guna2Button;
+            if (clickedButton == null) return;
+
+            // Reset all buttons to default style
+            foreach (Guna.UI2.WinForms.Guna2Button btn in flowPanelReportTypes.Controls)
+            {
+                btn.FillColor = Color.FromArgb(200, 200, 200);
+                btn.ForeColor = Color.FromArgb(51, 51, 51);
+            }
+
+            // Set active button style
+            clickedButton.FillColor = Color.FromArgb(31, 107, 59);
+            clickedButton.ForeColor = Color.White;
+
+            // Update current report type
+            _currentReportType = GetReportTypeFromButton(clickedButton);
+
+            // Update UI labels based on report type
+            UpdateReportTitle();
+
+            // Clear nội dung báo cáo cũ khi chuyển đổi report type
+            ClearReportContent();
+            ShowPlaceholderMessage("Vui lòng chọn khoảng thời gian và nhấn 'Tạo báo cáo' để xem dữ liệu.");
         }
 
-        private async Task LoadPaymentMethodReport(DateTime fromDate, DateTime toDate)
+        private ReportType GetReportTypeFromButton(Guna.UI2.WinForms.Guna2Button button)
         {
-            await Task.Delay(100);
-            ShowPlaceholderMessage("Báo cáo Phương thức thanh toán sẽ được triển khai sau");
+            if (button == btnToggleRevenue) return ReportType.REVENUE;
+            if (button == btnToggleCustomerRefill) return ReportType.CUSTOMER_REFILL;
+            if (button == btnTogglePackagingRecovery) return ReportType.PACKAGING_RECOVERY;
+            if (button == btnTogglePlasticReduction) return ReportType.PLASTIC_REDUCTION;
+            if (button == btnTogglePaymentMethod) return ReportType.PAYMENT_METHOD;
+            if (button == btnToggleBestSelling) return ReportType.BEST_SELLING;
+            return ReportType.REVENUE;
         }
 
-        private async Task LoadBestSellingReport(DateTime fromDate, DateTime toDate)
+        private void UpdateReportTitle()
         {
-            await Task.Delay(100);
-            ShowPlaceholderMessage("Báo cáo Mặt hàng bán chạy sẽ được triển khai sau");
+            var titles = new Dictionary<ReportType, (string Title, string Description)>
+            {
+                [ReportType.REVENUE] = ("Báo cáo Doanh thu", "Phân tích doanh thu và tăng trưởng theo thời gian"),
+                [ReportType.CUSTOMER_REFILL] = ("Báo cáo Tần suất KH quay lại", "Theo dõi tần suất refill và khách hàng trung thành"),
+                [ReportType.PACKAGING_RECOVERY] = ("Báo cáo Thu hồi bao bì", "Tỷ lệ thu hồi và tái sử dụng bao bì"),
+                [ReportType.PLASTIC_REDUCTION] = ("Báo cáo Giảm phát thải nhựa", "Lượng nhựa tiết kiệm được từ refill"),
+                [ReportType.PAYMENT_METHOD] = ("Báo cáo Phương thức thanh toán", "Phân tích xu hướng thanh toán của khách hàng"),
+                [ReportType.BEST_SELLING] = ("Báo cáo Mặt hàng bán chạy", "Top sản phẩm và dịch vụ được ưa chuộng")
+            };
+
+            if (titles.ContainsKey(_currentReportType))
+            {
+                var (title, description) = titles[_currentReportType];
+                lblReportTitle.Text = title;
+                lblReportDescription.Text = description;
+            }
         }
 
         private void btnExportPDF_Click(object sender, EventArgs e)
         {
-            try
-            {
-                // TODO: Implement PDF export
-                MessageBox.Show("Tính năng xuất PDF sẽ được triển khai trong các bước tiếp theo.",
-                    "Xuất PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi xuất PDF: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            MessageBox.Show("Tính năng xuất PDF đang được phát triển", "Thông báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnExportExcel_Click(object sender, EventArgs e)
         {
-            try
-            {
-                // TODO: Implement Excel export
-                MessageBox.Show("Tính năng xuất Excel sẽ được triển khai trong các bước tiếp theo.",
-                    "Xuất Excel", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi xuất Excel: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            MessageBox.Show("Tính năng xuất Excel đang được phát triển", "Thông báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            // Set revenue as default active
+            btnToggleRevenue.PerformClick();
+            
+            // Hiển thị placeholder message
+            ClearReportContent();
+            ShowPlaceholderMessage("Vui lòng chọn khoảng thời gian và nhấn 'Tạo báo cáo' để xem dữ liệu.");
+        }
+
+        // Placeholder methods - được implement trong các file partial
+        // Các method này được định nghĩa trong:
+        // - ReportControl.Revenue.cs
+        // - ReportControl.CustomerRefill.cs
+        // - ReportControl.PackagingRecovery.cs
+        // - ReportControl.PlasticReduction.cs
+        // - ReportControl.PaymentMethod.cs
+        // - ReportControl.BestSelling.cs
+    }
+
+    public enum ReportType
+    {
+        REVENUE,
+        CUSTOMER_REFILL,
+        PACKAGING_RECOVERY,
+        PLASTIC_REDUCTION,
+        PAYMENT_METHOD,
+        BEST_SELLING
     }
 }

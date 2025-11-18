@@ -22,7 +22,7 @@ namespace EcoStationManagerApplication.Models.DTOs
         public OrderStatus? Status { get; set; }
         public PaymentStatus? PaymentStatus { get; set; }
         public ProductType? ProductType { get; set; }
-        public OrderSource Source { get; set; }
+        public OrderSource? Source { get; set; }
         public decimal? MinTotal { get; set; }
         public int? CustomerId { get; set; }
         public int? UserId { get; set; }

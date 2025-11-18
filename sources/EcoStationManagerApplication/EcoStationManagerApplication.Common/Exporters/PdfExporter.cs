@@ -87,7 +87,9 @@ namespace EcoStationManagerApplication.Common.Exporters
             // Tiêu đề
             string titleText = (title ?? "Danh sách").ToUpper();
             gfx.DrawString(titleText, titleFont, XBrushes.Black,
-                new XRect(LeftMargin, yPos, page.Width - 80, LineHeight),
+                new XRect(LeftMargin, yPos, 
+                
+                page.Width - 80, LineHeight),
                 XStringFormats.TopCenter);
 
             yPos += 30;

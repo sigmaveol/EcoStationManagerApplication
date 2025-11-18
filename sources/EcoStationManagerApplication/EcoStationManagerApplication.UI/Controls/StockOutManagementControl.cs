@@ -409,6 +409,14 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void btnCreateStockOut_Click(object sender, EventArgs e)
         {
+            OpenCreateStockOutForm();
+        }
+
+        /// <summary>
+        /// Public method để mở form tạo phiếu xuất kho từ bên ngoài
+        /// </summary>
+        public void OpenCreateStockOutForm()
+        {
             try
             {
                 // Sử dụng form xuất kho nhiều sản phẩm

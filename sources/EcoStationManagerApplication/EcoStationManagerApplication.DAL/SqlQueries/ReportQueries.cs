@@ -57,24 +57,26 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             AND DATE(last_updated) BETWEEN @FromDate AND @ToDate";
 
         // Báo cáo tần suất khách hàng quay trở lại
+        // return_count = số đơn hàng (số lần quay lại)
+        // return_frequency = số đơn hàng / số ngày khác nhau (tần suất trung bình)
         public const string CustomerReturnFrequency = @"
             SELECT c.customer_id,
                    c.name as customer_name,
                    c.phone,
                    COUNT(DISTINCT o.order_id) as total_orders,
-                   COUNT(DISTINCT DATE(o.last_updated)) as return_count,
+                   COUNT(DISTINCT o.order_id) as return_count,
                    MAX(o.last_updated) as last_order_date,
                    CASE 
                        WHEN COUNT(DISTINCT DATE(o.last_updated)) > 0 
                        THEN ROUND(COUNT(DISTINCT o.order_id) * 1.0 / COUNT(DISTINCT DATE(o.last_updated)), 2)
-                       ELSE 0 
+                       ELSE COUNT(DISTINCT o.order_id) * 1.0
                    END as return_frequency
             FROM Customers c
             INNER JOIN Orders o ON c.customer_id = o.customer_id
             WHERE o.status = 'COMPLETED'
             AND DATE(o.last_updated) BETWEEN @FromDate AND @ToDate
             GROUP BY c.customer_id, c.name, c.phone
-            HAVING total_orders > 1
+            HAVING total_orders >= 1
             ORDER BY return_count DESC, total_orders DESC";
 
         // Báo cáo tỷ lệ thu hồi bao bì
@@ -92,7 +94,6 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             FROM Packaging p
             LEFT JOIN PackagingTransactions pt ON p.packaging_id = pt.packaging_id
                 AND DATE(pt.created_date) BETWEEN @FromDate AND @ToDate
-            WHERE p.is_active = TRUE
             GROUP BY p.packaging_id, p.name
             HAVING issued > 0
             ORDER BY recovery_rate DESC";

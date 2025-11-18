@@ -204,7 +204,8 @@ namespace EcoStationManagerApplication.DAL.Interfaces
                     {
                         user.UserId,
                         user.Fullname,
-                        Role = user.Role.ToString()
+                        Role = user.Role.ToString(),
+                        IsActive = user.IsActive == ActiveStatus.ACTIVE
                     }
                 );
 

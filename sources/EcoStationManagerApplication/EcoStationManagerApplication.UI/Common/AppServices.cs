@@ -24,5 +24,7 @@ namespace EcoStationManagerApplication.UI.Common
         public static IExportService ExportService => ServiceRegistry.ExportService;
         public static IReportService ReportService => ServiceRegistry.ReportService;
         public static IStationService StationService => ServiceRegistry.StationService;
+        public static IDeliveryService DeliveryService => ServiceRegistry.DeliveryService;
+        public static IWorkShiftService WorkShiftService => ServiceRegistry.WorkShiftService;
     }
 }

@@ -80,7 +80,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.panelLeft.Padding = new System.Windows.Forms.Padding(30);
             this.panelLeft.Size = new System.Drawing.Size(600, 730);
             this.panelLeft.TabIndex = 0;
-            //this.panelLeft.Paint += new System.Windows.Forms.PaintEventHandler(this.panelLeft_Paint);
+            this.panelLeft.Paint += new System.Windows.Forms.PaintEventHandler(this.panelLeft_Paint);
             // 
             // labelError
             // 
@@ -89,7 +89,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.labelError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(24)))), ((int)(((byte)(61)))));
             this.labelError.Location = new System.Drawing.Point(30, 560);
             this.labelError.Name = "labelError";
-            this.labelError.Size = new System.Drawing.Size(0, 19);
+            this.labelError.Size = new System.Drawing.Size(0, 20);
             this.labelError.TabIndex = 15;
             // 
             // chkIsActive
@@ -104,7 +104,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.chkIsActive.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.chkIsActive.Location = new System.Drawing.Point(30, 530);
             this.chkIsActive.Name = "chkIsActive";
-            this.chkIsActive.Size = new System.Drawing.Size(102, 25);
+            this.chkIsActive.Size = new System.Drawing.Size(114, 27);
             this.chkIsActive.TabIndex = 8;
             this.chkIsActive.Text = "Hoạt động";
             this.chkIsActive.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
@@ -136,7 +136,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblCategory.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblCategory.Location = new System.Drawing.Point(30, 450);
             this.lblCategory.Name = "lblCategory";
-            this.lblCategory.Size = new System.Drawing.Size(81, 21);
+            this.lblCategory.Size = new System.Drawing.Size(89, 23);
             this.lblCategory.TabIndex = 13;
             this.lblCategory.Text = "Danh mục";
             // 
@@ -168,7 +168,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblMinStockLevel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblMinStockLevel.Location = new System.Drawing.Point(300, 365);
             this.lblMinStockLevel.Name = "lblMinStockLevel";
-            this.lblMinStockLevel.Size = new System.Drawing.Size(186, 21);
+            this.lblMinStockLevel.Size = new System.Drawing.Size(206, 23);
             this.lblMinStockLevel.TabIndex = 11;
             this.lblMinStockLevel.Text = "Ngưỡng tồn kho tối thiểu";
             // 
@@ -200,7 +200,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblPrice.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblPrice.Location = new System.Drawing.Point(30, 365);
             this.lblPrice.Name = "lblPrice";
-            this.lblPrice.Size = new System.Drawing.Size(91, 21);
+            this.lblPrice.Size = new System.Drawing.Size(96, 23);
             this.lblPrice.TabIndex = 9;
             this.lblPrice.Text = "Giá bán (*)";
             // 
@@ -233,7 +233,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblUnit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblUnit.Location = new System.Drawing.Point(300, 280);
             this.lblUnit.Name = "lblUnit";
-            this.lblUnit.Size = new System.Drawing.Size(118, 21);
+            this.lblUnit.Size = new System.Drawing.Size(125, 23);
             this.lblUnit.TabIndex = 7;
             this.lblUnit.Text = "Đơn vị tính (*)";
             // 
@@ -260,7 +260,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblProductType.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblProductType.Location = new System.Drawing.Point(30, 280);
             this.lblProductType.Name = "lblProductType";
-            this.lblProductType.Size = new System.Drawing.Size(120, 21);
+            this.lblProductType.Size = new System.Drawing.Size(125, 23);
             this.lblProductType.TabIndex = 5;
             this.lblProductType.Text = "Loại sản phẩm";
             // 
@@ -294,7 +294,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblName.Location = new System.Drawing.Point(30, 175);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(138, 21);
+            this.lblName.Size = new System.Drawing.Size(144, 23);
             this.lblName.TabIndex = 3;
             this.lblName.Text = "Tên sản phẩm (*)";
             // 
@@ -327,7 +327,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblSKU.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblSKU.Location = new System.Drawing.Point(30, 90);
             this.lblSKU.Name = "lblSKU";
-            this.lblSKU.Size = new System.Drawing.Size(65, 21);
+            this.lblSKU.Size = new System.Drawing.Size(70, 23);
             this.lblSKU.TabIndex = 1;
             this.lblSKU.Text = "Mã SKU";
             // 
@@ -338,7 +338,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblTitle.Location = new System.Drawing.Point(30, 30);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(291, 38);
+            this.lblTitle.Size = new System.Drawing.Size(308, 41);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Thêm Sản Phẩm Mới";
             // 
@@ -461,7 +461,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblImageTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblImageTitle.Location = new System.Drawing.Point(30, 30);
             this.lblImageTitle.Name = "lblImageTitle";
-            this.lblImageTitle.Size = new System.Drawing.Size(183, 25);
+            this.lblImageTitle.Size = new System.Drawing.Size(195, 28);
             this.lblImageTitle.TabIndex = 0;
             this.lblImageTitle.Text = "Hình ảnh sản phẩm";
             // 
@@ -476,7 +476,7 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             // AddProductForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1000, 730);

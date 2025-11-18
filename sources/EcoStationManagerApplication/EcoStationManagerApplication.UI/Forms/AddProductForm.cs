@@ -939,5 +939,10 @@ namespace EcoStationManagerApplication.UI.Forms
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
+
+        private void panelLeft_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

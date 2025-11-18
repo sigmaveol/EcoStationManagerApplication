@@ -148,6 +148,19 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
+        public async Task<Result<IEnumerable<User>>> GetAllAsync()
+        {
+            try
+            {
+                var users = await _unitOfWork.Users.GetAllAsync();
+                return Result<IEnumerable<User>>.Ok(users, "Lấy danh sách tất cả người dùng thành công");
+            }
+            catch (Exception ex)
+            {
+                return HandleException<IEnumerable<User>>(ex, "lấy danh sách tất cả người dùng");
+            }
+        }
+
         public async Task<Result<IEnumerable<User>>> GetUsersByRoleAsync(UserRole role)
         {
             try
@@ -228,7 +241,14 @@ namespace EcoStationManagerApplication.Core.Services
 
                 // Hash password
                 user.PasswordHash = SecurityHelper.HashPassword(password);
-                user.IsActive = ActiveStatus.ACTIVE;
+                if (user.IsActive == ActiveStatus.INACTIVE)
+                {
+                    // giữ nguyên trạng thái do UI truyền xuống
+                }
+                else
+                {
+                    user.IsActive = ActiveStatus.ACTIVE;
+                }
 
                 // Thêm user
                 var userId = await _unitOfWork.Users.AddAsync(user);

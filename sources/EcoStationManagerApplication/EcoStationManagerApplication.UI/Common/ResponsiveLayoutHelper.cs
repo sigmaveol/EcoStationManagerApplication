@@ -152,37 +152,5 @@ namespace EcoStationManagerApplication.UI.Helpers
             );
         }
 
-        /// <summary>
-        /// Tạo responsive layout cho nhóm controls (dùng cho các card thống kê)
-        /// </summary>
-        public static void CreateResponsiveCardLayout(FlowLayoutPanel container, List<Control> cards,
-            Action<Size> onSizeChanged = null)
-        {
-            if (container == null || cards == null) return;
-
-            // Clear container trước
-            container.Controls.Clear();
-
-            // Thêm các card vào container
-            foreach (var card in cards)
-            {
-                container.Controls.Add(card);
-            }
-
-            // Thiết lập responsive
-            SetupResponsiveFlowPanel(container, cards,
-                new Size(270, 70),  // Default size
-                new Size(200, 70),  // Min size
-                10, 10);            // Spacing
-
-            // Gọi callback nếu có
-            if (onSizeChanged != null)
-            {
-                container.Parent.Resize += (sender, e) =>
-                {
-                    onSizeChanged(container.Size);
-                };
-            }
-        }
     }
 }

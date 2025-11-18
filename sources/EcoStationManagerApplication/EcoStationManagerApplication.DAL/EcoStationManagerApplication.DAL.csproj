@@ -131,6 +131,7 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\WorkShiftRepository.cs" />
     <Compile Include="Repositories\StationRepository.cs" />
+    <Compile Include="Repositories\DeliveryRepository.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="SqlQueries\DashboardQueries.cs" />
     <Compile Include="SqlQueries\InventoryQueries.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="SqlQueries\UserQueries.cs" />
     <Compile Include="SqlQueries\WorkShiftQueries.cs" />
     <Compile Include="SqlQueries\StationQueries.cs" />
+    <Compile Include="SqlQueries\DeliveryQueries.cs" />
     <Compile Include="UnitOfWork\UnitOfWork .cs" />
     <Compile Include="UnitOfWork\UnitOfWorkFactory.cs" />
   </ItemGroup>

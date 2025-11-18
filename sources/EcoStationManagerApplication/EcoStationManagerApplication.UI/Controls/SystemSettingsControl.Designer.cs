@@ -106,20 +106,22 @@
             this.dataGridUsers = new System.Windows.Forms.DataGridView();
             this.btnAddUser = new Guna.UI2.WinForms.Guna2Button();
             this.guna2GroupBox10 = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.toggleActive = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.btnSaveUser = new Guna.UI2.WinForms.Guna2Button();
             this.checkBoxUserManage = new Guna.UI2.WinForms.Guna2CheckBox();
             this.checkBoxSettingsEdit = new Guna.UI2.WinForms.Guna2CheckBox();
             this.checkBoxReportView = new Guna.UI2.WinForms.Guna2CheckBox();
             this.checkBoxInventoryEdit = new Guna.UI2.WinForms.Guna2CheckBox();
             this.checkBoxInventoryView = new Guna.UI2.WinForms.Guna2CheckBox();
             this.checkBoxOrderManage = new Guna.UI2.WinForms.Guna2CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.txtUserEmail = new Guna.UI2.WinForms.Guna2TextBox();
+            this.txtUserPassword = new Guna.UI2.WinForms.Guna2TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.txtUserName = new Guna.UI2.WinForms.Guna2TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.comboBoxUserRole = new Guna.UI2.WinForms.Guna2ComboBox();
             this.label29 = new System.Windows.Forms.Label();
-            this.btnSaveUser = new Guna.UI2.WinForms.Guna2Button();
             this.guna2GroupBox11 = new Guna.UI2.WinForms.Guna2GroupBox();
             this.label30 = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -692,13 +694,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxStations.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBoxStations.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.listBoxStations.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBoxStations.FormattingEnabled = true;
-            this.listBoxStations.ItemHeight = 20;
+            this.listBoxStations.ItemHeight = 28;
             this.listBoxStations.Location = new System.Drawing.Point(27, 92);
             this.listBoxStations.Margin = new System.Windows.Forms.Padding(4);
             this.listBoxStations.Name = "listBoxStations";
-            this.listBoxStations.Size = new System.Drawing.Size(341, 520);
+            this.listBoxStations.Size = new System.Drawing.Size(341, 504);
             this.listBoxStations.TabIndex = 1;
             this.listBoxStations.SelectedIndexChanged += new System.EventHandler(this.listBoxStations_SelectedIndexChanged);
             // 
@@ -1402,7 +1404,6 @@
             // splitContainerUsers.Panel2
             // 
             this.splitContainerUsers.Panel2.Controls.Add(this.guna2GroupBox10);
-            this.splitContainerUsers.Panel2.Controls.Add(this.btnSaveUser);
             this.splitContainerUsers.Size = new System.Drawing.Size(1192, 690);
             this.splitContainerUsers.SplitterDistance = 534;
             this.splitContainerUsers.SplitterWidth = 5;
@@ -1466,29 +1467,66 @@
             // 
             this.guna2GroupBox10.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(231)))), ((int)(((byte)(235)))));
             this.guna2GroupBox10.BorderRadius = 10;
+            this.guna2GroupBox10.Controls.Add(this.toggleActive);
+            this.guna2GroupBox10.Controls.Add(this.btnSaveUser);
             this.guna2GroupBox10.Controls.Add(this.checkBoxUserManage);
             this.guna2GroupBox10.Controls.Add(this.checkBoxSettingsEdit);
             this.guna2GroupBox10.Controls.Add(this.checkBoxReportView);
             this.guna2GroupBox10.Controls.Add(this.checkBoxInventoryEdit);
             this.guna2GroupBox10.Controls.Add(this.checkBoxInventoryView);
             this.guna2GroupBox10.Controls.Add(this.checkBoxOrderManage);
+            this.guna2GroupBox10.Controls.Add(this.label1);
             this.guna2GroupBox10.Controls.Add(this.label26);
-            this.guna2GroupBox10.Controls.Add(this.txtUserEmail);
+            this.guna2GroupBox10.Controls.Add(this.txtUserPassword);
             this.guna2GroupBox10.Controls.Add(this.label27);
             this.guna2GroupBox10.Controls.Add(this.txtUserName);
             this.guna2GroupBox10.Controls.Add(this.label28);
             this.guna2GroupBox10.Controls.Add(this.comboBoxUserRole);
             this.guna2GroupBox10.Controls.Add(this.label29);
             this.guna2GroupBox10.CustomBorderThickness = new System.Windows.Forms.Padding(0);
-            this.guna2GroupBox10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.guna2GroupBox10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2GroupBox10.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.guna2GroupBox10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
             this.guna2GroupBox10.Location = new System.Drawing.Point(0, 0);
             this.guna2GroupBox10.Margin = new System.Windows.Forms.Padding(4);
             this.guna2GroupBox10.Name = "guna2GroupBox10";
-            this.guna2GroupBox10.Size = new System.Drawing.Size(653, 615);
+            this.guna2GroupBox10.Size = new System.Drawing.Size(653, 690);
             this.guna2GroupBox10.TabIndex = 1;
             this.guna2GroupBox10.Text = "Thông tin người dùng";
+            // 
+            // toggleActive
+            // 
+            this.toggleActive.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.toggleActive.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.toggleActive.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.toggleActive.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.toggleActive.Location = new System.Drawing.Point(113, 436);
+            this.toggleActive.Margin = new System.Windows.Forms.Padding(4);
+            this.toggleActive.Name = "toggleActive";
+            this.toggleActive.Size = new System.Drawing.Size(47, 25);
+            this.toggleActive.TabIndex = 14;
+            this.toggleActive.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.toggleActive.UncheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.toggleActive.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.toggleActive.UncheckedState.InnerColor = System.Drawing.Color.White;
+            // 
+            // btnSaveUser
+            // 
+            this.btnSaveUser.BorderRadius = 5;
+            this.btnSaveUser.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnSaveUser.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnSaveUser.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnSaveUser.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnSaveUser.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnSaveUser.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnSaveUser.ForeColor = System.Drawing.Color.White;
+            this.btnSaveUser.Location = new System.Drawing.Point(479, 595);
+            this.btnSaveUser.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSaveUser.Name = "btnSaveUser";
+            this.btnSaveUser.Size = new System.Drawing.Size(133, 43);
+            this.btnSaveUser.TabIndex = 0;
+            this.btnSaveUser.Text = "Lưu thông tin";
+            this.btnSaveUser.Click += new System.EventHandler(this.btnSaveUser_Click);
             // 
             // checkBoxUserManage
             // 
@@ -1604,6 +1642,18 @@
             this.checkBoxOrderManage.UncheckedState.BorderThickness = 2;
             this.checkBoxOrderManage.UncheckedState.FillColor = System.Drawing.Color.White;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(27, 436);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 20);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Trạng thái:";
+            // 
             // label26
             // 
             this.label26.AutoSize = true;
@@ -1616,26 +1666,26 @@
             this.label26.TabIndex = 6;
             this.label26.Text = "Quyền hệ thống:";
             // 
-            // txtUserEmail
+            // txtUserPassword
             // 
-            this.txtUserEmail.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(231)))), ((int)(((byte)(235)))));
-            this.txtUserEmail.BorderRadius = 5;
-            this.txtUserEmail.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtUserEmail.DefaultText = "";
-            this.txtUserEmail.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.txtUserEmail.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.txtUserEmail.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.txtUserEmail.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.txtUserEmail.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtUserEmail.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtUserEmail.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtUserEmail.Location = new System.Drawing.Point(200, 142);
-            this.txtUserEmail.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtUserEmail.Name = "txtUserEmail";
-            this.txtUserEmail.PlaceholderText = "";
-            this.txtUserEmail.SelectedText = "";
-            this.txtUserEmail.Size = new System.Drawing.Size(400, 37);
-            this.txtUserEmail.TabIndex = 5;
+            this.txtUserPassword.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(231)))), ((int)(((byte)(235)))));
+            this.txtUserPassword.BorderRadius = 5;
+            this.txtUserPassword.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtUserPassword.DefaultText = "";
+            this.txtUserPassword.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.txtUserPassword.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.txtUserPassword.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtUserPassword.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtUserPassword.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.txtUserPassword.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtUserPassword.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.txtUserPassword.Location = new System.Drawing.Point(200, 142);
+            this.txtUserPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtUserPassword.Name = "txtUserPassword";
+            this.txtUserPassword.PlaceholderText = "";
+            this.txtUserPassword.SelectedText = "";
+            this.txtUserPassword.Size = new System.Drawing.Size(400, 37);
+            this.txtUserPassword.TabIndex = 5;
             // 
             // label27
             // 
@@ -1645,9 +1695,9 @@
             this.label27.Location = new System.Drawing.Point(27, 154);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(49, 20);
+            this.label27.Size = new System.Drawing.Size(73, 20);
             this.label27.TabIndex = 4;
-            this.label27.Text = "Email:";
+            this.label27.Text = "Mật khẩu:";
             // 
             // txtUserName
             // 
@@ -1678,9 +1728,9 @@
             this.label28.Location = new System.Drawing.Point(27, 105);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(116, 20);
+            this.label28.Size = new System.Drawing.Size(110, 20);
             this.label28.TabIndex = 2;
-            this.label28.Text = "Tên người dùng:";
+            this.label28.Text = "Tên đăng nhập:";
             // 
             // comboBoxUserRole
             // 
@@ -1712,24 +1762,6 @@
             this.label29.Size = new System.Drawing.Size(65, 20);
             this.label29.TabIndex = 0;
             this.label29.Text = "Vai trò: *";
-            // 
-            // btnSaveUser
-            // 
-            this.btnSaveUser.BorderRadius = 5;
-            this.btnSaveUser.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnSaveUser.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnSaveUser.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnSaveUser.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnSaveUser.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
-            this.btnSaveUser.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnSaveUser.ForeColor = System.Drawing.Color.White;
-            this.btnSaveUser.Location = new System.Drawing.Point(493, 628);
-            this.btnSaveUser.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSaveUser.Name = "btnSaveUser";
-            this.btnSaveUser.Size = new System.Drawing.Size(133, 43);
-            this.btnSaveUser.TabIndex = 0;
-            this.btnSaveUser.Text = "Lưu thông tin";
-            this.btnSaveUser.Click += new System.EventHandler(this.btnSaveUser_Click);
             // 
             // guna2GroupBox11
             // 
@@ -1898,7 +1930,7 @@
         private Guna.UI2.WinForms.Guna2CheckBox checkBoxInventoryView;
         private Guna.UI2.WinForms.Guna2CheckBox checkBoxOrderManage;
         private System.Windows.Forms.Label label26;
-        private Guna.UI2.WinForms.Guna2TextBox txtUserEmail;
+        private Guna.UI2.WinForms.Guna2TextBox txtUserPassword;
         private System.Windows.Forms.Label label27;
         private Guna.UI2.WinForms.Guna2TextBox txtUserName;
         private System.Windows.Forms.Label label28;
@@ -1908,5 +1940,7 @@
         private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox11;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Label label1;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch toggleActive;
     }
 }

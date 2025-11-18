@@ -49,8 +49,10 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         // Station Management
         IStationRepository Stations { get; }
 
+        // Delivery Management
+        IDeliveryRepository Deliveries { get; }
+
         // TODO: Triển khai sau
-        // IDeliveryAssignmentRepository DeliveryAssignments { get; }
         // ICleaningScheduleRepository CleaningSchedules { get; }
 
         /// <summary>

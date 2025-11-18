@@ -26,6 +26,7 @@ namespace EcoStationManagerApplication.Core.Interfaces
         /// Lấy tất cả người dùng đang active
         /// </summary>
         Task<Result<IEnumerable<User>>> GetAllActiveUsersAsync();
+        Task<Result<IEnumerable<User>>> GetAllAsync();
 
         /// <summary>
         /// Lấy người dùng theo role

@@ -62,7 +62,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         // Cập nhật profile user (không bao gồm password)
         public const string UpdateUserProfile = @"
             UPDATE Users 
-            SET fullname = @Fullname, role = @Role 
+            SET fullname = @Fullname, role = @Role, is_active = @IsActive 
             WHERE user_id = @UserId";
 
         // Đếm user theo role

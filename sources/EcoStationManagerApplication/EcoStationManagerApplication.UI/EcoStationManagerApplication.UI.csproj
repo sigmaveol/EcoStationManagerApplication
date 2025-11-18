@@ -101,6 +101,7 @@
     <Compile Include="Common\FormHelper.cs" />
     <Compile Include="Common\Helper.cs" />
     <Compile Include="Common\ResponsiveLayoutHelper.cs" />
+    <Compile Include="Common\RolePermissionHelper.cs" />
     <Compile Include="Common\ThemManager.cs" />
     <Compile Include="Common\TogglerSidebar.cs" />
     <Compile Include="Common\UIHelper.cs" />
@@ -233,17 +234,21 @@
     <Compile Include="Controls\StaffControl.Designer.cs">
       <DependentUpon>StaffControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\StationsControl.cs">
+    <Compile Include="Controls\StaffControl.WorkShift.cs">
+      <DependentUpon>StaffControl.cs</DependentUpon>
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\StationsControl.Designer.cs">
-      <DependentUpon>StationsControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\StockControl.cs">
+    <Compile Include="Controls\StaffControl.Delivery.cs">
+      <DependentUpon>StaffControl.cs</DependentUpon>
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\StockControl.Designer.cs">
-      <DependentUpon>StockControl.cs</DependentUpon>
+    <Compile Include="Controls\StaffControl.Dashboard.cs">
+      <DependentUpon>StaffControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StaffControl.Filters.cs">
+      <DependentUpon>StaffControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\StockInManagementControl.cs">
       <SubType>UserControl</SubType>
@@ -264,6 +269,18 @@
       <DependentUpon>SuppliersControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SystemSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SystemSettingsControl.General.cs">
+      <DependentUpon>SystemSettingsControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SystemSettingsControl.Station.cs">
+      <DependentUpon>SystemSettingsControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SystemSettingsControl.User.cs">
+      <DependentUpon>SystemSettingsControl.cs</DependentUpon>
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SystemSettingsControl.Designer.cs">
@@ -322,6 +339,18 @@
     </Compile>
     <Compile Include="Forms\OrderDetailForm.Designer.cs">
       <DependentUpon>OrderDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\WorkShiftForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WorkShiftForm.Designer.cs">
+      <DependentUpon>WorkShiftForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DeliveryAssignmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DeliveryAssignmentForm.Designer.cs">
+      <DependentUpon>DeliveryAssignmentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\StockInForm.cs">
       <SubType>Form</SubType>
@@ -416,9 +445,6 @@
     <EmbeddedResource Include="Controls\StaffControl.resx">
       <DependentUpon>StaffControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\StationsControl.resx">
-      <DependentUpon>StationsControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\StockInManagementControl.resx">
       <DependentUpon>StockInManagementControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -431,6 +457,9 @@
     <EmbeddedResource Include="Controls\SystemSettingsControl.resx">
       <DependentUpon>SystemSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddCustomerForm.resx">
+      <DependentUpon>AddCustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddPackagingForm.resx">
       <DependentUpon>AddPackagingForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -439,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddSupplierForm.resx">
       <DependentUpon>AddSupplierForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DeliveryAssignmentForm.resx">
+      <DependentUpon>DeliveryAssignmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>

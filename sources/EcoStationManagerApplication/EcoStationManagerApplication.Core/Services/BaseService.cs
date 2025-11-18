@@ -66,6 +66,21 @@ namespace EcoStationManagerApplication.Core.Services
             return Result.Fail(message);
         }
 
+        protected Result ValidationError(List<string> errors)
+        {
+            return Result.Fail(errors, "Dữ liệu không hợp lệ");
+        }
+
+        protected Result NotFoundError(string entityName, int id)
+        {
+            return Result.Fail($"{entityName} với ID {id} không tồn tại");
+        }
+
+        protected Result NotFoundError(string message)
+        {
+            return Result.Fail(message);
+        }
+
         /// <summary>
         /// Lấy CurrentUserId từ UserContextHelper
         /// </summary>

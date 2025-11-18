@@ -70,8 +70,8 @@ namespace EcoStationManagerApplication.UI.Forms
             sidebarControl.AddMenuItem("Tồn Kho", Properties.Resources.inventory_icon, "Inventory");
             sidebarControl.AddMenuItem("Nhập Kho", Properties.Resources.stockin_icon, "Stockin");
             sidebarControl.AddMenuItem("Xuất Kho", Properties.Resources.stockout_icon, "Stockout");
-            //sidebarControl.AddMenuItem("Trạm && Bồn", Properties.Resources.station_icon, "Stations");
-            sidebarControl.AddMenuItem("Thanh Toán", Properties.Resources.payment_icon, "Payment");
+            sidebarControl.AddMenuItem("Nhân sự giao vận", Properties.Resources.station_icon, "Staffs");
+            //sidebarControl.AddMenuItem("Thanh Toán", Properties.Resources.payment_icon, "Payment");
             sidebarControl.AddMenuItem("Báo cáo", Properties.Resources.report_icon, "Reports");
             sidebarControl.AddMenuItem("Cài đặt hệ thống", Properties.Resources.setting_icon, "SystemSettings");
         }
@@ -138,8 +138,8 @@ namespace EcoStationManagerApplication.UI.Forms
                         return new StockInManagementControl();
                     case "stockout":
                         return new StockOutManagementControl();
-                    case "stations":
-                        return new StationsControl();
+                    case "staffs":
+                        return new StaffControl();
                     case "payment":
                         return new PaymentControl();
                     case "reports":

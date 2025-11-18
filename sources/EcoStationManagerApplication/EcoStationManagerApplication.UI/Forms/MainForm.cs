@@ -1,4 +1,5 @@
-﻿using EcoStationManagerApplication.UI.Common;
+﻿using EcoStationManagerApplication.Common.Config;
+using EcoStationManagerApplication.UI.Common;
 using EcoStationManagerApplication.UI.Controls;
 using System;
 using System.Collections.Generic;
@@ -37,16 +38,11 @@ namespace EcoStationManagerApplication.UI.Forms
         //}
 
 
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             InitializeSidebar();
             InitializeSidebarMenu();
             ShowContent("dashboard");
-
-            //sidebarControl.MenuClicked += SidebarControl_MenuClicked;
-
-            //TogglerSidebar.HandleResponsive(this, sidebarControl);
         }
 
         private void InitializeSidebar()
@@ -56,9 +52,9 @@ namespace EcoStationManagerApplication.UI.Forms
 
             // Thiết lập thông tin cho sidebar
             sidebarControl.SetAppName("Eco Station");
-            sidebarControl.SetUsername("Hoàng Sinh Hùng");
+            sidebarControl.SetUsername(AppUserContext.CurrentUsername);
              sidebarControl.SetAvatar(Properties.Resources.logo_pm);
-            //sidebarControl.SetLogo(Properties.Resources.app_logo);
+            sidebarControl.SetLogo(Properties.Resources.logo_pm);
 
         }
 
@@ -106,6 +102,11 @@ namespace EcoStationManagerApplication.UI.Forms
                 }
 
                 _contentCache[key] = ctrl; // lưu vào cache
+            }
+
+            if (ctrl is IRefreshableControl refreshable)
+            {
+                refreshable.RefreshData();
             }
 
             contentControl.Controls.Add(ctrl);

@@ -406,5 +406,89 @@ namespace EcoStationManagerApplication.UI.Properties {
                 this["RememberMe"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5231")]
+        public string PinCode {
+            get {
+                return ((string)(this["PinCode"]));
+            }
+            set {
+                this["PinCode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("hungminhtobe@gmail.com")]
+        public string AdminEmail {
+            get {
+                return ((string)(this["AdminEmail"]));
+            }
+            set {
+                this["AdminEmail"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SmtpHost {
+            get {
+                return ((string)(this["SmtpHost"]));
+            }
+            set {
+                this["SmtpHost"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("587")]
+        public int SmtpPort {
+            get {
+                return ((int)(this["SmtpPort"]));
+            }
+            set {
+                this["SmtpPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SmtpUsername {
+            get {
+                return ((string)(this["SmtpUsername"]));
+            }
+            set {
+                this["SmtpUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SmtpPassword {
+            get {
+                return ((string)(this["SmtpPassword"]));
+            }
+            set {
+                this["SmtpPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SmtpEnableSsl {
+            get {
+                return ((bool)(this["SmtpEnableSsl"]));
+            }
+            set {
+                this["SmtpEnableSsl"] = value;
+            }
+        }
     }
 }

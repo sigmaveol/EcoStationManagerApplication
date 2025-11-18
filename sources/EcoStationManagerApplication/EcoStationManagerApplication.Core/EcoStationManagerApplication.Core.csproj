@@ -156,6 +156,7 @@
     <Compile Include="Interfaces\IStockInService.cs" />
     <Compile Include="Interfaces\IStockOutService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Interfaces\IStationService.cs" />
     <Compile Include="Interfaces\IExportService.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Services\StockOutService.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\StationService.cs" />
     <Compile Include="Services\ExportService.cs" />
     <Compile Include="Services\ReportService.cs" />
   </ItemGroup>

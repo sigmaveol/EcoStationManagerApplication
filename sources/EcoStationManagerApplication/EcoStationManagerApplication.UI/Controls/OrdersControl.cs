@@ -259,14 +259,16 @@ namespace EcoStationManagerApplication.UI.Controls
                         }
                     }
 
-                    dgvOrders.Rows.Add(
+                    var row = dgvOrders.Rows[dgvOrders.Rows.Add(
                         order.OrderCode ?? $"ORD-{order.OrderId:D5}",
                         customerName,
                         productInfo,
                         GetOrderSourceDisplay(order.Source),
                         GetOrderStatusDisplay(order.Status),
                         order.LastUpdated.ToString("dd/MM/yyyy HH:mm")
-                    );
+                    )];
+                    // Lưu OrderId vào Tag của row để sử dụng khi mở form chi tiết
+                    row.Tag = order.OrderId;
                 }
             }
             catch (Exception ex)
@@ -451,15 +453,57 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             if (e.RowIndex < 0) return;
             string colName = dgvOrders.Columns[e.ColumnIndex].Name;
-            string orderId = dgvOrders.Rows[e.RowIndex].Cells["OrderCode"].Value.ToString();
+            var row = dgvOrders.Rows[e.RowIndex];
 
             if (colName == "colDetail")
             {
-                MessageBox.Show($"Mở chi tiết cho đơn hàng: {orderId}", "Xem Chi tiết");
+                // Lấy OrderId từ Tag của row
+                if (row.Tag is int orderId)
+                {
+                    OpenOrderDetailForm(orderId);
+                }
+                else
+                {
+                    MessageBox.Show("Không thể lấy thông tin đơn hàng!", "Lỗi", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else if (colName == "colUpdate")
             {
-                MessageBox.Show($"Cập nhật trạng thái cho đơn hàng: {orderId}", "Cập nhật");
+                string orderCode = row.Cells["OrderCode"].Value?.ToString() ?? "";
+                MessageBox.Show($"Cập nhật trạng thái cho đơn hàng: {orderCode}", "Cập nhật");
+            }
+        }
+
+        private void OpenOrderDetailForm(int orderId)
+        {
+            try
+            {
+                // Tìm MainForm để sử dụng FormHelper
+                Form mainForm = this.FindForm();
+                while (mainForm != null && !(mainForm is MainForm))
+                {
+                    mainForm = mainForm.ParentForm ?? mainForm.Owner;
+                }
+
+                // Mở OrderDetailForm
+                using (var orderDetailForm = new OrderDetailForm(orderId))
+                {
+                    DialogResult result;
+                    if (mainForm != null)
+                    {
+                        result = FormHelper.ShowModalWithDim(mainForm, orderDetailForm);
+                    }
+                    else
+                    {
+                        result = orderDetailForm.ShowDialog();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi mở chi tiết đơn hàng: {ex.Message}", "Lỗi", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

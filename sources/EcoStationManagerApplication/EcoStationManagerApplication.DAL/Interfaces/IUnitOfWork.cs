@@ -46,6 +46,9 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         // Work Shift Management
         IWorkShiftRepository WorkShifts { get; }
 
+        // Station Management
+        IStationRepository Stations { get; }
+
         // TODO: Triển khai sau
         // IDeliveryAssignmentRepository DeliveryAssignments { get; }
         // ICleaningScheduleRepository CleaningSchedules { get; }

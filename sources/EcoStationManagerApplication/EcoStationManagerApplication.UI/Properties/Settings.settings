@@ -101,5 +101,26 @@
     <Setting Name="RememberMe" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="PinCode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">5231</Value>
+    </Setting>
+    <Setting Name="AdminEmail" Type="System.String" Scope="User">
+      <Value Profile="(Default)">hungminhtobe@gmail.com</Value>
+    </Setting>
+    <Setting Name="SmtpHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SmtpPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">587</Value>
+    </Setting>
+    <Setting Name="SmtpUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SmtpPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SmtpEnableSsl" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

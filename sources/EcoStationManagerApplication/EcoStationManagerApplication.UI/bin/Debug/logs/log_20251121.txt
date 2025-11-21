@@ -1527,3 +1527,1963 @@
 [ERROR] [DatabaseHelper] 2025-11-21 19:17:47: Inner exception: Must specify valid information for parsing in the string.
 [WARN] [DatabaseHelper] 2025-11-21 19:17:47: Returning empty list due to parse error. Please check database data integrity.
 [INFO] [DatabaseHelper] 2025-11-21 19:17:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:27: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 20:37:28: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 20:37:28: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 20:37:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:31: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 20:37:31: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 20:37:31: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 20:37:31: Returning empty list due to parse error. Please check database data integrity.
+[ERROR] [DatabaseHelper] 2025-11-21 20:37:31: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 20:37:31: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 20:37:31: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 20:37:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:37:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:38:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:25: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 20:39:25: Đã tạo lịch vệ sinh mới - Id: 92, Type: PACKAGING, Date: 21/11/2025 20:39
+[INFO] [DatabaseHelper] 2025-11-21 20:39:26: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 20:39:26: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 3 (status= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 20:39:26: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 20:39:26: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 20:39:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:39:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:15: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 20:40:15: Đã tạo lịch vệ sinh mới - Id: 93, Type: TANK, Date: 21/11/2025 20:40
+[INFO] [DatabaseHelper] 2025-11-21 20:40:16: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 20:40:16: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 20:40:16: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 20:40:16: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 20:40:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:40:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:03: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 20:41:03: Đã tạo lịch vệ sinh mới - Id: 94, Type: TANK, Date: 21/11/2025 20:41
+[INFO] [DatabaseHelper] 2025-11-21 20:41:06: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 20:41:06: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 20:41:06: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 20:41:06: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 20:41:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:55: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 20:41:55: Đã tạo lịch vệ sinh mới - Id: 95, Type: PACKAGING, Date: 21/11/2025 20:41
+[INFO] [DatabaseHelper] 2025-11-21 20:41:56: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 20:41:56: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 3 (status= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 20:41:56: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 20:41:56: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 20:41:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:41:58: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 20:41:58: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 3 (status= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 20:41:58: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 20:41:58: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 20:41:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:42:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:43:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:43:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:43:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:43:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:43:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:43:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:45:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:45:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:45:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:45:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:45:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:45:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:45:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:46:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:46:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:46:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:46: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 20:52:46: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 20:52:46: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 20:52:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:52:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:01: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 20:54:01: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 20:54:01: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 20:54:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:54:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:25: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 20:55:25: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 20:55:25: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 20:55:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:55:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:56:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:56:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:56:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:36: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 20:58:36: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 20:58:36: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 20:58:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:58:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:14: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 20:59:14: Đã tạo lịch vệ sinh mới - Id: 96, Type: PACKAGING, Date: 25/11/2025 14:45
+[INFO] [DatabaseHelper] 2025-11-21 20:59:16: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 20:59:16: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 3 (status= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 20:59:16: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 20:59:16: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 20:59:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:21: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 20:59:21: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 3 (status= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 20:59:21: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 20:59:21: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 20:59:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 20:59:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:06: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:01:06: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:01:06: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:01:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:22: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:01:22: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:01:22: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:01:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:46: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:01:46: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:01:46: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:01:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:01:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:05:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:05:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:05:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:05:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:05:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:06:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:07:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:07:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:07:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:07:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:48: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:08:48: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:08:48: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:08:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:08:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:09:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:10:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:10:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:44: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:19:45: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:19:45: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:19:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:19:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:20:59: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:20:59: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:20:59: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:20:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:20:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:21:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:24:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:24:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:24:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:24:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:24:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:24:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:24:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:24:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:24:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:24:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:25:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:25:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:25:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:30: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:28:30: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:28:30: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:28:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:08: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:30:08: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:30:08: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:30:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:13: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:37: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 21:30:37: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 21:30:37: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 21:30:37: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 21:30:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:37: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 21:30:37: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 21:30:37: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 21:30:37: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 21:30:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:30:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:13: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:31:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:52: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:32:52: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:32:52: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:32:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:32:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:33:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:33:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:33:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:33:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:33:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:33:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:33:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:33:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:33:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:37: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:34:37: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:34:37: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:34:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:34:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:16: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:35:16: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:35:16: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:35:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:45: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:35:45: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:35:45: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:35:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:35:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:04: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:37:04: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:37:04: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:13: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:37:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:29: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:40:29: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:40:29: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:40:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:40:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:41: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:41:41: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:41:41: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:41:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:41:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:16: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:46:16: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:46:16: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:46:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:46:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:47:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:47:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:47:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:47:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:47:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:47:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:48:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:48:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:48:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:48:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:49:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:03: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:51:03: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:51:03: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:51:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:51:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:22: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:52:22: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:52:22: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:52:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:52:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:24: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:55:24: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:55:24: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:55:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:35: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 21:55:35: Đã tạo lịch vệ sinh mới - Id: 97, Type: TANK, Date: 26/11/2025 21:45
+[INFO] [DatabaseHelper] 2025-11-21 21:55:36: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 21:55:36: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 21:55:36: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 21:55:36: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 21:55:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:55:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:56:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:56:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:56:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:56:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:56:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:56:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:56:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:56:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:56:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:14: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:57:14: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:57:14: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:57:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:25: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 21:57:25: Đã tạo lịch vệ sinh mới - Id: 98, Type: TANK, Date: 27/11/2025 21:45
+[INFO] [DatabaseHelper] 2025-11-21 21:57:27: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 21:57:27: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 21:57:27: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 21:57:27: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 21:57:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:57:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:15: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 21:59:15: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 21:59:15: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 21:59:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 21:59:33: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 21:59:33: Đã tạo lịch vệ sinh mới - Id: 99, Type: TANK, Date: 26/11/2025 21:45
+[INFO] [DatabaseHelper] 2025-11-21 21:59:34: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 21:59:34: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 21:59:34: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 21:59:34: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 21:59:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:02:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:02:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:02:45: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 22:02:45: Đã tạo lịch vệ sinh mới - Id: 100, Type: TANK, Date: 28/11/2025 22:00
+[INFO] [DatabaseHelper] 2025-11-21 22:02:45: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:02:45: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 22:02:45: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 22:02:45: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 22:02:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:41: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 22:05:41: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 22:05:41: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 22:05:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:05:50: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 22:05:50: Đã tạo lịch vệ sinh mới - Id: 101, Type: TANK, Date: 26/11/2025 22:00
+[INFO] [DatabaseHelper] 2025-11-21 22:05:50: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:05:50: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 22:05:50: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 22:05:50: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 22:05:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:03: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 22:17:03: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 22:17:03: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 22:17:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:11: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:12: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:17:12: ExecuteScalarAsync error: INSERT INTO CleaningSchedules (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Fatal error encountered during command execution
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:17:12: AddAsync error - Table: CleaningSchedules - Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:12: tạo lịch vệ sinh error: Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:12: Inner exception: Parameter '@cleaning_type' must be defined
+[INFO] [DatabaseHelper] 2025-11-21 22:17:16: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:17:16: ExecuteScalarAsync error: INSERT INTO CleaningSchedules (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Fatal error encountered during command execution
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:17:16: AddAsync error - Table: CleaningSchedules - Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:16: tạo lịch vệ sinh error: Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:16: Inner exception: Parameter '@cleaning_type' must be defined
+[INFO] [DatabaseHelper] 2025-11-21 22:17:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:20: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:17:20: ExecuteScalarAsync error: INSERT INTO CleaningSchedules (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Fatal error encountered during command execution
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:17:20: AddAsync error - Table: CleaningSchedules - Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:20: tạo lịch vệ sinh error: Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:20: Inner exception: Parameter '@cleaning_type' must be defined
+[INFO] [DatabaseHelper] 2025-11-21 22:17:22: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:17:22: ExecuteScalarAsync error: INSERT INTO CleaningSchedules (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Fatal error encountered during command execution
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:17:22: AddAsync error - Table: CleaningSchedules - Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:22: tạo lịch vệ sinh error: Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:22: Inner exception: Parameter '@cleaning_type' must be defined
+[INFO] [DatabaseHelper] 2025-11-21 22:17:23: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:17:23: ExecuteScalarAsync error: INSERT INTO CleaningSchedules (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Fatal error encountered during command execution
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:17:23: AddAsync error - Table: CleaningSchedules - Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:23: tạo lịch vệ sinh error: Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:23: Inner exception: Parameter '@cleaning_type' must be defined
+[INFO] [DatabaseHelper] 2025-11-21 22:17:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:27: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:17:27: ExecuteScalarAsync error: INSERT INTO CleaningSchedules (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Fatal error encountered during command execution
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:17:27: AddAsync error - Table: CleaningSchedules - Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:27: tạo lịch vệ sinh error: Fatal error encountered during command execution
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:17:27: Inner exception: Parameter '@cleaning_type' must be defined
+[INFO] [DatabaseHelper] 2025-11-21 22:17:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:17:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:28: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 22:29:28: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 22:29:28: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 22:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:41: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:29:41: ExecuteScalarAsync error: INSERT INTO cleaning_schedule (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:29:41: AddAsync error - Table: CleaningSchedules - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:29:41: tạo lịch vệ sinh error: Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-21 22:29:43: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:29:43: ExecuteScalarAsync error: INSERT INTO cleaning_schedule (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:29:43: AddAsync error - Table: CleaningSchedules - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:29:43: tạo lịch vệ sinh error: Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-21 22:29:45: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:29:45: ExecuteScalarAsync error: INSERT INTO cleaning_schedule (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:29:45: AddAsync error - Table: CleaningSchedules - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:29:45: tạo lịch vệ sinh error: Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-21 22:29:47: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:29:47: ExecuteScalarAsync error: INSERT INTO cleaning_schedule (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:29:48: AddAsync error - Table: CleaningSchedules - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:29:48: tạo lịch vệ sinh error: Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-21 22:29:51: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:29:51: ExecuteScalarAsync error: INSERT INTO cleaning_schedule (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:29:51: AddAsync error - Table: CleaningSchedules - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:29:51: tạo lịch vệ sinh error: Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-21 22:29:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:29:56: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:29:56: ExecuteScalarAsync error: INSERT INTO cleaning_schedule (cleaning_type, cleaning_date, cleaning_by, status, cleaned_datetime, notes, created_date) VALUES (@cleaning_type, @cleaning_date, @cleaning_by, @status, @cleaned_datetime, @notes, @created_date); SELECT LAST_INSERT_ID(); - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:29:56: AddAsync error - Table: CleaningSchedules - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:29:56: tạo lịch vệ sinh error: Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-21 22:35:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:35:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:35:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:35:49: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:35:49: ExecuteAsync error: UPDATE cleaning_schedule SET cleaning_type = @cleaning_type, cleaning_date = @cleaning_date, cleaning_by = @cleaning_by, status = @status, cleaned_datetime = @cleaned_datetime, notes = @notes, created_date = @created_date WHERE cs_id = @IdParam - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:35:49: UpdateAsync error - Table: CleaningSchedules - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:35:49: cập nhật lịch vệ sinh error: Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-21 22:35:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:35:51: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:35:51: ExecuteAsync error: UPDATE cleaning_schedule SET cleaning_type = @cleaning_type, cleaning_date = @cleaning_date, cleaning_by = @cleaning_by, status = @status, cleaned_datetime = @cleaned_datetime, notes = @notes, created_date = @created_date WHERE cs_id = @IdParam - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Repo:CleaningSchedules] 2025-11-21 22:35:51: UpdateAsync error - Table: CleaningSchedules - Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[ERROR] [Service:CleaningScheduleService] 2025-11-21 22:35:51: cập nhật lịch vệ sinh error: Table 'ecostationmanager.cleaning_schedule' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-21 22:35:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:35:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:35:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:43: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 22:40:43: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 22:40:43: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 22:40:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:40:51: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 22:40:51: Đã tạo lịch vệ sinh mới - Id: 102, Type: TANK, Date: 26/11/2025 22:30
+[INFO] [DatabaseHelper] 2025-11-21 22:40:52: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:40:52: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 22:40:52: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 22:40:52: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 22:40:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:49:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:49:25: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 22:49:25: Đã tạo lịch vệ sinh mới - Id: 103, Type: TANK, Date: 26/11/2025 22:45
+[INFO] [DatabaseHelper] 2025-11-21 22:49:26: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:49:26: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 22:49:26: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 22:49:26: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 22:49:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:46: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 22:51:46: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 22:51:46: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 22:51:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:52: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:51:52: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 22:51:52: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 22:51:52: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 22:51:52: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:51:52: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 22:51:52: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 22:51:52: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 22:51:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:55: Connection opened - State: Open
+[INFO] [Service:CleaningScheduleService] 2025-11-21 22:51:55: Đã tạo lịch vệ sinh mới - Id: 104, Type: TANK, Date: 28/11/2025 22:45
+[INFO] [DatabaseHelper] 2025-11-21 22:51:56: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:51:56: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 22:51:56: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 22:51:56: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 22:51:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:51:58: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 22:51:58: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 22:51:58: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 22:51:58: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 22:51:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:47: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 22:59:47: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 22:59:47: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 22:59:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 22:59:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:57: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:00:57: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 23:00:57: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 23:00:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:00:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:01: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:01:01: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 23:01:01: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 23:01:01: Returning empty list due to parse error. Please check database data integrity.
+[ERROR] [DatabaseHelper] 2025-11-21 23:01:01: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 23:01:01: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 23:01:01: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 23:01:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:01:05: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:01:05: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 23:01:05: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 23:01:05: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 23:01:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:40: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:08:40: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 23:08:40: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 23:08:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:44: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:08:44: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 23:08:44: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 23:08:44: Returning empty list due to parse error. Please check database data integrity.
+[ERROR] [DatabaseHelper] 2025-11-21 23:08:44: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 23:08:44: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 23:08:44: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 23:08:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:08:48: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:08:48: QueryAsync DataException: SELECT * FROM CleaningSchedules - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-21 23:08:48: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-21 23:08:48: Returning empty list due to parse error. Please check database data integrity.
+[INFO] [DatabaseHelper] 2025-11-21 23:08:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:37: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:28:37: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 23:28:37: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 23:28:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:28:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:07: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:29:07: QueryAsync error: 
+                    SELECT * FROM Customers 
+                    WHERE is_active = TRUE 
+                    AND (name LIKE @Keyword OR phone LIKE @Keyword OR email LIKE @Keyword)
+                    ORDER BY name - Unknown column 'email' in 'where clause'
+[ERROR] [Repo:Customers] 2025-11-21 23:29:07: SearchAsync error - Keyword: 02838223344 - Unknown column 'email' in 'where clause'
+[ERROR] [Service:CustomerService] 2025-11-21 23:29:07: tìm kiếm khách hàng error: Unknown column 'email' in 'where clause'
+[INFO] [DatabaseHelper] 2025-11-21 23:29:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:07: Connection opened - State: Open
+[INFO] [Service:CustomerService] 2025-11-21 23:29:07: Đã cập nhật khách hàng: Công ty TNHH ABC (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 23:29:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:12: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:41: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:29:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:30:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:30:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:30:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:30:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:30:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:30:09: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:30:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:33:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:01: Connection opened - State: Open
+[INFO] [UnitOfWork] 2025-11-21 23:34:01: Transaction started
+[INFO] [DatabaseHelper] 2025-11-21 23:34:01: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:34:01: ExecuteScalarAsync error: INSERT INTO Orders (customer_id, order_code, source, total_amount, discounted_amount, status, payment_status, payment_method, address, note, user_id, last_updated, order_details) VALUES (@customer_id, @order_code, @source, @total_amount, @discounted_amount, @status, @payment_status, @payment_method, @address, @note, @user_id, @last_updated, @order_details); SELECT LAST_INSERT_ID(); - Unknown column 'order_details' in 'field list'
+[ERROR] [Repo:Orders] 2025-11-21 23:34:01: AddAsync error - Table: Orders - Unknown column 'order_details' in 'field list'
+[INFO] [UnitOfWork] 2025-11-21 23:34:01: Transaction rolled back
+[ERROR] [Service:OrderService] 2025-11-21 23:34:01: tạo đơn hàng error: Unknown column 'order_details' in 'field list'
+[INFO] [DatabaseHelper] 2025-11-21 23:34:02: Connection opened - State: Open
+[INFO] [UnitOfWork] 2025-11-21 23:34:02: Transaction started
+[INFO] [DatabaseHelper] 2025-11-21 23:34:02: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:34:02: ExecuteScalarAsync error: INSERT INTO Orders (customer_id, order_code, source, total_amount, discounted_amount, status, payment_status, payment_method, address, note, user_id, last_updated, order_details) VALUES (@customer_id, @order_code, @source, @total_amount, @discounted_amount, @status, @payment_status, @payment_method, @address, @note, @user_id, @last_updated, @order_details); SELECT LAST_INSERT_ID(); - Unknown column 'order_details' in 'field list'
+[ERROR] [Repo:Orders] 2025-11-21 23:34:02: AddAsync error - Table: Orders - Unknown column 'order_details' in 'field list'
+[INFO] [UnitOfWork] 2025-11-21 23:34:02: Transaction rolled back
+[ERROR] [Service:OrderService] 2025-11-21 23:34:02: tạo đơn hàng error: Unknown column 'order_details' in 'field list'
+[INFO] [DatabaseHelper] 2025-11-21 23:34:03: Connection opened - State: Open
+[INFO] [UnitOfWork] 2025-11-21 23:34:03: Transaction started
+[INFO] [DatabaseHelper] 2025-11-21 23:34:03: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:34:03: ExecuteScalarAsync error: INSERT INTO Orders (customer_id, order_code, source, total_amount, discounted_amount, status, payment_status, payment_method, address, note, user_id, last_updated, order_details) VALUES (@customer_id, @order_code, @source, @total_amount, @discounted_amount, @status, @payment_status, @payment_method, @address, @note, @user_id, @last_updated, @order_details); SELECT LAST_INSERT_ID(); - Unknown column 'order_details' in 'field list'
+[ERROR] [Repo:Orders] 2025-11-21 23:34:03: AddAsync error - Table: Orders - Unknown column 'order_details' in 'field list'
+[INFO] [UnitOfWork] 2025-11-21 23:34:03: Transaction rolled back
+[ERROR] [Service:OrderService] 2025-11-21 23:34:03: tạo đơn hàng error: Unknown column 'order_details' in 'field list'
+[INFO] [DatabaseHelper] 2025-11-21 23:34:06: Connection opened - State: Open
+[INFO] [UnitOfWork] 2025-11-21 23:34:06: Transaction started
+[INFO] [DatabaseHelper] 2025-11-21 23:34:06: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:34:06: ExecuteScalarAsync error: INSERT INTO Orders (customer_id, order_code, source, total_amount, discounted_amount, status, payment_status, payment_method, address, note, user_id, last_updated, order_details) VALUES (@customer_id, @order_code, @source, @total_amount, @discounted_amount, @status, @payment_status, @payment_method, @address, @note, @user_id, @last_updated, @order_details); SELECT LAST_INSERT_ID(); - Unknown column 'order_details' in 'field list'
+[ERROR] [Repo:Orders] 2025-11-21 23:34:06: AddAsync error - Table: Orders - Unknown column 'order_details' in 'field list'
+[INFO] [UnitOfWork] 2025-11-21 23:34:06: Transaction rolled back
+[ERROR] [Service:OrderService] 2025-11-21 23:34:06: tạo đơn hàng error: Unknown column 'order_details' in 'field list'
+[INFO] [DatabaseHelper] 2025-11-21 23:34:09: Connection opened - State: Open
+[INFO] [UnitOfWork] 2025-11-21 23:34:09: Transaction started
+[INFO] [DatabaseHelper] 2025-11-21 23:34:09: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:34:10: ExecuteScalarAsync error: INSERT INTO Orders (customer_id, order_code, source, total_amount, discounted_amount, status, payment_status, payment_method, address, note, user_id, last_updated, order_details) VALUES (@customer_id, @order_code, @source, @total_amount, @discounted_amount, @status, @payment_status, @payment_method, @address, @note, @user_id, @last_updated, @order_details); SELECT LAST_INSERT_ID(); - Unknown column 'order_details' in 'field list'
+[ERROR] [Repo:Orders] 2025-11-21 23:34:10: AddAsync error - Table: Orders - Unknown column 'order_details' in 'field list'
+[INFO] [UnitOfWork] 2025-11-21 23:34:10: Transaction rolled back
+[ERROR] [Service:OrderService] 2025-11-21 23:34:10: tạo đơn hàng error: Unknown column 'order_details' in 'field list'
+[INFO] [DatabaseHelper] 2025-11-21 23:34:12: Connection opened - State: Open
+[INFO] [UnitOfWork] 2025-11-21 23:34:12: Transaction started
+[INFO] [DatabaseHelper] 2025-11-21 23:34:12: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-21 23:34:12: ExecuteScalarAsync error: INSERT INTO Orders (customer_id, order_code, source, total_amount, discounted_amount, status, payment_status, payment_method, address, note, user_id, last_updated, order_details) VALUES (@customer_id, @order_code, @source, @total_amount, @discounted_amount, @status, @payment_status, @payment_method, @address, @note, @user_id, @last_updated, @order_details); SELECT LAST_INSERT_ID(); - Unknown column 'order_details' in 'field list'
+[ERROR] [Repo:Orders] 2025-11-21 23:34:12: AddAsync error - Table: Orders - Unknown column 'order_details' in 'field list'
+[INFO] [UnitOfWork] 2025-11-21 23:34:12: Transaction rolled back
+[ERROR] [Service:OrderService] 2025-11-21 23:34:12: tạo đơn hàng error: Unknown column 'order_details' in 'field list'
+[INFO] [DatabaseHelper] 2025-11-21 23:34:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:34:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:39: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:36:39: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 23:36:39: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 23:36:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:36:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:16: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:38:16: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 23:38:16: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 23:38:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:38:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:25: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:40:26: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 23:40:26: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 23:40:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:40:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:22: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:41:22: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 23:41:22: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 23:41:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:41:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:50: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:42:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:43:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:43:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:43:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:43:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:43:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:43:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:43:06: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:43:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:43:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:43:15: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:10: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:45:10: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 23:45:10: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 23:45:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:13: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:13: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:45:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:18: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:57:18: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 23:57:18: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 23:57:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:57:51: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:37: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:44: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:58:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 23:59:58: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:59:58: Authentication attempt - Username: admin, StoredHash: '', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: False
+[WARN] [Service:UserService] 2025-11-21 23:59:58: Password mismatch for user: admin. Stored length: , Input length: 44
+[INFO] [DatabaseHelper] 2025-11-21 23:59:59: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 23:59:59: Authentication attempt - Username: admin, StoredHash: '', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: False
+[WARN] [Service:UserService] 2025-11-21 23:59:59: Password mismatch for user: admin. Stored length: , Input length: 44

@@ -35,8 +35,9 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
+                // Với TINYINT, cần pass số nguyên thay vì string
                 return await _databaseHelper.QueryAsync<Order>
-                    (OrderQueries.GetByStatus, new { Status = status.ToString() });
+                    (OrderQueries.GetByStatus, new { Status = (int)status });
             }
             catch (Exception ex)
             {
@@ -216,7 +217,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                 var affectedRows = await _databaseHelper.ExecuteAsync(sql, new
                 {
                     OrderId = orderId,
-                    NewStatus = newStatus.ToString()
+                    NewStatus = (int)newStatus // Với TINYINT, pass số nguyên
                 });
                 return affectedRows > 0;
             }
@@ -235,7 +236,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                 var affectedRows = await _databaseHelper.ExecuteAsync(sql, new
                 {
                     OrderId = orderId,
-                    NewStatus = newPaymentStatus.ToString()
+                    NewStatus = (int)newPaymentStatus // Với TINYINT, pass số nguyên
                 });
                 return affectedRows > 0;
             }
@@ -289,14 +290,14 @@ namespace EcoStationManagerApplication.DAL.Repositories
                 if (status.HasValue)
                 {
                     whereClause += " AND o.status = @Status";
-                    parameters.Add("Status", status.Value.ToString());
+                    parameters.Add("Status", (int)status.Value); // Với TINYINT, pass số nguyên
                 }
 
                 // Payment status filter
                 if (paymentStatus.HasValue)
                 {
                     whereClause += " AND o.payment_status = @PaymentStatus";
-                    parameters.Add("PaymentStatus", paymentStatus.Value.ToString());
+                    parameters.Add("PaymentStatus", (int)paymentStatus.Value); // Với TINYINT, pass số nguyên
                 }
 
                 // Source filter
@@ -348,7 +349,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                         JOIN Products p ON od.product_id = p.product_id 
                         WHERE od.order_id = o.order_id AND p.product_type = @ProductType
                     )";
-                    parameters.Add("ProductType", productType.Value.ToString());
+                    parameters.Add("ProductType", (int)productType.Value); // Với TINYINT, pass số nguyên
                 }
 
                 // Get total count

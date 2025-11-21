@@ -18,17 +18,19 @@ namespace EcoStationManagerApplication.DAL.Repositories
 
         public async Task<IEnumerable<CleaningSchedule>> GetByCleaningTypeAsync(CleaningType cleaningType)
         {
+            // Với TINYINT, cần pass số nguyên thay vì string
             return await _databaseHelper.QueryAsync<CleaningSchedule>(
                 CleaningScheduleQueries.GetByCleaningType,
-                new { CleaningType = cleaningType.ToString() }
+                new { CleaningType = (int)cleaningType }
             );
         }
 
         public async Task<IEnumerable<CleaningSchedule>> GetByStatusAsync(CleaningStatus status)
         {
+            // Với TINYINT, cần pass số nguyên thay vì string
             return await _databaseHelper.QueryAsync<CleaningSchedule>(
                 CleaningScheduleQueries.GetByStatus,
-                new { Status = status.ToString() }
+                new { Status = (int)status }
             );
         }
 
@@ -58,12 +60,13 @@ namespace EcoStationManagerApplication.DAL.Repositories
 
         public async Task<CleaningSchedule> GetByDateAndTypeAsync(DateTime cleaningDate, CleaningType cleaningType)
         {
+            // Với TINYINT, cần pass số nguyên thay vì string
             return await _databaseHelper.QueryFirstOrDefaultAsync<CleaningSchedule>(
                 CleaningScheduleQueries.GetByDateAndType,
                 new
                 {
                     CleaningDate = cleaningDate,
-                    CleaningType = cleaningType.ToString()
+                    CleaningType = (int)cleaningType
                 }
             );
         }

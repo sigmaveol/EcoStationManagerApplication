@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\ICustomerRepository.cs" />
+    <Compile Include="Database\ColumnMappingCache.cs" />
     <Compile Include="Database\DatabaseHelper.cs" />
     <Compile Include="Interfaces\IDatabaseHelper.cs" />
     <Compile Include="Interfaces\IDeliveryRepository.cs" />

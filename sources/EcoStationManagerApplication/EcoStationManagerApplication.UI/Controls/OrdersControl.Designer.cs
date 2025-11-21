@@ -68,7 +68,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.searchPanel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 15);
             this.searchPanel.Size = new System.Drawing.Size(870, 40);
             this.searchPanel.TabIndex = 0;
-            this.searchPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.searchPanel_Paint);
+            //this.searchPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.searchPanel_Paint);
             // 
             // btnSearch
             // 
@@ -83,7 +83,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnSearch.TabIndex = 2;
             this.btnSearch.Text = "Tìm kiếm";
             this.btnSearch.UseVisualStyleBackColor = false;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            //this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // txtSearch
             // 
@@ -94,8 +94,8 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(280, 26);
             this.txtSearch.TabIndex = 1;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            //this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            //this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
             // titleLabelContent
             // 

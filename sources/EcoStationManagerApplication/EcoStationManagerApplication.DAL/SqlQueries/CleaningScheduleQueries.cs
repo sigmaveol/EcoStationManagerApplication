@@ -22,7 +22,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         public const string GetOverdue = @"
             SELECT * FROM CleaningSchedules 
             WHERE cleaning_date < NOW()
-              AND status IN ('SCHEDULED', 'OVERDUE')
+              AND status IN (0, 2)
             ORDER BY cleaning_date ASC";
 
         public const string GetByCleaningBy = @"

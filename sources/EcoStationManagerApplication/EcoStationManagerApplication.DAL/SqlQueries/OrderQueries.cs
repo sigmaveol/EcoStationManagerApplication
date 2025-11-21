@@ -75,18 +75,18 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             JOIN Products p ON od.product_id = p.product_id
             WHERE od.order_id = @OrderId";
 
-        // Lấy đơn hàng cần xử lý (DRAFT, CONFIRMED, PROCESSING)
+        // Lấy đơn hàng cần xử lý (DRAFT=0, CONFIRMED=1, PROCESSING=2)
         public const string GetPendingOrders = @"
             SELECT o.*, c.name as customer_name, u.fullname as user_name 
             FROM Orders o
             LEFT JOIN Customers c ON o.customer_id = c.customer_id
             LEFT JOIN Users u ON o.user_id = u.user_id
-            WHERE o.status IN ('DRAFT', 'CONFIRMED', 'PROCESSING')
+            WHERE o.status IN (0, 1, 2)
             ORDER BY 
                 CASE o.status 
-                    WHEN 'PROCESSING' THEN 1
-                    WHEN 'CONFIRMED' THEN 2  
-                    WHEN 'DRAFT' THEN 3
+                    WHEN 2 THEN 1
+                    WHEN 1 THEN 2  
+                    WHEN 0 THEN 3
                     ELSE 4
                 END,
                 o.last_updated ASC";
@@ -103,10 +103,11 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             ORDER BY o.last_updated DESC";
 
         // Doanh thu theo tháng
+        // OrderStatus: COMPLETED = 5
         public const string MonthlyRevenue = @"
             SELECT COALESCE(SUM(total_amount - discounted_amount), 0) 
             FROM Orders 
-            WHERE status = 'COMPLETED' 
+            WHERE status = 5 
             AND YEAR(last_updated) = @Year 
             AND MONTH(last_updated) = @Month";
 

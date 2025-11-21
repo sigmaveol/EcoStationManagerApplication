@@ -92,14 +92,6 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             if (!ValidateForm()) return;
 
-            // Kiểm tra SelectedValue trước khi cast
-            if (cbStaff.SelectedValue == null || !(cbStaff.SelectedValue is int))
-            {
-                MessageBox.Show("Vui lòng chọn nhân viên.", "Thiếu thông tin",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             var newShift = new WorkShift
             {
                 ShiftId = _editingShift?.ShiftId ?? 0,

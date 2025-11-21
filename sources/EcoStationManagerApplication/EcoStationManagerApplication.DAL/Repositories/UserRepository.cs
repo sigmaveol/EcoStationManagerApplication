@@ -61,9 +61,10 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
+                // Với TINYINT, cần pass số nguyên thay vì string
                 return await _databaseHelper.QueryAsync<User>(
                     UserQueries.GetByRole,
-                    new { Role = role.ToString() }
+                    new { Role = (int)role }
                 );
             }
             catch (Exception ex)
@@ -205,7 +206,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                     {
                         user.UserId,
                         user.Fullname,
-                        Role = user.Role.ToString(),
+                        Role = (int)user.Role, // Với TINYINT, pass số nguyên
                         IsActive = user.IsActive == ActiveStatus.ACTIVE
                     }
                 );
@@ -228,9 +229,10 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
+                // Với TINYINT, cần pass số nguyên thay vì string
                 return await _databaseHelper.ExecuteScalarAsync<int>(
                     UserQueries.GetUserCountByRole,
-                    new { Role = role.ToString() }
+                    new { Role = (int)role }
                 );
             }
             catch (Exception ex)
@@ -301,7 +303,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                 if (role.HasValue)
                 {
                     whereClause += " AND role = @Role";
-                    parameters.Add("Role", role.Value.ToString());
+                    parameters.Add("Role", (int)role.Value); // Với TINYINT, pass số nguyên
                 }
 
                 // Active status filter

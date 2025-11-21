@@ -26,7 +26,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                 if (categoryType.HasValue)
                 {
                     sql += " AND category_type = @CategoryType";
-                    parameters.Add("CategoryType", categoryType.Value.ToString()); // enum → string
+                    parameters.Add("CategoryType", (int)categoryType.Value); // Với TINYINT, pass số nguyên
                 }
 
                 sql += " ORDER BY name";

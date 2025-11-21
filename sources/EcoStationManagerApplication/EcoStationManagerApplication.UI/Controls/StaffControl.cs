@@ -78,11 +78,20 @@ namespace EcoStationManagerApplication.UI.Controls
                     var eventColor = GetStatusColor(schedule.Status);
                     var eventTitle = $"{GetCleaningTypeDisplayName(schedule.CleaningType)} - {GetStatusDisplayName(schedule.Status)}";
                     
+                    // Thêm thông tin CleanedDatetime vào description nếu có
+                    var description = schedule.Notes ?? "";
+                    if (schedule.CleanedDatetime.HasValue && schedule.Status == CleaningStatus.COMPLETED)
+                    {
+                        if (!string.IsNullOrEmpty(description))
+                            description += "\n";
+                        description += $"Đã hoàn thành: {schedule.CleanedDatetime.Value:dd/MM/yyyy HH:mm}";
+                    }
+                    
                     var calendarEvent = new CalendarEvent
                     {
                         Id = schedule.CsId.ToString(),
                         Title = eventTitle,
-                        Description = schedule.Notes ?? "",
+                        Description = description,
                         EventColor = eventColor,
                         Tag = schedule
                     };
@@ -95,7 +104,9 @@ namespace EcoStationManagerApplication.UI.Controls
                         ? staffDict[schedule.CleaningBy.Value]
                         : "Chưa phân công";
 
-                    var cleanedDateTime = ExtractCleanedDateTimeFromNotes(schedule.Notes);
+                    // Sử dụng CleanedDatetime từ entity, nếu không có thì fallback về extract từ Notes
+                    var cleanedDateTime = schedule.CleanedDatetime.HasValue ? schedule.CleanedDatetime.Value.ToString("dd/MM/yyyy HH:mm") : "";
+
 
                     _cleaningScheduleSource.Add(new CleaningScheduleRow
                     {
@@ -134,29 +145,6 @@ namespace EcoStationManagerApplication.UI.Controls
                 default:
                     return Color.Black;
             }
-        }
-
-        private string ExtractCleanedDateTimeFromNotes(string notes)
-        {
-            if (string.IsNullOrWhiteSpace(notes))
-                return "Chưa vệ sinh";
-
-            var lines = notes.Split('\n');
-            foreach (var line in lines)
-            {
-                if (line.Contains("Ngày giờ:"))
-                {
-                    var parts = line.Split('|');
-                    foreach (var part in parts)
-                    {
-                        if (part.Contains("Ngày giờ:"))
-                        {
-                            return part.Replace("Ngày giờ:", "").Trim();
-                        }
-                    }
-                }
-            }
-            return "Chưa vệ sinh";
         }
 
         private string GetCleaningTypeDisplayName(CleaningType type)
@@ -344,9 +332,14 @@ namespace EcoStationManagerApplication.UI.Controls
                         Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
                     };
 
+                    // Hiển thị giờ: nếu có CleanedDatetime thì dùng CleanedDatetime, ngược lại dùng CleaningDate
+                    var displayTime = schedule.CleanedDatetime.HasValue 
+                        ? schedule.CleanedDatetime.Value 
+                        : schedule.CleaningDate;
+                    
                     var lblTime = new Label
                     {
-                        Text = $"Giờ: {schedule.CleaningDate:HH:mm}",
+                        Text = $"Giờ: {displayTime:HH:mm}",
                         Location = new Point(10, 25),
                         AutoSize = true
                     };
@@ -370,7 +363,10 @@ namespace EcoStationManagerApplication.UI.Controls
                         Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
                     };
 
-                    var cleanedDateTime = ExtractCleanedDateTimeFromNotes(schedule.Notes);
+                    var cleanedDateTime = schedule.CleanedDatetime.HasValue
+                        ? schedule.CleanedDatetime.Value.ToString("dd/MM/yyyy HH:mm")
+                        : "Chưa vệ sinh";
+                    
                     var lblCleaned = new Label
                     {
                         Text = $"Đã vệ sinh: {cleanedDateTime}",
@@ -467,7 +463,7 @@ namespace EcoStationManagerApplication.UI.Controls
             var dialog = new Form
             {
                 Text = $"Lịch vệ sinh - {date:dd/MM/yyyy}",
-                Size = new Size(600, 400),
+                Size = new Size(625, 400),
                 StartPosition = FormStartPosition.CenterParent,
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 MaximizeBox = false,

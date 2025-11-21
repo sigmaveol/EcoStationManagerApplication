@@ -52,21 +52,21 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         public const string GetTotalDepositAmount = @"
         SELECT COALESCE(SUM(deposit_price * quantity), 0)
         FROM PackagingTransactions
-        WHERE type = 'ISSUE'";
+        WHERE type = 0";
 
         // Tổng tiền hoàn trả
         public const string GetTotalRefundAmount = @"
         SELECT COALESCE(SUM(refund_amount * quantity), 0)
         FROM PackagingTransactions
-        WHERE type = 'RETURN'";
+        WHERE type = 1";
 
         // Số lượng bao bì đang được khách hàng giữ
         public const string GetCustomerHoldingQuantity = @"
         SELECT COALESCE(SUM(
             CASE 
-                WHEN type = 'ISSUE' THEN quantity 
-                WHEN type = 'RETURN' THEN -quantity 
-                ELSE 0 
+                WHEN type = 0 THEN quantity 
+                WHEN type = 1 THEN -quantity 
+                ELSE 0
             END
         ), 0) as holding_quantity
         FROM PackagingTransactions
@@ -78,9 +78,9 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             pt.packaging_id,
             p.name as packaging_name,
             p.barcode as packaging_barcode,
-            SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE -pt.quantity END) as holding_quantity,
-            SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.deposit_price * pt.quantity ELSE 0 END) as total_deposit,
-            MAX(CASE WHEN pt.type = 'ISSUE' THEN pt.created_date END) as last_issue_date
+            SUM(CASE WHEN pt.type = 0 THEN pt.quantity ELSE -pt.quantity END) as holding_quantity,
+            SUM(CASE WHEN pt.type = 0 THEN pt.deposit_price * pt.quantity ELSE 0 END) as total_deposit,
+            MAX(CASE WHEN pt.type = 0 THEN pt.created_date END) as last_issue_date
         FROM PackagingTransactions pt
         JOIN Packaging p ON pt.packaging_id = p.packaging_id
         WHERE pt.customer_id = @CustomerId
@@ -91,7 +91,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         public const string IsCustomerHoldingPackaging = @"
         SELECT 1 FROM (
             SELECT packaging_id, 
-                    SUM(CASE WHEN type = 'ISSUE' THEN quantity ELSE -quantity END) as net_quantity
+                    SUM(CASE WHEN type = 0 THEN quantity ELSE -quantity END) as net_quantity
             FROM PackagingTransactions
             WHERE customer_id = @CustomerId
             GROUP BY packaging_id
@@ -134,12 +134,12 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         SELECT 
             p.packaging_id,
             p.name as packaging_name,
-            SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END) as total_issued,
-            SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) as total_returned,
-            SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE -pt.quantity END) as net_quantity,
-            SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.deposit_price * pt.quantity ELSE 0 END) as total_deposit,
-            SUM(CASE WHEN pt.type = 'RETURN' THEN pt.refund_amount * pt.quantity ELSE 0 END) as total_refund,
-            SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.deposit_price * pt.quantity ELSE -pt.refund_amount * pt.quantity END) as net_amount
+            SUM(CASE WHEN pt.type = 0 THEN pt.quantity ELSE 0 END) as total_issued,
+            SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END) as total_returned,
+            SUM(CASE WHEN pt.type = 0 THEN pt.quantity ELSE -pt.quantity END) as net_quantity,
+            SUM(CASE WHEN pt.type = 0 THEN pt.deposit_price * pt.quantity ELSE 0 END) as total_deposit,
+            SUM(CASE WHEN pt.type = 1 THEN pt.refund_amount * pt.quantity ELSE 0 END) as total_refund,
+            SUM(CASE WHEN pt.type = 0 THEN pt.deposit_price * pt.quantity ELSE -pt.refund_amount * pt.quantity END) as net_amount
         FROM Packaging p
         LEFT JOIN PackagingTransactions pt ON p.packaging_id = pt.packaging_id
         WHERE 1=1
@@ -153,9 +153,9 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             c.name as customer_name,
             c.phone as customer_phone,
             COUNT(DISTINCT pt.packaging_id) as total_packaging_types,
-            SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE -pt.quantity END) as total_holding_quantity,
-            SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.deposit_price * pt.quantity ELSE 0 END) as total_deposit_paid,
-            SUM(CASE WHEN pt.type = 'RETURN' THEN pt.refund_amount * pt.quantity ELSE 0 END) as total_refund_received,
+            SUM(CASE WHEN pt.type = 0 THEN pt.quantity ELSE -pt.quantity END) as total_holding_quantity,
+            SUM(CASE WHEN pt.type = 0 THEN pt.deposit_price * pt.quantity ELSE 0 END) as total_deposit_paid,
+            SUM(CASE WHEN pt.type = 1 THEN pt.refund_amount * pt.quantity ELSE 0 END) as total_refund_received,
             MAX(pt.created_date) as last_transaction_date
         FROM Customers c
         LEFT JOIN PackagingTransactions pt ON c.customer_id = pt.customer_id
@@ -170,7 +170,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             SELECT customer_id, packaging_id
             FROM PackagingTransactions
             GROUP BY customer_id, packaging_id
-            HAVING SUM(CASE WHEN type = 'ISSUE' THEN quantity ELSE -quantity END) > 0
+            HAVING SUM(CASE WHEN type = 0 THEN quantity ELSE -quantity END) > 0
         ) as active_holdings";
 
         // Phân trang giao dịch

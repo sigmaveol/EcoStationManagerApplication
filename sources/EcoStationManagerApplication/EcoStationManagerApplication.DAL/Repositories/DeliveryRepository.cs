@@ -39,9 +39,10 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
+                // Với TINYINT, cần pass số nguyên thay vì string
                 return await _databaseHelper.QueryAsync<DeliveryAssignment>(
                     DeliveryQueries.GetByStatus,
-                    new { Status = status.ToString() }
+                    new { Status = (int)status }
                 );
             }
             catch (Exception ex)
@@ -132,7 +133,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
 
                 var affectedRows = await _databaseHelper.ExecuteAsync(
                     DeliveryQueries.UpdateStatus,
-                    new { AssignmentId = assignmentId, Status = newStatus.ToString() }
+                    new { AssignmentId = assignmentId, Status = (int)newStatus } // Với TINYINT, pass số nguyên
                 );
 
                 if (affectedRows > 0)
@@ -158,7 +159,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
 
                 var affectedRows = await _databaseHelper.ExecuteAsync(
                     DeliveryQueries.UpdatePaymentStatus,
-                    new { AssignmentId = assignmentId, PaymentStatus = newStatus.ToString() }
+                    new { AssignmentId = assignmentId, PaymentStatus = (int)newStatus } // Với TINYINT, pass số nguyên
                 );
 
                 if (affectedRows > 0)
@@ -194,8 +195,8 @@ namespace EcoStationManagerApplication.DAL.Repositories
                     new
                     {
                         Search = search,
-                        Status = status?.ToString(),
-                        PaymentStatus = paymentStatus?.ToString(),
+                        Status = status.HasValue ? (int?)status.Value : null, // Với TINYINT, pass số nguyên
+                        PaymentStatus = paymentStatus.HasValue ? (int?)paymentStatus.Value : null, // Với TINYINT, pass số nguyên
                         PageSize = pageSize,
                         Offset = offset
                     }
@@ -206,8 +207,8 @@ namespace EcoStationManagerApplication.DAL.Repositories
                     new
                     {
                         Search = search,
-                        Status = status?.ToString(),
-                        PaymentStatus = paymentStatus?.ToString()
+                        Status = status.HasValue ? (int?)status.Value : null, // Với TINYINT, pass số nguyên
+                        PaymentStatus = paymentStatus.HasValue ? (int?)paymentStatus.Value : null // Với TINYINT, pass số nguyên
                     }
                 );
 

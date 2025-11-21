@@ -135,7 +135,6 @@ namespace EcoStationManagerApplication.Core.Services
                 cleaningSchedule.CreatedDate = DateTime.Now;
 
                 var scheduleId = await _unitOfWork.CleaningSchedules.AddAsync(cleaningSchedule);
-                _logger.Info($"Đã tạo lịch vệ sinh mới - Id: {scheduleId}, Type: {cleaningSchedule.CleaningType}, Date: {cleaningSchedule.CleaningDate:dd/MM/yyyy HH:mm}");
 
                 return Result<int>.Ok(scheduleId, "Đã tạo lịch vệ sinh thành công");
             }

@@ -8,7 +8,7 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private ComboBox cmbCleaningType;
         private DateTimePicker dtpCleaningDate;
-        private DateTimePicker dtpCleaningTime;
+        private ComboBox cmbCleaningTime;
         private ComboBox cbCleanedBy;
         private ComboBox cmbStatus;
         private TextBox txtNotes;
@@ -32,7 +32,7 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             this.cmbCleaningType = new System.Windows.Forms.ComboBox();
             this.dtpCleaningDate = new System.Windows.Forms.DateTimePicker();
-            this.dtpCleaningTime = new System.Windows.Forms.DateTimePicker();
+            this.cmbCleaningTime = new System.Windows.Forms.ComboBox();
             this.cbCleanedBy = new System.Windows.Forms.ComboBox();
             this.cmbStatus = new System.Windows.Forms.ComboBox();
             this.txtNotes = new System.Windows.Forms.TextBox();
@@ -65,14 +65,14 @@ namespace EcoStationManagerApplication.UI.Forms
             this.dtpCleaningDate.Size = new System.Drawing.Size(200, 22);
             this.dtpCleaningDate.TabIndex = 1;
             // 
-            // dtpCleaningTime
+            // cmbCleaningTime
             // 
-            this.dtpCleaningTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpCleaningTime.Location = new System.Drawing.Point(120, 98);
-            this.dtpCleaningTime.Name = "dtpCleaningTime";
-            this.dtpCleaningTime.ShowUpDown = true;
-            this.dtpCleaningTime.Size = new System.Drawing.Size(200, 22);
-            this.dtpCleaningTime.TabIndex = 2;
+            this.cmbCleaningTime.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbCleaningTime.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbCleaningTime.Location = new System.Drawing.Point(120, 98);
+            this.cmbCleaningTime.Name = "cmbCleaningTime";
+            this.cmbCleaningTime.Size = new System.Drawing.Size(200, 24);
+            this.cmbCleaningTime.TabIndex = 2;
             // 
             // cbCleanedBy
             // 
@@ -169,7 +169,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.ClientSize = new System.Drawing.Size(380, 360);
             this.Controls.Add(this.cmbCleaningType);
             this.Controls.Add(this.dtpCleaningDate);
-            this.Controls.Add(this.dtpCleaningTime);
+            this.Controls.Add(this.cmbCleaningTime);
             this.Controls.Add(this.cbCleanedBy);
             this.Controls.Add(this.cmbStatus);
             this.Controls.Add(this.txtNotes);

@@ -27,6 +27,9 @@ namespace EcoStationManagerApplication.Models.Entities
         [Column("status")]
         public CleaningStatus Status { get; set; } = CleaningStatus.SCHEDULED;
 
+        [Column("cleaned_datetime")]
+        public DateTime? CleanedDatetime { get; set; }
+
         [Column("notes", TypeName = "TEXT")]
         public string Notes { get; set; }
 

@@ -1,4 +1,6 @@
-﻿using EcoStationManagerApplication.Models.Enums;
+﻿using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
 using EcoStationManagerApplication.UI.Forms;
 using EcoStationManagerApplication.Common.Exporters;
@@ -49,8 +51,8 @@ namespace EcoStationManagerApplication.UI.Controls
 
             if (dgvOrders != null)
             {
-                dgvOrders.CellContentClick += dgvOrders_CellContentClick;
-                dgvOrders.CellFormatting += dgvOrders_CellFormatting;
+                //dgvOrders.CellContentClick += dgvOrders_CellContentClick;
+                //dgvOrders.CellFormatting += dgvOrders_CellFormatting;
             }
         }
 
@@ -62,7 +64,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // Tạo mảng các tab với tag tương ứng
             var tabs = new[]
             {
-            new { Text = "Tất cả", Tag = "all" },
+            new { Text = "Cần xử lí", Tag = "all" },
             new { Text = "Đơn Online", Tag = "online" },
             new { Text = "Đơn Offline", Tag = "offline" },
             new { Text = "Mới", Tag = "new" },
@@ -122,7 +124,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 // Lấy tag và gọi LoadOrdersAsync với tag đó
                 string filterTag = button.Tag?.ToString() ?? "all";
                 _currentFilter = filterTag; // Lưu filter hiện tại
-                await LoadOrdersAsync(filterTag);
+                await LoadOrdersAsync(filterTag, txtSearch?.Text?.Trim());
             }
         }
 
@@ -131,14 +133,25 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             if (dgvOrders == null) return;
 
+            dgvOrders.Columns.Clear();
+            dgvOrders.AutoGenerateColumns = false;
+
+            // 1. Cột OrderId (QUAN TRỌNG: Phải để Visible = false)
+            // Cột này dùng để lấy ID khi nhấn nút Chi tiết/Cập nhật
+            dgvOrders.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "OrderId",
+                Visible = false
+            });
+
+            // 2. Các cột hiển thị (Thứ tự 1)
             var columns = new[]
             {
                 new { Name = "OrderCode", Header = "Mã đơn" },
                 new { Name = "Customer", Header = "Khách hàng" },
-                new { Name = "Product", Header = "Sản phẩm" },
-                new { Name = "Type", Header = "Loại" },
-                new { Name = "Quantity", Header = "Số lượng" },
+                new { Name = "Source", Header = "Nguồn" },
                 new { Name = "TotalAmount", Header = "Tổng tiền" },
+                new { Name = "PaymentStatus", Header = "Thanh toán" },
                 new { Name = "Status", Header = "Trạng thái" },
                 new { Name = "CreatedDate", Header = "Ngày tạo" },
             };
@@ -150,12 +163,14 @@ namespace EcoStationManagerApplication.UI.Controls
                     Name = col.Name,
                     HeaderText = col.Header,
                     ReadOnly = true,
-                    DefaultCellStyle = (col.Name == "TotalAmount" || col.Name == "Quantity")
-                        ? new DataGridViewCellStyle { Format = "N0" }
+                    // Định dạng tiền tệ cho cột Tổng tiền
+                    DefaultCellStyle = (col.Name == "TotalAmount")
+                        ? new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight }
                         : null
                 });
             }
 
+            // 3. Các nút thao tác
             dgvOrders.Columns.Add(new DataGridViewButtonColumn
             {
                 Name = "colDetail",
@@ -174,67 +189,110 @@ namespace EcoStationManagerApplication.UI.Controls
             });
 
             // Tự co giãn cột
-            dgvOrders.Columns["Product"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvOrders.Columns["Customer"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         // Thêm dữ liệu 
-        private async Task LoadOrdersAsync(string filterTag = "all")
+        private async Task LoadOrdersAsync(string filterTag = "all", string keyword = null)
         {
             try
             {
                 ShowLoading(true);
                 dgvOrders.Rows.Clear();
 
-                // Lấy danh sách đơn hàng
-                var ordersResult = await AppServices.OrderService.GetProcessingOrdersAsync();
+                IEnumerable<OrderDTO> orders = Enumerable.Empty<OrderDTO>();
 
-                if (!ordersResult.Success || !ordersResult.Data.Any())
+                if (!string.IsNullOrWhiteSpace(keyword))
                 {
-                    dgvOrders.Rows.Add("", "Không có đơn hàng nào", "", "", "", "", "");
+                    var searchResult = await AppServices.OrderService.SearchOrdersAsync(keyword);
+                    if (!searchResult.Success)
+                    {
+                        dgvOrders.Rows.Add(null, "", searchResult.Message ?? "Không tìm thấy đơn hàng", "", "", "", "", "", "");
+                        return;
+                    }
+                    var searchOrders = searchResult.Data ?? Enumerable.Empty<Order>();
+                    orders = searchOrders.Select(o => new OrderDTO
+                    {
+                        OrderId = o.OrderId,
+                        OrderCode = o.OrderCode,
+                        CustomerId = o.CustomerId,
+                        Source = o.Source,
+                        TotalAmount = o.TotalAmount,
+                        Status = o.Status,
+                        PaymentStatus = o.PaymentStatus,
+                        LastUpdated = o.LastUpdated
+                    });
+                }
+                else
+                {
+                    // Nếu filter là "completed", cần lấy tất cả đơn hàng vì GetProcessingOrdersAsync không bao gồm COMPLETED
+                    if (filterTag == "completed")
+                    {
+                        var allOrdersResult = await AppServices.OrderService.GetAllAsync();
+                        if (!allOrdersResult.Success)
+                        {
+                            dgvOrders.Rows.Add(null, "", allOrdersResult.Message ?? "Lỗi tải đơn hàng", "", "", "", "", "", "");
+                            return;
+                        }
+                        orders = allOrdersResult.Data ?? Enumerable.Empty<OrderDTO>();
+                        // Lọc chỉ lấy đơn đã hoàn thành
+                        orders = orders.Where(order => order.Status == OrderStatus.COMPLETED).ToList();
+                    }
+                    else
+                    {
+                        var ordersResult = await AppServices.OrderService.GetProcessingOrdersAsync();
+                        if (!ordersResult.Success)
+                        {
+                            dgvOrders.Rows.Add(null, "", ordersResult.Message ?? "Lỗi tải đơn hàng", "", "", "", "", "", "");
+                            return;
+                        }
+
+                        orders = ordersResult.Data ?? Enumerable.Empty<OrderDTO>();
+
+                        if (filterTag != "all")
+                        {
+                            orders = orders.Where(order =>
+                            {
+                                switch (filterTag)
+                                {
+                                    case "online":
+                                        // Đơn online: EXCEL, EMAIL, GOOGLEFORM
+                                        return order.Source == OrderSource.EXCEL ||
+                                               order.Source == OrderSource.EMAIL ||
+                                               order.Source == OrderSource.GOOGLEFORM;
+                                    case "offline":
+                                        // Đơn offline: MANUAL
+                                        return order.Source == OrderSource.MANUAL;
+                                    case "new":
+                                        return order.Status == OrderStatus.CONFIRMED;
+                                    case "ready":
+                                        return order.Status == OrderStatus.READY;
+                                    case "shipping":
+                                        return order.Status == OrderStatus.SHIPPED;
+                                    case "return":
+                                        return false;
+                                    default:
+                                        return true;
+                                }
+                            }).ToList();
+                        }
+                    }
+                }
+
+                var orderList = (orders ?? Enumerable.Empty<OrderDTO>()).Take(50).ToList();
+
+                if (!orderList.Any())
+                {
+                    dgvOrders.Rows.Add(null, "", "Không có đơn hàng phù hợp", "", "", "", "", "", "");
                     return;
                 }
 
-                var orders = ordersResult.Data;
-
-                // Lọc đơn hàng dựa trên filterTag
-                if (filterTag != "all")
+                foreach (var order in orderList)
                 {
-                    orders = orders.Where(order =>
-                    {
-                        switch (filterTag)
-                        {
-                            case "online":
-                                // Lọc đơn online: các nguồn EXCEL, EMAIL, GOOGLEFORM
-                                return order.Source == OrderSource.EXCEL ||
-                                       order.Source == OrderSource.EMAIL ||
-                                       order.Source == OrderSource.GOOGLEFORM;
-                            case "offline":
-                                // Lọc đơn offline: nguồn MANUAL
-                                return order.Source == OrderSource.MANUAL;
-                            case "new":
-                                return order.Status == OrderStatus.CONFIRMED;
-                            case "ready":
-                                return order.Status == OrderStatus.READY;
-                            case "shipping":
-                                return order.Status == OrderStatus.SHIPPED;
-                            case "completed":
-                                return order.Status == OrderStatus.COMPLETED;
-                            case "return":
-                                // Bỏ qua lọc cho thu hồi bao bì, hoặc có thể xử lý sau
-                                return false; // Tạm thời không hiển thị gì
-                            default:
-                                return true;
-                        }
-                    }).ToList();
-                }
-
-                orders = orders.Take(50).ToList(); // Giới hạn hiển thị
-
-                // Populate DataGridView
-                foreach (var order in orders)
-                {
+                    // 1. Khai báo biến customerName (BẮT BUỘC CÓ DÒNG NÀY)
                     string customerName = "Khách lẻ";
+
+                    // 2. Lấy tên khách hàng từ Service (nếu có CustomerId)
                     if (order.CustomerId.HasValue)
                     {
                         var customerResult = await AppServices.CustomerService.GetCustomerByIdAsync(order.CustomerId.Value);
@@ -244,36 +302,29 @@ namespace EcoStationManagerApplication.UI.Controls
                         }
                     }
 
-                    // Lấy thông tin sản phẩm
-                    var orderDetailsResult = await AppServices.OrderService.GetOrderWithDetailsAsync(order.OrderId);
-                    string productInfo = "Đa dạng sản phẩm";
+                    // 3. Lấy trạng thái thanh toán
+                    string paymentStatusText = GetPaymentStatusDisplay(order.PaymentStatus);
+                    
+                    // 4. Lấy nguồn đơn hàng
+                    string sourceText = GetOrderSourceDisplay(order.Source);
 
-                    if (orderDetailsResult.Success && orderDetailsResult.Data?.OrderDetails?.Any() == true)
-                    {
-                        var firstProduct = orderDetailsResult.Data.OrderDetails.First();
-                        var productResult = await AppServices.ProductService.GetProductByIdAsync(firstProduct.ProductId);
-                        if (productResult.Success)
-                        {
-                            var product = productResult.Data;
-                            productInfo = $"{product.Name} ({firstProduct.Quantity} {product.Unit})";
-                        }
-                    }
+                    // 5. Thêm vào DataGridView (Thứ tự khớp 100% với InitializeDataGridColumns)
 
-                    var row = dgvOrders.Rows[dgvOrders.Rows.Add(
-                        order.OrderCode ?? $"ORD-{order.OrderId:D5}",
-                        customerName,
-                        productInfo,
-                        GetOrderSourceDisplay(order.Source),
-                        GetOrderStatusDisplay(order.Status),
-                        order.LastUpdated.ToString("dd/MM/yyyy HH:mm")
-                    )];
-                    // Lưu OrderId vào Tag của row để sử dụng khi mở form chi tiết
-                    row.Tag = order.OrderId;
+                    dgvOrders.Rows.Add(
+                        order.OrderId,                                   // [0] OrderId
+                        order.OrderCode ?? $"ORD-{order.OrderId:D5}",    // [1] Mã đơn
+                        customerName,                                    // [2] Khách hàng
+                        sourceText,                                      // [3] Nguồn
+                        order.TotalAmount,                               // [4] Tổng tiền
+                        paymentStatusText,                               // [5] Thanh toán
+                        GetOrderStatusDisplay(order.Status),             // [6] Trạng thái
+                        order.LastUpdated.ToString("dd/MM/yyyy HH:mm")   // [7] Ngày tạo
+                    );
                 }
             }
             catch (Exception ex)
             {
-                dgvOrders.Rows.Add("", "Lỗi tải dữ liệu", "", "", "", "", "");
+                dgvOrders.Rows.Add(null, "", $"Lỗi tải dữ liệu: {ex.Message}", "", "", "", "", "", "");
                 Console.WriteLine($"Lỗi tải đơn hàng: {ex.Message}");
             }
             finally
@@ -317,6 +368,19 @@ namespace EcoStationManagerApplication.UI.Controls
                     return "Hoàn thành";
                 case OrderStatus.CANCELLED:
                     return "Đã hủy";
+                default:
+                    return "Không xác định";
+            }
+        }
+
+        private string GetPaymentStatusDisplay(PaymentStatus status)
+        {
+            switch (status)
+            {
+                case PaymentStatus.UNPAID:
+                    return "Chưa thanh toán";
+                case PaymentStatus.PAID:
+                    return "Đã thanh toán";
                 default:
                     return "Không xác định";
             }
@@ -442,68 +506,37 @@ namespace EcoStationManagerApplication.UI.Controls
                 if (addOrderForm.ShowDialog() == DialogResult.OK)
                 {
                     // Đơn hàng đã được tạo thành công, refresh danh sách
-                    await LoadOrdersAsync(_currentFilter);
+                    await LoadOrdersAsync(_currentFilter, txtSearch?.Text?.Trim());
                 }
             }
         }
 
 
         // Xử lý khi nhấn nút trên DataGridView
-        private void dgvOrders_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgvOrders_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             string colName = dgvOrders.Columns[e.ColumnIndex].Name;
-            var row = dgvOrders.Rows[e.RowIndex];
+            var cellValue = dgvOrders.Rows[e.RowIndex].Cells["OrderId"].Value;
+            if (cellValue == null || !int.TryParse(cellValue.ToString(), out int orderId))
+                return;
 
             if (colName == "colDetail")
             {
-                // Lấy OrderId từ Tag của row
-                if (row.Tag is int orderId)
+                using (var detailForm = new OrderDetailForm(orderId))
                 {
-                    OpenOrderDetailForm(orderId);
-                }
-                else
-                {
-                    MessageBox.Show("Không thể lấy thông tin đơn hàng!", "Lỗi", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    FormHelper.ShowModalWithDim(FindForm(), detailForm);
                 }
             }
             else if (colName == "colUpdate")
             {
-                string orderCode = row.Cells["OrderCode"].Value?.ToString() ?? "";
-                MessageBox.Show($"Cập nhật trạng thái cho đơn hàng: {orderCode}", "Cập nhật");
-            }
-        }
-
-        private void OpenOrderDetailForm(int orderId)
-        {
-            try
-            {
-                // Tìm MainForm để sử dụng FormHelper
-                Form mainForm = this.FindForm();
-                while (mainForm != null && !(mainForm is MainForm))
+                using (var updateForm = new UpdateOrderForm(orderId))
                 {
-                    mainForm = mainForm.ParentForm ?? mainForm.Owner;
-                }
-
-                // Mở OrderDetailForm
-                using (var orderDetailForm = new OrderDetailForm(orderId))
-                {
-                    DialogResult result;
-                    if (mainForm != null)
+                    if (FormHelper.ShowModalWithDim(FindForm(), updateForm) == DialogResult.OK)
                     {
-                        result = FormHelper.ShowModalWithDim(mainForm, orderDetailForm);
-                    }
-                    else
-                    {
-                        result = orderDetailForm.ShowDialog();
+                        await LoadOrdersAsync(_currentFilter, txtSearch?.Text?.Trim());
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi mở chi tiết đơn hàng: {ex.Message}", "Lỗi", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -563,22 +596,30 @@ namespace EcoStationManagerApplication.UI.Controls
             dgv.RowTemplate.Height = 35;
         }
 
-        private void dgvOrders_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        private async void btnSearch_Click(object sender, EventArgs e)
         {
+            await LoadOrdersAsync(_currentFilter, txtSearch?.Text?.Trim());
+        }
 
+        private async void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                await LoadOrdersAsync(_currentFilter, txtSearch?.Text?.Trim());
+            }
+        }
+
+        private async void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                await LoadOrdersAsync(_currentFilter);
+            }
         }
 
         private void tabPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void txtOrderSearch_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void searchControl1_Load(object sender, EventArgs e)
         {
 
         }
@@ -589,6 +630,11 @@ namespace EcoStationManagerApplication.UI.Controls
         }
 
         private void OrdersControl_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void searchPanel_Paint(object sender, PaintEventArgs e)
         {
 
         }

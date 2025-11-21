@@ -448,6 +448,18 @@
     <Compile Include="Forms\OrderDetailForm.Designer.cs">
       <DependentUpon>OrderDetailForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\UpdateOrderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UpdateOrderForm.Designer.cs">
+      <DependentUpon>UpdateOrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\WorkShiftForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WorkShiftForm.Designer.cs">
+      <DependentUpon>WorkShiftForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\DeliveryAssignmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -588,6 +600,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddSupplierForm.resx">
       <DependentUpon>AddSupplierForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OrderDetailForm.resx">
+      <DependentUpon>OrderDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UpdateOrderForm.resx">
+      <DependentUpon>UpdateOrderForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DeliveryAssignmentForm.resx">
       <DependentUpon>DeliveryAssignmentForm.cs</DependentUpon>

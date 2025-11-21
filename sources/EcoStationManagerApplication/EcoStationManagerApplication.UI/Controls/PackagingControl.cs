@@ -156,5 +156,10 @@ namespace EcoStationManagerApplication.UI.Controls
             dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
             dgv.RowTemplate.Height = 35;
         }
+
+        private void headerPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

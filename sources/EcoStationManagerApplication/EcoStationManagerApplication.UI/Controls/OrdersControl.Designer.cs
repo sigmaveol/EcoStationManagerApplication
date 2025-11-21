@@ -14,6 +14,7 @@ namespace EcoStationManagerApplication.UI.Controls
         private Button btnExportExcel;
         private Button btnAddOrder;
         private DataGridView dgvOrders;
+        private Label lblColumnHeaders;
 
         protected override void Dispose(bool disposing)
         {
@@ -28,6 +29,8 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             this.titleLabelHeader = new System.Windows.Forms.Label();
             this.searchPanel = new System.Windows.Forms.Panel();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.titleLabelContent = new System.Windows.Forms.Label();
             this.headerPanel = new System.Windows.Forms.Panel();
             this.btnExportPDF = new System.Windows.Forms.Button();
@@ -35,8 +38,8 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnAddOrder = new System.Windows.Forms.Button();
             this.tabPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.contentPanel = new System.Windows.Forms.Panel();
+            this.lblColumnHeaders = new System.Windows.Forms.Label();
             this.dgvOrders = new System.Windows.Forms.DataGridView();
-            this.searchControl1 = new EcoStationManagerApplication.UI.Controls.SearchControl();
             this.searchPanel.SuspendLayout();
             this.headerPanel.SuspendLayout();
             this.contentPanel.SuspendLayout();
@@ -50,13 +53,14 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelHeader.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabelHeader.Location = new System.Drawing.Point(0, 0);
             this.titleLabelHeader.Name = "titleLabelHeader";
-            this.titleLabelHeader.Size = new System.Drawing.Size(245, 37);
+            this.titleLabelHeader.Size = new System.Drawing.Size(225, 35);
             this.titleLabelHeader.TabIndex = 0;
             this.titleLabelHeader.Text = "Quản lý Đơn hàng";
             // 
             // searchPanel
             // 
-            this.searchPanel.Controls.Add(this.searchControl1);
+            this.searchPanel.Controls.Add(this.btnSearch);
+            this.searchPanel.Controls.Add(this.txtSearch);
             this.searchPanel.Controls.Add(this.titleLabelContent);
             this.searchPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.searchPanel.Location = new System.Drawing.Point(15, 15);
@@ -64,6 +68,34 @@ namespace EcoStationManagerApplication.UI.Controls
             this.searchPanel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 15);
             this.searchPanel.Size = new System.Drawing.Size(870, 40);
             this.searchPanel.TabIndex = 0;
+            this.searchPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.searchPanel_Paint);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(125)))), ((int)(((byte)(50)))));
+            this.btnSearch.FlatAppearance.BorderSize = 0;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.ForeColor = System.Drawing.Color.White;
+            this.btnSearch.Location = new System.Drawing.Point(750, 5);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(110, 27);
+            this.btnSearch.TabIndex = 2;
+            this.btnSearch.Text = "Tìm kiếm";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSearch.Location = new System.Drawing.Point(460, 6);
+            this.txtSearch.MaxLength = 100;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(280, 26);
+            this.txtSearch.TabIndex = 1;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
             // titleLabelContent
             // 
@@ -72,7 +104,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelContent.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.titleLabelContent.Location = new System.Drawing.Point(0, 0);
             this.titleLabelContent.Name = "titleLabelContent";
-            this.titleLabelContent.Size = new System.Drawing.Size(207, 28);
+            this.titleLabelContent.Size = new System.Drawing.Size(193, 25);
             this.titleLabelContent.TabIndex = 0;
             this.titleLabelContent.Text = "Danh sách đơn hàng";
             // 
@@ -149,37 +181,26 @@ namespace EcoStationManagerApplication.UI.Controls
             this.contentPanel.AutoSize = true;
             this.contentPanel.BackColor = System.Drawing.Color.White;
             this.contentPanel.Controls.Add(this.searchPanel);
+            this.contentPanel.Controls.Add(this.lblColumnHeaders);
             this.contentPanel.Controls.Add(this.dgvOrders);
             this.contentPanel.Location = new System.Drawing.Point(20, 140);
             this.contentPanel.Name = "contentPanel";
             this.contentPanel.Padding = new System.Windows.Forms.Padding(15);
             this.contentPanel.Size = new System.Drawing.Size(900, 480);
             this.contentPanel.TabIndex = 2;
-            // 
+
             // dgvOrders
             // 
+            this.dgvOrders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvOrders.ColumnHeadersHeight = 29;
-            this.dgvOrders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvOrders.Location = new System.Drawing.Point(15, 15);
+            this.dgvOrders.Location = new System.Drawing.Point(15, 80);
             this.dgvOrders.Name = "dgvOrders";
             this.dgvOrders.RowHeadersWidth = 51;
-            this.dgvOrders.Size = new System.Drawing.Size(870, 450);
+            this.dgvOrders.Size = new System.Drawing.Size(870, 385);
             this.dgvOrders.TabIndex = 1;
-            this.dgvOrders.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOrders_CellContentClick_1);
-            // 
-            // searchControl1
-            // 
-            this.searchControl1.BackColor = System.Drawing.Color.Transparent;
-            this.searchControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.searchControl1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.searchControl1.Location = new System.Drawing.Point(595, 0);
-            this.searchControl1.Margin = new System.Windows.Forms.Padding(2);
-            this.searchControl1.Name = "searchControl1";
-            this.searchControl1.PlaceholderText = "Tìm kiếm ....";
-            this.searchControl1.SearchText = "";
-            this.searchControl1.Size = new System.Drawing.Size(275, 25);
-            this.searchControl1.TabIndex = 1;
-            this.searchControl1.Load += new System.EventHandler(this.searchControl1_Load);
+            this.dgvOrders.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOrders_CellContentClick);
             // 
             // OrdersControl
             // 
@@ -207,6 +228,7 @@ namespace EcoStationManagerApplication.UI.Controls
         private Label titleLabelHeader;
         private Panel searchPanel;
         private Label titleLabelContent;
-        private SearchControl searchControl1;
+        private TextBox txtSearch;
+        private Button btnSearch;
     }
 }

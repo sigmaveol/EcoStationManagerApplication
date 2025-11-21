@@ -35,6 +35,7 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
         private IWorkShiftRepository _workShifts;
         private IStationRepository _stations;
         private IDeliveryRepository _deliveries;
+        private ICleaningScheduleRepository _cleaningSchedules;
 
         public UnitOfWork(IDatabaseHelper databaseHelper)
         {
@@ -81,8 +82,8 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
         // Delivery Management
         public IDeliveryRepository Deliveries => _deliveries ?? (_deliveries = new DeliveryRepository(_databaseHelper));
 
-        // TODO: Triển khai sau
-        // public ICleaningScheduleRepository CleaningSchedules => throw new NotImplementedException();
+        // Cleaning Schedule Management
+        public ICleaningScheduleRepository CleaningSchedules => _cleaningSchedules ?? (_cleaningSchedules = new CleaningScheduleRepository(_databaseHelper));
 
         public async Task<int> SaveChangesAsync()
         {

@@ -97,32 +97,32 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.dll</HintPath>
+    <Reference Include="PdfSharp, Version=6.2.3.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.2.3\lib\netstandard2.0\PdfSharp.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp.BarCodes, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.BarCodes.dll</HintPath>
+    <Reference Include="PdfSharp.BarCodes, Version=6.2.3.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.2.3\lib\netstandard2.0\PdfSharp.BarCodes.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp.Charting, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.Charting.dll</HintPath>
+    <Reference Include="PdfSharp.Charting, Version=6.2.3.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.2.3\lib\netstandard2.0\PdfSharp.Charting.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp.Cryptography, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.Cryptography.dll</HintPath>
+    <Reference Include="PdfSharp.Cryptography, Version=6.2.3.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.2.3\lib\netstandard2.0\PdfSharp.Cryptography.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp.Quality, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.Quality.dll</HintPath>
+    <Reference Include="PdfSharp.Quality, Version=6.2.3.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.2.3\lib\netstandard2.0\PdfSharp.Quality.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp.Shared, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.Shared.dll</HintPath>
+    <Reference Include="PdfSharp.Shared, Version=6.2.3.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.2.3\lib\netstandard2.0\PdfSharp.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp.Snippets, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.Snippets.dll</HintPath>
+    <Reference Include="PdfSharp.Snippets, Version=6.2.3.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.2.3\lib\netstandard2.0\PdfSharp.Snippets.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp.System, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.System.dll</HintPath>
+    <Reference Include="PdfSharp.System, Version=6.2.3.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.2.3\lib\netstandard2.0\PdfSharp.System.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp.WPFonts, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.WPFonts.dll</HintPath>
+    <Reference Include="PdfSharp.WPFonts, Version=6.2.3.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.6.2.3\lib\netstandard2.0\PdfSharp.WPFonts.dll</HintPath>
     </Reference>
     <Reference Include="RBush, Version=4.0.0.0, Culture=neutral, PublicKeyToken=c77e27b81f4d0187, processorArchitecture=MSIL">
       <HintPath>..\packages\RBush.Signed.4.0.0\lib\net47\RBush.dll</HintPath>
@@ -200,6 +200,18 @@
     </Compile>
     <Compile Include="Controls\BackupControl.Designer.cs">
       <DependentUpon>BackupControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Calendar\CalendarControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Calendar\CalendarControl.Designer.cs">
+      <DependentUpon>CalendarControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Calendar\CalendarDayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Calendar\CalendarDayControl.Designer.cs">
+      <DependentUpon>CalendarDayControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CardControl.cs">
       <SubType>UserControl</SubType>
@@ -279,6 +291,12 @@
     <Compile Include="Controls\ProductsControl.Designer.cs">
       <DependentUpon>ProductsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Refill.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Refill.Designer.cs">
+      <DependentUpon>Refill.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ReportControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -339,22 +357,6 @@
     </Compile>
     <Compile Include="Controls\StaffControl.Designer.cs">
       <DependentUpon>StaffControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\StaffControl.WorkShift.cs">
-      <DependentUpon>StaffControl.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\StaffControl.Delivery.cs">
-      <DependentUpon>StaffControl.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\StaffControl.Dashboard.cs">
-      <DependentUpon>StaffControl.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\StaffControl.Filters.cs">
-      <DependentUpon>StaffControl.cs</DependentUpon>
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\StockInManagementControl.cs">
       <SubType>UserControl</SubType>
@@ -446,12 +448,6 @@
     <Compile Include="Forms\OrderDetailForm.Designer.cs">
       <DependentUpon>OrderDetailForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\WorkShiftForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\WorkShiftForm.Designer.cs">
-      <DependentUpon>WorkShiftForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\DeliveryAssignmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -494,11 +490,26 @@
     <Compile Include="Forms\StockOutDetailForm.Designer.cs">
       <DependentUpon>StockOutDetailForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\WorkShiftForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WorkShiftForm.Designer.cs">
+      <DependentUpon>WorkShiftForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CleaningScheduleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CleaningScheduleForm.Designer.cs">
+      <DependentUpon>CleaningScheduleForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
     <EmbeddedResource Include="Controls\BackupControl.resx">
       <DependentUpon>BackupControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Calendar\CalendarControl.resx">
+      <DependentUpon>CalendarControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\CardControl.resx">
       <DependentUpon>CardControl.cs</DependentUpon>
@@ -532,6 +543,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ProductsControl.resx">
       <DependentUpon>ProductsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Refill.resx">
+      <DependentUpon>Refill.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ReportControl.resx">
       <DependentUpon>ReportControl.cs</DependentUpon>
@@ -593,8 +607,17 @@
     <EmbeddedResource Include="Forms\StockInForm.resx">
       <DependentUpon>StockInForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockOutDetailForm.resx">
+      <DependentUpon>StockOutDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\StockOutForm.resx">
       <DependentUpon>StockOutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WorkShiftForm.resx">
+      <DependentUpon>WorkShiftForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CleaningScheduleForm.resx">
+      <DependentUpon>CleaningScheduleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

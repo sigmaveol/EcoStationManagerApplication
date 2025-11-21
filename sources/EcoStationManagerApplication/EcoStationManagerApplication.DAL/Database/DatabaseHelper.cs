@@ -116,21 +116,73 @@ namespace EcoStationManagerApplication.DAL.Database
             {
                 try
                 {
-                    if (value == null || value == DBNull.Value) return default;
+                    // Xử lý NULL hoặc DBNull
+                    if (value == null || value == DBNull.Value)
+                    {
+                        _logger?.Warning($"Attempted to parse NULL/DBNull value for enum {typeof(T).Name}, returning default");
+                        return GetDefaultEnumValue();
+                    }
                     
+                    // Xử lý string
                     if (value is string str)
                     {
                         var trimmed = str?.Trim() ?? "";
-                        return string.IsNullOrEmpty(trimmed) ? default :
-                               Enum.TryParse<T>(trimmed, true, out var result) ? result : default;
+                        
+                        // Nếu chuỗi rỗng, trả về giá trị mặc định
+                        if (string.IsNullOrEmpty(trimmed))
+                        {
+                            _logger?.Warning($"Attempted to parse empty string for enum {typeof(T).Name}, returning default");
+                            return GetDefaultEnumValue();
+                        }
+                        
+                        // Thử parse với ignore case
+                        if (Enum.TryParse<T>(trimmed, true, out var result))
+                        {
+                            return result;
+                        }
+                        
+                        // Nếu không parse được, log warning và trả về default
+                        _logger?.Warning($"Failed to parse '{trimmed}' as {typeof(T).Name}, returning default");
+                        return GetDefaultEnumValue();
                     }
                     
-                    if (value is int intVal && Enum.IsDefined(typeof(T), intVal))
-                        return (T)Enum.ToObject(typeof(T), intVal);
+                    // Xử lý int
+                    if (value is int intVal)
+                    {
+                        if (Enum.IsDefined(typeof(T), intVal))
+                        {
+                            return (T)Enum.ToObject(typeof(T), intVal);
+                        }
+                        _logger?.Warning($"Integer value {intVal} is not defined in enum {typeof(T).Name}, returning default");
+                        return GetDefaultEnumValue();
+                    }
 
-                    return default;
+                    // Các kiểu khác, thử convert
+                    var stringValue = value.ToString();
+                    if (Enum.TryParse<T>(stringValue, true, out var convertedResult))
+                    {
+                        return convertedResult;
+                    }
+                    
+                    _logger?.Warning($"Failed to parse '{stringValue}' (type: {value.GetType().Name}) as {typeof(T).Name}, returning default");
+                    return GetDefaultEnumValue();
                 }
-                catch { return default; }
+                catch (Exception ex)
+                {
+                    _logger?.Error($"Exception parsing enum {typeof(T).Name} from value '{value}': {ex.Message}");
+                    return GetDefaultEnumValue();
+                }
+            }
+
+            private T GetDefaultEnumValue()
+            {
+                // Trả về giá trị đầu tiên của enum nếu có, nếu không thì default
+                var enumValues = Enum.GetValues(typeof(T));
+                if (enumValues.Length > 0)
+                {
+                    return (T)enumValues.GetValue(0);
+                }
+                return default(T);
             }
         }
 

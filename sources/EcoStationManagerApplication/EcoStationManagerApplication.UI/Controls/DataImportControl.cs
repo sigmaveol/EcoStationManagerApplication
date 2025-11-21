@@ -1,5 +1,10 @@
-﻿using System;
+﻿using EcoStationManagerApplication.Core.Composition;
+using EcoStationManagerApplication.Core.Interfaces;
+using EcoStationManagerApplication.Models.Enums;
+using System;
 using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
@@ -48,7 +53,7 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        private void BtnImportFile_Click(object sender, EventArgs e)
+        private async void BtnImportFile_Click(object sender, EventArgs e)
         {
             try
             {
@@ -58,10 +63,80 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show($"Đã chọn file: {openFileDialog.FileName}", "Nhập dữ liệu");
+                    // Hiển thị dialog chọn loại import
+                    var importTypeDialog = new Form
+                    {
+                        Text = "Chọn loại dữ liệu cần import",
+                        Size = new Size(300, 150),
+                        StartPosition = FormStartPosition.CenterParent,
+                        FormBorderStyle = FormBorderStyle.FixedDialog,
+                        MaximizeBox = false,
+                        MinimizeBox = false
+                    };
 
-                    // TODO: Thêm logic xử lý file
-                    ImportDataFromFile(openFileDialog.FileName);
+                    var btnImportOrders = new Button
+                    {
+                        Text = "Import Đơn hàng",
+                        Dock = DockStyle.Top,
+                        Height = 40
+                    };
+
+                    var btnImportCustomers = new Button
+                    {
+                        Text = "Import Khách hàng",
+                        Dock = DockStyle.Top,
+                        Height = 40
+                    };
+
+                    OrderSource? selectedSource = null;
+                    bool importCustomers = false;
+
+                    btnImportOrders.Click += (s, args) =>
+                    {
+                        // Chọn nguồn đơn hàng
+                        var sourceDialog = new Form
+                        {
+                            Text = "Chọn nguồn đơn hàng",
+                            Size = new Size(250, 200),
+                            StartPosition = FormStartPosition.CenterParent,
+                            FormBorderStyle = FormBorderStyle.FixedDialog,
+                            MaximizeBox = false,
+                            MinimizeBox = false
+                        };
+
+                        var btnExcel = new Button { Text = "Từ Excel", Dock = DockStyle.Top, Height = 35 };
+                        var btnEmail = new Button { Text = "Từ Email", Dock = DockStyle.Top, Height = 35 };
+                        var btnGoogleForm = new Button { Text = "Từ Google Form", Dock = DockStyle.Top, Height = 35 };
+
+                        btnExcel.Click += (s2, args2) => { selectedSource = OrderSource.EXCEL; sourceDialog.DialogResult = DialogResult.OK; sourceDialog.Close(); };
+                        btnEmail.Click += (s2, args2) => { selectedSource = OrderSource.EMAIL; sourceDialog.DialogResult = DialogResult.OK; sourceDialog.Close(); };
+                        btnGoogleForm.Click += (s2, args2) => { selectedSource = OrderSource.GOOGLEFORM; sourceDialog.DialogResult = DialogResult.OK; sourceDialog.Close(); };
+
+                        sourceDialog.Controls.Add(btnGoogleForm);
+                        sourceDialog.Controls.Add(btnEmail);
+                        sourceDialog.Controls.Add(btnExcel);
+
+                        if (sourceDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            importTypeDialog.DialogResult = DialogResult.OK;
+                            importTypeDialog.Close();
+                        }
+                    };
+
+                    btnImportCustomers.Click += (s, args) =>
+                    {
+                        importCustomers = true;
+                        importTypeDialog.DialogResult = DialogResult.OK;
+                        importTypeDialog.Close();
+                    };
+
+                    importTypeDialog.Controls.Add(btnImportCustomers);
+                    importTypeDialog.Controls.Add(btnImportOrders);
+
+                    if (importTypeDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        await ImportDataFromFile(openFileDialog.FileName, selectedSource, importCustomers);
+                    }
                 }
             }
             catch (Exception ex)
@@ -146,11 +221,91 @@ namespace EcoStationManagerApplication.UI.Controls
             Console.WriteLine($"Synced with Google Sheets: {url}");
         }
 
-        private void ImportDataFromFile(string filePath)
+        private async Task ImportDataFromFile(string filePath, OrderSource? source, bool importCustomers)
         {
-            // TODO: Triển khai logic nhập dữ liệu từ file
-            System.Threading.Thread.Sleep(1500); // Giả lập thời gian xử lý
-            Console.WriteLine($"Imported data from: {filePath}");
+            try
+            {
+                var importService = ServiceRegistry.ImportService;
+
+                // Validate file trước
+                var validateResult = await importService.ValidateImportFileAsync(filePath);
+                if (!validateResult.Success)
+                {
+                    MessageBox.Show($"File không hợp lệ: {validateResult.Message}", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                Cursor = Cursors.WaitCursor;
+
+                if (importCustomers)
+                {
+                    // Import khách hàng
+                    var result = await importService.ImportCustomersFromFileAsync(filePath);
+                    if (result.Success)
+                    {
+                        var message = $"Import hoàn tất!\n\n" +
+                                    $"Thành công: {result.Data.SuccessCount}\n" +
+                                    $"Lỗi: {result.Data.ErrorCount}";
+
+                        if (result.Data.Errors.Any())
+                        {
+                            message += "\n\nChi tiết lỗi:\n" + string.Join("\n", result.Data.Errors.Take(10));
+                            if (result.Data.Errors.Count > 10)
+                            {
+                                message += $"\n... và {result.Data.Errors.Count - 10} lỗi khác";
+                            }
+                        }
+
+                        MessageBox.Show(message, "Kết quả Import",
+                            MessageBoxButtons.OK,
+                            result.Data.ErrorCount > 0 ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Lỗi import: {result.Message}", "Lỗi",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else if (source.HasValue)
+                {
+                    // Import đơn hàng
+                    var result = await importService.ImportOrdersFromFileAsync(filePath, source.Value);
+                    if (result.Success)
+                    {
+                        var message = $"Import hoàn tất!\n\n" +
+                                    $"Thành công: {result.Data.SuccessCount}\n" +
+                                    $"Lỗi: {result.Data.ErrorCount}";
+
+                        if (result.Data.Errors.Any())
+                        {
+                            message += "\n\nChi tiết lỗi:\n" + string.Join("\n", result.Data.Errors.Take(10));
+                            if (result.Data.Errors.Count > 10)
+                            {
+                                message += $"\n... và {result.Data.Errors.Count - 10} lỗi khác";
+                            }
+                        }
+
+                        MessageBox.Show(message, "Kết quả Import",
+                            MessageBoxButtons.OK,
+                            result.Data.ErrorCount > 0 ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Lỗi import: {result.Message}", "Lỗi",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi import file: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         private void SaveManualOrder(string customer, string phone, string product, int quantity, decimal volume)

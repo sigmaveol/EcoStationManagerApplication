@@ -14,3 +14,13 @@ CREATE TABLE IF NOT EXISTS Stations (
     updated_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (manager) REFERENCES Users(user_id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
+
+CREATE TABLE Notifications (
+    notification_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NULL,
+    title VARCHAR(255),
+    message TEXT,
+    type ENUM('info','warning','error','success','lowstock','order','refill','system'),
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

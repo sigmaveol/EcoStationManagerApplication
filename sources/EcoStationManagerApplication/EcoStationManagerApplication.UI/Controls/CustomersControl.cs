@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
-    public partial class CustomersControl : UserControl
+    public partial class CustomersControl : UserControl, IRefreshableControl
     {
         private List<Customer> customers;
         private string searchTerm = "";
@@ -23,6 +23,11 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             InitializeComponent();
             
+        }
+
+        public void RefreshData()
+        {
+            _ = LoadDataAsync();
         }
 
         private void CustomersControl_Load(object sender, EventArgs e)

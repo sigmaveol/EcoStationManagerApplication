@@ -170,12 +170,21 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private async Task CreateNewStation()
         {
+            // Kiểm tra SelectedIndex hợp lệ
+            int stationTypeIndex = comboBoxStationType.SelectedIndex;
+            if (stationTypeIndex < 0 || stationTypeIndex >= comboBoxStationType.Items.Count)
+            {
+                MessageBox.Show("Vui lòng chọn loại trạm.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                comboBoxStationType.Focus();
+                return;
+            }
+            
             var newStation = new Station
             {
                 Name = txtStationName.Text.Trim(),
                 Address = txtStationAddress.Text.Trim(),
                 Phone = txtStationPhone.Text.Trim(),
-                StationType = GetStationTypeValue(comboBoxStationType.SelectedIndex),
+                StationType = GetStationTypeValue(stationTypeIndex),
                 Manager = GetSelectedManagerId(),
                 IsActive = toggleStationActive.Checked,
                 CreatedDate = DateTime.Now,
@@ -214,11 +223,20 @@ namespace EcoStationManagerApplication.UI.Controls
             if (listBoxStations.SelectedIndex < 0 || listBoxStations.SelectedIndex >= stations.Count)
                 return;
 
+            // Kiểm tra SelectedIndex hợp lệ cho StationType
+            int stationTypeIndex = comboBoxStationType.SelectedIndex;
+            if (stationTypeIndex < 0 || stationTypeIndex >= comboBoxStationType.Items.Count)
+            {
+                MessageBox.Show("Vui lòng chọn loại trạm.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                comboBoxStationType.Focus();
+                return;
+            }
+
             var station = stations[listBoxStations.SelectedIndex];
             station.Name = txtStationName.Text.Trim();
             station.Address = txtStationAddress.Text.Trim();
             station.Phone = txtStationPhone.Text.Trim();
-            station.StationType = GetStationTypeValue(comboBoxStationType.SelectedIndex);
+            station.StationType = GetStationTypeValue(stationTypeIndex);
             station.Manager = GetSelectedManagerId();
             station.IsActive = toggleStationActive.Checked;
 

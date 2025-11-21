@@ -17,7 +17,7 @@ using MainForm = EcoStationManagerApplication.UI.Forms.MainForm;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
-    public partial class InventoryControl : UserControl
+    public partial class InventoryControl : UserControl, IRefreshableControl
     {
         private enum ViewMode
         {
@@ -39,6 +39,11 @@ namespace EcoStationManagerApplication.UI.Controls
         public InventoryControl()
         {
             InitializeComponent();
+        }
+
+        public void RefreshData()
+        {
+            _ = LoadDataAsync();
         }
 
         private void InventoryControl_Load(object sender, EventArgs e)

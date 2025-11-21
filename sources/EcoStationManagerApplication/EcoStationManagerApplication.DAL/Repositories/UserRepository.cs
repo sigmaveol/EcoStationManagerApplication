@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.DAL.SqlQueries;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EcoStationManagerApplication.DAL.Interfaces
+namespace EcoStationManagerApplication.DAL.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {

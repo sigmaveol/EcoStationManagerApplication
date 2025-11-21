@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EcoStationManagerApplication.UI.Common
+namespace EcoStationManagerApplication.Core.Composition
 {
     public static class ServiceRegistry
     {
@@ -33,6 +33,8 @@ namespace EcoStationManagerApplication.UI.Common
         private static IStationService _stationService;
         private static IDeliveryService _deliveryService;
         private static IWorkShiftService _workShiftService;
+        private static IImportService _importService;
+        private static ICleaningScheduleService _cleaningScheduleService;
 
         private static IUnitOfWork GetUnitOfWork()
         {
@@ -94,5 +96,13 @@ namespace EcoStationManagerApplication.UI.Common
         public static IDeliveryService DeliveryService => _deliveryService ?? (_deliveryService = new DeliveryService(GetUnitOfWork()));
 
         public static IWorkShiftService WorkShiftService => _workShiftService ?? (_workShiftService = new WorkShiftService(GetUnitOfWork()));
+
+        public static IImportService ImportService => _importService ?? (_importService = new ImportService(
+            GetUnitOfWork(),
+            OrderService,
+            CustomerService,
+            ProductService));
+
+        public static ICleaningScheduleService CleaningScheduleService => _cleaningScheduleService ?? (_cleaningScheduleService = new CleaningScheduleService(GetUnitOfWork()));
     }
 }

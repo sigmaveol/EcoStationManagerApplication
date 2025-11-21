@@ -78,40 +78,4 @@ namespace EcoStationManagerApplication.Models.Entities
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
     }
-
-    [Table("CleaningSchedules")]
-    public class CleaningSchedule
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("cs_id")]
-        public int CsId { get; set; }
-
-        [Required]
-        [StringLength(20)]
-        [Column("cleaning_type")]
-        public CleaningType CleaningType { get; set; } // TANK, PACKAGING
-
-        [Required]
-        [Column("cleaning_date")]
-        public DateTime CleaningDate { get; set; }
-
-        [StringLength(20)]
-        [Column("status")]
-        public CleaningStatus Status { get; set; } = CleaningStatus.SCHEDULED; // SCHEDULED, COMPLETED, OVERDUE, CANCELLED
-
-        [Column("notes")]
-        public string Notes { get; set; }
-
-        [Column("cleaning_by")]
-        public int? CleaningBy { get; set; }
-
-        [Column("created_date")]
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-
-        // Navigation properties
-        [ForeignKey("CleaningBy")]
-        public virtual User User { get; set; }
-    }
-
 }

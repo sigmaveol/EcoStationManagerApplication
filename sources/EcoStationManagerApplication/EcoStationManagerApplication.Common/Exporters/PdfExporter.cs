@@ -70,10 +70,10 @@ namespace EcoStationManagerApplication.Common.Exporters
 
             try
             {
-                titleFont = new XFont("Helvetica", 18, XFontStyleEx.Bold);
-                headerFont = new XFont("Helvetica", 10, XFontStyleEx.Bold);
-                normalFont = new XFont("Helvetica", 9, XFontStyleEx.Regular);
-                smallFont = new XFont("Helvetica", 8, XFontStyleEx.Regular);
+                titleFont = new XFont("Arial", 18);
+                headerFont = new XFont("Arial", 10);
+                normalFont = new XFont("Arial", 9);
+                smallFont = new XFont("Arial", 8);
             }
             catch (Exception ex)
             {
@@ -86,6 +86,8 @@ namespace EcoStationManagerApplication.Common.Exporters
 
             // Tiêu đề
             string titleText = (title ?? "Danh sách").ToUpper();
+            var titleRect = new XRect(LeftMargin, yPos, page.Width - 80, LineHeight);
+
             gfx.DrawString(titleText, titleFont, XBrushes.Black,
                 new XRect(LeftMargin, yPos, 
                 

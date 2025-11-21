@@ -2051,3 +2051,92 @@
 [INFO] [DatabaseHelper] 2025-11-18 19:21:45: Connection opened - State: Open
 [INFO] [DatabaseHelper] 2025-11-18 19:21:45: Connection opened - State: Open
 [INFO] [DatabaseHelper] 2025-11-18 19:21:45: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-18 21:11:37: Không thể kết nối đến database: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [DatabaseHelper] 2025-11-18 21:11:37: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-18 21:11:37: GetByUsernameAsync error - Username: admin - Lỗi kết nối database: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [Service:UserService] 2025-11-18 21:11:37: xác thực người dùng error: Lỗi kết nối database: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [Service:UserService] 2025-11-18 21:11:37: Inner exception: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [DatabaseHelper] 2025-11-18 21:11:52: Không thể kết nối đến database: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [DatabaseHelper] 2025-11-18 21:11:52: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-18 21:11:52: GetByUsernameAsync error - Username: admin - Lỗi kết nối database: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [Service:UserService] 2025-11-18 21:11:52: xác thực người dùng error: Lỗi kết nối database: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [Service:UserService] 2025-11-18 21:11:52: Inner exception: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [DatabaseHelper] 2025-11-18 21:11:53: Không thể kết nối đến database: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [DatabaseHelper] 2025-11-18 21:11:53: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-18 21:11:53: GetByUsernameAsync error - Username: admin - Lỗi kết nối database: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [Service:UserService] 2025-11-18 21:11:53: xác thực người dùng error: Lỗi kết nối database: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[ERROR] [Service:UserService] 2025-11-18 21:11:53: Inner exception: Authentication to host 'localhost' for user 'root' using method 'caching_sha2_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+[INFO] [DatabaseHelper] 2025-11-18 21:13:30: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-18 21:13:31: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-18 21:13:31: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-18 21:13:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:39: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:55: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:59: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 21:13:59: Connection opened - State: Open

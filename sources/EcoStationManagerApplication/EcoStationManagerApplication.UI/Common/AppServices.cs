@@ -1,4 +1,5 @@
-﻿using EcoStationManagerApplication.Core.Interfaces;
+﻿using EcoStationManagerApplication.Core.Composition;
+using EcoStationManagerApplication.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,5 +28,7 @@ namespace EcoStationManagerApplication.UI.Common
         public static IStationService StationService => ServiceRegistry.StationService;
         public static IDeliveryService DeliveryService => ServiceRegistry.DeliveryService;
         public static IWorkShiftService WorkShiftService => ServiceRegistry.WorkShiftService;
+        public static IImportService ImportService => ServiceRegistry.ImportService;
+        public static ICleaningScheduleService CleaningScheduleService => ServiceRegistry.CleaningScheduleService;
     }
 }

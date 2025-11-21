@@ -1,6 +1,7 @@
 ﻿using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Enums;
+using EcoStationManagerApplication.UI.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,7 +15,7 @@ namespace EcoStationManagerApplication.UI.Controls
     /// <summary>
     /// Report Control for displaying various business reports
     /// </summary>
-    public partial class ReportControl : UserControl
+    public partial class ReportControl : UserControl, IRefreshableControl
     {
         private readonly IReportService _reportService;
         private readonly IOrderService _orderService;
@@ -30,6 +31,11 @@ namespace EcoStationManagerApplication.UI.Controls
             InitializeComponent();
             InitializeEvents();
             SetDefaultDates();
+        }
+
+        public void RefreshData()
+        {
+            _ = LoadReport();
         }
 
         private void InitializeEvents()
@@ -90,7 +96,7 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             // Tránh reload đồng thời nhiều lần
             if (_isLoadingReport) return;
-            
+
             try
             {
                 _isLoadingReport = true;
@@ -320,7 +326,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
             // Set revenue as default active
             btnToggleRevenue.PerformClick();
-            
+
             // Hiển thị placeholder message
             ClearReportContent();
             ShowPlaceholderMessage("Vui lòng chọn khoảng thời gian và nhấn 'Tạo báo cáo' để xem dữ liệu.");

@@ -99,7 +99,7 @@ namespace EcoStationManagerApplication.UI.Common
             {
                 var page = document.AddPage();
                 var gfx = XGraphics.FromPdfPage(page);
-                var font = new XFont("Arial", 12, XFontStyleEx.Bold);
+                var font = new XFont("Arial", 12);
                 var fontRegular = new XFont("Arial", 10);
                 
                 double yPos = 40;

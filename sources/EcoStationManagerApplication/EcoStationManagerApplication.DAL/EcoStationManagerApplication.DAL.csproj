@@ -92,33 +92,6 @@
     <Reference Include="MySql.Data, Version=9.5.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.9.5.0\lib\net462\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="PdfSharp, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.BarCodes, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.BarCodes.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.Charting, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.Charting.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.Cryptography, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.Cryptography.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.Quality, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.Quality.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.Shared, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.Snippets, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.Snippets.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.System, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.System.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.WPFonts, Version=6.2.2.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp.6.2.2\lib\netstandard2.0\PdfSharp.WPFonts.dll</HintPath>
-    </Reference>
     <Reference Include="RBush, Version=4.0.0.0, Culture=neutral, PublicKeyToken=c77e27b81f4d0187, processorArchitecture=MSIL">
       <HintPath>..\packages\RBush.Signed.4.0.0\lib\net47\RBush.dll</HintPath>
     </Reference>
@@ -194,6 +167,7 @@
     <Compile Include="Interfaces\IWorkShiftRepository.cs" />
     <Compile Include="Interfaces\IStationRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\ICleaningScheduleRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\InventoryRepository.cs" />
@@ -202,6 +176,7 @@
     <Compile Include="Repositories\PackagingInventoryRepository.cs" />
     <Compile Include="Repositories\PackagingRepository.cs" />
     <Compile Include="Repositories\PackagingTransactionRepository.cs" />
+    <Compile Include="Repositories\CleaningScheduleRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
@@ -227,6 +202,7 @@
     <Compile Include="SqlQueries\WorkShiftQueries.cs" />
     <Compile Include="SqlQueries\StationQueries.cs" />
     <Compile Include="SqlQueries\DeliveryQueries.cs" />
+    <Compile Include="SqlQueries\CleaningScheduleQueries.cs" />
     <Compile Include="UnitOfWork\UnitOfWork .cs" />
     <Compile Include="UnitOfWork\UnitOfWorkFactory.cs" />
   </ItemGroup>

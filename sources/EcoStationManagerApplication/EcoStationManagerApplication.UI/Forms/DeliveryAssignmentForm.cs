@@ -88,6 +88,7 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             try
             {
+                // Kiểm tra SelectedIndex hợp lệ
                 if (cmbOrder.SelectedIndex < 0 || cmbOrder.SelectedIndex >= _orders.Count)
                 {
                     MessageBox.Show("Vui lòng chọn đơn hàng.", "Thông báo",
@@ -102,8 +103,19 @@ namespace EcoStationManagerApplication.UI.Forms
                     return;
                 }
 
-                var order = _orders[cmbOrder.SelectedIndex];
-                var driver = _drivers[cmbDriver.SelectedIndex];
+                // Đảm bảo index hợp lệ trước khi truy cập
+                int orderIndex = cmbOrder.SelectedIndex;
+                int driverIndex = cmbDriver.SelectedIndex;
+                
+                if (orderIndex < 0 || orderIndex >= _orders.Count || driverIndex < 0 || driverIndex >= _drivers.Count)
+                {
+                    MessageBox.Show("Lỗi: Dữ liệu không hợp lệ. Vui lòng thử lại.", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var order = _orders[orderIndex];
+                var driver = _drivers[driverIndex];
 
                 // Kiểm tra xem đơn hàng đã được phân công chưa
                 var existingAssignments = await AppServices.DeliveryService.GetByStatusAsync(DeliveryStatus.PENDING);

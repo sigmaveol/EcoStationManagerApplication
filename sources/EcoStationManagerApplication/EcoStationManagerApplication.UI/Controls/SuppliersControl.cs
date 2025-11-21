@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
-    public partial class SuppliersControl : UserControl
+    public partial class SuppliersControl : UserControl, IRefreshableControl
     {
         private List<Supplier> _suppliers = new List<Supplier>();
         private string _currentSearchTerm = "";
@@ -21,6 +21,11 @@ namespace EcoStationManagerApplication.UI.Controls
             InitializeDataGridColumns();
             SetupDataGridStyle(dgvSuppliers);
             InitializeEvents();
+            _ = LoadSuppliersAsync();
+        }
+
+        public void RefreshData()
+        {
             _ = LoadSuppliersAsync();
         }
 

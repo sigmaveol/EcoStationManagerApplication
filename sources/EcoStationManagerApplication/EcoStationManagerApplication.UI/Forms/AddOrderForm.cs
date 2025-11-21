@@ -454,7 +454,14 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private OrderSource GetOrderSource()
         {
-            switch (cmbSource.SelectedIndex)
+            // Kiểm tra SelectedIndex hợp lệ
+            int selectedIndex = cmbSource.SelectedIndex;
+            if (selectedIndex < 0 || selectedIndex >= cmbSource.Items.Count)
+            {
+                return OrderSource.MANUAL; // Default value
+            }
+            
+            switch (selectedIndex)
             {
                 case 0: return OrderSource.MANUAL;
                 case 1: return OrderSource.GOOGLEFORM;
@@ -466,7 +473,14 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private PaymentMethod GetPaymentMethod()
         {
-            return cmbPaymentMethod.SelectedIndex == 0 ? PaymentMethod.CASH : PaymentMethod.TRANSFER;
+            // Kiểm tra SelectedIndex hợp lệ
+            int selectedIndex = cmbPaymentMethod.SelectedIndex;
+            if (selectedIndex < 0 || selectedIndex >= cmbPaymentMethod.Items.Count)
+            {
+                return PaymentMethod.CASH; // Default value
+            }
+            
+            return selectedIndex == 0 ? PaymentMethod.CASH : PaymentMethod.TRANSFER;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

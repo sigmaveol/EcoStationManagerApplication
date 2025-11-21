@@ -1,4 +1,5 @@
 ﻿using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.UI.Common.Services;
 using EcoStationManagerApplication.UI.Forms;
 using System;
 using System.Drawing;
@@ -220,6 +221,9 @@ namespace EcoStationManagerApplication.UI
                     AppUserContext.CurrentUsername = user.Username;
                     AppUserContext.CurrentUserRole = user.Role;
                     AppUserContext.CurrentFullname = user.Fullname;
+
+                    // Lưu user vào AppStateManager
+                    AppServices.State.CurrentUser = user;
 
                     // Save credentials if Remember me is checked
                     if (checkBoxRemember.Checked)

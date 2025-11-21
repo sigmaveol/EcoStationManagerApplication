@@ -141,8 +141,7 @@ namespace EcoStationManagerApplication.UI.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải danh sách nhà cung cấp: {ex.Message}", 
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UIHelper.ShowExceptionError(ex, "tải danh sách nhà cung cấp");
                 dgvSuppliers.Rows.Add("", "Lỗi tải dữ liệu", "", "", "", "", "");
             }
             finally

@@ -129,7 +129,7 @@ namespace EcoStationManagerApplication.UI.Controls
                     dataGridViewCustomers.Columns["CustomerStatus"].Width = 120;
                 if (dataGridViewCustomers.Columns["CustomerAction"] != null)
                 {
-                    dataGridViewCustomers.Columns["CustomerAction"].Width = 100;
+                    dataGridViewCustomers.Columns["CustomerAction"].Width = 280;
                     dataGridViewCustomers.Columns["CustomerAction"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
 
@@ -180,7 +180,7 @@ namespace EcoStationManagerApplication.UI.Controls
                         customer.TotalPoint.ToString("N0"),
                         GetRankDisplayName(customer.Rank),
                         customer.IsActive == ActiveStatus.ACTIVE ? "Hoạt động" : "Ngưng",
-                        "👁️ Xem"
+                        "👁️ Xem | 📦 Phát | 🔄 Thu"
                     );
 
                     // Đổi màu dòng nếu khách hàng không hoạt động
@@ -372,28 +372,99 @@ namespace EcoStationManagerApplication.UI.Controls
                         return;
                     }
 
+                    var actionCell = dataGridViewCustomers.Rows[e.RowIndex].Cells["CustomerAction"];
+                    var actionText = actionCell?.Value?.ToString() ?? "";
+
                     Form mainForm = this.FindForm();
                     while (mainForm != null && !(mainForm is MainForm))
                     {
                         mainForm = mainForm.ParentForm ?? mainForm.Owner;
                     }
 
-                    using (var editCustomerForm = new AddCustomerForm(customerId))
-                    {
-                        DialogResult result = mainForm != null
-                            ? FormHelper.ShowModalWithDim(mainForm, editCustomerForm)
-                            : editCustomerForm.ShowDialog();
+                    // Xác định hành động dựa trên vị trí click
+                    var cellBounds = dataGridViewCustomers.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+                    var clickX = dataGridViewCustomers.PointToClient(Control.MousePosition).X - cellBounds.X;
 
-                        if (result == DialogResult.OK)
+                    if (clickX < cellBounds.Width / 3)
+                    {
+                        // Click vào "Xem"
+                        using (var editCustomerForm = new AddCustomerForm(customerId))
                         {
-                            await RefreshCustomersData();
+                            DialogResult result = mainForm != null
+                                ? FormHelper.ShowModalWithDim(mainForm, editCustomerForm)
+                                : editCustomerForm.ShowDialog();
+
+                            if (result == DialogResult.OK)
+                            {
+                                await RefreshCustomersData();
+                            }
                         }
+                    }
+                    else if (clickX < (cellBounds.Width * 2) / 3)
+                    {
+                        // Click vào "Phát bao bì"
+                        await OpenIssuePackagingForm(customerId, mainForm);
+                    }
+                    else
+                    {
+                        // Click vào "Thu hồi bao bì"
+                        await OpenReturnPackagingForm(customerId, mainForm);
                     }
                 }
             }
             catch (Exception ex)
             {
-                UIHelper.ShowExceptionError(ex, "xem thông tin khách hàng");
+                UIHelper.ShowExceptionError(ex, "xử lý thao tác khách hàng");
+            }
+        }
+
+        /// <summary>
+        /// Mở form phát bao bì cho khách hàng
+        /// </summary>
+        private async Task OpenIssuePackagingForm(int customerId, Form parentForm)
+        {
+            try
+            {
+                using (var form = new PackagingTransactionForm(customerId, PackagingTransactionType.ISSUE))
+                {
+                    DialogResult result = parentForm != null
+                        ? FormHelper.ShowModalWithDim(parentForm, form)
+                        : form.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                    {
+                        await RefreshCustomersData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "mở form phát bao bì");
+            }
+        }
+
+        /// <summary>
+        /// Mở form thu hồi bao bì từ khách hàng
+        /// </summary>
+        private async Task OpenReturnPackagingForm(int customerId, Form parentForm)
+        {
+            try
+            {
+                using (var form = new PackagingTransactionForm(customerId, PackagingTransactionType.RETURN))
+                {
+                    DialogResult result = parentForm != null
+                        ? FormHelper.ShowModalWithDim(parentForm, form)
+                        : form.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                    {
+                        await RefreshCustomersData();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "mở form thu hồi bao bì");
             }
         }
 

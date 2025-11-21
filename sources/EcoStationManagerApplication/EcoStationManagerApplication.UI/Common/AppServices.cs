@@ -1,5 +1,6 @@
 ﻿using EcoStationManagerApplication.Core.Composition;
 using EcoStationManagerApplication.Core.Interfaces;
+using EcoStationManagerApplication.UI.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace EcoStationManagerApplication.UI.Common
 {
     public static class AppServices
     {
+        // Business Services
         public static IOrderService OrderService => ServiceRegistry.OrderService;
         public static IInventoryService InventoryService => ServiceRegistry.InventoryService;
         public static ICategoryService CategoryService => ServiceRegistry.CategoryService;
@@ -30,5 +32,10 @@ namespace EcoStationManagerApplication.UI.Common
         public static IWorkShiftService WorkShiftService => ServiceRegistry.WorkShiftService;
         public static IImportService ImportService => ServiceRegistry.ImportService;
         public static ICleaningScheduleService CleaningScheduleService => ServiceRegistry.CleaningScheduleService;
+
+        // UI Services
+        public static NavigationService Navigation => NavigationService.Instance;
+        public static DialogService Dialog => DialogService.Instance;
+        public static AppStateManager State => AppStateManager.Instance;
     }
 }

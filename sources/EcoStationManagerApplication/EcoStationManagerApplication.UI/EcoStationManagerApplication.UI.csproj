@@ -185,15 +185,15 @@
     <Compile Include="Common\AppColors.cs" />
     <Compile Include="Common\ApplicationContext.cs" />
     <Compile Include="Common\AppServices.cs" />
+    <Compile Include="Common\Services\NavigationService.cs" />
+    <Compile Include="Common\Services\DialogService.cs" />
+    <Compile Include="Common\Services\AppStateManager.cs" />
     <Compile Include="Common\EmailNotificationHelper.cs" />
     <Compile Include="Common\IRefreshableControl.cs" />
     <Compile Include="Common\FastReportHelper.cs" />
     <Compile Include="Common\FormHelper.cs" />
-    <Compile Include="Common\Helper.cs" />
-    <Compile Include="Common\ResponsiveLayoutHelper.cs" />
     <Compile Include="Common\RolePermissionHelper.cs" />
     <Compile Include="Common\ThemManager.cs" />
-    <Compile Include="Common\TogglerSidebar.cs" />
     <Compile Include="Common\UIHelper.cs" />
     <Compile Include="Controls\BackupControl.cs">
       <SubType>UserControl</SubType>
@@ -212,6 +212,9 @@
     </Compile>
     <Compile Include="Controls\Calendar\CalendarDayControl.Designer.cs">
       <DependentUpon>CalendarDayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BaseUserControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\CardControl.cs">
       <SubType>UserControl</SubType>
@@ -400,6 +403,12 @@
     <Compile Include="Forms\AddPackagingForm.Designer.cs">
       <DependentUpon>AddPackagingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PackagingTransactionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PackagingTransactionForm.Designer.cs">
+      <DependentUpon>PackagingTransactionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AddProductForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -585,6 +594,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OrderDetailForm.resx">
       <DependentUpon>OrderDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PackagingTransactionForm.resx">
+      <DependentUpon>PackagingTransactionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UpdateOrderForm.resx">
       <DependentUpon>UpdateOrderForm.cs</DependentUpon>

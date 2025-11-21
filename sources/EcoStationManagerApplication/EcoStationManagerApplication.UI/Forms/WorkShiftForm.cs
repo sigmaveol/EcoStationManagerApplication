@@ -1,5 +1,6 @@
 ﻿using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.UI.Common.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,8 +37,7 @@ namespace EcoStationManagerApplication.UI.Forms
 
             if (result?.Success != true || result.Data == null || !result.Data.Any())
             {
-                MessageBox.Show("Không thể tải danh sách nhân viên.",
-                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AppServices.Dialog.ShowError("Không thể tải danh sách nhân viên.");
                 this.Close();
                 return;
             }
@@ -69,16 +69,13 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             if (cbStaff.SelectedItem == null)
             {
-                MessageBox.Show("Vui lòng chọn nhân viên.", "Thiếu thông tin",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                AppServices.Dialog.ShowWarning("Vui lòng chọn nhân viên.", "Thiếu thông tin");
                 return false;
             }
 
             if (dtpEnd.Value <= dtpStart.Value)
             {
-                MessageBox.Show("Giờ kết thúc phải lớn hơn giờ bắt đầu.",
-                                "Thời gian không hợp lệ",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                AppServices.Dialog.ShowWarning("Giờ kết thúc phải lớn hơn giờ bắt đầu.", "Thời gian không hợp lệ");
                 return false;
             }
 
@@ -121,13 +118,11 @@ namespace EcoStationManagerApplication.UI.Forms
 
             if (!success)
             {
-                MessageBox.Show($"Không thể lưu ca làm việc: {message}",
-                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AppServices.Dialog.ShowError($"Không thể lưu ca làm việc: {message}");
                 return;
             }
 
-            MessageBox.Show("Lưu ca làm việc thành công!",
-                            "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            AppServices.Dialog.ShowSuccess("Lưu ca làm việc thành công!");
 
             this.DialogResult = DialogResult.OK;
             this.Close();

@@ -122,8 +122,7 @@ namespace EcoStationManagerApplication.UI.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải lịch vệ sinh: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UIHelper.ShowExceptionError(ex, "tải lịch vệ sinh");
             }
         }
 
@@ -207,8 +206,7 @@ namespace EcoStationManagerApplication.UI.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi hiển thị thông tin lịch: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UIHelper.ShowExceptionError(ex, "hiển thị thông tin lịch");
             }
         }
 
@@ -254,8 +252,7 @@ namespace EcoStationManagerApplication.UI.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi xử lý lịch vệ sinh: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UIHelper.ShowExceptionError(ex, "xử lý lịch vệ sinh");
             }
         }
 
@@ -505,8 +502,7 @@ namespace EcoStationManagerApplication.UI.Controls
             {
                 if (listView.SelectedItems.Count == 0)
                 {
-                    MessageBox.Show("Vui lòng chọn lịch vệ sinh cần hoàn thành.", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    UIHelper.ShowWarningMessage("Vui lòng chọn lịch vệ sinh cần hoàn thành.");
                     return;
                 }
 

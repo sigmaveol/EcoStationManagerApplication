@@ -1,6 +1,7 @@
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.UI.Common.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -95,8 +96,7 @@ namespace EcoStationManagerApplication.UI.Forms
 
             if (result?.Success != true || result.Data == null || !result.Data.Any())
             {
-                MessageBox.Show("Không thể tải danh sách nhân viên.",
-                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AppServices.Dialog.ShowError("Không thể tải danh sách nhân viên.");
                 this.Close();
                 return;
             }
@@ -236,8 +236,7 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             if (cmbCleaningType.SelectedItem == null)
             {
-                MessageBox.Show("Vui lòng chọn loại vệ sinh.", "Thiếu thông tin",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                AppServices.Dialog.ShowWarning("Vui lòng chọn loại vệ sinh.", "Thiếu thông tin");
                 return false;
             }
 
@@ -245,17 +244,15 @@ namespace EcoStationManagerApplication.UI.Forms
             var timeSpan = ParseTimeFromComboBox();
             if (!timeSpan.HasValue)
             {
-                MessageBox.Show("Vui lòng nhập thời gian hợp lệ (định dạng HH:mm, ví dụ: 08:30 hoặc 14:15).", 
-                                "Thời gian không hợp lệ",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                AppServices.Dialog.ShowWarning("Vui lòng nhập thời gian hợp lệ (định dạng HH:mm, ví dụ: 08:30 hoặc 14:15).", 
+                                "Thời gian không hợp lệ");
                 cmbCleaningTime.Focus();
                 return false;
             }
 
             if (_isCompletionMode && (cbCleanedBy.SelectedItem == null || cbCleanedBy.SelectedValue == null))
             {
-                MessageBox.Show("Vui lòng chọn người vệ sinh.", "Thiếu thông tin",
-                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                AppServices.Dialog.ShowWarning("Vui lòng chọn người vệ sinh.", "Thiếu thông tin");
                 return false;
             }
 
@@ -281,8 +278,7 @@ namespace EcoStationManagerApplication.UI.Forms
                 
                 if (cmbStatus.SelectedItem == null)
                 {
-                    MessageBox.Show("Vui lòng chọn trạng thái.", "Thiếu thông tin",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    AppServices.Dialog.ShowWarning("Vui lòng chọn trạng thái.", "Thiếu thông tin");
                     return;
                 }
 
@@ -294,8 +290,7 @@ namespace EcoStationManagerApplication.UI.Forms
                 var timeSpan = ParseTimeFromComboBox();
                 if (!timeSpan.HasValue)
                 {
-                    MessageBox.Show("Thời gian không hợp lệ.", "Lỗi",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    AppServices.Dialog.ShowError("Thời gian không hợp lệ.");
                     return;
                 }
                 
@@ -353,8 +348,7 @@ namespace EcoStationManagerApplication.UI.Forms
                 
                 if (cmbStatus.SelectedItem == null)
                 {
-                    MessageBox.Show("Vui lòng chọn trạng thái.", "Thiếu thông tin",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    AppServices.Dialog.ShowWarning("Vui lòng chọn trạng thái.", "Thiếu thông tin");
                     return;
                 }
 
@@ -366,8 +360,7 @@ namespace EcoStationManagerApplication.UI.Forms
                 var timeSpan = ParseTimeFromComboBox();
                 if (!timeSpan.HasValue)
                 {
-                    MessageBox.Show("Thời gian không hợp lệ.", "Lỗi",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    AppServices.Dialog.ShowError("Thời gian không hợp lệ.");
                     return;
                 }
                 

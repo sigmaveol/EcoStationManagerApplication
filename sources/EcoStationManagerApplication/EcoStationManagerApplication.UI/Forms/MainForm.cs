@@ -1,5 +1,6 @@
 ﻿using EcoStationManagerApplication.Common.Config;
 using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.UI.Common.Services;
 using EcoStationManagerApplication.UI.Controls;
 using System;
 using System.Collections.Generic;
@@ -15,34 +16,36 @@ namespace EcoStationManagerApplication.UI.Forms
 {
     public partial class MainForm : Form
     {
-
-        private Dictionary<string, UserControl> _contentCache = new Dictionary<string, UserControl>();
-
         public MainForm()
         {
             InitializeComponent();
+            InitializeServices();
         }
 
-        //private void SetupEventHandlers()
-        //{
-        //    if (sidebarControl != null)
-        //    {
-        //        sidebarControl.MenuClicked += OnMenuClicked;
-        //    }
-        //}
+        private void InitializeServices()
+        {
+            // Khởi tạo NavigationService với content panel
+            AppServices.Navigation.Initialize(contentControl);
+            
+            // Khởi tạo DialogService với MainForm làm parent
+            AppServices.Dialog.Initialize(this);
+            
+            // Đăng ký event từ NavigationService
+            AppServices.Navigation.OnViewChanged += NavigationService_OnViewChanged;
+        }
 
-        //private void OnMenuClicked(object sender, string menuName)
-        //{
-        //    // menuName chính là "dashboard", "reports", "devices"...
-        //    ShowContent(menuName);
-        //}
-
+        private void NavigationService_OnViewChanged(object sender, ViewChangedEventArgs e)
+        {
+            // Xử lý khi view thay đổi (nếu cần)
+            // Ví dụ: cập nhật title, log navigation, etc.
+        }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             InitializeSidebar();
             InitializeSidebarMenu();
-            ShowContent("dashboard");
+            // Sử dụng NavigationService thay vì ShowContent trực tiếp
+            AppServices.Navigation.NavigateTo("dashboard");
         }
 
         private void InitializeSidebar()
@@ -78,39 +81,8 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private void OnSidebarMenuClicked(object sender, string menuName)
         {
-            // Xử lý khi menu được click
-            ShowContent(menuName);
-
-        }
-
-        private void ShowContent(string menuName)
-        {
-            contentControl.Controls.Clear();
-
-            var key = menuName.ToLower();
-            if (!_contentCache.TryGetValue(key, out var ctrl))
-            {
-                // Tạo mới lần đầu
-                ctrl = CreateUserControlForMenu(key);
-                ctrl.Dock = DockStyle.Fill;
-
-                // Nếu là DashboardControl, đăng ký event ViewAllOrders
-                if (ctrl is DashboardControl dashboard)
-                {
-                    dashboard.ViewAllOrdersClicked += (s, e) => ShowContent("orders");
-                    // nếu có thêm event khác, cũng đăng ký ở đây
-                }
-
-                _contentCache[key] = ctrl; // lưu vào cache
-            }
-
-            if (ctrl is IRefreshableControl refreshable)
-            {
-                refreshable.RefreshData();
-            }
-
-            contentControl.Controls.Add(ctrl);
-
+            // Sử dụng NavigationService để điều hướng
+            AppServices.Navigation.NavigateTo(menuName);
         }
 
         /// <summary>
@@ -118,7 +90,7 @@ namespace EcoStationManagerApplication.UI.Forms
         /// </summary>
         public void NavigateToTab(string menuName)
         {
-            ShowContent(menuName);
+            AppServices.Navigation.NavigateTo(menuName);
         }
 
         /// <summary>
@@ -126,7 +98,7 @@ namespace EcoStationManagerApplication.UI.Forms
         /// </summary>
         public void NavigateToStockInAndOpenCreateForm()
         {
-            NavigateToTab("stockin");
+            AppServices.Navigation.NavigateTo("stockin");
             
             // Delay nhỏ để đảm bảo control đã được load và hiển thị
             System.Threading.Tasks.Task.Delay(100).ContinueWith(_ =>
@@ -166,7 +138,7 @@ namespace EcoStationManagerApplication.UI.Forms
         /// </summary>
         public void NavigateToStockOutAndOpenCreateForm()
         {
-            NavigateToTab("stockout");
+            AppServices.Navigation.NavigateTo("stockout");
             
             // Delay nhỏ để đảm bảo control đã được load và hiển thị
             System.Threading.Tasks.Task.Delay(100).ContinueWith(_ =>
@@ -199,73 +171,6 @@ namespace EcoStationManagerApplication.UI.Forms
                     }
                 }
             });
-        }
-
-
-        private UserControl CreateUserControlForMenu(string menuName)
-        {
-            try
-            {
-                Console.WriteLine($"Attempting to create control for: {menuName}");
-
-                switch (menuName.ToLower())
-                {
-                    case "dashboard":
-                        return new DashboardControl();
-                    case "orders":
-                        return new OrdersControl();
-                    case "products":
-                        return new ProductsControl();
-                    case "suppliers":
-                        return new SuppliersControl();
-                    case "customers":
-                        return new CustomersControl();
-                    case "inventory":
-                        return new InventoryControl();
-                    case "stockin":
-                        return new StockInManagementControl();
-                    case "stockout":
-                        return new StockOutManagementControl();
-                    case "staffs":
-                        return new StaffControl();
-                    case "payment":
-                        return new PaymentControl();
-                    case "reports":
-                        return new ReportControl(
-                            AppServices.ReportService,
-                            AppServices.OrderService,
-                            AppServices.OrderDetailService);
-                    case "systemsettings":
-                        return new SystemSettingsControl();
-                    default:
-                        return new DashboardControl();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"ERROR creating control: {ex.Message}");
-                Console.WriteLine($"Stack trace: {ex.StackTrace}");
-
-                // Trả về một UserControl đơn giản để không bị crash
-                return CreateFallbackControl($"Error: {ex.Message}");
-            }
-        }
-
-        private UserControl CreateFallbackControl(string message)
-        {
-            var panel = new UserControl();
-            panel.BackColor = Color.LightCoral;
-            panel.Dock = DockStyle.Fill;
-
-            var label = new Label();
-            label.Text = message;
-            label.AutoSize = true;
-            label.Location = new Point(20, 20);
-            label.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-            label.ForeColor = Color.DarkRed;
-
-            panel.Controls.Add(label);
-            return panel;
         }
     }
 }

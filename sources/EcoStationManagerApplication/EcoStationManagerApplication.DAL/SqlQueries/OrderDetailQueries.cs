@@ -45,7 +45,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             FROM OrderDetails od
             JOIN Orders o ON od.order_id = o.order_id
             WHERE od.product_id = @ProductId
-            AND o.status = 'COMPLETED'";
+            AND o.status = 5";
 
         // Top sản phẩm bán chạy
         public const string GetTopSellingProducts = @"
@@ -55,7 +55,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             FROM Products p
             JOIN OrderDetails od ON p.product_id = od.product_id
             JOIN Orders o ON od.order_id = o.order_id
-            WHERE o.status = 'COMPLETED'";
+            WHERE o.status = 5";
 
         // Doanh thu theo sản phẩm
         public const string GetProductRevenue = @"
@@ -66,14 +66,14 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             FROM Products p
             JOIN OrderDetails od ON p.product_id = od.product_id
             JOIN Orders o ON od.order_id = o.order_id
-            WHERE o.status = 'COMPLETED'";
+            WHERE o.status = 5";
 
         // Kiểm tra sản phẩm có trong đơn hàng nào không
         public const string IsProductInAnyOrder = @"
             SELECT 1 FROM OrderDetails od
             JOIN Orders o ON od.order_id = o.order_id
             WHERE od.product_id = @ProductId
-            AND o.status != 'CANCELLED'
+            AND o.status != 6
             LIMIT 1";
 
         // Thêm nhiều chi tiết đơn hàng (batch insert)

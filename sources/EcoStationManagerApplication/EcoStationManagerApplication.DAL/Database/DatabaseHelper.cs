@@ -7,6 +7,7 @@ using EcoStationManagerApplication.Models.Enums;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq;
 using System.Reflection;
@@ -28,7 +29,6 @@ namespace EcoStationManagerApplication.DAL.Database
 
             // Cấu hình Dapper để tự động map snake_case (order_id) sang PascalCase (OrderId)
             ConfigureDapperMapping();
-
         }
 
         private static void ConfigureDapperMapping()
@@ -58,6 +58,19 @@ namespace EcoStationManagerApplication.DAL.Database
                 {
                     SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(type, (modelType, columnName) =>
                     {
+                        // Ưu tiên tìm property với attribute [Column]
+                        var properties = modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                        var propertyWithColumn = properties.FirstOrDefault(p =>
+                        {
+                            var columnAttr = p.GetCustomAttribute<ColumnAttribute>();
+                            return columnAttr != null && 
+                                   string.Equals(columnAttr.Name, columnName, StringComparison.OrdinalIgnoreCase);
+                        });
+                        
+                        if (propertyWithColumn != null)
+                            return propertyWithColumn;
+
+                        // Fallback: tìm theo PascalCase
                         var pascalName = SnakeCaseToPascalCase(columnName);
                         return modelType.GetProperty(pascalName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) ??
                                modelType.GetProperty(columnName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
@@ -101,36 +114,103 @@ namespace EcoStationManagerApplication.DAL.Database
 
             public override void SetValue(IDbDataParameter parameter, T value)
             {
-                if (EqualityComparer<T>.Default.Equals(value, default(T)))
-                {
-                    var enumValues = Enum.GetValues(typeof(T));
-                    parameter.Value = enumValues.Length > 0 ? enumValues.GetValue(0).ToString() : value.ToString();
-                }
-                else
-                {
-                    parameter.Value = value.ToString();
-                }
+                // Với TINYINT, cần set giá trị số thay vì string
+                // Convert enum value sang underlying type (int, byte, sbyte, etc.)
+                var underlyingValue = Convert.ChangeType(value, Enum.GetUnderlyingType(typeof(T)));
+                parameter.Value = underlyingValue;
             }
 
             public override T Parse(object value)
             {
                 try
                 {
-                    if (value == null || value == DBNull.Value) return default;
+                    // Xử lý NULL hoặc DBNull
+                    if (value == null || value == DBNull.Value)
+                    {
+                        _logger?.Warning($"Attempted to parse NULL/DBNull value for enum {typeof(T).Name}, returning default");
+                        return GetDefaultEnumValue();
+                    }
                     
+                    // Xử lý string
                     if (value is string str)
                     {
                         var trimmed = str?.Trim() ?? "";
-                        return string.IsNullOrEmpty(trimmed) ? default :
-                               Enum.TryParse<T>(trimmed, true, out var result) ? result : default;
+                        
+                        // Nếu chuỗi rỗng, trả về giá trị mặc định
+                        if (string.IsNullOrEmpty(trimmed))
+                        {
+                            _logger?.Warning($"Attempted to parse empty string for enum {typeof(T).Name}, returning default");
+                            return GetDefaultEnumValue();
+                        }
+                        
+                        // Thử parse với ignore case
+                        if (Enum.TryParse<T>(trimmed, true, out var result))
+                        {
+                            return result;
+                        }
+                        
+                        // Nếu không parse được, log warning và trả về default
+                        _logger?.Warning($"Failed to parse '{trimmed}' as {typeof(T).Name}, returning default");
+                        return GetDefaultEnumValue();
                     }
                     
-                    if (value is int intVal && Enum.IsDefined(typeof(T), intVal))
-                        return (T)Enum.ToObject(typeof(T), intVal);
+                    // Xử lý các kiểu số nguyên (TINYINT có thể là sbyte, byte, int)
+                    if (value is sbyte sbyteVal)
+                    {
+                        if (Enum.IsDefined(typeof(T), (int)sbyteVal))
+                        {
+                            return (T)Enum.ToObject(typeof(T), (int)sbyteVal);
+                        }
+                        _logger?.Warning($"SByte value {sbyteVal} is not defined in enum {typeof(T).Name}, returning default");
+                        return GetDefaultEnumValue();
+                    }
 
-                    return default;
+                    if (value is byte byteVal)
+                    {
+                        if (Enum.IsDefined(typeof(T), (int)byteVal))
+                        {
+                            return (T)Enum.ToObject(typeof(T), (int)byteVal);
+                        }
+                        _logger?.Warning($"Byte value {byteVal} is not defined in enum {typeof(T).Name}, returning default");
+                        return GetDefaultEnumValue();
+                    }
+
+                    if (value is int intVal)
+                    {
+                        if (Enum.IsDefined(typeof(T), intVal))
+                        {
+                            return (T)Enum.ToObject(typeof(T), intVal);
+                        }
+                        _logger?.Warning($"Integer value {intVal} is not defined in enum {typeof(T).Name}, returning default");
+                        return GetDefaultEnumValue();
+                    }
+
+                    // Các kiểu khác, thử convert
+                    var stringValue = value.ToString();
+                    if (Enum.TryParse<T>(stringValue, true, out var convertedResult))
+                    {
+                        return convertedResult;
+                    }
+                    
+                    _logger?.Warning($"Failed to parse '{stringValue}' (type: {value.GetType().Name}) as {typeof(T).Name}, returning default");
+                    return GetDefaultEnumValue();
                 }
-                catch { return default; }
+                catch (Exception ex)
+                {
+                    _logger?.Error($"Exception parsing enum {typeof(T).Name} from value '{value}': {ex.Message}");
+                    return GetDefaultEnumValue();
+                }
+            }
+
+            private T GetDefaultEnumValue()
+            {
+                // Trả về giá trị đầu tiên của enum nếu có, nếu không thì default
+                var enumValues = Enum.GetValues(typeof(T));
+                if (enumValues.Length > 0)
+                {
+                    return (T)enumValues.GetValue(0);
+                }
+                return default(T);
             }
         }
 

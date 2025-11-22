@@ -2,7 +2,7 @@
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
-using EcoStationManagerApplication.UI.Helpers;
+using EcoStationManagerApplication.UI.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,607 +10,574 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-// using EcoStationManagerApplication.UI.Forms; s
 
 namespace EcoStationManagerApplication.UI.Controls
 {
-    public partial class StaffControl : UserControl
+    public partial class StaffControl : UserControl, IRefreshableControl
     {
-        private readonly BindingList<DeliveryAssignmentRow> _deliverySource = new BindingList<DeliveryAssignmentRow>();
-        private readonly BindingList<WorkShiftRow> _workShiftSource = new BindingList<WorkShiftRow>();
-        private bool _isLoadingDashboard;
+        private readonly BindingList<CleaningScheduleRow> _cleaningScheduleSource = new BindingList<CleaningScheduleRow>();
+        private Dictionary<DateTime, List<CleaningSchedule>> _cleaningSchedulesByDate = new Dictionary<DateTime, List<CleaningSchedule>>();
 
         public StaffControl()
         {
             InitializeComponent();
-
-            SetupDataGridStyle(dgvAssignments);
-            SetupDataGridStyle(dgvKPI);
-
-            InitializeDataGridColumns();
-            InitializeEvents();
-            InitializeFilters();
-            dgvAssignments.DataSource = _deliverySource;
-            dgvKPI.DataSource = _workShiftSource;
-
-            if (!IsInDesignMode())
-            {
-                _ = LoadDashboardAsync();
-            }
+            InitializeCleaningScheduleEvents();
         }
 
-        // Gán tất cả sự kiện ở đây
-        private void InitializeEvents()
+        public void RefreshData()
         {
-            // Delivery Assignment Events
-            if (btnAssignDelivery != null)
-                btnAssignDelivery.Click += btnAssignDelivery_Click;
-            if (btnUpdateDeliveryStatus != null)
-                btnUpdateDeliveryStatus.Click += btnUpdateDeliveryStatus_Click;
-            if (btnExportDeliveryExcel != null)
-                btnExportDeliveryExcel.Click += btnExportDeliveryExcel_Click;
-            if (btnExportDeliveryPdf != null)
-                btnExportDeliveryPdf.Click += btnExportDeliveryPdf_Click;
-            if (txtDeliverySearch != null)
-                txtDeliverySearch.TextChanged += (s, e) => { _deliverySearchText = txtDeliverySearch.Text ?? ""; FilterDeliveryData(); };
-            if (cmbDeliveryStatusFilter != null)
-                cmbDeliveryStatusFilter.SelectedIndexChanged += (s, e) => 
-                {
-                    if (cmbDeliveryStatusFilter.SelectedIndex > 0)
-                    {
-                        var statusText = cmbDeliveryStatusFilter.SelectedItem.ToString();
-                        _deliveryFilterStatus = statusText == "Chờ giao" ? DeliveryStatus.PENDING :
-                            statusText == "Đang giao" ? DeliveryStatus.INTRANSIT :
-                            statusText == "Đã giao" ? DeliveryStatus.DELIVERED :
-                            statusText == "Thất bại" ? DeliveryStatus.FAILED : (DeliveryStatus?)null;
-                    }
-                    else
-                        _deliveryFilterStatus = null;
-                    FilterDeliveryData();
-                };
-            if (dtpDeliveryDateFilter != null)
-                dtpDeliveryDateFilter.ValueChanged += (s, e) => { _deliveryFilterDate = dtpDeliveryDateFilter.Value.Date; FilterDeliveryData(); };
-
-            // WorkShift Events
-            if (btnAddWorkShift != null)
-                btnAddWorkShift.Click += btnAddWorkShift_Click;
-            if (btnEditWorkShift != null)
-                btnEditWorkShift.Click += btnEditWorkShift_Click;
-            if (btnDeleteWorkShift != null)
-                btnDeleteWorkShift.Click += btnDeleteWorkShift_Click;
-            if (btnExportWorkShiftExcel != null)
-                btnExportWorkShiftExcel.Click += btnExportWorkShiftExcel_Click;
-            if (btnExportWorkShiftPdf != null)
-                btnExportWorkShiftPdf.Click += btnExportWorkShiftPdf_Click;
-            if (txtWorkShiftSearch != null)
-                txtWorkShiftSearch.TextChanged += (s, e) => { _workShiftSearchText = txtWorkShiftSearch.Text ?? ""; FilterWorkShiftData(); };
-            if (cmbWorkShiftRoleFilter != null)
-                cmbWorkShiftRoleFilter.SelectedIndexChanged += (s, e) =>
-                {
-                    if (cmbWorkShiftRoleFilter.SelectedIndex > 0)
-                    {
-                        var roleText = cmbWorkShiftRoleFilter.SelectedItem.ToString();
-                        _workShiftFilterRole = roleText == "Quản trị viên" ? UserRole.ADMIN :
-                            roleText == "Quản lý trạm" ? UserRole.MANAGER :
-                            roleText == "Nhân viên" ? UserRole.STAFF :
-                            roleText == "Tài xế" ? UserRole.DRIVER : (UserRole?)null;
-                    }
-                    else
-                        _workShiftFilterRole = null;
-                    FilterWorkShiftData();
-                };
-            if (dtpWorkShiftDateFilter != null)
-                dtpWorkShiftDateFilter.ValueChanged += (s, e) => { _workShiftFilterDate = dtpWorkShiftDateFilter.Value.Date; FilterWorkShiftData(); };
-
-            if (dgvAssignments != null)
-            {
-                dgvAssignments.CellFormatting += dgvAssignments_CellFormatting;
-                dgvAssignments.CellDoubleClick += dgvAssignments_CellDoubleClick;
-                dgvAssignments.ColumnHeaderMouseClick += dgvAssignments_ColumnHeaderMouseClick;
-            }
-
-            if (dgvKPI != null)
-            {
-                dgvKPI.CellFormatting += dgvKPI_CellFormatting;
-                dgvKPI.ColumnHeaderMouseClick += dgvKPI_ColumnHeaderMouseClick;
-            }
-
-            this.Load += async (s, e) =>
-            {
-                if (!IsInDesignMode() && !_isLoadingDashboard)
-                {
-                    await LoadDashboardAsync();
-                }
-            };
+            _ = LoadCleaningScheduleDataAsync();
         }
 
-        // Khởi tạo các bộ lọc
-        private void InitializeFilters()
+        private async void StaffControl_Load(object sender, EventArgs e)
         {
-            if (cmbDeliveryStatusFilter != null && cmbDeliveryStatusFilter.Items.Count > 0)
-                cmbDeliveryStatusFilter.SelectedIndex = 0;
-            if (cmbWorkShiftRoleFilter != null && cmbWorkShiftRoleFilter.Items.Count > 0)
-                cmbWorkShiftRoleFilter.SelectedIndex = 0;
+            await LoadCleaningScheduleDataAsync();
         }
 
-        // Thêm cột cho các DataGridView (Designer không thể xử lý vòng lặp)
-        private void InitializeDataGridColumns()
+        #region Cleaning Schedule Methods
+
+        /// <summary>
+        /// Load cleaning schedules và hiển thị trên CalendarControl
+        /// </summary>
+        private async Task LoadCleaningScheduleDataAsync()
         {
-            dgvAssignments.AutoGenerateColumns = false;
-            dgvKPI.AutoGenerateColumns = false;
-            dgvAssignments.Columns.Clear();
-            dgvKPI.Columns.Clear();
-
-            // --- Cột cho Bảng Phân công ---
-            var columnsAssignments = new[]
-            {
-                new { Name = "OrderCode", Header = "Mã đơn", FillWeight = 12 },
-                new { Name = "CustomerName", Header = "Tên khách", FillWeight = 15 },
-                new { Name = "Address", Header = "Địa chỉ giao", FillWeight = 20 },
-                new { Name = "DriverName", Header = "Tài xế", FillWeight = 12 },
-                new { Name = "Status", Header = "Trạng thái", FillWeight = 10 },
-                new { Name = "CodAmount", Header = "COD", FillWeight = 10 },
-                new { Name = "PaymentStatus", Header = "Thanh toán", FillWeight = 10 },
-                new { Name = "AssignedDate", Header = "Ngày phân công", FillWeight = 11 }
-            };
-
-            foreach (var col in columnsAssignments)
-            {
-                dgvAssignments.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    Name = col.Name,
-                    HeaderText = col.Header,
-                    FillWeight = col.FillWeight,
-                    DataPropertyName = col.Name,
-                    ReadOnly = true
-                });
-            }
-
-            // --- Cột cho Bảng KPI ---
-            var columnsKPI = new[]
-            {
-                new { Name = "StaffName", Header = "Tên nhân viên", FillWeight = 15 },
-                new { Name = "Role", Header = "Vai trò", FillWeight = 10 },
-                new { Name = "StationName", Header = "Trạm làm việc", FillWeight = 15 },
-                new { Name = "ShiftDate", Header = "Ngày ca", FillWeight = 12 },
-                new { Name = "StartTime", Header = "Giờ bắt đầu", FillWeight = 10 },
-                new { Name = "EndTime", Header = "Giờ kết thúc", FillWeight = 10 },
-                new { Name = "KpiScore", Header = "KPI (%)", FillWeight = 10 },
-                new { Name = "Notes", Header = "Ghi chú", FillWeight = 18 }
-            };
-
-            foreach (var col in columnsKPI)
-            {
-                dgvKPI.Columns.Add(new DataGridViewTextBoxColumn
-                {
-                    Name = col.Name,
-                    HeaderText = col.Header,
-                    FillWeight = col.FillWeight,
-                    DataPropertyName = col.Name,
-                    ReadOnly = true
-                });
-            }
-        }
-
-        // --- HÀM XỬ LÝ SỰ KIỆN ---
-
-        private void btnAddStaff_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Mở form thêm nhân viên mới", "Thêm nhân viên");
-            // using (var addStaffForm = new AddStaffForm()) // Tên form giả định
-            // {
-            //     addStaffForm.ShowDialog();
-            // }
-        }
-
-        // --- HÀM LOGIC & DỮ LIỆU ---
-        private async Task LoadDashboardAsync()
-        {
-            if (_isLoadingDashboard)
-                return;
+            _cleaningScheduleSource.Clear();
+            _cleaningSchedulesByDate.Clear();
 
             try
             {
-                _isLoadingDashboard = true;
-                SetLoadingState(true);
-
-                var deliveryTask = LoadDeliveryAssignmentsAsync();
-                var shiftTask = LoadWorkShiftDataAsync();
-                var dashboardTask = LoadDashboardKPIAsync();
-
-                await Task.WhenAll(deliveryTask, shiftTask, dashboardTask);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi tải dữ liệu nhân sự: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                SetLoadingState(false);
-                _isLoadingDashboard = false;
-            }
-        }
-
-        private async Task LoadDeliveryAssignmentsAsync()
-        {
-            _deliverySource.Clear();
-
-            try
-            {
-                // Lấy các phân công giao hàng đang chờ và đang giao
-                var pendingResult = await AppServices.DeliveryService.GetPendingDeliveriesAsync();
-                var inTransitResult = await AppServices.DeliveryService.GetByStatusAsync(DeliveryStatus.INTRANSIT);
-
-                var allAssignments = new List<DeliveryAssignment>();
-                if (pendingResult?.Success == true && pendingResult.Data != null)
-                    allAssignments.AddRange(pendingResult.Data);
-                if (inTransitResult?.Success == true && inTransitResult.Data != null)
-                    allAssignments.AddRange(inTransitResult.Data);
-
-                if (!allAssignments.Any())
-                {
-                    // Nếu không có phân công, lấy các đơn hàng đang xử lý để có thể phân công
-                    var ordersResult = await AppServices.OrderService.GetProcessingOrdersAsync();
-                    if (ordersResult?.Success == true && ordersResult.Data != null)
-                    {
-                        var orders = ordersResult.Data.Take(30).ToList();
-                        foreach (var order in orders)
-                        {
-                            _deliverySource.Add(new DeliveryAssignmentRow
-                            {
-                                OrderId = order.OrderId,
-                                AssignmentId = 0,
-                                OrderCode = order.OrderCode ?? "N/A",
-                                CustomerName = order.CustomerName ?? "Khách lẻ",
-                                Address = "-",
-                                DriverName = "Chưa phân công",
-                                Status = GetDeliveryStatusDisplay(DeliveryStatus.PENDING),
-                                CodAmount = 0,
-                                PaymentStatus = "Chưa xác định",
-                                AssignedDate = "-"
-                            });
-                        }
-                    }
-                    return;
+                if (calendarControl == null) {
+                    return;                
                 }
 
-                // Lấy thông tin đơn hàng và tài xế
-                var driversResult = await AppServices.UserService.GetActiveDriversAsync();
-                var driverDict = driversResult?.Data?.ToDictionary(d => d.UserId, d => d) ?? new Dictionary<int, User>();
+                // Lấy tất cả lịch vệ sinh
+                var allSchedulesResult = await AppServices.CleaningScheduleService.GetAllAsync();
+                var allSchedules = allSchedulesResult?.Data?.ToList() ?? new List<CleaningSchedule>();
 
-                foreach (var assignment in allAssignments.Take(50))
-                {
-                    var orderResult = await AppServices.OrderService.GetOrderByIdAsync(assignment.OrderId);
-                    var order = orderResult?.Data;
-                    var driver = driverDict.ContainsKey(assignment.DriverId) ? driverDict[assignment.DriverId] : null;
-
-                    var staffName = driver?.Fullname ?? driver?.Username ?? "Chưa phân công";
-                    var shiftStart = assignment.AssignedDate;
-                    var shiftEnd = shiftStart.AddHours(4); // Mặc định ca 4 giờ
-
-                    // Lấy thông tin ca làm việc của tài xế
-                    var shiftResult = await AppServices.WorkShiftService.GetByUserIdAndDateAsync(assignment.DriverId, assignment.AssignedDate.Date);
-                    if (shiftResult?.Success == true && shiftResult.Data != null)
-                    {
-                        var shift = shiftResult.Data;
-                        if (shift.StartTime.HasValue)
-                            shiftStart = assignment.AssignedDate.Date.Add(shift.StartTime.Value);
-                        if (shift.EndTime.HasValue)
-                            shiftEnd = assignment.AssignedDate.Date.Add(shift.EndTime.Value);
-                    }
-
-                    // Lấy tên khách hàng
-                    string customerName = "Khách lẻ";
-                    if (order != null && order.CustomerId.HasValue)
-                    {
-                        var customerResult = await AppServices.CustomerService.GetCustomerByIdAsync(order.CustomerId.Value);
-                        if (customerResult?.Success == true && customerResult.Data != null)
-                        {
-                            customerName = customerResult.Data.Name ?? "Khách lẻ";
-                        }
-                    }
-
-                    _deliverySource.Add(new DeliveryAssignmentRow
-                    {
-                        OrderId = assignment.OrderId,
-                        AssignmentId = assignment.AssignmentId,
-                        OrderCode = order?.OrderCode ?? "N/A",
-                        CustomerName = customerName,
-                        Address = order?.Address ?? "-",
-                        DriverName = staffName,
-                        Status = GetDeliveryStatusDisplay(assignment.Status),
-                        CodAmount = assignment.CodAmount,
-                        PaymentStatus = GetPaymentStatusDisplay(assignment.PaymentStatus),
-                        AssignedDate = assignment.AssignedDate.ToString("dd/MM/yyyy HH:mm")
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi tải phân công giao hàng: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async Task LoadWorkShiftDataAsync()
-        {
-            _workShiftSource.Clear();
-
-            try
-            {
+                // Lấy danh sách nhân viên để map tên
                 var staffResult = await AppServices.UserService.GetActiveStaffAsync();
                 var staffList = staffResult?.Data?.ToList() ?? new List<User>();
-                if (!staffList.Any())
-                    return;
+                var staffDict = staffList.ToDictionary(s => s.UserId, s => s.Fullname ?? s.Username);
 
-                var today = DateTime.Today;
-                var todayOrdersResult = await AppServices.OrderService.GetTodayOrdersAsync();
-                var todayOrders = todayOrdersResult?.Data?.ToList() ?? new List<Order>();
+                // Xóa tất cả events cũ trên calendar
+                calendarControl.ClearAllEvents();
 
-                // Lấy danh sách stations để map với manager
-                var stationsResult = await AppServices.StationService.GetAllStationsAsync();
-                var stations = stationsResult?.Data?.ToList() ?? new List<Station>();
-                var stationDict = stations.Where(s => s.Manager.HasValue)
-                    .ToDictionary(s => s.Manager.Value, s => s.Name);
-
-                foreach (var staff in staffList)
+                // Nhóm lịch theo ngày và thêm vào calendar
+                foreach (var schedule in allSchedules)
                 {
-                    // Lấy ca làm việc hôm nay của nhân viên
-                    var shiftResult = await AppServices.WorkShiftService.GetCurrentShiftByUserIdAsync(staff.UserId);
-                    WorkShift shift = null;
-                    DateTime shiftStart = today.AddHours(8); // Mặc định 8h
-                    DateTime shiftEnd = today.AddHours(17); // Mặc định 17h
-
-                    if (shiftResult?.Success == true && shiftResult.Data != null)
+                    var dateKey = schedule.CleaningDate.Date;
+                    
+                    // Thêm vào dictionary để tra cứu sau
+                    if (!_cleaningSchedulesByDate.ContainsKey(dateKey))
                     {
-                        shift = shiftResult.Data;
-                        if (shift.StartTime.HasValue)
-                            shiftStart = today.Add(shift.StartTime.Value);
-                        if (shift.EndTime.HasValue)
-                            shiftEnd = today.Add(shift.EndTime.Value);
+                        _cleaningSchedulesByDate[dateKey] = new List<CleaningSchedule>();
                     }
+                    _cleaningSchedulesByDate[dateKey].Add(schedule);
 
-                    // Đếm số đơn hàng nhân viên đã xử lý hôm nay
-                    var ordersHandled = todayOrders.Where(o => o.UserId == staff.UserId).Count();
-
-                    var status = DetermineShiftStatus(shiftStart, shiftEnd);
-                    string kpiPercent = "-";
-
-                    if (shift != null && shift.KpiScore.HasValue)
+                    // Tạo CalendarEvent để hiển thị trên calendar
+                    var eventColor = GetStatusColor(schedule.Status);
+                    var eventTitle = $"{GetCleaningTypeDisplayName(schedule.CleaningType)} - {GetStatusDisplayName(schedule.Status)}";
+                    
+                    // Thêm thông tin CleanedDatetime vào description nếu có
+                    var description = schedule.Notes ?? "";
+                    if (schedule.CleanedDatetime.HasValue && schedule.Status == CleaningStatus.COMPLETED)
                     {
-                        kpiPercent = $"{shift.KpiScore.Value:F1}%";
+                        if (!string.IsNullOrEmpty(description))
+                            description += "\n";
+                        description += $"Đã hoàn thành: {schedule.CleanedDatetime.Value:dd/MM/yyyy HH:mm}";
                     }
-                    else if (ordersHandled > 0 && shift != null && shift.ShiftId > 0)
+                    
+                    var calendarEvent = new CalendarEvent
                     {
-                        // Tính KPI nếu chưa có
-                        var kpiResult = await AppServices.WorkShiftService.CalculateKPIAsync(shift.ShiftId, ordersHandled, 20);
-                        if (kpiResult?.Success == true)
-                        {
-                            kpiPercent = $"{kpiResult.Data:F1}%";
-                        }
-                    }
-                    else if (ordersHandled > 0)
-                    {
-                        // Tính KPI tạm thời (không lưu vào DB)
-                        var kpi = Math.Min(100, (decimal)ordersHandled / 20 * 100);
-                        kpiPercent = $"{kpi:F1}%";
-                    }
+                        Id = schedule.CsId.ToString(),
+                        Title = eventTitle,
+                        Description = description,
+                        EventColor = eventColor,
+                        Tag = schedule
+                    };
 
-                    // Lấy tên trạm (nếu user là manager của một trạm)
-                    string stationName = "-";
-                    if (stationDict.ContainsKey(staff.UserId))
-                    {
-                        stationName = stationDict[staff.UserId];
-                    }
 
-                    // Lấy role display name
-                    string roleDisplay = GetRoleDisplayName(staff.Role);
+                    calendarControl.AddEvent(dateKey, calendarEvent);
 
-                    _workShiftSource.Add(new WorkShiftRow
+                    // Thêm vào BindingList để hiển thị trong DataGridView (nếu có)
+                    var cleanedByName = schedule.CleaningBy.HasValue && staffDict.ContainsKey(schedule.CleaningBy.Value)
+                        ? staffDict[schedule.CleaningBy.Value]
+                        : "Chưa phân công";
+
+                    // Sử dụng CleanedDatetime từ entity, nếu không có thì fallback về extract từ Notes
+                    var cleanedDateTime = schedule.CleanedDatetime.HasValue ? schedule.CleanedDatetime.Value.ToString("dd/MM/yyyy HH:mm") : "";
+
+
+                    _cleaningScheduleSource.Add(new CleaningScheduleRow
                     {
-                        ShiftId = shift?.ShiftId ?? 0,
-                        UserId = staff.UserId,
-                        StaffName = staff.Fullname ?? staff.Username,
-                        Role = roleDisplay,
-                        StationName = stationName,
-                        ShiftDate = shift != null ? shift.ShiftDate.ToString("dd/MM/yyyy") : today.ToString("dd/MM/yyyy"),
-                        StartTime = shift?.StartTime.HasValue == true ? shift.StartTime.Value.ToString(@"hh\:mm") : "-",
-                        EndTime = shift?.EndTime.HasValue == true ? shift.EndTime.Value.ToString(@"hh\:mm") : "-",
-                        KpiScore = kpiPercent,
-                        Notes = shift?.Notes ?? "-"
+                        ScheduleId = schedule.CsId,
+                        CleaningType = GetCleaningTypeDisplayName(schedule.CleaningType),
+                        ScheduledDate = schedule.CleaningDate.ToString("dd/MM/yyyy HH:mm"),
+                        CleanedBy = cleanedByName,
+                        CleanedDateTime = cleanedDateTime,
+                        Status = GetStatusDisplayName(schedule.Status),
+                        Notes = schedule.Notes
                     });
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải dữ liệu ca làm việc: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UIHelper.ShowExceptionError(ex, "tải lịch vệ sinh");
             }
         }
 
-        // --- CÁC HÀM HELPER (Hàm phụ trợ) ---
-        private void SetLoadingState(bool isLoading)
-        {
-            if (IsInDesignMode())
-                return;
-
-            Cursor = isLoading ? Cursors.WaitCursor : Cursors.Default;
-        }
-
-        private bool IsInDesignMode()
-        {
-            return DesignMode ||
-                   LicenseManager.UsageMode == LicenseUsageMode.Designtime ||
-                   (Site?.DesignMode ?? false);
-        }
-
-        private string GetOrderStatusDisplay(OrderStatus status)
+        /// <summary>
+        /// Lấy màu hiển thị theo trạng thái
+        /// </summary>
+        private Color GetStatusColor(CleaningStatus status)
         {
             switch (status)
             {
-                case OrderStatus.DRAFT:
-                    return "Nháp";
-                case OrderStatus.CONFIRMED:
-                    return "Đã xác nhận";
-                case OrderStatus.PROCESSING:
-                    return "Đang xử lý";
-                case OrderStatus.READY:
-                    return "Sẵn sàng";
-                case OrderStatus.SHIPPED:
-                    return "Đang giao";
-                case OrderStatus.COMPLETED:
+                case CleaningStatus.SCHEDULED:
+                    return Color.Blue;
+                case CleaningStatus.COMPLETED:
+                    return Color.Green;
+                case CleaningStatus.OVERDUE:
+                    return Color.Red;
+                case CleaningStatus.CANCELLED:
+                    return Color.Gray;
+                default:
+                    return Color.Black;
+            }
+        }
+
+        private string GetCleaningTypeDisplayName(CleaningType type)
+        {
+            return type == CleaningType.TANK ? "Bồn chứa" : "Bao bì";
+        }
+
+        private string GetStatusDisplayName(CleaningStatus status)
+        {
+            switch (status)
+            {
+                case CleaningStatus.SCHEDULED:
+                    return "Đã lên lịch";
+                case CleaningStatus.COMPLETED:
                     return "Đã hoàn thành";
-                case OrderStatus.CANCELLED:
+                case CleaningStatus.OVERDUE:
+                    return "Quá hạn";
+                case CleaningStatus.CANCELLED:
                     return "Đã hủy";
                 default:
                     return status.ToString();
             }
         }
 
-        private string GetDeliveryStatusDisplay(DeliveryStatus status)
+        #endregion
+
+        #region Cleaning Schedule Event Handlers
+
+        /// <summary>
+        /// Khởi tạo events cho CalendarControl
+        /// </summary>
+        private void InitializeCleaningScheduleEvents()
         {
-            switch (status)
+            if (calendarControl != null)
             {
-                case DeliveryStatus.PENDING:
-                    return "Chờ giao";
-                case DeliveryStatus.INTRANSIT:
-                    return "Đang giao";
-                case DeliveryStatus.DELIVERED:
-                    return "Đã giao";
-                case DeliveryStatus.FAILED:
-                    return "Thất bại";
-                default:
-                    return status.ToString();
+                calendarControl.DateDoubleClick += CalendarControl_DateDoubleClick;
+                calendarControl.DateClick += CalendarControl_DateClick;
             }
         }
 
-        private string GetPaymentStatusDisplay(DeliveryPaymentStatus status)
+        /// <summary>
+        /// Xử lý khi click vào ngày trên calendar
+        /// </summary>
+        private async void CalendarControl_DateClick(object sender, CalendarDateEventArgs e)
         {
-            switch (status)
+            try
             {
-                case DeliveryPaymentStatus.UNPAID:
-                    return "Chưa thanh toán";
-                case DeliveryPaymentStatus.PAID:
-                    return "Đã thanh toán";
-                default:
-                    return status.ToString();
+                var selectedDate = e.Date.Date;
+                
+                // Kiểm tra xem có lịch vệ sinh nào trong ngày này không
+                var hasSchedules = _cleaningSchedulesByDate.ContainsKey(selectedDate) && 
+                                   _cleaningSchedulesByDate[selectedDate].Any();
+                
+                var schedules = hasSchedules 
+                    ? _cleaningSchedulesByDate[selectedDate] 
+                    : new List<CleaningSchedule>();
+
+                // Hiển thị dialog với thông tin lịch và nút thêm lịch
+                await ShowCleaningScheduleInfoDialog(selectedDate, schedules);
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "hiển thị thông tin lịch");
             }
         }
 
-        private string DetermineShiftStatus(DateTime shiftStart, DateTime shiftEnd)
+        /// <summary>
+        /// Xử lý khi double-click vào ngày trên calendar
+        /// </summary>
+        private async void CalendarControl_DateDoubleClick(object sender, DateTime e)
         {
-            var now = DateTime.Now;
-            if (now < shiftStart)
-                return "Chưa bắt đầu";
-
-            if (now >= shiftStart && now <= shiftEnd)
-                return "Đang làm";
-
-            return "Đã kết thúc";
-        }
-
-        private string CalculateKpiPercent(int ordersHandled)
-        {
-            var kpi = Math.Min(100, 60 + ordersHandled * 5);
-            return $"{kpi}%";
-        }
-
-        private string GetRoleDisplayName(UserRole role)
-        {
-            return RolePermissionHelper.GetRoleDisplayName(role);
-        }
-
-        // Hàm áp dụng style chung cho DataGridView
-        private void SetupDataGridStyle(DataGridView dgv)
-        {
-            dgv.BackgroundColor = Color.White;
-            dgv.BorderStyle = BorderStyle.None;
-            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgv.GridColor = Color.FromArgb(240, 240, 240);
-            dgv.AllowUserToAddRows = false;
-            dgv.AllowUserToDeleteRows = false;
-            dgv.AllowUserToResizeRows = false;
-            dgv.RowHeadersVisible = false;
-            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
-            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv.EnableHeadersVisualStyles = false;
-            dgv.ColumnHeadersHeight = 40;
-            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
-            dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 245, 255);
-            dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dgv.RowTemplate.Height = 35;
-        }
-
-        // Hàm tô màu cho các ô
-        private Color GetBadgeColor(string status)
-        {
-            switch (status)
+            try
             {
-                case "Đang giao": return Color.FromArgb(200, 230, 201); // Xanh lá
-                case "Đang làm": return Color.FromArgb(187, 222, 251); // Xanh dương
-                case "Tốt": return Color.Green;
-                case "Khá": return Color.Orange;
-                default: return Color.LightGray;
-            }
-        }
-
-        private void dgvAssignments_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dgvAssignments.Columns[e.ColumnIndex].Name == "Status")
-            {
-                if (e.Value != null)
+                var selectedDate = e.Date;
+                
+                // Kiểm tra xem có lịch vệ sinh nào trong ngày này không
+                if (_cleaningSchedulesByDate.ContainsKey(selectedDate) && 
+                    _cleaningSchedulesByDate[selectedDate].Any())
                 {
-                    string status = e.Value.ToString();
-                    e.CellStyle.BackColor = GetBadgeColor(status);
-                    e.CellStyle.ForeColor = Color.Black;
-                    e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-                    e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    var schedules = _cleaningSchedulesByDate[selectedDate];
+                    
+                    // Nếu có nhiều lịch, hiển thị dialog chọn
+                    if (schedules.Count == 1)
+                    {
+                        await ShowCleaningScheduleDialog(schedules[0]);
+                    }
+                    else
+                    {
+                        await ShowCleaningScheduleListDialog(selectedDate, schedules);
+                    }
+                }
+                else
+                {
+                    // Không có lịch, mở form tạo mới
+                    using (var form = new CleaningScheduleForm())
+                    {
+                        // Set ngày mặc định
+                        form.SetDefaultDate(selectedDate);
+                        
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            await LoadCleaningScheduleDataAsync();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "xử lý lịch vệ sinh");
+            }
+        }
+
+        /// <summary>
+        /// Hiển thị dialog thông tin lịch vệ sinh khi click vào ngày trên calendar
+        /// </summary>
+        private async Task ShowCleaningScheduleInfoDialog(DateTime date, List<CleaningSchedule> schedules)
+        {
+            var dialog = new Form
+            {
+                Text = $"Lịch vệ sinh - {date:dd/MM/yyyy}",
+                Size = new Size(700, 500),
+                StartPosition = FormStartPosition.CenterParent,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                Padding = new Padding(15)
+            };
+
+            // Label tiêu đề
+            var lblTitle = new Label
+            {
+                Text = $"Lịch vệ sinh ngày {date:dd/MM/yyyy}",
+                Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold),
+                Location = new Point(15, 15),
+                AutoSize = true
+            };
+
+            // Panel chứa danh sách lịch
+            var panelSchedules = new Panel
+            {
+                Location = new Point(15, 50),
+                Size = new Size(660, schedules.Any() ? 300 : 100),
+                BorderStyle = BorderStyle.FixedSingle,
+                AutoScroll = true
+            };
+
+            int yPos = 10;
+            
+            if (schedules.Any())
+            {
+                // Lấy danh sách nhân viên để map tên
+                var staffResult = await AppServices.UserService.GetActiveStaffAsync();
+                var staffList = staffResult?.Data?.ToList() ?? new List<User>();
+                var staffDict = staffList.ToDictionary(s => s.UserId, s => s.Fullname ?? s.Username);
+
+                foreach (var schedule in schedules.OrderBy(s => s.CleaningDate))
+                {
+                    var statusColor = GetStatusColor(schedule.Status);
+
+                    var schedulePanel = new Panel
+                    {
+                        Location = new Point(10, yPos),
+                        Size = new Size(640, 80),
+                        BorderStyle = BorderStyle.FixedSingle,
+                        BackColor = Color.White,
+                        Padding = new Padding(1)
+                    };
+
+                    // Vẽ viền với màu trạng thái
+                    schedulePanel.Paint += (s, pe) =>
+                    {
+                        using (var pen = new Pen(statusColor, 3))
+                        {
+                            pe.Graphics.DrawRectangle(pen, 0, 0, schedulePanel.Width - 1, schedulePanel.Height - 1);
+                        }
+                    };
+
+                    var lblType = new Label
+                    {
+                        Text = $"Loại: {GetCleaningTypeDisplayName(schedule.CleaningType)}",
+                        Location = new Point(10, 5),
+                        AutoSize = true,
+                        Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
+                    };
+
+                    // Hiển thị giờ: nếu có CleanedDatetime thì dùng CleanedDatetime, ngược lại dùng CleaningDate
+                    var displayTime = schedule.CleanedDatetime.HasValue 
+                        ? schedule.CleanedDatetime.Value 
+                        : schedule.CleaningDate;
+                    
+                    var lblTime = new Label
+                    {
+                        Text = $"Giờ: {displayTime:HH:mm}",
+                        Location = new Point(10, 25),
+                        AutoSize = true
+                    };
+
+                    var cleanedByName = schedule.CleaningBy.HasValue && staffDict.ContainsKey(schedule.CleaningBy.Value)
+                        ? staffDict[schedule.CleaningBy.Value]
+                        : "Chưa phân công";
+
+                    var lblAssigned = new Label
+                    {
+                        Text = $"Người thực hiện: {cleanedByName}",
+                        Location = new Point(10, 45),
+                        AutoSize = true
+                    };
+
+                    var lblStatus = new Label
+                    {
+                        Text = $"Trạng thái: {GetStatusDisplayName(schedule.Status)}",
+                        Location = new Point(300, 5),
+                        AutoSize = true,
+                        Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
+                    };
+
+                    var cleanedDateTime = schedule.CleanedDatetime.HasValue
+                        ? schedule.CleanedDatetime.Value.ToString("dd/MM/yyyy HH:mm")
+                        : "Chưa vệ sinh";
+                    
+                    var lblCleaned = new Label
+                    {
+                        Text = $"Đã vệ sinh: {cleanedDateTime}",
+                        Location = new Point(300, 45),
+                        AutoSize = true
+                    };
+
+                    // Nút xem chi tiết
+                    var btnView = new Button
+                    {
+                        Text = "Chi tiết",
+                        Location = new Point(550, 25),
+                        Size = new Size(80, 30),
+                        Tag = schedule
+                    };
+                    btnView.Click += async (s, e) =>
+                    {
+                        dialog.Close();
+                        await ShowCleaningScheduleDialog(schedule);
+                        await LoadCleaningScheduleDataAsync();
+                    };
+
+                    schedulePanel.Controls.Add(lblType);
+                    schedulePanel.Controls.Add(lblTime);
+                    schedulePanel.Controls.Add(lblAssigned);
+                    schedulePanel.Controls.Add(lblStatus);
+                    schedulePanel.Controls.Add(lblCleaned);
+                    schedulePanel.Controls.Add(btnView);
+
+                    panelSchedules.Controls.Add(schedulePanel);
+                    yPos += 90;
+                }
+            }
+            else
+            {
+                var lblNoSchedule = new Label
+                {
+                    Text = "Chưa có lịch vệ sinh nào trong ngày này.",
+                    Location = new Point(10, 40),
+                    AutoSize = true,
+                    Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Italic),
+                    ForeColor = Color.Gray
+                };
+                panelSchedules.Controls.Add(lblNoSchedule);
+            }
+
+            // Nút Thêm lịch
+            var btnAdd = new Button
+            {
+                Text = "➕ Thêm lịch",
+                Location = new Point(15, schedules.Any() ? 360 : 160),
+                Size = new Size(150, 40),
+                Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold),
+                BackColor = Color.FromArgb(46, 125, 50),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat
+            };
+            btnAdd.FlatAppearance.BorderSize = 0;
+            btnAdd.Click += async (s, e) =>
+            {
+                dialog.Close();
+                using (var form = new CleaningScheduleForm())
+                {
+                    form.SetDefaultDate(date);
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        await LoadCleaningScheduleDataAsync();
+                    }
+                }
+            };
+
+            // Nút Đóng
+            var btnClose = new Button
+            {
+                Text = "Đóng",
+                Location = new Point(575, schedules.Any() ? 360 : 160),
+                Size = new Size(100, 40),
+                DialogResult = DialogResult.Cancel
+            };
+
+            dialog.Controls.Add(lblTitle);
+            dialog.Controls.Add(panelSchedules);
+            dialog.Controls.Add(btnAdd);
+            dialog.Controls.Add(btnClose);
+
+            dialog.ShowDialog();
+        }
+
+        /// <summary>
+        /// Hiển thị dialog danh sách lịch vệ sinh trong ngày
+        /// </summary>
+        private async Task ShowCleaningScheduleListDialog(DateTime date, List<CleaningSchedule> schedules)
+        {
+            var dialog = new Form
+            {
+                Text = $"Lịch vệ sinh - {date:dd/MM/yyyy}",
+                Size = new Size(625, 400),
+                StartPosition = FormStartPosition.CenterParent,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false
+            };
+
+            var listView = new ListView
+            {
+                Location = new Point(15, 15),
+                Size = new Size(560, 280),
+                View = View.Details,
+                FullRowSelect = true,
+                GridLines = true
+            };
+
+            listView.Columns.Add("ID", 50);
+            listView.Columns.Add("Loại", 100);
+            listView.Columns.Add("Giờ", 80);
+            listView.Columns.Add("Trạng thái", 120);
+            listView.Columns.Add("Bồn chứa", 150);
+
+            foreach (var schedule in schedules.OrderBy(s => s.CleaningDate))
+            {
+                var item = new ListViewItem(schedule.CsId.ToString());
+                item.SubItems.Add(GetCleaningTypeDisplayName(schedule.CleaningType));
+                item.SubItems.Add(schedule.CleaningDate.ToString("HH:mm"));
+                item.SubItems.Add(GetStatusDisplayName(schedule.Status));
+                item.Tag = schedule;
+                listView.Items.Add(item);
+            }
+
+            var btnComplete = new Button
+            {
+                Text = "Hoàn thành",
+                Location = new Point(15, 310),
+                Size = new Size(100, 35)
+            };
+            btnComplete.Click += async (s, e) =>
+            {
+                if (listView.SelectedItems.Count == 0)
+                {
+                    UIHelper.ShowWarningMessage("Vui lòng chọn lịch vệ sinh cần hoàn thành.");
+                    return;
+                }
+
+                var selectedSchedule = listView.SelectedItems[0].Tag as CleaningSchedule;
+                if (selectedSchedule != null)
+                {
+                    dialog.Close();
+                    await ShowCleaningScheduleDialog(selectedSchedule);
+                }
+            };
+
+            var btnAdd = new Button
+            {
+                Text = "Thêm lịch",
+                Location = new Point(130, 310),
+                Size = new Size(100, 35)
+            };
+            btnAdd.Click += (s, e) =>
+            {
+                dialog.Close();
+                using (var form = new CleaningScheduleForm())
+                {
+                    form.SetDefaultDate(date);
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        _ = LoadCleaningScheduleDataAsync();
+                    }
+                }
+            };
+
+            var btnClose = new Button
+            {
+                Text = "Đóng",
+                Location = new Point(475, 310),
+                Size = new Size(100, 35),
+                DialogResult = DialogResult.Cancel
+            };
+
+            dialog.Controls.Add(listView);
+            dialog.Controls.Add(btnComplete);
+            dialog.Controls.Add(btnAdd);
+            dialog.Controls.Add(btnClose);
+
+            dialog.ShowDialog();
+        }
+
+        /// <summary>
+        /// Hiển thị form để xem/chỉnh sửa/hoàn thành lịch vệ sinh
+        /// </summary>
+        private async Task ShowCleaningScheduleDialog(CleaningSchedule schedule)
+        {
+            using (var form = new CleaningScheduleForm(schedule))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    await LoadCleaningScheduleDataAsync();
                 }
             }
         }
 
-        private void dgvKPI_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (dgvKPI.Columns[e.ColumnIndex].Name == "Rating")
-            {
-                if (e.Value != null)
-                {
-                    string status = e.Value.ToString();
-                    e.CellStyle.ForeColor = GetBadgeColor(status);
-                    e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-                }
-            }
-        }
+        #endregion
 
-        private class DeliveryAssignmentRow
+        #region Cleaning Schedule Row Class
+
+        private class CleaningScheduleRow
         {
-            public int OrderId { get; set; }
-            public int AssignmentId { get; set; }
-            public string OrderCode { get; set; }
-            public string CustomerName { get; set; }
-            public string Address { get; set; }
-            public string DriverName { get; set; }
+            public int ScheduleId { get; set; }
+            public string CleaningType { get; set; }
+            public string ScheduledDate { get; set; }
+            public string CleanedBy { get; set; }
+            public string CleanedDateTime { get; set; }
             public string Status { get; set; }
-            public decimal CodAmount { get; set; }
-            public string PaymentStatus { get; set; }
-            public string AssignedDate { get; set; }
-        }
-
-        private class WorkShiftRow
-        {
-            public int ShiftId { get; set; }
-            public int UserId { get; set; }
-            public string StaffName { get; set; }
-            public string Role { get; set; }
-            public string StationName { get; set; }
-            public string ShiftDate { get; set; }
-            public string StartTime { get; set; }
-            public string EndTime { get; set; }
-            public string KpiScore { get; set; }
             public string Notes { get; set; }
         }
+
+        #endregion
     }
 }

@@ -55,9 +55,10 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
+                // Với TINYINT, cần pass số nguyên thay vì string
                 return await _databaseHelper.QueryAsync<StockIn>(
                     StockInQueries.GetByReference,
-                    new { RefType = refType.ToString(), RefId = refId }
+                    new { RefType = (int)refType, RefId = refId }
                 );
             }
             catch (Exception ex)
@@ -253,7 +254,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                     new
                     {
                         BatchNo = batchNo,
-                        RefType = refType.ToString(),
+                        RefType = (int)refType, // Với TINYINT, pass số nguyên
                         RefId = refId
                     }
                 );
@@ -292,7 +293,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                 if (refType.HasValue)
                 {
                     whereClause += " AND si.ref_type = @RefType";
-                    parameters.Add("RefType", refType.Value.ToString());
+                    parameters.Add("RefType", (int)refType.Value); // Với TINYINT, pass số nguyên
                 }
 
                 // Get total count

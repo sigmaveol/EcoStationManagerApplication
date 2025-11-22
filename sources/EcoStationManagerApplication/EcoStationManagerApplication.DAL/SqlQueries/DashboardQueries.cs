@@ -14,7 +14,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                 -- Tổng doanh thu
                 (SELECT COALESCE(SUM(total_amount - discounted_amount), 0) 
                  FROM Orders 
-                 WHERE status = 'COMPLETED' 
+                 WHERE status = 5
                  AND DATE(last_updated) = CURDATE()) as today_revenue,
                 
                 -- Số đơn hàng hôm nay
@@ -25,7 +25,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                 -- Số đơn hàng chờ xử lý
                 (SELECT COUNT(*) 
                  FROM Orders 
-                 WHERE status IN ('DRAFT', 'CONFIRMED', 'PROCESSING')) as pending_orders,
+                 WHERE status IN (0, 1, 2)) as pending_orders,
                 
                 -- Sản phẩm sắp hết hàng
                 (SELECT COUNT(DISTINCT p.product_id)
@@ -41,7 +41,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    COALESCE(SUM(total_amount - discounted_amount), 0) as revenue,
                    COUNT(*) as order_count
             FROM Orders
-            WHERE status = 'COMPLETED'
+            WHERE status = 5
             AND last_updated >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
             GROUP BY DATE(last_updated)
             ORDER BY date ASC";
@@ -54,7 +54,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             FROM Products p
             JOIN OrderDetails od ON p.product_id = od.product_id
             JOIN Orders o ON od.order_id = o.order_id
-            WHERE o.status = 'COMPLETED'
+            WHERE o.status = 5
             AND o.last_updated >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
             GROUP BY p.product_id, p.name, p.sku
             ORDER BY total_sold DESC
@@ -66,7 +66,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    COUNT(*) as order_count,
                    COALESCE(SUM(total_amount - discounted_amount), 0) as revenue
             FROM Orders
-            WHERE status = 'COMPLETED'
+            WHERE status = 5
             AND last_updated >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
             GROUP BY source
             ORDER BY revenue DESC";

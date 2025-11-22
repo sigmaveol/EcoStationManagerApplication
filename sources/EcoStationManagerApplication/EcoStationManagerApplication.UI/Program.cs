@@ -1,5 +1,6 @@
 ﻿using EcoStationManagerApplication.Common.Helpers;
 using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.UI.Controls;
 using EcoStationManagerApplication.UI.Forms;
 using System;
 using System.Collections.Generic;

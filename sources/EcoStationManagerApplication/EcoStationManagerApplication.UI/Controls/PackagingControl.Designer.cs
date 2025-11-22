@@ -188,6 +188,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.headerPanel.Name = "headerPanel";
             this.headerPanel.Size = new System.Drawing.Size(900, 60);
             this.headerPanel.TabIndex = 0;
+            this.headerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.headerPanel_Paint);
             // 
             // btnAddPackaging
             // 

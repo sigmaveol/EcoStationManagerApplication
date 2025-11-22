@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace EcoStationManagerApplication.UI.Controls
 {
-    public partial class OrdersControl : UserControl
+    public partial class OrdersControl : UserControl, IRefreshableControl
     {
         private string _currentFilter = "all";
         
@@ -33,6 +33,11 @@ namespace EcoStationManagerApplication.UI.Controls
             InitializeDataGridColumns();
             _ = LoadOrdersAsync();
             InitializeEvents();
+        }
+
+        public void RefreshData()
+        {
+            _ = LoadOrdersAsync(_currentFilter);
         }
 
         // Gán tất cả sự kiện ở đây
@@ -264,6 +269,7 @@ namespace EcoStationManagerApplication.UI.Controls
                         customerName,
                         productInfo,
                         GetOrderSourceDisplay(order.Source),
+                        order.TotalAmount.ToString("N0") ?? "0",
                         GetOrderStatusDisplay(order.Status),
                         order.LastUpdated.ToString("dd/MM/yyyy HH:mm")
                     )];
@@ -367,11 +373,20 @@ namespace EcoStationManagerApplication.UI.Controls
                         { "NgayTao", "Ngày tạo" }
                     };
 
-                    _pdfExporter.ExportToPdf(exportData, saveDialog.FileName, "DANH SÁCH ĐƠN HÀNG", headers);
-                    
-                    ShowLoading(false);
-                    MessageBox.Show($"Đã xuất PDF thành công!\nFile: {saveDialog.FileName}", 
-                        "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    try
+                    {
+                        _pdfExporter.ExportToPdf(exportData, saveDialog.FileName, "DANH SÁCH ĐƠN HÀNG", headers);
+
+                        ShowLoading(false);
+                        MessageBox.Show($"Đã xuất PDF thành công!\nFile: {saveDialog.FileName}",
+                            "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception exportEx)
+                    {
+                        ShowLoading(false);
+                        MessageBox.Show($"Lỗi trong quá trình xuất PDF: {exportEx.Message}\n\nChi tiết: {exportEx.StackTrace}",
+                            "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             catch (Exception ex)

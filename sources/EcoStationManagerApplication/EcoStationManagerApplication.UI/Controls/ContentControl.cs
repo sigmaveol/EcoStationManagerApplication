@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guna.UI2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,5 +17,10 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Panel container bên trong để chứa các UserControl
+        /// </summary>
+        public Guna2Panel ContentPanel => guna2PanelContent;
     }
 }

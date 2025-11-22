@@ -9,13 +9,18 @@ using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
-    public partial class DashboardControl : UserControl
+    public partial class DashboardControl : UserControl, IRefreshableControl
     {
         public event EventHandler ViewAllOrdersClicked;
 
         public DashboardControl()
         {
             InitializeComponent();
+        }
+
+        public void RefreshData()
+        {
+            _ = RefreshDataAsync();
         }
 
         private async void DashboardControl_Load(object sender, EventArgs e)

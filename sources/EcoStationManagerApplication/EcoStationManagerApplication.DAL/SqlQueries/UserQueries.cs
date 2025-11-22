@@ -19,6 +19,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             WHERE username = @Username AND password_hash = @PasswordHash AND is_active = TRUE";
 
         // Lấy user theo role
+        // @Role sẽ là số nguyên (TINYINT) từ enum UserRole
         public const string GetByRole = @"
             SELECT * FROM Users 
             WHERE role = @Role AND is_active = TRUE 
@@ -48,15 +49,17 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             WHERE username = @Username";
 
         // Lấy driver active
+        // UserRole: ADMIN=0, STAFF=1, MANAGER=2, DRIVER=3
         public const string GetActiveDrivers = @"
             SELECT * FROM Users 
-            WHERE role = 'DRIVER' AND is_active = TRUE 
+            WHERE role = 3 AND is_active = TRUE 
             ORDER BY fullname";
 
         // Lấy staff active
+        // UserRole: ADMIN=0, STAFF=1, MANAGER=2, DRIVER=3
         public const string GetActiveStaff = @"
             SELECT * FROM Users 
-            WHERE role IN ('STAFF', 'MANAGER') AND is_active = TRUE 
+            WHERE role IN (1, 2) AND is_active = TRUE 
             ORDER BY fullname";
 
         // Cập nhật profile user (không bao gồm password)
@@ -89,8 +92,9 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             FROM Users u
             LEFT JOIN WorkShifts ws ON u.user_id = ws.user_id 
                 AND ws.shift_date = CURDATE() 
-                AND ws.status IN ('IN_PROGRESS', 'SCHEDULED')
+                AND ws.status IN (1, 0)
             WHERE u.user_id = @UserId";
+            // WorkShiftStatus: SCHEDULED=0, IN_PROGRESS=1, COMPLETED=2, CANCELLED=3
 
         // Phân trang user
         public const string PagedUsersBase = @"

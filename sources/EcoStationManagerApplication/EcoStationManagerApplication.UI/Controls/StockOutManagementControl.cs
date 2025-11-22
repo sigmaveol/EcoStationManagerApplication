@@ -16,7 +16,7 @@ using static EcoStationManagerApplication.UI.Common.AppFonts;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
-    public partial class StockOutManagementControl : UserControl
+    public partial class StockOutManagementControl : UserControl, IRefreshableControl
     {
         private List<StockOutDetail> _stockOutList = new List<StockOutDetail>();
         private bool _isLoading = false;
@@ -30,6 +30,11 @@ namespace EcoStationManagerApplication.UI.Controls
         public StockOutManagementControl()
         {
             InitializeComponent();
+        }
+
+        public void RefreshData()
+        {
+            _ = LoadDataAsync();
         }
 
         private void StockOutManagementControl_Load(object sender, EventArgs e)

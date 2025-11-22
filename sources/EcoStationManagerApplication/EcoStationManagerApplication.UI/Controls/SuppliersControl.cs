@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
-    public partial class SuppliersControl : UserControl
+    public partial class SuppliersControl : UserControl, IRefreshableControl
     {
         private List<Supplier> _suppliers = new List<Supplier>();
         private string _currentSearchTerm = "";
@@ -24,13 +24,18 @@ namespace EcoStationManagerApplication.UI.Controls
             _ = LoadSuppliersAsync();
         }
 
+        public void RefreshData()
+        {
+            _ = LoadSuppliersAsync();
+        }
+
         private void InitializeEvents()
         {
             if (btnAddSupplier != null)
                 btnAddSupplier.Click += BtnAddSupplier_Click;
 
-            if (searchControl1 != null)
-                searchControl1.SearchTextChanged += SearchControl1_SearchTextChanged;
+            if (txtSearch != null)
+                txtSearch.TextChanged += txtSearch_TextChanged;
 
             if (dgvSuppliers != null)
             {
@@ -70,7 +75,7 @@ namespace EcoStationManagerApplication.UI.Controls
             dgvSuppliers.Columns.Add(new DataGridViewButtonColumn
             {
                 Name = "colEdit",
-                HeaderText = "Thao tác",
+                HeaderText = "Thao\ntác",
                 Text = "✏️",
                 UseColumnTextForButtonValue = true,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
@@ -136,8 +141,7 @@ namespace EcoStationManagerApplication.UI.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải danh sách nhà cung cấp: {ex.Message}", 
-                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UIHelper.ShowExceptionError(ex, "tải danh sách nhà cung cấp");
                 dgvSuppliers.Rows.Add("", "Lỗi tải dữ liệu", "", "", "", "", "");
             }
             finally
@@ -267,9 +271,9 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        private async void SearchControl1_SearchTextChanged(object sender, string searchText)
+        private async void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            _currentSearchTerm = searchText ?? "";
+            _currentSearchTerm = txtSearch?.Text ?? "";
             await LoadSuppliersAsync();
         }
 

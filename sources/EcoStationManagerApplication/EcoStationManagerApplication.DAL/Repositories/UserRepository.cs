@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.DAL.SqlQueries;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EcoStationManagerApplication.DAL.Interfaces
+namespace EcoStationManagerApplication.DAL.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
@@ -60,9 +61,10 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         {
             try
             {
+                // Với TINYINT, cần pass số nguyên thay vì string
                 return await _databaseHelper.QueryAsync<User>(
                     UserQueries.GetByRole,
-                    new { Role = role.ToString() }
+                    new { Role = (int)role }
                 );
             }
             catch (Exception ex)
@@ -204,7 +206,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
                     {
                         user.UserId,
                         user.Fullname,
-                        Role = user.Role.ToString(),
+                        Role = (int)user.Role, // Với TINYINT, pass số nguyên
                         IsActive = user.IsActive == ActiveStatus.ACTIVE
                     }
                 );
@@ -227,9 +229,10 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         {
             try
             {
+                // Với TINYINT, cần pass số nguyên thay vì string
                 return await _databaseHelper.ExecuteScalarAsync<int>(
                     UserQueries.GetUserCountByRole,
-                    new { Role = role.ToString() }
+                    new { Role = (int)role }
                 );
             }
             catch (Exception ex)
@@ -300,7 +303,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
                 if (role.HasValue)
                 {
                     whereClause += " AND role = @Role";
-                    parameters.Add("Role", role.Value.ToString());
+                    parameters.Add("Role", (int)role.Value); // Với TINYINT, pass số nguyên
                 }
 
                 // Active status filter

@@ -2,6 +2,7 @@ using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.UI.Common.Services;
 using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
@@ -88,17 +89,16 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             try
             {
+                // Kiểm tra SelectedIndex hợp lệ
                 if (cmbOrder.SelectedIndex < 0 || cmbOrder.SelectedIndex >= _orders.Count)
                 {
-                    MessageBox.Show("Vui lòng chọn đơn hàng.", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    AppServices.Dialog.ShowWarning("Vui lòng chọn đơn hàng.", "Thông báo");
                     return;
                 }
 
                 if (cmbDriver.SelectedIndex < 0 || cmbDriver.SelectedIndex >= _drivers.Count)
                 {
-                    MessageBox.Show("Vui lòng chọn tài xế.", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    AppServices.Dialog.ShowWarning("Vui lòng chọn tài xế.", "Thông báo");
                     return;
                 }
 
@@ -110,28 +110,24 @@ namespace EcoStationManagerApplication.UI.Forms
                 var existing = existingAssignments?.Data?.FirstOrDefault(a => a.OrderId == order.OrderId);
                 if (existing != null)
                 {
-                    var confirm = MessageBox.Show(
+                    var confirm = AppServices.Dialog.ShowConfirm(
                         $"Đơn hàng {order.OrderCode} đã được phân công cho tài xế khác. Bạn có muốn cập nhật không?",
-                        "Xác nhận",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question);
+                        "Xác nhận");
 
-                    if (confirm == DialogResult.Yes)
+                    if (confirm)
                     {
                         existing.DriverId = driver.UserId;
                         existing.AssignedDate = DateTime.Now;
                         var updateResult = await AppServices.DeliveryService.UpdateAsync(existing);
                         if (updateResult?.Success == true)
                         {
-                            MessageBox.Show("Đã cập nhật phân công thành công.", "Thành công",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            AppServices.Dialog.ShowSuccess("Đã cập nhật phân công thành công.");
                             this.DialogResult = DialogResult.OK;
                             this.Close();
                         }
                         else
                         {
-                            MessageBox.Show($"Lỗi: {updateResult?.Message ?? "Không xác định"}", "Lỗi",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            AppServices.Dialog.ShowError($"Lỗi: {updateResult?.Message ?? "Không xác định"}");
                         }
                     }
                     return;
@@ -152,21 +148,18 @@ namespace EcoStationManagerApplication.UI.Forms
                 var result = await AppServices.DeliveryService.CreateAsync(assignment);
                 if (result?.Success == true)
                 {
-                    MessageBox.Show("Đã phân công giao hàng thành công.", "Thành công",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    AppServices.Dialog.ShowSuccess("Đã phân công giao hàng thành công.");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show($"Lỗi: {result?.Message ?? "Không xác định"}", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    AppServices.Dialog.ShowError($"Lỗi: {result?.Message ?? "Không xác định"}");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AppServices.Dialog.ShowException(ex, "phân công giao hàng");
             }
         }
 

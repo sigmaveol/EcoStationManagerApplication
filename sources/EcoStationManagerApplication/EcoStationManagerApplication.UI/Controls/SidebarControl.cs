@@ -25,6 +25,8 @@ namespace EcoStationManagerApplication.UI.Controls
         private const int AUTO_COLLAPSE_THRESHOLD = 700;
         private Point togglerOriginalLocation;
         private AnchorStyles togglerOriginalAnchor;
+        // Dictionary để lưu text hiển thị của mỗi button (key: menuName, value: displayText)
+        private Dictionary<string, string> _menuDisplayTexts = new Dictionary<string, string>();
 
         public SidebarControl()
         {
@@ -78,17 +80,25 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 foreach (Control ctrl in guna2PanelMenuSidebar.Controls)
                 {
-                    if (ctrl is Guna2Button btn)
+                    if (ctrl is Guna2Button btn && btn.Tag != null)
                     {
-                        btn.Tag = btn.Text;
+                        // Lưu text hiển thị vào dictionary (key: menuName từ Tag)
+                        string menuName = btn.Tag.ToString();
+                        if (!string.IsNullOrEmpty(menuName) && !_menuDisplayTexts.ContainsKey(menuName))
+                        {
+                            _menuDisplayTexts[menuName] = btn.Text;
+                        }
+                        
+                        // Ẩn text, chỉ giữ Tag (menuName) không đổi
                         btn.Text = "";
                         btn.ImageAlign = HorizontalAlignment.Center;
 
-                        // tooltip display
+                        // tooltip display với text đã lưu
                         var toolTip = new ToolTip();
                         toolTip.BackColor = Color.FromArgb(0, 98, 102);
                         toolTip.ForeColor = Color.White;
-                        toolTip.SetToolTip(btn, btn.Tag?.ToString());
+                        string displayText = _menuDisplayTexts.ContainsKey(menuName) ? _menuDisplayTexts[menuName] : menuName;
+                        toolTip.SetToolTip(btn, displayText);
                     }
                 }
 
@@ -111,9 +121,20 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 foreach (Control ctrl in guna2PanelMenuSidebar.Controls)
                 {
-                    if (ctrl is Guna2Button btn)
+                    if (ctrl is Guna2Button btn && btn.Tag != null)
                     {
-                        btn.Text = btn.Tag?.ToString() ?? btn.Text;
+                        // Khôi phục text hiển thị từ dictionary (key: menuName từ Tag)
+                        string menuName = btn.Tag.ToString();
+                        if (!string.IsNullOrEmpty(menuName) && _menuDisplayTexts.ContainsKey(menuName))
+                        {
+                            btn.Text = _menuDisplayTexts[menuName];
+                        }
+                        else
+                        {
+                            // Fallback: giữ nguyên Tag nếu không tìm thấy trong dictionary
+                            btn.Text = menuName;
+                        }
+                        
                         btn.ImageAlign = HorizontalAlignment.Left;
                         btn.TextAlign = HorizontalAlignment.Left;
                         var toolTip = new ToolTip();
@@ -188,7 +209,15 @@ namespace EcoStationManagerApplication.UI.Controls
                 btn.FillColor = Color.FromArgb(80, 255, 255, 255);
 
                 // Gửi menuName (được lưu trong Tag) cho MainForm
-                MenuClicked?.Invoke(this, btn.Tag.ToString());
+                // Đảm bảo Tag không null và là menuName hợp lệ
+                if (btn.Tag != null)
+                {
+                    string menuNameFromTag = btn.Tag.ToString();
+                    if (!string.IsNullOrWhiteSpace(menuNameFromTag))
+                    {
+                        MenuClicked?.Invoke(this, menuNameFromTag);
+                    }
+                }
             };
 
             // Thêm nút vào panel menu (ở trên cùng)

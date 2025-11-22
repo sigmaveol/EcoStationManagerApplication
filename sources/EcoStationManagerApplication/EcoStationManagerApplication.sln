@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EcoStationManagerApplicatio
 	ProjectSection(SolutionItems) = preProject
 		EcoStationManager_V0.sql = EcoStationManager_V0.sql
 		EcoStationManager_V1.sql = EcoStationManager_V1.sql
-		migration.sql = migration.sql
+		migration_01.sql = migration_01.sql
+		migration_00.sql = migration_00.sql
+		migration_02.sql = migration_02.sql
 		seed.sql = seed.sql
 		temp.sql = temp.sql
 	EndProjectSection

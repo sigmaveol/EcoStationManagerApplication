@@ -3,6 +3,7 @@ using EcoStationManagerApplication.Models.Enums;
 using AppServices = EcoStationManagerApplication.UI.Common.AppServices;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace EcoStationManagerApplication.UI.Forms
     public partial class OrderDetailForm : Form
     {
         private int _orderId;
+        private Order _order;
+        private List<Product> _products;
 
         public OrderDetailForm(int orderId)
         {
@@ -25,13 +28,13 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             this.Text = "Chi tiết đơn hàng";
             this.StartPosition = FormStartPosition.CenterParent;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Size = new Size(800, 700);
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.Size = new Size(900, 800);
+            this.BackColor = Color.White;
 
-            InitializeDataGridView();
+            // Load dữ liệu
             _ = LoadOrderDataAsync();
+            InitializeDataGridView();
         }
 
         private void InitializeDataGridView()
@@ -41,21 +44,27 @@ namespace EcoStationManagerApplication.UI.Forms
             dgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProducts.MultiSelect = false;
             dgvProducts.ReadOnly = true;
+            dgvProducts.BackgroundColor = Color.White;
+            dgvProducts.BorderStyle = BorderStyle.None;
+            dgvProducts.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvProducts.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
+            dgvProducts.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgvProducts.EnableHeadersVisualStyles = false;
 
-            // Clear existing columns
+            // Xóa các cột cũ nếu có
             dgvProducts.Columns.Clear();
 
-            // Product column
+            // Thêm cột Sản phẩm
             dgvProducts.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "ProductName",
                 HeaderText = "Sản phẩm",
                 DataPropertyName = "ProductName",
-                Width = 250,
+                Width = 300,
                 ReadOnly = true
             });
 
-            // Unit price column
+            // Thêm cột Đơn giá
             dgvProducts.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "UnitPrice",
@@ -70,7 +79,7 @@ namespace EcoStationManagerApplication.UI.Forms
                 }
             });
 
-            // Quantity column
+            // Thêm cột Số lượng
             dgvProducts.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "Quantity",
@@ -80,12 +89,11 @@ namespace EcoStationManagerApplication.UI.Forms
                 ReadOnly = true,
                 DefaultCellStyle = new DataGridViewCellStyle 
                 { 
-                    Format = "N2",
                     Alignment = DataGridViewContentAlignment.MiddleRight
                 }
             });
 
-            // Discount column (will be styled red)
+            // Thêm cột Giảm giá
             var discountColumn = new DataGridViewTextBoxColumn
             {
                 Name = "Discount",
@@ -96,18 +104,18 @@ namespace EcoStationManagerApplication.UI.Forms
                 DefaultCellStyle = new DataGridViewCellStyle 
                 { 
                     Format = "N0",
-                    Alignment = DataGridViewContentAlignment.MiddleRight,
-                    ForeColor = Color.Red
+                    ForeColor = Color.Red,
+                    Alignment = DataGridViewContentAlignment.MiddleRight
                 }
             };
             dgvProducts.Columns.Add(discountColumn);
 
-            // Total column
+            // Thêm cột Thành tiền
             dgvProducts.Columns.Add(new DataGridViewTextBoxColumn
             {
-                Name = "Total",
+                Name = "TotalPrice",
                 HeaderText = "Thành tiền",
-                DataPropertyName = "Total",
+                DataPropertyName = "TotalPrice",
                 Width = 120,
                 ReadOnly = true,
                 DefaultCellStyle = new DataGridViewCellStyle 
@@ -124,27 +132,41 @@ namespace EcoStationManagerApplication.UI.Forms
             {
                 Cursor = Cursors.WaitCursor;
 
-                // Load order with details
+                // Load đơn hàng với chi tiết
                 var orderResult = await AppServices.OrderService.GetOrderWithDetailsAsync(_orderId);
                 if (!orderResult.Success || orderResult.Data == null)
                 {
-                    MessageBox.Show($"Không thể tải thông tin đơn hàng: {orderResult.Message}", 
-                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Không tìm thấy đơn hàng: {orderResult.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Close();
                     return;
                 }
 
-                var order = orderResult.Data;
-                LoadOrderInfo(order);
-                LoadCustomerInfo(order);
-                await LoadProductDetailsAsync(order);
-                LoadSummary(order);
-                LoadNotes(order);
+                _order = orderResult.Data;
+
+                // Load thông tin khách hàng nếu có CustomerId
+                if (_order.CustomerId.HasValue)
+                {
+                    var customerResult = await AppServices.CustomerService.GetCustomerByIdAsync(_order.CustomerId.Value);
+                    if (customerResult.Success && customerResult.Data != null)
+                    {
+                        _order.Customer = customerResult.Data;
+                    }
+                }
+
+                // Load danh sách sản phẩm để lấy tên
+                var productsResult = await AppServices.ProductService.GetAllActiveProductsAsync();
+                if (productsResult.Success && productsResult.Data != null)
+                {
+                    _products = productsResult.Data.ToList();
+                }
+
+                // Hiển thị dữ liệu
+                DisplayOrderData();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}", "Lỗi", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi tải dữ liệu đơn hàng: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
             }
             finally
             {
@@ -152,157 +174,101 @@ namespace EcoStationManagerApplication.UI.Forms
             }
         }
 
-        private void LoadOrderInfo(Order order)
+        private void DisplayOrderData()
         {
-            lblOrderCode.Text = order.OrderCode ?? $"DH{order.OrderId:D6}";
-            lblStatus.Text = FormatOrderStatus(order.Status);
-            lblSource.Text = FormatOrderSource(order.Source);
-            lblCreatedDate.Text = order.LastUpdated.ToString("dd/MM/yyyy HH:mm");
-        }
+            if (_order == null) return;
 
-        private void LoadCustomerInfo(Order order)
-        {
-            // Load customer if exists
-            if (order.CustomerId.HasValue && order.Customer != null)
+            // Thông tin chung về đơn hàng
+            lblOrderCodeValue.Text = _order.OrderCode ?? $"ORD-{_order.OrderId:D5}";
+            lblStatusValue.Text = GetOrderStatusDisplay(_order.Status);
+            lblSourceValue.Text = GetOrderSourceDisplay(_order.Source);
+            lblCreatedDateValue.Text = _order.LastUpdated.ToString("dd/MM/yyyy HH:mm");
+
+            // Thông tin khách hàng
+            if (_order.CustomerId.HasValue && _order.Customer != null)
             {
-                lblCustomerName.Text = order.Customer.Name ?? "Không có";
-                lblPhone.Text = order.Customer.Phone ?? "Không có";
+                lblCustomerNameValue.Text = _order.Customer.Name ?? "Khách lẻ";
+                lblCustomerPhoneValue.Text = _order.Customer.Phone ?? "---";
             }
             else
             {
-                // Try to load customer separately if not loaded
-                _ = LoadCustomerAsync(order.CustomerId);
+                lblCustomerNameValue.Text = "Khách lẻ";
+                lblCustomerPhoneValue.Text = "---";
             }
 
-            lblAddress.Text = !string.IsNullOrWhiteSpace(order.Address) ? order.Address : "Không có";
-            lblPaymentMethod.Text = FormatPaymentMethod(order.PaymentMethod);
+            lblDeliveryAddressValue.Text = _order.Address ?? "---";
+            lblPaymentMethodValue.Text = GetPaymentMethodDisplay(_order.PaymentMethod);
+
+            // Chi tiết sản phẩm
+            LoadProductDetails();
+
+            // Tổng kết
+            decimal totalAmount = _order.TotalAmount;
+            decimal discountAmount = _order.DiscountedAmount;
+            decimal finalTotal = totalAmount - discountAmount;
+
+            lblTotalItemsValue.Text = $"{totalAmount:N0} đ";
+            lblDiscountValue.Text = $"-{discountAmount:N0} đ";
+            lblFinalTotalValue.Text = $"{finalTotal:N0} đ";
+
+            // Ghi chú
+            txtNote.Text = _order.Note ?? "";
         }
 
-        private async Task LoadCustomerAsync(int? customerId)
+        private void LoadProductDetails()
         {
-            if (!customerId.HasValue)
-            {
-                lblCustomerName.Text = "Khách lẻ";
-                lblPhone.Text = "Không có";
-                return;
-            }
-
-            try
-            {
-                var customerResult = await AppServices.CustomerService.GetCustomerByIdAsync(customerId.Value);
-                if (customerResult.Success && customerResult.Data != null)
-                {
-                    var customer = customerResult.Data;
-                    lblCustomerName.Text = customer.Name ?? "Không có";
-                    lblPhone.Text = customer.Phone ?? "Không có";
-                }
-                else
-                {
-                    lblCustomerName.Text = "Không tìm thấy";
-                    lblPhone.Text = "Không có";
-                }
-            }
-            catch
-            {
-                lblCustomerName.Text = "Không tìm thấy";
-                lblPhone.Text = "Không có";
-            }
-        }
-
-        private async Task LoadProductDetailsAsync(Order order)
-        {
-            if (order.OrderDetails == null || !order.OrderDetails.Any())
+            if (_order?.OrderDetails == null || !_order.OrderDetails.Any())
             {
                 dgvProducts.DataSource = null;
                 return;
             }
 
-            // Load all products at once for better performance
-            var productIds = order.OrderDetails.Select(od => od.ProductId).Distinct().ToList();
-            var products = new Dictionary<int, string>();
+            // Tạo danh sách chi tiết với tên sản phẩm
+            var productDetails = new List<ProductDetailDisplay>();
 
-            foreach (var productId in productIds)
+            foreach (var detail in _order.OrderDetails)
             {
-                try
+                var product = _products?.FirstOrDefault(p => p.ProductId == detail.ProductId);
+                string productName = product?.Name ?? $"Sản phẩm ID: {detail.ProductId}";
+
+                productDetails.Add(new ProductDetailDisplay
                 {
-                    var productResult = await AppServices.ProductService.GetProductByIdAsync(productId);
-                    if (productResult.Success && productResult.Data != null)
-                    {
-                        products[productId] = productResult.Data.Name;
-                    }
-                    else
-                    {
-                        products[productId] = "Không xác định";
-                    }
-                }
-                catch
-                {
-                    products[productId] = "Không xác định";
-                }
+                    ProductName = productName,
+                    UnitPrice = detail.UnitPrice,
+                    Quantity = detail.Quantity,
+                    Discount = 0, // Có thể tính từ order level discount hoặc detail level
+                    TotalPrice = detail.Quantity * detail.UnitPrice
+                });
             }
-
-            // Create display items
-            var productDetails = order.OrderDetails.Select(detail => new ProductDetailDisplay
-            {
-                ProductName = products.ContainsKey(detail.ProductId) ? products[detail.ProductId] : "Không xác định",
-                UnitPrice = detail.UnitPrice,
-                Quantity = detail.Quantity,
-                Discount = 0, // OrderDetail doesn't have discount field, using order-level discount
-                Total = detail.Quantity * detail.UnitPrice
-            }).ToList();
 
             dgvProducts.DataSource = productDetails;
-            
-            // Apply red color to discount column cells
-            foreach (DataGridViewRow row in dgvProducts.Rows)
-            {
-                if (row.Cells["Discount"] != null)
-                {
-                    row.Cells["Discount"].Style.ForeColor = Color.Red;
-                }
-            }
+            dgvProducts.Refresh();
         }
 
-        private void LoadSummary(Order order)
-        {
-            decimal subtotal = order.OrderDetails?.Sum(od => od.Quantity * od.UnitPrice) ?? 0;
-            decimal discount = order.DiscountedAmount;
-            decimal total = order.TotalAmount;
-
-            lblSubtotal.Text = $"{subtotal:N0}đ";
-            lblDiscount.Text = $"-{discount:N0}đ";
-            lblTotal.Text = $"{total:N0}đ";
-        }
-
-        private void LoadNotes(Order order)
-        {
-            txtNotes.Text = !string.IsNullOrWhiteSpace(order.Note) ? order.Note : "";
-        }
-
-        private string FormatOrderStatus(OrderStatus status)
+        private string GetOrderStatusDisplay(OrderStatus status)
         {
             switch (status)
             {
                 case OrderStatus.DRAFT:
                     return "Nháp";
                 case OrderStatus.CONFIRMED:
-                    return "Đã xác nhận";
+                    return "Mới";
                 case OrderStatus.PROCESSING:
                     return "Đang xử lý";
                 case OrderStatus.READY:
-                    return "Sẵn sàng";
+                    return "Chuẩn bị";
                 case OrderStatus.SHIPPED:
-                    return "Đã giao";
+                    return "Đang giao";
                 case OrderStatus.COMPLETED:
                     return "Hoàn thành";
                 case OrderStatus.CANCELLED:
                     return "Đã hủy";
                 default:
-                    return status.ToString();
+                    return "Không xác định";
             }
         }
 
-        private string FormatOrderSource(OrderSource source)
+        private string GetOrderSourceDisplay(OrderSource source)
         {
             switch (source)
             {
@@ -315,11 +281,11 @@ namespace EcoStationManagerApplication.UI.Forms
                 case OrderSource.EMAIL:
                     return "Email";
                 default:
-                    return source.ToString();
+                    return "Khác";
             }
         }
 
-        private string FormatPaymentMethod(PaymentMethod method)
+        private string GetPaymentMethodDisplay(PaymentMethod method)
         {
             switch (method)
             {
@@ -328,13 +294,8 @@ namespace EcoStationManagerApplication.UI.Forms
                 case PaymentMethod.TRANSFER:
                     return "Chuyển khoản";
                 default:
-                    return method.ToString();
+                    return "Khác";
             }
-        }
-
-        private void btnCloseX_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -342,14 +303,24 @@ namespace EcoStationManagerApplication.UI.Forms
             this.Close();
         }
 
-        // Helper class for displaying product details in DataGridView
+        private void btnCloseForm_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        // Helper class để hiển thị trong DataGridView
         private class ProductDetailDisplay
         {
             public string ProductName { get; set; }
             public decimal UnitPrice { get; set; }
             public decimal Quantity { get; set; }
             public decimal Discount { get; set; }
-            public decimal Total { get; set; }
+            public decimal TotalPrice { get; set; }
+        }
+
+        private void panelOrderInfo_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

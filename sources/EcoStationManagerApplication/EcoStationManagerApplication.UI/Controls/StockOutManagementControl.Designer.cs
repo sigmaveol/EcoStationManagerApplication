@@ -62,14 +62,14 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblSearch = new System.Windows.Forms.Label();
             this.panelStatsCards = new System.Windows.Forms.FlowLayoutPanel();
-            this.guna2PanelHeader = new Guna.UI2.WinForms.Guna2Panel();
-            this.lblDescription = new System.Windows.Forms.Label();
-            this.lblTitle = new System.Windows.Forms.Label();
             this.cardTotalQuantity = new EcoStationManagerApplication.UI.Controls.CardControl();
             this.cardWaste = new EcoStationManagerApplication.UI.Controls.CardControl();
             this.cardTransfer = new EcoStationManagerApplication.UI.Controls.CardControl();
             this.cardSale = new EcoStationManagerApplication.UI.Controls.CardControl();
             this.cardTotalStockOuts = new EcoStationManagerApplication.UI.Controls.CardControl();
+            this.guna2PanelHeader = new Guna.UI2.WinForms.Guna2Panel();
+            this.lblDescription = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStockOut)).BeginInit();
             this.panelToolbar.SuspendLayout();
@@ -92,7 +92,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.panelMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelMain.Name = "panelMain";
             this.panelMain.Padding = new System.Windows.Forms.Padding(20, 16, 20, 16);
-            this.panelMain.Size = new System.Drawing.Size(1200, 560);
+            this.panelMain.Size = new System.Drawing.Size(1200, 821);
             this.panelMain.TabIndex = 0;
             // 
             // dgvStockOut
@@ -117,7 +117,7 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvStockOut.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvStockOut.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvStockOut.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvStockOut.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dgvStockOut.Location = new System.Drawing.Point(20, 523);
             this.dgvStockOut.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -125,7 +125,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dgvStockOut.ReadOnly = true;
             this.dgvStockOut.RowHeadersVisible = false;
             this.dgvStockOut.RowHeadersWidth = 51;
-            this.dgvStockOut.Size = new System.Drawing.Size(1160, 21);
+            this.dgvStockOut.Size = new System.Drawing.Size(1160, 296);
             this.dgvStockOut.TabIndex = 4;
             this.dgvStockOut.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.dgvStockOut.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -321,6 +321,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtSearch.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtSearch.Location = new System.Drawing.Point(4, 25);
+            this.txtSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.PlaceholderText = "Tìm kiếm theo lô hàng, sản phẩm...";
             this.txtSearch.SelectedText = "";
@@ -355,40 +356,6 @@ namespace EcoStationManagerApplication.UI.Controls
             this.panelStatsCards.Padding = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this.panelStatsCards.Size = new System.Drawing.Size(1160, 324);
             this.panelStatsCards.TabIndex = 1;
-            // 
-            // guna2PanelHeader
-            // 
-            this.guna2PanelHeader.AutoSize = true;
-            this.guna2PanelHeader.BackColor = System.Drawing.Color.White;
-            this.guna2PanelHeader.Controls.Add(this.lblDescription);
-            this.guna2PanelHeader.Controls.Add(this.lblTitle);
-            this.guna2PanelHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.guna2PanelHeader.Location = new System.Drawing.Point(20, 16);
-            this.guna2PanelHeader.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.guna2PanelHeader.Name = "guna2PanelHeader";
-            this.guna2PanelHeader.Size = new System.Drawing.Size(1160, 62);
-            this.guna2PanelHeader.TabIndex = 0;
-            // 
-            // lblDescription
-            // 
-            this.lblDescription.AutoSize = true;
-            this.lblDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lblDescription.ForeColor = System.Drawing.Color.Gray;
-            this.lblDescription.Location = new System.Drawing.Point(15, 42);
-            this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(446, 20);
-            this.lblDescription.TabIndex = 1;
-            this.lblDescription.Text = "Theo dõi và xử lý phiếu xuất cho bán hàng, chuyển kho và hao hụt.";
-            // 
-            // lblTitle
-            // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.Location = new System.Drawing.Point(12, 5);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(236, 37);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Quản lý Xuất kho";
             // 
             // cardTotalQuantity
             // 
@@ -530,6 +497,40 @@ namespace EcoStationManagerApplication.UI.Controls
             this.cardTotalStockOuts.ValueColor = System.Drawing.Color.FromArgb(((int)(((byte)(211)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.cardTotalStockOuts.ValueFont = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             // 
+            // guna2PanelHeader
+            // 
+            this.guna2PanelHeader.AutoSize = true;
+            this.guna2PanelHeader.BackColor = System.Drawing.Color.White;
+            this.guna2PanelHeader.Controls.Add(this.lblDescription);
+            this.guna2PanelHeader.Controls.Add(this.lblTitle);
+            this.guna2PanelHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.guna2PanelHeader.Location = new System.Drawing.Point(20, 16);
+            this.guna2PanelHeader.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.guna2PanelHeader.Name = "guna2PanelHeader";
+            this.guna2PanelHeader.Size = new System.Drawing.Size(1160, 62);
+            this.guna2PanelHeader.TabIndex = 0;
+            // 
+            // lblDescription
+            // 
+            this.lblDescription.AutoSize = true;
+            this.lblDescription.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblDescription.ForeColor = System.Drawing.Color.Gray;
+            this.lblDescription.Location = new System.Drawing.Point(15, 42);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(446, 20);
+            this.lblDescription.TabIndex = 1;
+            this.lblDescription.Text = "Theo dõi và xử lý phiếu xuất cho bán hàng, chuyển kho và hao hụt.";
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.Location = new System.Drawing.Point(12, 5);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(236, 37);
+            this.lblTitle.TabIndex = 0;
+            this.lblTitle.Text = "Quản lý Xuất kho";
+            // 
             // StockOutManagementControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -537,7 +538,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.Controls.Add(this.panelMain);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "StockOutManagementControl";
-            this.Size = new System.Drawing.Size(1200, 560);
+            this.Size = new System.Drawing.Size(1200, 821);
             this.Load += new System.EventHandler(this.StockOutManagementControl_Load);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();

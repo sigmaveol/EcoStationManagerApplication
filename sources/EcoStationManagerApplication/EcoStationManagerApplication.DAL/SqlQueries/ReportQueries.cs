@@ -15,7 +15,8 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    COALESCE(SUM(total_amount - discounted_amount), 0) as revenue,
                    COUNT(*) as order_count
             FROM Orders
-            WHERE status = 'COMPLETED'
+            WHERE status = 5
+            -- OrderStatus: COMPLETED = 5
             AND DATE(last_updated) BETWEEN @FromDate AND @ToDate
             GROUP BY DATE(last_updated)
             ORDER BY period_date ASC";
@@ -28,7 +29,8 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    COALESCE(SUM(total_amount - discounted_amount), 0) as revenue,
                    COUNT(*) as order_count
             FROM Orders
-            WHERE status = 'COMPLETED'
+            WHERE status = 5
+            -- OrderStatus: COMPLETED = 5
             AND DATE(last_updated) BETWEEN @FromDate AND @ToDate
             GROUP BY YEARWEEK(last_updated)
             ORDER BY week_number ASC";
@@ -42,7 +44,8 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    COALESCE(SUM(total_amount - discounted_amount), 0) as revenue,
                    COUNT(*) as order_count
             FROM Orders
-            WHERE status = 'COMPLETED'
+            WHERE status = 5
+            -- OrderStatus: COMPLETED = 5
             AND DATE(last_updated) BETWEEN @FromDate AND @ToDate
             GROUP BY YEAR(last_updated), MONTH(last_updated)
             ORDER BY year ASC, month ASC";
@@ -53,7 +56,8 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    COUNT(*) as total_orders,
                    COALESCE(AVG(total_amount - discounted_amount), 0) as avg_order_value
             FROM Orders
-            WHERE status = 'COMPLETED'
+            WHERE status = 5
+            -- OrderStatus: COMPLETED = 5
             AND DATE(last_updated) BETWEEN @FromDate AND @ToDate";
 
         // Báo cáo tần suất khách hàng quay trở lại
@@ -73,7 +77,8 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    END as return_frequency
             FROM Customers c
             INNER JOIN Orders o ON c.customer_id = o.customer_id
-            WHERE o.status = 'COMPLETED'
+            WHERE o.status = 5
+            -- OrderStatus: COMPLETED = 5
             AND DATE(o.last_updated) BETWEEN @FromDate AND @ToDate
             GROUP BY c.customer_id, c.name, c.phone
             HAVING total_orders >= 1
@@ -83,12 +88,13 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         public const string PackagingRecoveryRate = @"
             SELECT p.packaging_id,
                    p.name as packaging_name,
-                   COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) as issued,
-                   COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) as returned,
+                   COALESCE(SUM(CASE WHEN pt.type = 0 THEN pt.quantity ELSE 0 END), 0) as issued,
+                   COALESCE(SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END), 0) as returned,
                    CASE 
-                       WHEN COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) > 0
-                       THEN ROUND(COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) * 100.0 / 
-                                  COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0), 2)
+                       WHEN COALESCE(SUM(CASE WHEN pt.type = 0 THEN pt.quantity ELSE 0 END), 0) > 0
+                       THEN ROUND(COALESCE(SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END), 0) * 100.0 / 
+                                  COALESCE(SUM(CASE WHEN pt.type = 0 THEN pt.quantity ELSE 0 END), 0), 2)
+            -- PackagingTransactionType: ISSUE = 0, RETURN = 1
                        ELSE 0
                    END as recovery_rate
             FROM Packaging p
@@ -100,8 +106,9 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
 
         // Tổng số bao bì đã phát hành và thu hồi
         public const string TotalPackagingStats = @"
-            SELECT COALESCE(SUM(CASE WHEN pt.type = 'ISSUE' THEN pt.quantity ELSE 0 END), 0) as total_issued,
-                   COALESCE(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END), 0) as total_returned
+            SELECT COALESCE(SUM(CASE WHEN pt.type = 0 THEN pt.quantity ELSE 0 END), 0) as total_issued,
+                   COALESCE(SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END), 0) as total_returned
+            -- PackagingTransactionType: ISSUE = 0, RETURN = 1
             FROM PackagingTransactions pt
             WHERE DATE(pt.created_date) BETWEEN @FromDate AND @ToDate";
 
@@ -109,24 +116,26 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         public const string EnvironmentalImpact = @"
             SELECT DATE(pt.created_date) as period_date,
                    DATE_FORMAT(pt.created_date, '%d/%m/%Y') as period,
-                   SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) as refills,
-                   ROUND(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) * 0.25, 2) as plastic_saved_kg,
-                   ROUND(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) * 0.25 * 6 / 1000, 2) as co2_saved_kg
+                   SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END) as refills,
+                   ROUND(SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END) * 0.25, 2) as plastic_saved_kg,
+                   ROUND(SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END) * 0.25 * 6 / 1000, 2) as co2_saved_kg
             FROM PackagingTransactions pt
-            WHERE pt.type = 'RETURN'
+            WHERE pt.type = 1
+            -- PackagingTransactionType: RETURN = 1
             AND DATE(pt.created_date) BETWEEN @FromDate AND @ToDate
             GROUP BY DATE(pt.created_date)
             ORDER BY period_date ASC";
 
         // Tổng tác động môi trường
         public const string TotalEnvironmentalImpact = @"
-            SELECT SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) as total_refills,
-                   ROUND(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) * 0.25, 2) as plastic_saved_kg,
-                   ROUND(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) * 0.25 / 1000, 2) as plastic_saved_tons,
-                   ROUND(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) * 0.25 * 6 / 1000, 2) as co2_saved_kg,
-                   ROUND(SUM(CASE WHEN pt.type = 'RETURN' THEN pt.quantity ELSE 0 END) * 0.25 * 6 / 1000000, 2) as co2_saved_tons
+            SELECT SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END) as total_refills,
+                   ROUND(SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END) * 0.25, 2) as plastic_saved_kg,
+                   ROUND(SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END) * 0.25 / 1000, 2) as plastic_saved_tons,
+                   ROUND(SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END) * 0.25 * 6 / 1000, 2) as co2_saved_kg,
+                   ROUND(SUM(CASE WHEN pt.type = 1 THEN pt.quantity ELSE 0 END) * 0.25 * 6 / 1000000, 2) as co2_saved_tons
             FROM PackagingTransactions pt
-            WHERE pt.type = 'RETURN'
+            WHERE pt.type = 1
+            -- PackagingTransactionType: RETURN = 1
             AND DATE(pt.created_date) BETWEEN @FromDate AND @ToDate";
 
         // Báo cáo tồn kho (giữ nguyên)
@@ -155,7 +164,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    COALESCE(SUM(o.total_amount - o.discounted_amount), 0) as total_spent,
                    MAX(o.last_updated) as last_order_date
             FROM Customers c
-            LEFT JOIN Orders o ON c.customer_id = o.customer_id AND o.status = 'COMPLETED'
+            LEFT JOIN Orders o ON c.customer_id = o.customer_id AND o.status = 5
             WHERE c.is_active = TRUE
             GROUP BY c.customer_id, c.name, c.phone, c.email, c.rank, c.total_point
             ORDER BY total_spent DESC";

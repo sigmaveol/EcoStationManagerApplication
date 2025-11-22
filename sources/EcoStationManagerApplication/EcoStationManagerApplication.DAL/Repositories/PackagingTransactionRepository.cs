@@ -60,9 +60,10 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
+                // Với TINYINT, cần pass số nguyên thay vì string
                 return await _databaseHelper.QueryAsync<PackagingTransaction>(
                     PackagingTransactionQueries.GetByType,
-                    new { Type = type.ToString() }
+                    new { Type = (int)type }
                 );
             }
             catch (Exception ex)
@@ -218,8 +219,8 @@ namespace EcoStationManagerApplication.DAL.Repositories
                                 PackagingId = packagingId,
                                 CustomerId = customerId,
                                 UserId = userId,
-                                Type = PackagingTransactionType.ISSUE.ToString(),
-                                OwnershipType = PackagingOwnershipType.DEPOSIT.ToString(),
+                                Type = (int)PackagingTransactionType.ISSUE, // Với TINYINT, pass số nguyên
+                                OwnershipType = (int)PackagingOwnershipType.DEPOSIT, // Với TINYINT, pass số nguyên
                                 Quantity = quantity,
                                 DepositPrice = depositPrice,
                                 RefundAmount = 0m,
@@ -282,8 +283,8 @@ namespace EcoStationManagerApplication.DAL.Repositories
                                 PackagingId = packagingId,
                                 CustomerId = customerId,
                                 UserId = userId,
-                                Type = PackagingTransactionType.RETURN.ToString(),
-                                OwnershipType = PackagingOwnershipType.DEPOSIT.ToString(),
+                                Type = (int)PackagingTransactionType.RETURN, // Với TINYINT, pass số nguyên
+                                OwnershipType = (int)PackagingOwnershipType.DEPOSIT, // Với TINYINT, pass số nguyên
                                 Quantity = quantity,
                                 DepositPrice = 0m,
                                 RefundAmount = refundAmount,
@@ -424,7 +425,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                 if (transactionType.HasValue)
                 {
                     whereClause += " AND pt.type = @TransactionType";
-                    parameters.Add("TransactionType", transactionType.Value.ToString());
+                    parameters.Add("TransactionType", (int)transactionType.Value); // Với TINYINT, pass số nguyên
                 }
 
                 // Customer filter

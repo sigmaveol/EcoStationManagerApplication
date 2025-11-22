@@ -56,20 +56,24 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         {
             try
             {
-                // Tìm property name tương ứng với _idColumn để loại bỏ
-                var idPropertyName = GetIdPropertyName();
-                
-                var properties = GetMappedProperties()
-                    .Where(p => !p.Name.Equals(idPropertyName, StringComparison.OrdinalIgnoreCase) &&
-                               !ToSnakeCase(p.Name).Equals(_idColumn, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
 
-                var columns = string.Join(", ", properties.Select(p => ToSnakeCase(p.Name)));
-                var parameters = string.Join(", ", properties.Select(p => $"@{p.Name}"));
+                var dp = new DynamicParameters();
+                foreach (var p in ColumnMappingCache<T>.Properties.Where(p => p != ColumnMappingCache<T>.IdProperty))
+                {
+                    dp.Add("@" + ColumnMappingCache<T>.PropertyToColumn[p.Name], p.GetValue(entity));
+                }
 
-                var sql = $"INSERT INTO {_tableName} ({columns}) VALUES ({parameters}); SELECT LAST_INSERT_ID();";
-
-                return await _databaseHelper.ExecuteScalarAsync<int>(sql, entity);
+                return await _databaseHelper.ExecuteScalarAsync<int>(
+                    ColumnMappingCache<T>.InsertSql,
+                    dp
+                );
+            }
+            catch (System.Data.DataException ex)
+            {
+                Console.WriteLine(ex.Message);
+                if (ex.InnerException != null)
+                    Console.WriteLine(ex.InnerException.Message);
+                throw;
             }
             catch (Exception ex)
             {
@@ -78,119 +82,31 @@ namespace EcoStationManagerApplication.DAL.Interfaces
             }
         }
 
-        private string ToSnakeCase(string name)
-        {
-            return string.Concat(name.Select((x, i) =>
-                i > 0 && char.IsUpper(x) ? "_" + char.ToLower(x) : char.ToLower(x).ToString()));
-        }
-
-        private string ToPascalCase(string snakeCase)
-        {
-            if (string.IsNullOrEmpty(snakeCase))
-                return snakeCase;
-
-            var parts = snakeCase.Split('_');
-            return string.Join("", parts.Select(p => 
-                string.IsNullOrEmpty(p) ? "" : char.ToUpper(p[0]) + (p.Length > 1 ? p.Substring(1).ToLower() : "")));
-        }
-
-        /// <summary>
-        /// Tìm property name tương ứng với _idColumn (convert snake_case sang PascalCase)
-        /// </summary>
-        private string GetIdPropertyName()
-        {
-            var idPropertyName = ToPascalCase(_idColumn);
-            var idProperty = typeof(T).GetProperty(idPropertyName);
-            
-            if (idProperty == null)
-            {
-                // Fallback: thử tìm property có tên giống _idColumn (case-insensitive)
-                idProperty = typeof(T).GetProperties()
-                    .FirstOrDefault(p => p.Name.Equals(_idColumn, StringComparison.OrdinalIgnoreCase) ||
-                                       ToSnakeCase(p.Name).Equals(_idColumn, StringComparison.OrdinalIgnoreCase));
-                idPropertyName = idProperty?.Name ?? idPropertyName;
-            }
-            
-            return idPropertyName;
-        }
-
         public virtual async Task<bool> UpdateAsync(T entity)
         {
             try
             {
-                if (entity == null)
-                    throw new ArgumentNullException(nameof(entity));
-                
-                var idPropertyName = GetIdPropertyName();
-                if (string.IsNullOrEmpty(idPropertyName))
-                    throw new InvalidOperationException($"Cannot find ID property for table {_tableName} with ID column {_idColumn}");
+                var dp = new DynamicParameters();
 
-                var properties = GetMappedProperties()
-                    .Where(p => !p.Name.Equals(idPropertyName, StringComparison.OrdinalIgnoreCase) && 
-                               !ToSnakeCase(p.Name).Equals(_idColumn, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                foreach (var p in ColumnMappingCache<T>.Properties.Where(p => p != ColumnMappingCache<T>.IdProperty))
+                {
+                    dp.Add("@" + ColumnMappingCache<T>.PropertyToColumn[p.Name], p.GetValue(entity));
+                }
 
-                if (!properties.Any())
-                    throw new InvalidOperationException($"No properties to update for table {_tableName}");
+                dp.Add("@IdParam", ColumnMappingCache<T>.IdProperty.GetValue(entity));
 
-                var setClause = string.Join(", ", properties.Select(p => $"{ToSnakeCase(p.Name)} = @{p.Name}"));
+                var rows = await _databaseHelper.ExecuteAsync(
+                    ColumnMappingCache<T>.UpdateSql,
+                    dp
+                );
 
-                var sql = $"UPDATE {_tableName} SET {setClause} WHERE {ToSnakeCase(_idColumn)} = @{idPropertyName}";
-                var affectedRows = await _databaseHelper.ExecuteAsync(sql, entity);
-                return affectedRows > 0;
+                return rows > 0;
             }
             catch (Exception ex)
             {
                 _logger.Error($"UpdateAsync error - Table: {_tableName} - {ex.Message}");
                 throw;
             }
-        }
-
-        /// <summary>
-        /// Lấy các properties được map vào database (exclude navigation properties)
-        /// </summary>
-        protected virtual IEnumerable<PropertyInfo> GetMappedProperties()
-        {
-            return typeof(T).GetProperties()
-                .Where(p =>
-                {
-                    // Exclude navigation properties (complex types that are not primitives)
-                    var propType = p.PropertyType;
-                    
-                    // Exclude if has NotMapped attribute
-                    if (p.GetCustomAttribute<NotMappedAttribute>() != null)
-                        return false;
-
-                    // Exclude if it's a navigation property (complex type, not primitive, not enum, not nullable primitive)
-                    if (propType.IsClass && 
-                        propType != typeof(string) && 
-                        propType != typeof(DateTime) && 
-                        propType != typeof(DateTime?) &&
-                        !propType.IsPrimitive &&
-                        !propType.IsEnum &&
-                        !IsNullablePrimitive(propType))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                });
-        }
-
-        /// <summary>
-        /// Kiểm tra xem type có phải là nullable primitive không
-        /// </summary>
-        private bool IsNullablePrimitive(Type type)
-        {
-            if (!type.IsGenericType || type.GetGenericTypeDefinition() != typeof(Nullable<>))
-                return false;
-
-            var underlyingType = Nullable.GetUnderlyingType(type);
-            return underlyingType != null && 
-                   (underlyingType.IsPrimitive || 
-                    underlyingType == typeof(decimal) || 
-                    underlyingType == typeof(DateTime) ||
-                    underlyingType.IsEnum);
         }
 
         public virtual async Task<bool> DeleteAsync(int id)

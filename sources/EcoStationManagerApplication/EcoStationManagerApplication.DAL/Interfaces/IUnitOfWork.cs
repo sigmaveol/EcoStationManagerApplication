@@ -52,8 +52,8 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         // Delivery Management
         IDeliveryRepository Deliveries { get; }
 
-        // TODO: Triển khai sau
-        // ICleaningScheduleRepository CleaningSchedules { get; }
+        // Cleaning Schedule Management
+        ICleaningScheduleRepository CleaningSchedules { get; }
 
         /// <summary>
         /// Lưu tất cả thay đổi

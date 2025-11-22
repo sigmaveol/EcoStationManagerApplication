@@ -344,7 +344,7 @@
             Throw helper class of PDFsharp.
             </summary>
         </member>
-        <member name="T:PdfSharp.Internal.Lock">
+        <member name="T:PdfSharp.Internal.Locks">
             <summary>
             Static locking functions to make PDFsharp thread save.
             POSSIBLE BUG_OLD: Having more than one lock can lead to a deadlock.

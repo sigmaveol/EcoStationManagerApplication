@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
-    public partial class ProductsControl : UserControl
+    public partial class ProductsControl : UserControl, IRefreshableControl
     {
         private List<ProductDTO> products;
         private List<Packaging> packagings;
@@ -26,6 +26,11 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             InitializeComponent();
             InitializeControls();
+            _ = LoadDataAsync();
+        }
+
+        public void RefreshData()
+        {
             _ = LoadDataAsync();
         }
 

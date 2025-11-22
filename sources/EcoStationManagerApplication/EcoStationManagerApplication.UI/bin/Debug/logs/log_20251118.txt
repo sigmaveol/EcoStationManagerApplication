@@ -2051,3 +2051,175 @@
 [INFO] [DatabaseHelper] 2025-11-18 19:21:45: Connection opened - State: Open
 [INFO] [DatabaseHelper] 2025-11-18 19:21:45: Connection opened - State: Open
 [INFO] [DatabaseHelper] 2025-11-18 19:21:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:29: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-18 19:22:29: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-18 19:22:29: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-18 19:22:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:43: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-18 19:22:43: QueryAsync error: SELECT * FROM Stations - Table 'ecostationmanager.stations' doesn't exist
+[ERROR] [Repo:Stations] 2025-11-18 19:22:43: GetAllAsync error - Table: Stations - Table 'ecostationmanager.stations' doesn't exist
+[ERROR] [Service:StationService] 2025-11-18 19:22:43: lấy danh sách trạm error: Table 'ecostationmanager.stations' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-18 19:22:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:22:58: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-18 19:22:58: QueryAsync error: SELECT * FROM Stations - Table 'ecostationmanager.stations' doesn't exist
+[ERROR] [Repo:Stations] 2025-11-18 19:22:58: GetAllAsync error - Table: Stations - Table 'ecostationmanager.stations' doesn't exist
+[ERROR] [Service:StationService] 2025-11-18 19:22:58: lấy danh sách trạm error: Table 'ecostationmanager.stations' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-18 19:23:14: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-18 19:23:14: QueryFirstOrDefaultAsync error: 
+            SELECT * FROM Stations
+            WHERE name = @Name - Table 'ecostationmanager.stations' doesn't exist
+[ERROR] [Repo:Stations] 2025-11-18 19:23:14: GetByNameAsync error - Name: Hồ chí minh - Table 'ecostationmanager.stations' doesn't exist
+[ERROR] [Service:StationService] 2025-11-18 19:23:14: tạo trạm error: Table 'ecostationmanager.stations' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-18 19:25:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:45: Connection opened - State: Open
+[INFO] [Service:StationService] 2025-11-18 19:25:45: Đã tạo trạm mới - StationId: 1, Name: Hồ chính minh
+[INFO] [DatabaseHelper] 2025-11-18 19:25:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:47: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:52: Connection opened - State: Open
+[INFO] [Service:StationService] 2025-11-18 19:25:52: Đã cập nhật trạm - StationId: 1, Name: Hồ chính minh
+[INFO] [DatabaseHelper] 2025-11-18 19:25:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:57: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:57: Connection opened - State: Open
+[INFO] [Service:StationService] 2025-11-18 19:25:57: Đã cập nhật trạm - StationId: 1, Name: Hồ chính minh
+[INFO] [DatabaseHelper] 2025-11-18 19:25:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:25:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:13: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:13: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:13: Connection opened - State: Open
+[INFO] [Repo:Users] 2025-11-18 19:26:13: Đã cập nhật profile user - UserId: 2, Name: Trần Thị Quản Lý
+[INFO] [Service:UserService] 2025-11-18 19:26:13: Đã cập nhật user: manager1 (ID: 2)
+[INFO] [DatabaseHelper] 2025-11-18 19:26:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:14: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:19: Connection opened - State: Open
+[INFO] [Repo:Users] 2025-11-18 19:26:19: Đã cập nhật profile user - UserId: 2, Name: Trần Thị Quản Lý
+[INFO] [Service:UserService] 2025-11-18 19:26:19: Đã cập nhật user: manager1 (ID: 2)
+[INFO] [DatabaseHelper] 2025-11-18 19:26:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:24: Connection opened - State: Open
+[INFO] [Repo:Users] 2025-11-18 19:26:24: Đã cập nhật profile user - UserId: 2, Name: Trần Thị Quản Lý
+[INFO] [Service:UserService] 2025-11-18 19:26:24: Đã cập nhật user: manager1 (ID: 2)
+[INFO] [DatabaseHelper] 2025-11-18 19:26:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:42: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:48: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:26:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:04: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:10: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:27:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:17: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:18: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:45: Connection opened - State: Open
+[INFO] [Service:DeliveryService] 2025-11-18 19:28:45: Đã tạo phân công giao hàng mới - AssignmentId: 5, OrderId: 5, DriverId: 2
+[INFO] [DatabaseHelper] 2025-11-18 19:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:28:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-18 19:29:28: Connection opened - State: Open

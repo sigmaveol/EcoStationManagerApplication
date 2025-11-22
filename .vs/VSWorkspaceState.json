@@ -4,9 +4,8 @@
     "\\sources",
     "\\sources\\EcoStationManagerApplication",
     "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Common",
-    "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Common\\Exporters",
-    "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls"
+    "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Common\\Exporters"
   ],
-  "SelectedNode": "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Common\\Exporters\\PdfExporter.cs",
+  "SelectedNode": "\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.sln",
   "PreviewInSolutionExplorer": false
 }

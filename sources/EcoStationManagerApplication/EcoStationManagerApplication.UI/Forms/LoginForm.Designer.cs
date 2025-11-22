@@ -79,7 +79,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::EcoStationManagerApplication.UI.Properties.Resources.thumbnail_pm1;
+            this.pictureBox1.Image = global::EcoStationManagerApplication.UI.Properties.Resources.refill_removebg_preview;
             this.pictureBox1.Location = new System.Drawing.Point(108, 198);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(294, 217);
@@ -177,12 +177,12 @@
             this.checkBoxShowPassword.Size = new System.Drawing.Size(169, 27);
             this.checkBoxShowPassword.TabIndex = 14;
             this.checkBoxShowPassword.Text = "Hiển thị mật khẩu";
-            this.checkBoxShowPassword.CheckedChanged += new System.EventHandler(this.checkBoxShowPassword_CheckedChanged);
             this.checkBoxShowPassword.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
             this.checkBoxShowPassword.UncheckedState.BorderRadius = 2;
             this.checkBoxShowPassword.UncheckedState.BorderThickness = 1;
             this.checkBoxShowPassword.UncheckedState.FillColor = System.Drawing.Color.White;
             this.checkBoxShowPassword.UseVisualStyleBackColor = false;
+            this.checkBoxShowPassword.CheckedChanged += new System.EventHandler(this.checkBoxShowPassword_CheckedChanged);
             // 
             // checkBoxRemember
             // 

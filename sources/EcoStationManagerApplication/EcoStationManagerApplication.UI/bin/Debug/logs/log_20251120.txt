@@ -1,0 +1,149 @@
+[ERROR] [DatabaseHelper] 2025-11-20 23:25:45: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 23:25:45: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-20 23:25:45: GetByUsernameAsync error - Username: admin - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-20 23:25:45: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-20 23:25:45: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-20 23:26:36: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-20 23:26:40: QueryFirstOrDefaultAsync error: 
+            SELECT * FROM Users 
+            WHERE username = @Username AND is_active = TRUE - Fatal error encountered during command execution
+[ERROR] [Repo:Users] 2025-11-20 23:26:41: GetByUsernameAsync error - Username: admin - Fatal error encountered during command execution
+[ERROR] [Service:UserService] 2025-11-20 23:26:41: xác thực người dùng error: Fatal error encountered during command execution
+[ERROR] [Service:UserService] 2025-11-20 23:26:41: Inner exception: Fatal error encountered attempting to read the resultset
+[ERROR] [DatabaseHelper] 2025-11-20 23:27:25: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 23:27:25: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-20 23:27:26: GetByUsernameAsync error - Username: admin - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-20 23:27:26: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-20 23:27:26: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 23:27:38: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 23:27:38: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Repo:Users] 2025-11-20 23:27:38: GetByUsernameAsync error - Username: admin - Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-20 23:27:38: xác thực người dùng error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:UserService] 2025-11-20 23:27:38: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-20 23:29:16: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-20 23:29:16: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-20 23:29:16: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-20 23:29:16: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:29:16: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-20 23:29:16: Đã tạo WorkShift mới cho user - UserId: 1, ShiftId: 9, Date: 2025-11-20
+[INFO] [DatabaseHelper] 2025-11-20 23:29:20: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:29:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:29:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:29:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:29:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:29:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:28: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:33: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:30:34: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:32:58: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-20 23:32:58: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-20 23:32:58: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-20 23:32:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:32:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:33:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:33:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:33:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:33:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:33:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:33:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:33:07: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:33:08: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:36:54: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-20 23:36:54: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-20 23:36:54: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-20 23:36:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:36:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:36:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:36:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:36:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:36:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:36:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:36:56: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:37:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:37:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:41:28: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-20 23:41:29: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-20 23:41:29: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-20 23:41:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:41:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:41:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:41:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:41:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:41:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:41:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:41:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:41:35: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:41:36: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:44:58: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-20 23:44:58: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-20 23:44:58: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-20 23:44:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:44:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:45:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:45:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:45:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:45:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:45:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:45:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:45:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:45:03: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:47:59: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-20 23:48:00: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-20 23:48:00: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-20 23:48:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:48:00: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:48:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:48:01: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:48:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:48:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:48:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:48:02: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:48:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:48:05: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:56:43: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-20 23:56:43: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-20 23:56:43: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-20 23:56:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:56:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:56:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:56:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:56:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:56:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:56:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:56:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:56:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:56:53: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:58:52: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-20 23:58:52: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-20 23:58:52: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-20 23:58:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:58:52: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:58:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:58:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:58:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:58:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:58:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:58:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:58:58: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-20 23:58:58: Connection opened - State: Open

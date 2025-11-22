@@ -1,0 +1,14 @@
+[INFO] [DatabaseHelper] 2025-11-21 00:05:43: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 00:05:43: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-21 00:05:43: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-21 00:05:43: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 00:05:43: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-21 00:05:43: Đã tạo WorkShift mới cho user - UserId: 1, ShiftId: 10, Date: 2025-11-21
+[INFO] [DatabaseHelper] 2025-11-21 00:05:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 00:05:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 00:05:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 00:05:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 00:05:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 00:05:46: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 00:05:49: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-21 00:05:49: Connection opened - State: Open

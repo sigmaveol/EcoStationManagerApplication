@@ -157,3 +157,6 @@ D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationM
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.DAL\bin\Debug\System.Diagnostics.DiagnosticSource.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.DAL\bin\Debug\System.Security.Cryptography.Pkcs.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.DAL\bin\Debug\System.ValueTuple.xml
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.DAL\bin\Debug\PdfSharp.dll
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.DAL\bin\Debug\PdfSharp.xml
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.DAL\bin\Debug\de\PdfSharp.resources.dll

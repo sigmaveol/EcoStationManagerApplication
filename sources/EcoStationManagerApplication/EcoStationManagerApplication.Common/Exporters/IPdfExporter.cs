@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 
 namespace EcoStationManagerApplication.Common.Exporters
 {
@@ -16,6 +17,15 @@ namespace EcoStationManagerApplication.Common.Exporters
         /// <param name="title">Tiêu đề tài liệu</param>
         /// <param name="headers">Tiêu đề các cột (tùy chọn)</param>
         void ExportToPdf<T>(IEnumerable<T> data, string filePath, string title = "Danh sách", Dictionary<string, string> headers = null);
+
+        /// <summary>
+        /// Export DataTable ra file PDF
+        /// </summary>
+        /// <param name="dataTable">DataTable cần export</param>
+        /// <param name="filePath">Đường dẫn file để lưu</param>
+        /// <param name="title">Tiêu đề tài liệu</param>
+        /// <param name="headers">Tiêu đề các cột (tùy chọn)</param>
+        void ExportToPdf(DataTable dataTable, string filePath, string title = "Danh sách", Dictionary<string, string> headers = null);
     }
 }
 

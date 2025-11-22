@@ -1,4 +1,5 @@
-﻿using EcoStationManagerApplication.Models.DTOs;
+﻿using EcoStationManagerApplication.Common.Exporters;
+using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
@@ -6,7 +7,9 @@ using EcoStationManagerApplication.UI.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -791,8 +794,8 @@ namespace EcoStationManagerApplication.UI.Controls
 
                     dgvKPI.Rows.Clear();
 
-                    // TẠM THỜI: Bypass filter để test - hiển thị TẤT CẢ shifts
-                    var filteredShifts = _workShifts; // ApplyWorkShiftFilters(_workShifts, staffDict);
+                    // Áp dụng filters
+                    var filteredShifts = ApplyWorkShiftFilters(_workShifts, staffDict);
 
                     // Debug: Kiểm tra sau khi filter
                     System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Filtered shifts (bypassed): {filteredShifts.Count}");
@@ -873,7 +876,7 @@ namespace EcoStationManagerApplication.UI.Controls
             System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Input shifts: {shifts.Count}");
             System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Has search: {hasSearch}, Has role filter: {hasRoleFilter}, Has date filter: {hasDateFilter}");
 
-            // Filter theo search term
+            // Filter theo search term - cải thiện tìm kiếm
             if (hasSearch)
             {
                 var searchTerm = txtWorkShiftSearch.Text.ToLower();
@@ -883,17 +886,30 @@ namespace EcoStationManagerApplication.UI.Controls
                 {
                     var staffInfo = staffDict.ContainsKey(s.UserId) ? staffDict[s.UserId] : null;
                     
-                    // Nếu có staffInfo, tìm theo tên
+                    // Tìm theo tên nhân viên
                     if (staffInfo != null)
                     {
                         var nameProperty = typeof(T).GetProperty("Name");
                         var staffName = nameProperty?.GetValue(staffInfo)?.ToString() ?? "";
                         if (staffName.ToLower().Contains(searchTerm))
                             return true;
+                        
+                        // Tìm theo vai trò
+                        var roleProperty = typeof(T).GetProperty("Role");
+                        var role = roleProperty?.GetValue(staffInfo);
+                        if (role != null)
+                        {
+                            var roleName = GetRoleDisplayName((UserRole)role);
+                            if (roleName.ToLower().Contains(searchTerm))
+                                return true;
+                        }
                     }
                     
-                    // Tìm theo ngày và ghi chú (không cần staffInfo)
+                    // Tìm theo ngày, giờ, KPI, ghi chú, ID
                     return s.ShiftDate.ToString("dd/MM/yyyy").Contains(searchTerm) ||
+                           (s.StartTime.HasValue && s.StartTime.Value.ToString(@"hh\:mm").Contains(searchTerm)) ||
+                           (s.EndTime.HasValue && s.EndTime.Value.ToString(@"hh\:mm").Contains(searchTerm)) ||
+                           (s.KpiScore.HasValue && s.KpiScore.Value.ToString("N2").Contains(searchTerm)) ||
                            (s.Notes ?? "").ToLower().Contains(searchTerm) ||
                            s.ShiftId.ToString().Contains(searchTerm);
                 });
@@ -910,10 +926,8 @@ namespace EcoStationManagerApplication.UI.Controls
                 filtered = filtered.Where(s =>
                 {
                     var staffInfo = staffDict.ContainsKey(s.UserId) ? staffDict[s.UserId] : null;
-                    // Nếu không tìm thấy staffInfo, không filter (hiển thị tất cả)
                     if (staffInfo == null) return true;
                     
-                    // Sử dụng reflection để lấy Role property
                     var roleProperty = typeof(T).GetProperty("Role");
                     var role = roleProperty?.GetValue(staffInfo);
                     return role != null && role.Equals(selectedRole);
@@ -932,6 +946,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 
                 System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] After date filter: {filtered.Count()}");
             }
+
 
             var result = filtered.ToList();
             System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Final filtered count: {result.Count}");
@@ -1118,6 +1133,12 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             try
             {
+                if (dgvKPI == null || dgvKPI.Rows.Count == 0)
+                {
+                    AppServices.Dialog.ShowWarning("Không có dữ liệu để xuất. Vui lòng tải dữ liệu trước.");
+                    return;
+                }
+
                 var saveDialog = new SaveFileDialog
                 {
                     Filter = "Excel files (*.xlsx)|*.xlsx",
@@ -1127,8 +1148,22 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // TODO: Implement export to Excel
-                    AppServices.Dialog.ShowSuccess("Đã xuất Excel thành công!");
+                    var dataTable = ConvertDataGridViewToDataTable(dgvKPI);
+                    
+                    var headers = new Dictionary<string, string>
+                    {
+                        { "StaffName", "Nhân viên" },
+                        { "Role", "Vai trò" },
+                        { "ShiftDate", "Ngày" },
+                        { "StartTime", "Giờ bắt đầu" },
+                        { "EndTime", "Giờ kết thúc" },
+                        { "KpiScore", "Điểm KPI" },
+                        { "Notes", "Ghi chú" }
+                    };
+
+                    var excelExporter = new ExcelExporter();
+                    excelExporter.ExportToExcel(dataTable, saveDialog.FileName, "Ca làm việc", headers);
+                    AppServices.Dialog.ShowSuccess($"Đã xuất Excel thành công!\nFile: {saveDialog.FileName}");
                 }
             }
             catch (Exception ex)
@@ -1141,6 +1176,12 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             try
             {
+                if (dgvKPI == null || dgvKPI.Rows.Count == 0)
+                {
+                    AppServices.Dialog.ShowWarning("Không có dữ liệu để xuất. Vui lòng tải dữ liệu trước.");
+                    return;
+                }
+
                 var saveDialog = new SaveFileDialog
                 {
                     Filter = "PDF files (*.pdf)|*.pdf",
@@ -1150,8 +1191,22 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // TODO: Implement export to PDF
-                    AppServices.Dialog.ShowSuccess("Đã xuất PDF thành công!");
+                    var dataTable = ConvertDataGridViewToDataTable(dgvKPI);
+                    
+                    var headers = new Dictionary<string, string>
+                    {
+                        { "StaffName", "Nhân viên" },
+                        { "Role", "Vai trò" },
+                        { "ShiftDate", "Ngày" },
+                        { "StartTime", "Giờ bắt đầu" },
+                        { "EndTime", "Giờ kết thúc" },
+                        { "KpiScore", "Điểm KPI" },
+                        { "Notes", "Ghi chú" }
+                    };
+
+                    var pdfExporter = new PdfExporter();
+                    pdfExporter.ExportToPdf(dataTable, saveDialog.FileName, "BÁO CÁO DANH SÁCH CA LÀM VIỆC", headers);
+                    AppServices.Dialog.ShowSuccess($"Đã xuất PDF thành công!\nFile: {saveDialog.FileName}");
                 }
             }
             catch (Exception ex)
@@ -1171,6 +1226,11 @@ namespace EcoStationManagerApplication.UI.Controls
         }
 
         private async void DtpWorkShiftDateFilter_ValueChanged(object sender, EventArgs e)
+        {
+            await LoadWorkShiftDataAsync();
+        }
+
+        private async void CmbWorkShiftKpiFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             await LoadWorkShiftDataAsync();
         }
@@ -1235,6 +1295,9 @@ namespace EcoStationManagerApplication.UI.Controls
                 cmbDeliveryStatusFilter.SelectedIndexChanged += CmbDeliveryStatusFilter_SelectedIndexChanged;
             if (dtpDeliveryDateFilter != null)
                 dtpDeliveryDateFilter.ValueChanged += DtpDeliveryDateFilter_ValueChanged;
+            // Note: cmbDeliveryPaymentFilter sẽ được thêm vào Designer sau
+            // if (cmbDeliveryPaymentFilter != null)
+            //     cmbDeliveryPaymentFilter.SelectedIndexChanged += CmbDeliveryPaymentFilter_SelectedIndexChanged;
             if (dgvAssignments != null)
             {
                 dgvAssignments.CellDoubleClick += DgvAssignments_CellDoubleClick;
@@ -1286,8 +1349,8 @@ namespace EcoStationManagerApplication.UI.Controls
 
                     dgvAssignments.Rows.Clear();
 
-                    // TẠM THỜI: Bypass filter để test - hiển thị TẤT CẢ assignments
-                    var filteredAssignments = _deliveryAssignments; // ApplyDeliveryFilters(_deliveryAssignments, driversDict, ordersDict);
+                    // Áp dụng filters
+                    var filteredAssignments = ApplyDeliveryFilters(_deliveryAssignments, driversDict, ordersDict);
 
                     // Debug: Kiểm tra sau khi filter
                     System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Filtered assignments (bypassed): {filteredAssignments.Count}");
@@ -1371,11 +1434,12 @@ namespace EcoStationManagerApplication.UI.Controls
             var hasSearch = !string.IsNullOrWhiteSpace(txtDeliverySearch?.Text);
             var hasStatusFilter = cmbDeliveryStatusFilter != null && cmbDeliveryStatusFilter.SelectedIndex > 0;
             var hasDateFilter = dtpDeliveryDateFilter != null && dtpDeliveryDateFilter.Checked;
+            var hasPaymentFilter = cmbDeliveryPaymentFilter != null && cmbDeliveryPaymentFilter.SelectedIndex > 0;
             
             System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Input assignments: {assignments.Count}");
-            System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Has search: {hasSearch}, Has status filter: {hasStatusFilter}, Has date filter: {hasDateFilter}");
+            System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Has search: {hasSearch}, Has status filter: {hasStatusFilter}, Has date filter: {hasDateFilter}, Has payment filter: {hasPaymentFilter}");
 
-            // Filter theo search term
+            // Filter theo search term - cải thiện tìm kiếm
             if (hasSearch)
             {
                 var searchTerm = txtDeliverySearch.Text.ToLower();
@@ -1385,10 +1449,18 @@ namespace EcoStationManagerApplication.UI.Controls
                 {
                     var driverName = driversDict.ContainsKey(a.DriverId) ? driversDict[a.DriverId] : "";
                     var orderCode = ordersDict.ContainsKey(a.OrderId) ? ordersDict[a.OrderId] : "";
+                    var statusName = GetDeliveryStatusDisplayName(a.Status);
+                    var paymentName = GetPaymentStatusDisplayName(a.PaymentStatus);
+                    
+                    // Tìm theo nhiều trường: tên tài xế, mã đơn, trạng thái, thanh toán, COD, ghi chú, ID
                     return driverName.ToLower().Contains(searchTerm) ||
                            orderCode.ToLower().Contains(searchTerm) ||
+                           statusName.ToLower().Contains(searchTerm) ||
+                           paymentName.ToLower().Contains(searchTerm) ||
+                           a.CodAmount.ToString("N0").Contains(searchTerm) ||
                            (a.Notes ?? "").ToLower().Contains(searchTerm) ||
-                           a.AssignmentId.ToString().Contains(searchTerm);
+                           a.AssignmentId.ToString().Contains(searchTerm) ||
+                           a.AssignedDate.ToString("dd/MM/yyyy HH:mm").Contains(searchTerm);
                 });
                 
                 System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] After search filter: {filtered.Count()}");
@@ -1416,10 +1488,34 @@ namespace EcoStationManagerApplication.UI.Controls
                 System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] After date filter: {filtered.Count()}");
             }
 
+            // Filter theo trạng thái thanh toán
+            if (hasPaymentFilter && cmbDeliveryPaymentFilter != null)
+            {
+                var selectedPaymentStatus = GetPaymentStatusFromFilter(cmbDeliveryPaymentFilter.SelectedIndex);
+                System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Selected payment status: {selectedPaymentStatus}");
+                
+                filtered = filtered.Where(a => a.PaymentStatus == selectedPaymentStatus);
+                
+                System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] After payment filter: {filtered.Count()}");
+            }
+
             var result = filtered.ToList();
             System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Final filtered count: {result.Count}");
             
             return result;
+        }
+
+        /// <summary>
+        /// Lấy PaymentStatus từ filter index
+        /// </summary>
+        private DeliveryPaymentStatus GetPaymentStatusFromFilter(int index)
+        {
+            switch (index)
+            {
+                case 1: return DeliveryPaymentStatus.UNPAID;
+                case 2: return DeliveryPaymentStatus.PAID;
+                default: return DeliveryPaymentStatus.UNPAID;
+            }
         }
 
         /// <summary>
@@ -1680,6 +1776,12 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             try
             {
+                if (dgvAssignments == null || dgvAssignments.Rows.Count == 0)
+                {
+                    AppServices.Dialog.ShowWarning("Không có dữ liệu để xuất. Vui lòng tải dữ liệu trước.");
+                    return;
+                }
+
                 var saveDialog = new SaveFileDialog
                 {
                     Filter = "Excel files (*.xlsx)|*.xlsx",
@@ -1689,8 +1791,22 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // TODO: Implement export to Excel
-                    AppServices.Dialog.ShowSuccess("Đã xuất Excel thành công!");
+                    var dataTable = ConvertDataGridViewToDataTable(dgvAssignments);
+                    
+                    var headers = new Dictionary<string, string>
+                    {
+                        { "OrderCode", "Mã đơn" },
+                        { "DriverName", "Tài xế" },
+                        { "AssignedDate", "Ngày phân công" },
+                        { "Status", "Trạng thái" },
+                        { "CodAmount", "COD" },
+                        { "PaymentStatus", "Thanh toán" },
+                        { "Notes", "Ghi chú" }
+                    };
+
+                    var excelExporter = new ExcelExporter();
+                    excelExporter.ExportToExcel(dataTable, saveDialog.FileName, "Phân công giao hàng", headers);
+                    AppServices.Dialog.ShowSuccess($"Đã xuất Excel thành công!\nFile: {saveDialog.FileName}");
                 }
             }
             catch (Exception ex)
@@ -1703,6 +1819,12 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             try
             {
+                if (dgvAssignments == null || dgvAssignments.Rows.Count == 0)
+                {
+                    AppServices.Dialog.ShowWarning("Không có dữ liệu để xuất. Vui lòng tải dữ liệu trước.");
+                    return;
+                }
+
                 var saveDialog = new SaveFileDialog
                 {
                     Filter = "PDF files (*.pdf)|*.pdf",
@@ -1712,8 +1834,22 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // TODO: Implement export to PDF
-                    AppServices.Dialog.ShowSuccess("Đã xuất PDF thành công!");
+                    var dataTable = ConvertDataGridViewToDataTable(dgvAssignments);
+                    
+                    var headers = new Dictionary<string, string>
+                    {
+                        { "OrderCode", "Mã đơn" },
+                        { "DriverName", "Tài xế" },
+                        { "AssignedDate", "Ngày phân công" },
+                        { "Status", "Trạng thái" },
+                        { "CodAmount", "COD" },
+                        { "PaymentStatus", "Thanh toán" },
+                        { "Notes", "Ghi chú" }
+                    };
+
+                    var pdfExporter = new PdfExporter();
+                    pdfExporter.ExportToPdf(dataTable, saveDialog.FileName, "BÁO CÁO PHÂN CÔNG GIAO HÀNG", headers);
+                    AppServices.Dialog.ShowSuccess($"Đã xuất PDF thành công!\nFile: {saveDialog.FileName}");
                 }
             }
             catch (Exception ex)
@@ -1733,6 +1869,11 @@ namespace EcoStationManagerApplication.UI.Controls
         }
 
         private async void DtpDeliveryDateFilter_ValueChanged(object sender, EventArgs e)
+        {
+            await LoadDeliveryAssignmentDataAsync();
+        }
+
+        private async void CmbDeliveryPaymentFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             await LoadDeliveryAssignmentDataAsync();
         }
@@ -1829,6 +1970,51 @@ namespace EcoStationManagerApplication.UI.Controls
             public string Status { get; set; }
             public string Notes { get; set; }
         }
+
+        #endregion
+
+        #region Helper Methods
+
+        /// <summary>
+        /// Convert DataGridView to DataTable for export
+        /// </summary>
+        private DataTable ConvertDataGridViewToDataTable(DataGridView dgv)
+        {
+            var dataTable = new DataTable();
+
+            if (dgv == null || dgv.Columns.Count == 0)
+                return dataTable;
+
+            // Add columns (skip hidden columns)
+            foreach (DataGridViewColumn column in dgv.Columns)
+            {
+                if (column.Visible)
+                {
+                    var columnType = column.ValueType ?? typeof(string);
+                    dataTable.Columns.Add(column.Name, columnType);
+                }
+            }
+
+            // Add rows
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                var dataRow = dataTable.NewRow();
+                foreach (DataGridViewColumn column in dgv.Columns)
+                {
+                    if (column.Visible)
+                    {
+                        var cellValue = row.Cells[column.Name].Value;
+                        dataRow[column.Name] = cellValue ?? DBNull.Value;
+                    }
+                }
+                dataTable.Rows.Add(dataRow);
+            }
+
+            return dataTable;
+        }
+
 
         #endregion
     }

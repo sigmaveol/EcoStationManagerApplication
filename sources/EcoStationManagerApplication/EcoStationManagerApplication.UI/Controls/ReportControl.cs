@@ -1,4 +1,5 @@
-﻿using EcoStationManagerApplication.Core.Interfaces;
+﻿using EcoStationManagerApplication.Common.Exporters;
+using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
@@ -338,12 +339,11 @@ namespace EcoStationManagerApplication.UI.Controls
 
                     if (saveDialog.ShowDialog() == DialogResult.OK)
                     {
-                        var fromDate = dtpFromDate.Value.Date;
-                        var toDate = dtpToDate.Value.Date;
                         var reportTitle = GetReportTitleForExport();
 
-                        // Xuất PDF sử dụng FastReportHelper
-                        FastReportHelper.ExportToPdf(dataTable, saveDialog.FileName, reportTitle, fromDate, toDate);
+                        // Xuất PDF sử dụng PdfExporter từ Common layer
+                        var pdfExporter = new PdfExporter();
+                        pdfExporter.ExportToPdf(dataTable, saveDialog.FileName, reportTitle);
 
                         MessageBox.Show($"Đã xuất PDF thành công!\nFile: {saveDialog.FileName}", "Thành công",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -387,12 +387,11 @@ namespace EcoStationManagerApplication.UI.Controls
 
                     if (saveDialog.ShowDialog() == DialogResult.OK)
                     {
-                        var fromDate = dtpFromDate.Value.Date;
-                        var toDate = dtpToDate.Value.Date;
                         var reportTitle = GetReportTitleForExport();
 
-                        // Xuất Excel sử dụng FastReportHelper
-                        FastReportHelper.ExportToExcel(dataTable, saveDialog.FileName, reportTitle, fromDate, toDate);
+                        // Xuất Excel sử dụng ExcelExporter từ Common layer
+                        var excelExporter = new ExcelExporter();
+                        excelExporter.ExportToExcel(dataTable, saveDialog.FileName, reportTitle);
 
                         MessageBox.Show($"Đã xuất Excel thành công!\nFile: {saveDialog.FileName}", "Thành công",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);

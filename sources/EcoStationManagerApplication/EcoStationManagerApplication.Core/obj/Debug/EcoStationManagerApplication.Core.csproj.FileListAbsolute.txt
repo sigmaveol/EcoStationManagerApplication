@@ -296,3 +296,6 @@ D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoS
 D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\obj\Debug\EcoStationManagerApplication.Core.csproj.CopyComplete
 D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\obj\Debug\EcoStationManagerApplication.Core.dll
 D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\obj\Debug\EcoStationManagerApplication.Core.pdb
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.dll
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.xml
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\de\PdfSharp.resources.dll

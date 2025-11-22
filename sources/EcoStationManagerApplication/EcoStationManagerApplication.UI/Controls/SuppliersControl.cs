@@ -14,20 +14,33 @@ namespace EcoStationManagerApplication.UI.Controls
     {
         private List<Supplier> _suppliers = new List<Supplier>();
         private string _currentSearchTerm = "";
+        private bool _isLoading = false;
 
         public SuppliersControl()
         {
             InitializeComponent();
-            InitializeDataGridColumns();
+        }
+
+        private void SuppliersControl_Load(object sender, EventArgs e)
+        {
             SetupDataGridStyle(dgvSuppliers);
+            InitializeDataGridColumns();
             InitializeEvents();
             _ = LoadSuppliersAsync();
         }
 
         public void RefreshData()
         {
+            // Đảm bảo columns đã được khởi tạo
+            if (dgvSuppliers != null && (dgvSuppliers.Columns.Count == 0 || dgvSuppliers.Columns["SupplierCode"] == null))
+            {
+                SetupDataGridStyle(dgvSuppliers);
+                InitializeDataGridColumns();
+                InitializeEvents();
+            }
             _ = LoadSuppliersAsync();
         }
+
 
         private void InitializeEvents()
         {
@@ -48,6 +61,7 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             if (dgvSuppliers == null) return;
 
+            // Luôn clear để đảm bảo không có columns cũ
             dgvSuppliers.Columns.Clear();
 
             var columns = new[]
@@ -89,16 +103,37 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private async Task LoadSuppliersAsync()
         {
+            if (_isLoading) return;
+
             try
             {
+                _isLoading = true;
                 ShowLoading(true);
-                dgvSuppliers.Rows.Clear();
+
+                if (dgvSuppliers == null || this.Parent == null)
+                {
+                    return;
+                }
+
+                UIHelper.SafeInvoke(this, () =>
+                {
+                    if (dgvSuppliers != null)
+                    {
+                        dgvSuppliers.Rows.Clear();
+                    }
+                });
 
                 var suppliersResult = await AppServices.SupplierService.GetAllSuppliersAsync();
 
                 if (!suppliersResult.Success || suppliersResult.Data == null || !suppliersResult.Data.Any())
                 {
-                    dgvSuppliers.Rows.Add("", "Không có nhà cung cấp nào", "", "", "", "", "");
+                    UIHelper.SafeInvoke(this, () =>
+                    {
+                        if (dgvSuppliers != null)
+                        {
+                            dgvSuppliers.Rows.Add("", "Không có nhà cung cấp nào", "", "", "", "", "");
+                        }
+                    });
                     return;
                 }
 
@@ -119,33 +154,44 @@ namespace EcoStationManagerApplication.UI.Controls
                     ).ToList();
                 }
 
-                // Populate DataGridView
-                foreach (var supplier in filteredSuppliers)
+                // Populate DataGridView với thread-safe
+                UIHelper.SafeInvoke(this, () =>
                 {
-                    string contactInfo = FormatContactInfo(supplier.Phone, supplier.Email);
-                    string status = "Hoạt động"; // Mặc định, có thể kiểm tra IsActive nếu có trong model
+                    if (dgvSuppliers == null) return;
 
-                    dgvSuppliers.Rows.Add(
-                        GetSupplierCode(supplier.SupplierId),
-                        supplier.Name ?? "",
-                        supplier.ContactPerson ?? "",
-                        contactInfo,
-                        supplier.Address ?? "",
-                        status
-                    );
+                    foreach (var supplier in filteredSuppliers)
+                    {
+                        string contactInfo = FormatContactInfo(supplier.Phone, supplier.Email);
+                        string status = "Hoạt động"; // Mặc định, có thể kiểm tra IsActive nếu có trong model
 
-                    // Lưu SupplierId vào Tag để dùng khi edit
-                    var rowIndex = dgvSuppliers.Rows.Count - 1;
-                    dgvSuppliers.Rows[rowIndex].Tag = supplier;
-                }
+                        var rowIndex = dgvSuppliers.Rows.Add(
+                            GetSupplierCode(supplier.SupplierId),
+                            supplier.Name ?? "",
+                            supplier.ContactPerson ?? "",
+                            contactInfo,
+                            supplier.Address ?? "",
+                            status
+                        );
+
+                        // Lưu SupplierId vào Tag để dùng khi edit
+                        dgvSuppliers.Rows[rowIndex].Tag = supplier;
+                    }
+                });
             }
             catch (Exception ex)
             {
                 UIHelper.ShowExceptionError(ex, "tải danh sách nhà cung cấp");
-                dgvSuppliers.Rows.Add("", "Lỗi tải dữ liệu", "", "", "", "", "");
+                UIHelper.SafeInvoke(this, () =>
+                {
+                    if (dgvSuppliers != null)
+                    {
+                        dgvSuppliers.Rows.Add("", "Lỗi tải dữ liệu", "", "", "", "", "");
+                    }
+                });
             }
             finally
             {
+                _isLoading = false;
                 ShowLoading(false);
             }
         }
@@ -277,9 +323,5 @@ namespace EcoStationManagerApplication.UI.Controls
             await LoadSuppliersAsync();
         }
 
-        private void SuppliersControl_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

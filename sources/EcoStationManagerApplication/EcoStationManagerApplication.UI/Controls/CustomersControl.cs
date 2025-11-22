@@ -27,7 +27,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         public void RefreshData()
         {
-            _ = LoadDataAsync();
+            //_ = RefreshCustomersData();
         }
 
         private void CustomersControl_Load(object sender, EventArgs e)

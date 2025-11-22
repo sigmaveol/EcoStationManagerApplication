@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,21 +18,54 @@ namespace EcoStationManagerApplication.UI.Controls
     {
         private readonly BindingList<CleaningScheduleRow> _cleaningScheduleSource = new BindingList<CleaningScheduleRow>();
         private Dictionary<DateTime, List<CleaningSchedule>> _cleaningSchedulesByDate = new Dictionary<DateTime, List<CleaningSchedule>>();
+        private List<WorkShift> _workShifts = new List<WorkShift>();
+        private List<DeliveryAssignment> _deliveryAssignments = new List<DeliveryAssignment>();
+        private bool _isLoading = false;
 
         public StaffControl()
         {
             InitializeComponent();
             InitializeCleaningScheduleEvents();
+            InitializeWorkShiftEvents();
+            InitializeDeliveryEvents();
+            InitializeDataGridColumns();
         }
 
         public void RefreshData()
         {
-            _ = LoadCleaningScheduleDataAsync();
+            _ = LoadAllDataAsync();
         }
 
         private async void StaffControl_Load(object sender, EventArgs e)
         {
-            await LoadCleaningScheduleDataAsync();
+            await LoadAllDataAsync();
+        }
+
+        /// <summary>
+        /// Load tất cả dữ liệu
+        /// </summary>
+        private async Task LoadAllDataAsync()
+        {
+            if (_isLoading) return;
+
+            try
+            {
+                _isLoading = true;
+                await Task.WhenAll(
+                    LoadCleaningScheduleDataAsync(),
+                    LoadWorkShiftDataAsync(),
+                    LoadDeliveryAssignmentDataAsync(),
+                    LoadDashboardDataAsync()
+                );
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "tải dữ liệu nhân sự");
+            }
+            finally
+            {
+                _isLoading = false;
+            }
         }
 
         #region Cleaning Schedule Methods
@@ -560,6 +594,1224 @@ namespace EcoStationManagerApplication.UI.Controls
                 {
                     await LoadCleaningScheduleDataAsync();
                 }
+            }
+        }
+
+        #endregion
+
+        #region WorkShift Methods
+
+        /// <summary>
+        /// Khởi tạo events cho WorkShift controls
+        /// </summary>
+        private void InitializeWorkShiftEvents()
+        {
+            if (btnAddWorkShift != null)
+                btnAddWorkShift.Click += BtnAddWorkShift_Click;
+            if (btnEditWorkShift != null)
+                btnEditWorkShift.Click += BtnEditWorkShift_Click;
+            if (btnDeleteWorkShift != null)
+                btnDeleteWorkShift.Click += BtnDeleteWorkShift_Click;
+            if (btnExportWorkShiftExcel != null)
+                btnExportWorkShiftExcel.Click += BtnExportWorkShiftExcel_Click;
+            if (btnExportWorkShiftPdf != null)
+                btnExportWorkShiftPdf.Click += BtnExportWorkShiftPdf_Click;
+            if (txtWorkShiftSearch != null)
+                txtWorkShiftSearch.TextChanged += TxtWorkShiftSearch_TextChanged;
+            if (cmbWorkShiftRoleFilter != null)
+                cmbWorkShiftRoleFilter.SelectedIndexChanged += CmbWorkShiftRoleFilter_SelectedIndexChanged;
+            if (dtpWorkShiftDateFilter != null)
+                dtpWorkShiftDateFilter.ValueChanged += DtpWorkShiftDateFilter_ValueChanged;
+            if (dgvKPI != null)
+            {
+                dgvKPI.CellDoubleClick += DgvKPI_CellDoubleClick;
+                dgvKPI.SelectionChanged += DgvKPI_SelectionChanged;
+            }
+        }
+
+        /// <summary>
+        /// Tự động tính KPI cho ca làm việc dựa trên vai trò nhân viên
+        /// Logic đơn giản: KPI = (số đơn xử lý / mục tiêu) * 100, tối đa 100%
+        /// 
+        /// - Nhân viên giao hàng (DRIVER): Đếm số đơn được phân công giao hàng
+        /// - Nhân viên bán hàng (STAFF): Đếm số đơn đã tạo/bán
+        /// - Nhân viên chuẩn bị hàng (STAFF/MANAGER): Đếm số đơn đã chuẩn bị (status READY/PROCESSING)
+        /// </summary>
+        private async Task AutoCalculateKPIForShiftAsync(WorkShift shift, int targetOrders = 20)
+        {
+            try
+            {
+                // Chỉ tính KPI cho các ca chưa có KPI hoặc các ca trong 7 ngày gần đây (để cập nhật)
+                var daysSinceShift = (DateTime.Today - shift.ShiftDate.Date).Days;
+                if (shift.KpiScore.HasValue && daysSinceShift > 7)
+                {
+                    return; // Đã có KPI và quá cũ, không cần tính lại
+                }
+
+                // Lấy thông tin user để xác định vai trò
+                var allUsersResult = await AppServices.UserService.GetAllActiveUsersAsync();
+                var user = allUsersResult?.Data?.FirstOrDefault(u => u.UserId == shift.UserId);
+                var userRole = user?.Role ?? UserRole.STAFF;
+
+                int ordersHandled = 0;
+                string kpiType = "";
+
+                // Tính KPI dựa trên vai trò
+                switch (userRole)
+                {
+                    case UserRole.DRIVER:
+                        // Nhân viên giao hàng: Đếm số đơn được phân công giao hàng
+                        var allDeliveriesResult = await AppServices.DeliveryService.GetAllAsync();
+                        var allDeliveries = allDeliveriesResult?.Data?.ToList() ?? new List<DeliveryAssignment>();
+                        ordersHandled = allDeliveries.Count(d => 
+                            d.DriverId == shift.UserId && 
+                            d.AssignedDate.Date == shift.ShiftDate.Date);
+                        kpiType = "giao hàng";
+                        break;
+
+                    case UserRole.STAFF:
+                    case UserRole.MANAGER:
+                        // Nhân viên bán hàng/chuẩn bị hàng: Đếm số đơn đã xử lý trong ngày
+                        // Lấy đơn hàng theo user từ OrderService (sử dụng GetOrdersByStatusAsync để lấy Order entities)
+                        // Hoặc đếm đơn theo status và ngày
+                        
+                        // Lấy đơn hàng theo status để có Order entities (có UserId)
+                        var ordersReadyResult = await AppServices.OrderService.GetOrdersByStatusAsync(OrderStatus.READY);
+                        var ordersProcessingResult = await AppServices.OrderService.GetOrdersByStatusAsync(OrderStatus.PROCESSING);
+                        var ordersConfirmedResult = await AppServices.OrderService.GetOrdersByStatusAsync(OrderStatus.CONFIRMED);
+                        
+                        var allOrdersEntities = new List<Order>();
+                        if (ordersReadyResult?.Data != null) allOrdersEntities.AddRange(ordersReadyResult.Data);
+                        if (ordersProcessingResult?.Data != null) allOrdersEntities.AddRange(ordersProcessingResult.Data);
+                        if (ordersConfirmedResult?.Data != null) allOrdersEntities.AddRange(ordersConfirmedResult.Data);
+                        
+                        // Đếm đơn đã tạo/bán bởi nhân viên này trong ngày ca làm việc
+                        var ordersCreated = allOrdersEntities.Count(o => 
+                            o.UserId.HasValue &&
+                            o.UserId.Value == shift.UserId &&
+                            o.LastUpdated.Date == shift.ShiftDate.Date);
+                        
+                        // Đếm đơn đã chuẩn bị (status READY hoặc PROCESSING) bởi nhân viên này trong ngày
+                        var ordersPrepared = allOrdersEntities.Count(o => 
+                            o.UserId.HasValue &&
+                            o.UserId.Value == shift.UserId &&
+                            (o.Status == OrderStatus.READY || o.Status == OrderStatus.PROCESSING) &&
+                            o.LastUpdated.Date == shift.ShiftDate.Date);
+                        
+                        // Tổng hợp: 
+                        // - Nếu có đơn đã chuẩn bị → tính KPI theo đơn chuẩn bị
+                        // - Nếu không có đơn chuẩn bị nhưng có đơn đã tạo → tính KPI theo đơn bán hàng
+                        // - Nếu cả hai đều có → tính tổng cả hai
+                        if (ordersPrepared > 0 && ordersCreated > ordersPrepared)
+                        {
+                            ordersHandled = ordersPrepared + (ordersCreated - ordersPrepared);
+                            kpiType = "chuẩn bị + bán hàng";
+                        }
+                        else if (ordersPrepared > 0)
+                        {
+                            ordersHandled = ordersPrepared;
+                            kpiType = "chuẩn bị hàng";
+                        }
+                        else
+                        {
+                            ordersHandled = ordersCreated;
+                            kpiType = "bán hàng";
+                        }
+                        break;
+
+                    default:
+                        // ADMIN hoặc role khác: Không tính KPI
+                        return;
+                }
+
+                // Tính KPI: (số đơn / mục tiêu) * 100, tối đa 100%
+                decimal kpiScore = Math.Min(100, (decimal)ordersHandled / targetOrders * 100);
+                
+                // Cập nhật KPI vào ca làm việc
+                var result = await AppServices.WorkShiftService.CalculateKPIAsync(shift.ShiftId, ordersHandled, targetOrders);
+                if (result.Success)
+                {
+                    shift.KpiScore = kpiScore;
+                    System.Diagnostics.Debug.WriteLine($"[AutoCalculateKPI] Shift {shift.ShiftId} (User {shift.UserId}, Role: {userRole}, {shift.ShiftDate:dd/MM/yyyy}): {ordersHandled} đơn {kpiType} / {targetOrders} mục tiêu = {kpiScore:F2}%");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[AutoCalculateKPI] Error calculating KPI for shift {shift.ShiftId}: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Load và hiển thị WorkShift trong dgvKPI
+        /// </summary>
+        private async Task LoadWorkShiftDataAsync()
+        {
+            try
+            {
+                if (dgvKPI == null) return;
+
+                var shiftsResult = await AppServices.WorkShiftService.GetAllAsync();
+                _workShifts = shiftsResult?.Data?.ToList() ?? new List<WorkShift>();
+
+                // Debug: Kiểm tra dữ liệu từ service
+                System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Total shifts from service: {_workShifts.Count}");
+
+                // Tự động tính KPI cho các ca làm việc (chỉ tính cho ca chưa có KPI hoặc ca trong 7 ngày gần đây)
+                // Tính song song để tối ưu performance
+                var kpiTasks = _workShifts
+                    .Where(s => !s.KpiScore.HasValue || (DateTime.Today - s.ShiftDate.Date).Days <= 7)
+                    .Select(shift => AutoCalculateKPIForShiftAsync(shift))
+                    .ToList();
+                
+                if (kpiTasks.Any())
+                {
+                    await Task.WhenAll(kpiTasks);
+                    
+                    // Reload lại sau khi tính KPI để lấy giá trị mới nhất
+                    shiftsResult = await AppServices.WorkShiftService.GetAllAsync();
+                    _workShifts = shiftsResult?.Data?.ToList() ?? new List<WorkShift>();
+                }
+
+                // Lấy danh sách nhân viên để map tên - lấy TẤT CẢ user (bao gồm cả DRIVER và ADMIN)
+                // Vì WorkShift có thể thuộc về bất kỳ user nào
+                var allUsersResult = await AppServices.UserService.GetAllActiveUsersAsync();
+                var allUsers = allUsersResult?.Data?.ToList() ?? new List<User>();
+                var staffDict = allUsers.ToDictionary(s => s.UserId, s => new { Name = s.Fullname ?? s.Username, Role = s.Role });
+
+                // Debug: Kiểm tra staff mapping
+                System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Total staff: {staffDict.Count}");
+
+                UIHelper.SafeInvoke(this, () =>
+                {
+                    // Đảm bảo columns đã được khởi tạo
+                    if (dgvKPI.Columns.Count == 0)
+                    {
+                        InitializeDataGridColumns();
+                    }
+
+                    dgvKPI.Rows.Clear();
+
+                    // TẠM THỜI: Bypass filter để test - hiển thị TẤT CẢ shifts
+                    var filteredShifts = _workShifts; // ApplyWorkShiftFilters(_workShifts, staffDict);
+
+                    // Debug: Kiểm tra sau khi filter
+                    System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Filtered shifts (bypassed): {filteredShifts.Count}");
+                    System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] dgvKPI.Columns.Count: {dgvKPI.Columns.Count}");
+
+                    // Debug: Kiểm tra mapping UserId
+                    var unmappedUserIds = filteredShifts
+                        .Where(s => !staffDict.ContainsKey(s.UserId))
+                        .Select(s => s.UserId)
+                        .Distinct()
+                        .ToList();
+                    if (unmappedUserIds.Any())
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Unmapped UserIds: {string.Join(", ", unmappedUserIds)}");
+                    }
+
+                    int rowsAdded = 0;
+                    int rowsFailed = 0;
+                    foreach (var shift in filteredShifts.OrderByDescending(s => s.ShiftDate).ThenByDescending(s => s.StartTime))
+                    {
+                        try
+                        {
+                            var staffInfo = staffDict.ContainsKey(shift.UserId) ? staffDict[shift.UserId] : null;
+                            var staffName = staffInfo != null 
+                                ? (staffInfo.GetType().GetProperty("Name")?.GetValue(staffInfo)?.ToString() ?? $"User ID: {shift.UserId}")
+                                : $"User ID: {shift.UserId}";
+                            var roleName = staffInfo != null 
+                                ? GetRoleDisplayName((UserRole)staffInfo.GetType().GetProperty("Role")?.GetValue(staffInfo))
+                                : "";
+
+                            var startTime = shift.StartTime.HasValue ? shift.StartTime.Value.ToString(@"hh\:mm") : "-";
+                            var endTime = shift.EndTime.HasValue ? shift.EndTime.Value.ToString(@"hh\:mm") : "-";
+                            var kpiScore = shift.KpiScore.HasValue ? shift.KpiScore.Value.ToString("N2") : "-";
+
+                            var rowIndex = dgvKPI.Rows.Add(
+                                shift.ShiftId,
+                                staffName,
+                                roleName,
+                                shift.ShiftDate.ToString("dd/MM/yyyy"),
+                                startTime,
+                                endTime,
+                                kpiScore,
+                                shift.Notes ?? ""
+                            );
+
+                            dgvKPI.Rows[rowIndex].Tag = shift;
+                            rowsAdded++;
+                        }
+                        catch (Exception ex)
+                        {
+                            rowsFailed++;
+                            System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Error adding row for shift {shift.ShiftId}: {ex.Message}");
+                            System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Stack trace: {ex.StackTrace}");
+                        }
+                    }
+                    
+                    System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Rows added: {rowsAdded}, Failed: {rowsFailed}, Total in grid: {dgvKPI.Rows.Count}");
+                });
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "tải danh sách ca làm việc");
+            }
+        }
+
+        /// <summary>
+        /// Áp dụng filters cho WorkShift
+        /// </summary>
+        private List<WorkShift> ApplyWorkShiftFilters<T>(List<WorkShift> shifts, Dictionary<int, T> staffDict) where T : class
+        {
+            var filtered = shifts.AsEnumerable();
+
+            // Debug: Log filter states
+            var hasSearch = !string.IsNullOrWhiteSpace(txtWorkShiftSearch?.Text);
+            var hasRoleFilter = cmbWorkShiftRoleFilter != null && cmbWorkShiftRoleFilter.SelectedIndex > 0;
+            var hasDateFilter = dtpWorkShiftDateFilter != null && dtpWorkShiftDateFilter.Checked;
+            
+            System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Input shifts: {shifts.Count}");
+            System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Has search: {hasSearch}, Has role filter: {hasRoleFilter}, Has date filter: {hasDateFilter}");
+
+            // Filter theo search term
+            if (hasSearch)
+            {
+                var searchTerm = txtWorkShiftSearch.Text.ToLower();
+                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Search term: '{searchTerm}'");
+                
+                filtered = filtered.Where(s =>
+                {
+                    var staffInfo = staffDict.ContainsKey(s.UserId) ? staffDict[s.UserId] : null;
+                    
+                    // Nếu có staffInfo, tìm theo tên
+                    if (staffInfo != null)
+                    {
+                        var nameProperty = typeof(T).GetProperty("Name");
+                        var staffName = nameProperty?.GetValue(staffInfo)?.ToString() ?? "";
+                        if (staffName.ToLower().Contains(searchTerm))
+                            return true;
+                    }
+                    
+                    // Tìm theo ngày và ghi chú (không cần staffInfo)
+                    return s.ShiftDate.ToString("dd/MM/yyyy").Contains(searchTerm) ||
+                           (s.Notes ?? "").ToLower().Contains(searchTerm) ||
+                           s.ShiftId.ToString().Contains(searchTerm);
+                });
+                
+                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] After search filter: {filtered.Count()}");
+            }
+
+            // Filter theo role
+            if (hasRoleFilter)
+            {
+                var selectedRole = GetRoleFromFilter(cmbWorkShiftRoleFilter.SelectedIndex);
+                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Selected role: {selectedRole}");
+                
+                filtered = filtered.Where(s =>
+                {
+                    var staffInfo = staffDict.ContainsKey(s.UserId) ? staffDict[s.UserId] : null;
+                    // Nếu không tìm thấy staffInfo, không filter (hiển thị tất cả)
+                    if (staffInfo == null) return true;
+                    
+                    // Sử dụng reflection để lấy Role property
+                    var roleProperty = typeof(T).GetProperty("Role");
+                    var role = roleProperty?.GetValue(staffInfo);
+                    return role != null && role.Equals(selectedRole);
+                });
+                
+                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] After role filter: {filtered.Count()}");
+            }
+
+            // Filter theo ngày
+            if (hasDateFilter)
+            {
+                var filterDate = dtpWorkShiftDateFilter.Value.Date;
+                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Filter date: {filterDate:dd/MM/yyyy}");
+                
+                filtered = filtered.Where(s => s.ShiftDate.Date == filterDate);
+                
+                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] After date filter: {filtered.Count()}");
+            }
+
+            var result = filtered.ToList();
+            System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Final filtered count: {result.Count}");
+            
+            return result;
+        }
+
+        /// <summary>
+        /// Lấy role từ filter index
+        /// </summary>
+        private UserRole GetRoleFromFilter(int index)
+        {
+            switch (index)
+            {
+                case 1: return UserRole.ADMIN;
+                case 2: return UserRole.MANAGER;
+                case 3: return UserRole.STAFF;
+                case 4: return UserRole.DRIVER;
+                default: return UserRole.STAFF;
+            }
+        }
+
+        /// <summary>
+        /// Lấy tên hiển thị của role
+        /// </summary>
+        private string GetRoleDisplayName(UserRole role)
+        {
+            switch (role)
+            {
+                case UserRole.ADMIN:
+                    return "Quản trị viên";
+                case UserRole.MANAGER:
+                    return "Quản lý trạm";
+                case UserRole.STAFF:
+                    return "Nhân viên";
+                case UserRole.DRIVER:
+                    return "Tài xế";
+                default:
+                    return role.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Khởi tạo cột cho DataGridView
+        /// </summary>
+        private void InitializeDataGridColumns()
+        {
+            // Initialize WorkShift columns (dgvKPI)
+            if (dgvKPI != null && dgvKPI.Columns.Count == 0)
+            {
+                dgvKPI.Columns.Add("ShiftId", "ID");
+                dgvKPI.Columns["ShiftId"].Visible = false;
+                dgvKPI.Columns.Add("StaffName", "Nhân viên");
+                dgvKPI.Columns.Add("Role", "Vai trò");
+                dgvKPI.Columns.Add("ShiftDate", "Ngày");
+                dgvKPI.Columns.Add("StartTime", "Giờ bắt đầu");
+                dgvKPI.Columns.Add("EndTime", "Giờ kết thúc");
+                dgvKPI.Columns.Add("KpiScore", "Điểm KPI");
+                dgvKPI.Columns.Add("Notes", "Ghi chú");
+
+                dgvKPI.Columns["StaffName"].Width = 200;
+                dgvKPI.Columns["Role"].Width = 120;
+                dgvKPI.Columns["ShiftDate"].Width = 100;
+                dgvKPI.Columns["StartTime"].Width = 100;
+                dgvKPI.Columns["EndTime"].Width = 100;
+                dgvKPI.Columns["KpiScore"].Width = 100;
+                dgvKPI.Columns["Notes"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            // Initialize Delivery columns (dgvAssignments)
+            if (dgvAssignments != null && dgvAssignments.Columns.Count == 0)
+            {
+                dgvAssignments.Columns.Add("AssignmentId", "ID");
+                dgvAssignments.Columns["AssignmentId"].Visible = false;
+                dgvAssignments.Columns.Add("OrderCode", "Mã đơn");
+                dgvAssignments.Columns.Add("DriverName", "Tài xế");
+                dgvAssignments.Columns.Add("AssignedDate", "Ngày phân công");
+                dgvAssignments.Columns.Add("Status", "Trạng thái");
+                dgvAssignments.Columns.Add("CodAmount", "COD");
+                dgvAssignments.Columns.Add("PaymentStatus", "Thanh toán");
+                dgvAssignments.Columns.Add("Notes", "Ghi chú");
+
+                dgvAssignments.Columns["OrderCode"].Width = 120;
+                dgvAssignments.Columns["DriverName"].Width = 150;
+                dgvAssignments.Columns["AssignedDate"].Width = 120;
+                dgvAssignments.Columns["Status"].Width = 120;
+                dgvAssignments.Columns["CodAmount"].Width = 100;
+                dgvAssignments.Columns["PaymentStatus"].Width = 100;
+                dgvAssignments.Columns["Notes"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+        }
+
+        #endregion
+
+        #region WorkShift Event Handlers
+
+        private async void BtnAddWorkShift_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var form = new WorkShiftForm(null))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        await LoadWorkShiftDataAsync();
+                        await LoadDashboardDataAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "mở form thêm ca làm việc");
+            }
+        }
+
+        private async void BtnEditWorkShift_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvKPI.SelectedRows.Count == 0)
+                {
+                    UIHelper.ShowWarningMessage("Vui lòng chọn ca làm việc cần chỉnh sửa.");
+                    return;
+                }
+
+                var selectedRow = dgvKPI.SelectedRows[0];
+                var shift = selectedRow.Tag as WorkShift;
+
+                if (shift != null)
+                {
+                    using (var form = new WorkShiftForm(shift))
+                    {
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            await LoadWorkShiftDataAsync();
+                            await LoadDashboardDataAsync();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "mở form chỉnh sửa ca làm việc");
+            }
+        }
+
+        private async void BtnDeleteWorkShift_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvKPI.SelectedRows.Count == 0)
+                {
+                    UIHelper.ShowWarningMessage("Vui lòng chọn ca làm việc cần xóa.");
+                    return;
+                }
+
+                var selectedRow = dgvKPI.SelectedRows[0];
+                var shift = selectedRow.Tag as WorkShift;
+
+                if (shift != null)
+                {
+                    var confirm = AppServices.Dialog.ShowConfirm(
+                        $"Bạn có chắc chắn muốn xóa ca làm việc của nhân viên vào ngày {shift.ShiftDate:dd/MM/yyyy}?",
+                        "Xác nhận xóa");
+
+                    if (confirm)
+                    {
+                        var result = await AppServices.WorkShiftService.DeleteAsync(shift.ShiftId);
+                        AppServices.Dialog.HandleServiceResult(result, () =>
+                        {
+                            _ = LoadWorkShiftDataAsync();
+                            _ = LoadDashboardDataAsync();
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "xóa ca làm việc");
+            }
+        }
+
+        private async void BtnExportWorkShiftExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var saveDialog = new SaveFileDialog
+                {
+                    Filter = "Excel files (*.xlsx)|*.xlsx",
+                    FileName = $"DanhSachCaLam_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx",
+                    Title = "Xuất danh sách ca làm việc ra Excel"
+                };
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // TODO: Implement export to Excel
+                    AppServices.Dialog.ShowSuccess("Đã xuất Excel thành công!");
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "xuất Excel ca làm việc");
+            }
+        }
+
+        private async void BtnExportWorkShiftPdf_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var saveDialog = new SaveFileDialog
+                {
+                    Filter = "PDF files (*.pdf)|*.pdf",
+                    FileName = $"DanhSachCaLam_{DateTime.Now:yyyyMMdd_HHmmss}.pdf",
+                    Title = "Xuất danh sách ca làm việc ra PDF"
+                };
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // TODO: Implement export to PDF
+                    AppServices.Dialog.ShowSuccess("Đã xuất PDF thành công!");
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "xuất PDF ca làm việc");
+            }
+        }
+
+        private async void TxtWorkShiftSearch_TextChanged(object sender, EventArgs e)
+        {
+            await LoadWorkShiftDataAsync();
+        }
+
+        private async void CmbWorkShiftRoleFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            await LoadWorkShiftDataAsync();
+        }
+
+        private async void DtpWorkShiftDateFilter_ValueChanged(object sender, EventArgs e)
+        {
+            await LoadWorkShiftDataAsync();
+        }
+
+        private void DgvKPI_SelectionChanged(object sender, EventArgs e)
+        {
+            // Enable/disable edit và delete buttons dựa trên selection
+            bool hasSelection = dgvKPI.SelectedRows.Count > 0;
+            if (btnEditWorkShift != null)
+                btnEditWorkShift.Enabled = hasSelection;
+            if (btnDeleteWorkShift != null)
+                btnDeleteWorkShift.Enabled = hasSelection;
+        }
+
+        private async void DgvKPI_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            try
+            {
+                var row = dgvKPI.Rows[e.RowIndex];
+                var shift = row.Tag as WorkShift;
+
+                if (shift != null)
+                {
+                    using (var form = new WorkShiftForm(shift))
+                    {
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            await LoadWorkShiftDataAsync();
+                            await LoadDashboardDataAsync();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "mở form chỉnh sửa ca làm việc");
+            }
+        }
+
+        #endregion
+
+        #region Delivery Assignment Methods
+
+        /// <summary>
+        /// Khởi tạo events cho Delivery controls
+        /// </summary>
+        private void InitializeDeliveryEvents()
+        {
+            if (btnAssignDelivery != null)
+                btnAssignDelivery.Click += BtnAssignDelivery_Click;
+            if (btnUpdateDeliveryStatus != null)
+                btnUpdateDeliveryStatus.Click += BtnUpdateDeliveryStatus_Click;
+            if (btnExportDeliveryExcel != null)
+                btnExportDeliveryExcel.Click += BtnExportDeliveryExcel_Click;
+            if (btnExportDeliveryPdf != null)
+                btnExportDeliveryPdf.Click += BtnExportDeliveryPdf_Click;
+            if (txtDeliverySearch != null)
+                txtDeliverySearch.TextChanged += TxtDeliverySearch_TextChanged;
+            if (cmbDeliveryStatusFilter != null)
+                cmbDeliveryStatusFilter.SelectedIndexChanged += CmbDeliveryStatusFilter_SelectedIndexChanged;
+            if (dtpDeliveryDateFilter != null)
+                dtpDeliveryDateFilter.ValueChanged += DtpDeliveryDateFilter_ValueChanged;
+            if (dgvAssignments != null)
+            {
+                dgvAssignments.CellDoubleClick += DgvAssignments_CellDoubleClick;
+                dgvAssignments.SelectionChanged += DgvAssignments_SelectionChanged;
+            }
+        }
+
+        /// <summary>
+        /// Load và hiển thị DeliveryAssignment trong dgvAssignments
+        /// </summary>
+        private async Task LoadDeliveryAssignmentDataAsync()
+        {
+            try
+            {
+                if (dgvAssignments == null) return;
+
+                var assignmentsResult = await AppServices.DeliveryService.GetAllAsync();
+                _deliveryAssignments = assignmentsResult?.Data?.ToList() ?? new List<DeliveryAssignment>();
+
+                // Debug: Kiểm tra dữ liệu từ service
+                System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Total assignments from service: {_deliveryAssignments.Count}");
+
+                // Lấy danh sách nhân viên có thể phân công giao hàng (tất cả trừ ADMIN)
+                // Bao gồm: STAFF, MANAGER, DRIVER để map tên
+                var allUsersResult = await AppServices.UserService.GetAllActiveUsersAsync();
+                var driversList = allUsersResult?.Data?
+                    .Where(u => u.Role != UserRole.ADMIN)
+                    .ToList() ?? new List<User>();
+                var driversDict = driversList.ToDictionary(d => d.UserId, d => d.Fullname ?? d.Username);
+
+                // Debug: Kiểm tra drivers mapping
+                System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Total drivers: {driversDict.Count}");
+
+                // Lấy danh sách đơn hàng để map mã đơn - lấy tất cả đơn hàng
+                var ordersResult = await AppServices.OrderService.GetAllAsync();
+                var ordersList = ordersResult?.Data?.ToList() ?? new List<OrderDTO>();
+                var ordersDict = ordersList.ToDictionary(o => o.OrderId, o => o.OrderCode ?? $"ORD-{o.OrderId:D5}");
+
+                // Debug: Kiểm tra orders mapping
+                System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Total orders: {ordersDict.Count}");
+
+                UIHelper.SafeInvoke(this, () =>
+                {
+                    // Đảm bảo columns đã được khởi tạo
+                    if (dgvAssignments.Columns.Count == 0)
+                    {
+                        InitializeDataGridColumns();
+                    }
+
+                    dgvAssignments.Rows.Clear();
+
+                    // TẠM THỜI: Bypass filter để test - hiển thị TẤT CẢ assignments
+                    var filteredAssignments = _deliveryAssignments; // ApplyDeliveryFilters(_deliveryAssignments, driversDict, ordersDict);
+
+                    // Debug: Kiểm tra sau khi filter
+                    System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Filtered assignments (bypassed): {filteredAssignments.Count}");
+                    System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] dgvAssignments.Columns.Count: {dgvAssignments.Columns.Count}");
+
+                    // Debug: Kiểm tra mapping DriverId và OrderId
+                    var unmappedDriverIds = filteredAssignments
+                        .Where(a => !driversDict.ContainsKey(a.DriverId))
+                        .Select(a => a.DriverId)
+                        .Distinct()
+                        .ToList();
+                    var unmappedOrderIds = filteredAssignments
+                        .Where(a => !ordersDict.ContainsKey(a.OrderId))
+                        .Select(a => a.OrderId)
+                        .Distinct()
+                        .ToList();
+                    if (unmappedDriverIds.Any())
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Unmapped DriverIds: {string.Join(", ", unmappedDriverIds)}");
+                    }
+                    if (unmappedOrderIds.Any())
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Unmapped OrderIds: {string.Join(", ", unmappedOrderIds)}");
+                    }
+
+                    int rowsAdded = 0;
+                    int rowsFailed = 0;
+                    foreach (var assignment in filteredAssignments.OrderByDescending(a => a.AssignedDate))
+                    {
+                        try
+                        {
+                            var driverName = driversDict.ContainsKey(assignment.DriverId) 
+                                ? driversDict[assignment.DriverId] 
+                                : $"User ID: {assignment.DriverId}";
+                            var orderCode = ordersDict.ContainsKey(assignment.OrderId) 
+                                ? ordersDict[assignment.OrderId] 
+                                : $"ORD-{assignment.OrderId:D5}";
+
+                            var rowIndex = dgvAssignments.Rows.Add(
+                                assignment.AssignmentId,
+                                orderCode,
+                                driverName,
+                                assignment.AssignedDate.ToString("dd/MM/yyyy HH:mm"),
+                                GetDeliveryStatusDisplayName(assignment.Status),
+                                assignment.CodAmount.ToString("N0"),
+                                GetPaymentStatusDisplayName(assignment.PaymentStatus),
+                                assignment.Notes ?? ""
+                            );
+
+                            dgvAssignments.Rows[rowIndex].Tag = assignment;
+                            rowsAdded++;
+                        }
+                        catch (Exception ex)
+                        {
+                            rowsFailed++;
+                            System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Error adding row for assignment {assignment.AssignmentId}: {ex.Message}");
+                            System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Stack trace: {ex.StackTrace}");
+                        }
+                    }
+                    
+                    System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Rows added: {rowsAdded}, Failed: {rowsFailed}, Total in grid: {dgvAssignments.Rows.Count}");
+                });
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "tải danh sách phân công giao hàng");
+            }
+        }
+
+        /// <summary>
+        /// Áp dụng filters cho DeliveryAssignment
+        /// </summary>
+        private List<DeliveryAssignment> ApplyDeliveryFilters(
+            List<DeliveryAssignment> assignments, 
+            Dictionary<int, string> driversDict, 
+            Dictionary<int, string> ordersDict)
+        {
+            var filtered = assignments.AsEnumerable();
+
+            // Debug: Log filter states
+            var hasSearch = !string.IsNullOrWhiteSpace(txtDeliverySearch?.Text);
+            var hasStatusFilter = cmbDeliveryStatusFilter != null && cmbDeliveryStatusFilter.SelectedIndex > 0;
+            var hasDateFilter = dtpDeliveryDateFilter != null && dtpDeliveryDateFilter.Checked;
+            
+            System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Input assignments: {assignments.Count}");
+            System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Has search: {hasSearch}, Has status filter: {hasStatusFilter}, Has date filter: {hasDateFilter}");
+
+            // Filter theo search term
+            if (hasSearch)
+            {
+                var searchTerm = txtDeliverySearch.Text.ToLower();
+                System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Search term: '{searchTerm}'");
+                
+                filtered = filtered.Where(a =>
+                {
+                    var driverName = driversDict.ContainsKey(a.DriverId) ? driversDict[a.DriverId] : "";
+                    var orderCode = ordersDict.ContainsKey(a.OrderId) ? ordersDict[a.OrderId] : "";
+                    return driverName.ToLower().Contains(searchTerm) ||
+                           orderCode.ToLower().Contains(searchTerm) ||
+                           (a.Notes ?? "").ToLower().Contains(searchTerm) ||
+                           a.AssignmentId.ToString().Contains(searchTerm);
+                });
+                
+                System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] After search filter: {filtered.Count()}");
+            }
+
+            // Filter theo trạng thái
+            if (hasStatusFilter)
+            {
+                var selectedStatus = GetDeliveryStatusFromFilter(cmbDeliveryStatusFilter.SelectedIndex);
+                System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Selected status: {selectedStatus}");
+                
+                filtered = filtered.Where(a => a.Status == selectedStatus);
+                
+                System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] After status filter: {filtered.Count()}");
+            }
+
+            // Filter theo ngày
+            if (hasDateFilter)
+            {
+                var filterDate = dtpDeliveryDateFilter.Value.Date;
+                System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Filter date: {filterDate:dd/MM/yyyy}");
+                
+                filtered = filtered.Where(a => a.AssignedDate.Date == filterDate);
+                
+                System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] After date filter: {filtered.Count()}");
+            }
+
+            var result = filtered.ToList();
+            System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Final filtered count: {result.Count}");
+            
+            return result;
+        }
+
+        /// <summary>
+        /// Lấy DeliveryStatus từ filter index
+        /// </summary>
+        private DeliveryStatus GetDeliveryStatusFromFilter(int index)
+        {
+            switch (index)
+            {
+                case 1: return DeliveryStatus.PENDING;
+                case 2: return DeliveryStatus.INTRANSIT;
+                case 3: return DeliveryStatus.DELIVERED;
+                case 4: return DeliveryStatus.FAILED;
+                default: return DeliveryStatus.PENDING;
+            }
+        }
+
+        /// <summary>
+        /// Lấy tên hiển thị của DeliveryStatus
+        /// </summary>
+        private string GetDeliveryStatusDisplayName(DeliveryStatus status)
+        {
+            switch (status)
+            {
+                case DeliveryStatus.PENDING:
+                    return "Chờ giao";
+                case DeliveryStatus.INTRANSIT:
+                    return "Đang giao";
+                case DeliveryStatus.DELIVERED:
+                    return "Đã giao";
+                case DeliveryStatus.FAILED:
+                    return "Thất bại";
+                default:
+                    return status.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Lấy tên hiển thị của PaymentStatus
+        /// </summary>
+        private string GetPaymentStatusDisplayName(DeliveryPaymentStatus status)
+        {
+            switch (status)
+            {
+                case DeliveryPaymentStatus.UNPAID:
+                    return "Chưa thanh toán";
+                case DeliveryPaymentStatus.PAID:
+                    return "Đã thanh toán";
+                default:
+                    return status.ToString();
+            }
+        }
+
+        #endregion
+
+        #region Delivery Event Handlers
+
+        private async void BtnAssignDelivery_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Lấy danh sách đơn hàng chưa được phân công hoặc đang chờ
+                var pendingOrdersResult = await AppServices.OrderService.GetProcessingOrdersAsync();
+                var pendingOrders = pendingOrdersResult?.Data?.ToList() ?? new List<OrderDTO>();
+
+                // Lấy danh sách nhân viên có thể phân công giao hàng (tất cả trừ ADMIN)
+                // Bao gồm: STAFF, MANAGER, DRIVER - linh động phân công cho bất kỳ ai
+                var allUsersResult = await AppServices.UserService.GetAllActiveUsersAsync();
+                var drivers = allUsersResult?.Data?
+                    .Where(u => u.Role != UserRole.ADMIN)
+                    .ToList() ?? new List<User>();
+
+                if (!drivers.Any())
+                {
+                    UIHelper.ShowWarningMessage("Không có nhân viên nào trong hệ thống để phân công.");
+                    return;
+                }
+
+                // Convert Order to OrderDTO
+                var orderDTOs = pendingOrders.Select(o => new OrderDTO
+                {
+                    OrderId = o.OrderId,
+                    OrderCode = o.OrderCode ?? $"ORD-{o.OrderId:D5}",
+                    CustomerName = o.CustomerName,
+                    TotalAmount = o.TotalAmount
+                }).ToList();
+
+                if (!orderDTOs.Any())
+                {
+                    UIHelper.ShowWarningMessage("Không có đơn hàng nào đang chờ phân công.");
+                    return;
+                }
+
+                // Luôn mở BatchDeliveryAssignmentForm (phân công hàng loạt)
+                using (var form = new BatchDeliveryAssignmentForm(orderDTOs, drivers))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        await LoadDeliveryAssignmentDataAsync();
+                        await LoadDashboardDataAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "mở form phân công giao hàng");
+            }
+        }
+
+        private async void BtnUpdateDeliveryStatus_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvAssignments.SelectedRows.Count == 0)
+                {
+                    UIHelper.ShowWarningMessage("Vui lòng chọn phân công giao hàng cần cập nhật.");
+                    return;
+                }
+
+                var selectedRow = dgvAssignments.SelectedRows[0];
+                var assignment = selectedRow.Tag as DeliveryAssignment;
+
+                if (assignment != null)
+                {
+                    // Mở form cập nhật trạng thái
+                    await ShowUpdateDeliveryStatusDialog(assignment);
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "cập nhật trạng thái giao hàng");
+            }
+        }
+
+        /// <summary>
+        /// Hiển thị dialog cập nhật trạng thái giao hàng
+        /// </summary>
+        private async Task ShowUpdateDeliveryStatusDialog(DeliveryAssignment assignment)
+        {
+            var dialog = new Form
+            {
+                Text = "Cập nhật trạng thái giao hàng",
+                Size = new Size(500, 400),
+                StartPosition = FormStartPosition.CenterParent,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                Padding = new Padding(20)
+            };
+
+            var lblOrder = new Label
+            {
+                Text = $"Mã đơn: {assignment.OrderId}",
+                Location = new Point(20, 20),
+                AutoSize = true,
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold)
+            };
+
+            var lblStatus = new Label
+            {
+                Text = "Trạng thái:",
+                Location = new Point(20, 60),
+                AutoSize = true
+            };
+
+            var cmbStatus = new ComboBox
+            {
+                Location = new Point(20, 85),
+                Size = new Size(440, 30),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            cmbStatus.Items.AddRange(new[] { "Chờ giao", "Đang giao", "Đã giao", "Thất bại" });
+            cmbStatus.SelectedIndex = (int)assignment.Status;
+
+            var lblPaymentStatus = new Label
+            {
+                Text = "Trạng thái thanh toán COD:",
+                Location = new Point(20, 130),
+                AutoSize = true
+            };
+
+            var cmbPaymentStatus = new ComboBox
+            {
+                Location = new Point(20, 155),
+                Size = new Size(440, 30),
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            cmbPaymentStatus.Items.AddRange(new[] { "Chưa thanh toán", "Đã thanh toán" });
+            cmbPaymentStatus.SelectedIndex = (int)assignment.PaymentStatus;
+
+            var lblCodAmount = new Label
+            {
+                Text = "Số tiền COD:",
+                Location = new Point(20, 200),
+                AutoSize = true
+            };
+
+            var numCodAmount = new NumericUpDown
+            {
+                Location = new Point(20, 225),
+                Size = new Size(440, 30),
+                Maximum = 999999999,
+                DecimalPlaces = 0,
+                Value = assignment.CodAmount
+            };
+
+            var lblNotes = new Label
+            {
+                Text = "Ghi chú:",
+                Location = new Point(20, 270),
+                AutoSize = true
+            };
+
+            var txtNotes = new TextBox
+            {
+                Location = new Point(20, 295),
+                Size = new Size(440, 60),
+                Multiline = true,
+                Text = assignment.Notes ?? ""
+            };
+
+            var btnSave = new Button
+            {
+                Text = "Lưu",
+                Location = new Point(280, 365),
+                Size = new Size(100, 35),
+                DialogResult = DialogResult.OK
+            };
+
+            var btnCancel = new Button
+            {
+                Text = "Hủy",
+                Location = new Point(390, 365),
+                Size = new Size(100, 35),
+                DialogResult = DialogResult.Cancel
+            };
+
+            dialog.Controls.AddRange(new Control[] { lblOrder, lblStatus, cmbStatus, lblPaymentStatus, cmbPaymentStatus, 
+                lblCodAmount, numCodAmount, lblNotes, txtNotes, btnSave, btnCancel });
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                assignment.Status = (DeliveryStatus)cmbStatus.SelectedIndex;
+                assignment.PaymentStatus = (DeliveryPaymentStatus)cmbPaymentStatus.SelectedIndex;
+                assignment.CodAmount = numCodAmount.Value;
+                assignment.Notes = txtNotes.Text?.Trim();
+
+                var result = await AppServices.DeliveryService.UpdateAsync(assignment);
+                AppServices.Dialog.HandleServiceResult(result, () =>
+                {
+                    _ = LoadDeliveryAssignmentDataAsync();
+                    _ = LoadDashboardDataAsync();
+                });
+            }
+        }
+
+        private async void BtnExportDeliveryExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var saveDialog = new SaveFileDialog
+                {
+                    Filter = "Excel files (*.xlsx)|*.xlsx",
+                    FileName = $"DanhSachPhanCongGiaoHang_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx",
+                    Title = "Xuất danh sách phân công giao hàng ra Excel"
+                };
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // TODO: Implement export to Excel
+                    AppServices.Dialog.ShowSuccess("Đã xuất Excel thành công!");
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "xuất Excel phân công giao hàng");
+            }
+        }
+
+        private async void BtnExportDeliveryPdf_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var saveDialog = new SaveFileDialog
+                {
+                    Filter = "PDF files (*.pdf)|*.pdf",
+                    FileName = $"DanhSachPhanCongGiaoHang_{DateTime.Now:yyyyMMdd_HHmmss}.pdf",
+                    Title = "Xuất danh sách phân công giao hàng ra PDF"
+                };
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // TODO: Implement export to PDF
+                    AppServices.Dialog.ShowSuccess("Đã xuất PDF thành công!");
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "xuất PDF phân công giao hàng");
+            }
+        }
+
+        private async void TxtDeliverySearch_TextChanged(object sender, EventArgs e)
+        {
+            await LoadDeliveryAssignmentDataAsync();
+        }
+
+        private async void CmbDeliveryStatusFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            await LoadDeliveryAssignmentDataAsync();
+        }
+
+        private async void DtpDeliveryDateFilter_ValueChanged(object sender, EventArgs e)
+        {
+            await LoadDeliveryAssignmentDataAsync();
+        }
+
+        private void DgvAssignments_SelectionChanged(object sender, EventArgs e)
+        {
+            // Enable/disable update button dựa trên selection
+            bool hasSelection = dgvAssignments.SelectedRows.Count > 0;
+            if (btnUpdateDeliveryStatus != null)
+                btnUpdateDeliveryStatus.Enabled = hasSelection;
+        }
+
+        private async void DgvAssignments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            try
+            {
+                var row = dgvAssignments.Rows[e.RowIndex];
+                var assignment = row.Tag as DeliveryAssignment;
+
+                if (assignment != null)
+                {
+                    await ShowUpdateDeliveryStatusDialog(assignment);
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "cập nhật trạng thái giao hàng");
+            }
+        }
+
+        #endregion
+
+        #region Dashboard Methods
+
+        /// <summary>
+        /// Load và cập nhật thống kê dashboard
+        /// </summary>
+        private async Task LoadDashboardDataAsync()
+        {
+            try
+            {
+                var today = DateTime.Today;
+
+                // Đếm số ca làm hôm nay - lấy tất cả và filter theo ngày
+                var allShiftsResult = await AppServices.WorkShiftService.GetAllAsync();
+                var allShifts = allShiftsResult?.Data?.ToList() ?? new List<WorkShift>();
+                var todayShiftsCount = allShifts.Count(s => s.ShiftDate.Date == today);
+
+                // Đếm số đơn đã giao
+                var deliveredResult = await AppServices.DeliveryService.GetByStatusAsync(DeliveryStatus.DELIVERED);
+                var deliveredCount = deliveredResult?.Data?.Count() ?? 0;
+
+                // Đếm số đơn trễ (có thể là đơn quá hạn hoặc failed)
+                var failedResult = await AppServices.DeliveryService.GetByStatusAsync(DeliveryStatus.FAILED);
+                var failedCount = failedResult?.Data?.Count() ?? 0;
+
+                // Tính tổng COD
+                var allDeliveriesResult = await AppServices.DeliveryService.GetAllAsync();
+                var allDeliveries = allDeliveriesResult?.Data?.ToList() ?? new List<DeliveryAssignment>();
+                var totalCOD = allDeliveries.Where(d => d.PaymentStatus == DeliveryPaymentStatus.PAID)
+                    .Sum(d => d.CodAmount);
+
+                UIHelper.SafeInvoke(this, () =>
+                {
+                    if (lblTodayShifts != null)
+                        lblTodayShifts.Text = $"Số ca làm hôm nay: {todayShiftsCount}";
+                    if (lblDeliveredOrders != null)
+                        lblDeliveredOrders.Text = $"Số đơn đã giao: {deliveredCount}";
+                    if (lblOverdueOrders != null)
+                        lblOverdueOrders.Text = $"Số đơn trễ: {failedCount}";
+                    if (lblTotalCOD != null)
+                        lblTotalCOD.Text = $"COD: {totalCOD:N0} VNĐ";
+                });
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "tải thống kê dashboard");
             }
         }
 

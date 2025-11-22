@@ -18,6 +18,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             ORDER BY da.assigned_date DESC";
 
         // Lấy DeliveryAssignment theo status
+        // @Status sẽ là số nguyên (TINYINT) từ enum DeliveryStatus: PENDING=0, INTRANSIT=1, DELIVERED=2, FAILED=3
         public const string GetByStatus = @"
             SELECT da.*, o.order_code, o.status as order_status, u.fullname as driver_name
             FROM DeliveryAssignments da
@@ -66,18 +67,23 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             AND (@EndDate IS NULL OR DATE(assigned_date) <= @EndDate)";
 
         // Cập nhật status
+        // @Status sẽ là số nguyên (TINYINT) từ enum DeliveryStatus: PENDING=0, INTRANSIT=1, DELIVERED=2, FAILED=3
         public const string UpdateStatus = @"
             UPDATE DeliveryAssignments 
             SET status = @Status
             WHERE assignment_id = @AssignmentId";
 
         // Cập nhật payment_status
+        // @PaymentStatus sẽ là số nguyên (TINYINT) từ enum DeliveryPaymentStatus: UNPAID=0, PAID=1
         public const string UpdatePaymentStatus = @"
             UPDATE DeliveryAssignments 
             SET payment_status = @PaymentStatus
             WHERE assignment_id = @AssignmentId";
 
         // Lấy phân trang với tìm kiếm
+        // @Status và @PaymentStatus sẽ là số nguyên (TINYINT) hoặc NULL
+        // DeliveryStatus: PENDING=0, INTRANSIT=1, DELIVERED=2, FAILED=3
+        // DeliveryPaymentStatus: UNPAID=0, PAID=1
         public const string GetPaged = @"
             SELECT da.*, o.order_code, o.status as order_status, u.fullname as driver_name
             FROM DeliveryAssignments da
@@ -90,6 +96,9 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             LIMIT @PageSize OFFSET @Offset";
 
         // Đếm tổng số bản ghi cho phân trang
+        // @Status và @PaymentStatus sẽ là số nguyên (TINYINT) hoặc NULL
+        // DeliveryStatus: PENDING=0, INTRANSIT=1, DELIVERED=2, FAILED=3
+        // DeliveryPaymentStatus: UNPAID=0, PAID=1
         public const string GetPagedCount = @"
             SELECT COUNT(1)
             FROM DeliveryAssignments da

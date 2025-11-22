@@ -52,7 +52,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.headerPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.headerPanel.Location = new System.Drawing.Point(10, 10);
             this.headerPanel.Name = "headerPanel";
-            this.headerPanel.Size = new System.Drawing.Size(920, 80);
+            this.headerPanel.Size = new System.Drawing.Size(899, 80);
             this.headerPanel.TabIndex = 0;
             // 
             // titleLabelHeader
@@ -84,7 +84,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnAddSupplier.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddSupplier.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnAddSupplier.ForeColor = System.Drawing.Color.White;
-            this.btnAddSupplier.Location = new System.Drawing.Point(722, 20);
+            this.btnAddSupplier.Location = new System.Drawing.Point(701, 20);
             this.btnAddSupplier.Name = "btnAddSupplier";
             this.btnAddSupplier.Size = new System.Drawing.Size(183, 45);
             this.btnAddSupplier.TabIndex = 2;
@@ -99,7 +99,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.searchPanel.Location = new System.Drawing.Point(15, 15);
             this.searchPanel.Name = "searchPanel";
             this.searchPanel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 15);
-            this.searchPanel.Size = new System.Drawing.Size(890, 50);
+            this.searchPanel.Size = new System.Drawing.Size(869, 50);
             this.searchPanel.TabIndex = 0;
             // 
             // txtSearch
@@ -115,7 +115,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtSearch.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtSearch.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtSearch.Location = new System.Drawing.Point(574, 0);
+            this.txtSearch.Location = new System.Drawing.Point(553, 0);
             this.txtSearch.Margin = new System.Windows.Forms.Padding(2);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
@@ -140,25 +140,23 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             this.contentPanel.AutoSize = true;
             this.contentPanel.BackColor = System.Drawing.Color.White;
-            this.contentPanel.Controls.Add(this.searchPanel);
             this.contentPanel.Controls.Add(this.dgvSuppliers);
+            this.contentPanel.Controls.Add(this.searchPanel);
             this.contentPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.contentPanel.Location = new System.Drawing.Point(10, 90);
             this.contentPanel.Name = "contentPanel";
             this.contentPanel.Padding = new System.Windows.Forms.Padding(15);
-            this.contentPanel.Size = new System.Drawing.Size(920, 470);
+            this.contentPanel.Size = new System.Drawing.Size(899, 355);
             this.contentPanel.TabIndex = 1;
             // 
             // dgvSuppliers
             // 
-            this.dgvSuppliers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvSuppliers.ColumnHeadersHeight = 40;
-            this.dgvSuppliers.Location = new System.Drawing.Point(15, 55);
+            this.dgvSuppliers.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgvSuppliers.Location = new System.Drawing.Point(15, 65);
             this.dgvSuppliers.Name = "dgvSuppliers";
             this.dgvSuppliers.RowHeadersWidth = 51;
-            this.dgvSuppliers.Size = new System.Drawing.Size(890, 370);
+            this.dgvSuppliers.Size = new System.Drawing.Size(869, 275);
             this.dgvSuppliers.TabIndex = 1;
             // 
             // SuppliersControl
@@ -170,7 +168,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "SuppliersControl";
             this.Padding = new System.Windows.Forms.Padding(10);
-            this.Size = new System.Drawing.Size(940, 640);
+            this.Size = new System.Drawing.Size(919, 640);
             this.Load += new System.EventHandler(this.SuppliersControl_Load);
             this.headerPanel.ResumeLayout(false);
             this.headerPanel.PerformLayout();

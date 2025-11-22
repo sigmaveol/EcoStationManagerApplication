@@ -24,12 +24,13 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 var shifts = await _unitOfWork.WorkShifts.GetAllAsync();
-                if (!shifts.Any())
-                {
-                    return NotFoundError<IEnumerable<WorkShift>>("ca làm việc");
-                }
-
-                return Result<IEnumerable<WorkShift>>.Ok(shifts, $"Đã tải {shifts.Count()} ca làm việc");
+                var shiftsList = shifts?.ToList() ?? new List<WorkShift>();
+                
+                return Result<IEnumerable<WorkShift>>.Ok(
+                    shiftsList, 
+                    shiftsList.Any() 
+                        ? $"Đã tải {shiftsList.Count} ca làm việc" 
+                        : "Không có ca làm việc nào");
             }
             catch (Exception ex)
             {

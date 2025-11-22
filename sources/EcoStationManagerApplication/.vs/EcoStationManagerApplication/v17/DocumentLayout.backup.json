@@ -3,8 +3,24 @@
   "WorkspaceRootPath": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.ui\\controls\\systemsettingscontrol.user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\controls\\systemsettingscontrol.user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.ui\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{60D76398-B5E6-48B2-B949-3C4A9CA698F5}|EcoStationManagerApplication.UI\\EcoStationManagerApplication.UI.csproj|solutionrelative:ecostationmanagerapplication.ui\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|d:\\ecostationmanagerapplication\\sources\\ecostationmanagerapplication\\ecostationmanagerapplication.dal\\database\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C92F471A-C435-47A1-862C-D9C3C6823AF0}|EcoStationManagerApplication.DAL\\EcoStationManagerApplication.DAL.csproj|solutionrelative:ecostationmanagerapplication.dal\\database\\databasehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\ecostationmanagerapplication.core\\services\\packagingtransactionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5569BA3B-5DCE-428B-AC8D-769DED63C196}|EcoStationManagerApplication.Core\\EcoStationManagerApplication.Core.csproj|solutionrelative:ecostationmanagerapplication.core\\services\\packagingtransactionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|procedures{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\procedures_FIXED.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|procedures{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}|solutionrelative:procedures_FIXED.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A82D183-FA91-43B1-BA14-36CB4FD8988E}|triggers{2A82D183-FA91-43B1-BA14-36CB4FD8988E}|D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\triggers_FIXED.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2A82D183-FA91-43B1-BA14-36CB4FD8988E}|triggers{2A82D183-FA91-43B1-BA14-36CB4FD8988E}|solutionrelative:triggers_FIXED.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,15 +55,63 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SystemSettingsControl.User.cs",
-              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\SystemSettingsControl.User.cs",
-              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Controls\\SystemSettingsControl.User.cs",
-              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Controls\\SystemSettingsControl.User.cs",
-              "RelativeToolTip": "EcoStationManagerApplication.UI\\Controls\\SystemSettingsControl.User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAtAAAAAAAAAA==",
+              "Title": "LoginForm.cs [Design]",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\LoginForm.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.UI\\Forms\\LoginForm.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.UI\\Forms\\LoginForm.cs [Design]*",
+              "RelativeToolTip": "EcoStationManagerApplication.UI\\Forms\\LoginForm.cs [Design]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T18:38:08.514Z",
+              "WhenOpened": "2025-11-22T16:30:51.195Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PackagingTransactionService.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\PackagingTransactionService.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.Core\\Services\\PackagingTransactionService.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.Core\\Services\\PackagingTransactionService.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.Core\\Services\\PackagingTransactionService.cs",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAjwLkAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-22T15:14:46.764Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DatabaseHelper.cs",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Database\\DatabaseHelper.cs",
+              "RelativeDocumentMoniker": "EcoStationManagerApplication.DAL\\Database\\DatabaseHelper.cs",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\EcoStationManagerApplication.DAL\\Database\\DatabaseHelper.cs",
+              "RelativeToolTip": "EcoStationManagerApplication.DAL\\Database\\DatabaseHelper.cs",
+              "ViewState": "AgIAAL8BAAAAAAAAAAAAAL8BAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-22T15:14:41.617Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "procedures_FIXED.txt",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\procedures_FIXED.txt",
+              "RelativeDocumentMoniker": "procedures_FIXED.txt",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\procedures_FIXED.txt",
+              "RelativeToolTip": "procedures_FIXED.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-11-22T14:46:55.432Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "triggers_FIXED.txt",
+              "DocumentMoniker": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\triggers_FIXED.txt",
+              "RelativeDocumentMoniker": "triggers_FIXED.txt",
+              "ToolTip": "D:\\EcoStationManagerApplication\\sources\\EcoStationManagerApplication\\triggers_FIXED.txt",
+              "RelativeToolTip": "triggers_FIXED.txt",
+              "ViewState": "AgIAAD8BAAAAAAAAAADwv1EBAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-11-22T14:41:54.88Z"
             }
           ]
         }

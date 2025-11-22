@@ -54,6 +54,12 @@ ALTER TABLE PackagingTransactions MODIFY COLUMN type TINYINT NOT NULL DEFAULT 0;
 -- PackagingTransactions.ownership_type: DEPOSIT=0, SOLD=1
 ALTER TABLE PackagingTransactions MODIFY COLUMN ownership_type TINYINT NOT NULL DEFAULT 0; -- default DEPOSIT
 
+-- DeliveryAssignments.status : pending=0, intransit=1, delivered=2, failed=3
+-- DeliveryAssignments.payment_status : unpaid=0, paid=1
+AlTER TABLE DeliveryAssignments MODIFY COLUMN status TINYINT NOT NULL DEFAULT 0;
+AlTER TABLE DeliveryAssignments MODIFY COLUMN payment_status TINYINT NOT NULL DEFAULT 0;
+
+
 -- ================================
 -- Lưu ý chung:
 -- 1. TINYINT lưu Enum C# dưới dạng số nguyên, EF Core tự map.

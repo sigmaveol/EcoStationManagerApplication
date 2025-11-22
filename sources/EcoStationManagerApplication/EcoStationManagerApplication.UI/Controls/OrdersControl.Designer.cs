@@ -53,7 +53,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelHeader.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabelHeader.Location = new System.Drawing.Point(0, 0);
             this.titleLabelHeader.Name = "titleLabelHeader";
-            this.titleLabelHeader.Size = new System.Drawing.Size(225, 35);
+            this.titleLabelHeader.Size = new System.Drawing.Size(245, 37);
             this.titleLabelHeader.TabIndex = 0;
             this.titleLabelHeader.Text = "Quản lý Đơn hàng";
             // 
@@ -68,7 +68,6 @@ namespace EcoStationManagerApplication.UI.Controls
             this.searchPanel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 15);
             this.searchPanel.Size = new System.Drawing.Size(870, 40);
             this.searchPanel.TabIndex = 0;
-            //this.searchPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.searchPanel_Paint);
             // 
             // btnSearch
             // 
@@ -83,7 +82,6 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnSearch.TabIndex = 2;
             this.btnSearch.Text = "Tìm kiếm";
             this.btnSearch.UseVisualStyleBackColor = false;
-            //this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // txtSearch
             // 
@@ -92,10 +90,8 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtSearch.Location = new System.Drawing.Point(460, 6);
             this.txtSearch.MaxLength = 100;
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(280, 26);
+            this.txtSearch.Size = new System.Drawing.Size(280, 27);
             this.txtSearch.TabIndex = 1;
-            //this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
-            //this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
             // titleLabelContent
             // 
@@ -104,7 +100,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelContent.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.titleLabelContent.Location = new System.Drawing.Point(0, 0);
             this.titleLabelContent.Name = "titleLabelContent";
-            this.titleLabelContent.Size = new System.Drawing.Size(193, 25);
+            this.titleLabelContent.Size = new System.Drawing.Size(207, 28);
             this.titleLabelContent.TabIndex = 0;
             this.titleLabelContent.Text = "Danh sách đơn hàng";
             // 
@@ -188,7 +184,14 @@ namespace EcoStationManagerApplication.UI.Controls
             this.contentPanel.Padding = new System.Windows.Forms.Padding(15);
             this.contentPanel.Size = new System.Drawing.Size(900, 480);
             this.contentPanel.TabIndex = 2;
-
+            // 
+            // lblColumnHeaders
+            // 
+            this.lblColumnHeaders.Location = new System.Drawing.Point(0, 0);
+            this.lblColumnHeaders.Name = "lblColumnHeaders";
+            this.lblColumnHeaders.Size = new System.Drawing.Size(100, 23);
+            this.lblColumnHeaders.TabIndex = 1;
+            // 
             // dgvOrders
             // 
             this.dgvOrders.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 

@@ -24,6 +24,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EcoStationManagerApplicatio
 		migration_02.sql = migration_02.sql
 		seed.sql = seed.sql
 		temp.sql = temp.sql
+		PROCEDURES_TRIGGERS_REVIEW.md = PROCEDURES_TRIGGERS_REVIEW.md
+		KET_QUA_KIEM_TRA.md = KET_QUA_KIEM_TRA.md
+		PACKAGING_RETURN_POINTS.md = PACKAGING_RETURN_POINTS.md
+		MIGRATION_PLAN.md = MIGRATION_PLAN.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj", "{F4FA8454-1D23-413E-87EB-34052F89AB75}"
@@ -33,6 +37,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "triggers", "triggers", "{2A82D183-FA91-43B1-BA14-36CB4FD8988E}"
 	ProjectSection(SolutionItems) = preProject
 		triggers.txt = triggers.txt
+		triggers_FIXED.txt = triggers_FIXED.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{3A08E790-FFBD-4F21-9363-233D152196F7}"
@@ -43,6 +48,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "procedures", "procedures", "{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}"
 	ProjectSection(SolutionItems) = preProject
 		procedures.txt = procedures.txt
+		procedures_FIXED.txt = procedures_FIXED.txt
 	EndProjectSection
 EndProject
 Global

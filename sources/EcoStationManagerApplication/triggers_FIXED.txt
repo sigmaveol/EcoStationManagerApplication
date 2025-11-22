@@ -1,0 +1,338 @@
+-- =====================================================
+-- ECOSTATION MANAGER - TRIGGERS (FIXED FOR MARIADB)
+-- =====================================================
+
+USE ecostationmanager;
+
+DELIMITER $$
+
+-- =====================================================
+-- TRIGGERS - TỰ ĐỘNG HÓA BUSINESS LOGIC
+-- =====================================================
+
+-- 1. Tự động tính tổng tiền đơn hàng khi OrderDetails thay đổi
+DROP TRIGGER IF EXISTS trg_OrderDetails_AfterInsert$$
+CREATE TRIGGER trg_OrderDetails_AfterInsert
+AFTER INSERT ON OrderDetails
+FOR EACH ROW
+BEGIN
+    UPDATE Orders
+    SET total_amount = (
+        SELECT COALESCE(SUM(quantity * unit_price), 0)
+        FROM OrderDetails
+        WHERE order_id = NEW.order_id
+    ),
+    last_updated = NOW()
+    WHERE order_id = NEW.order_id;
+END$$
+
+DROP TRIGGER IF EXISTS trg_OrderDetails_AfterUpdate$$
+CREATE TRIGGER trg_OrderDetails_AfterUpdate
+AFTER UPDATE ON OrderDetails
+FOR EACH ROW
+BEGIN
+    UPDATE Orders
+    SET total_amount = (
+        SELECT COALESCE(SUM(quantity * unit_price), 0)
+        FROM OrderDetails
+        WHERE order_id = NEW.order_id
+    ),
+    last_updated = NOW()
+    WHERE order_id = NEW.order_id;
+END$$
+
+DROP TRIGGER IF EXISTS trg_OrderDetails_AfterDelete$$
+CREATE TRIGGER trg_OrderDetails_AfterDelete
+AFTER DELETE ON OrderDetails
+FOR EACH ROW
+BEGIN
+    UPDATE Orders
+    SET total_amount = (
+        SELECT COALESCE(SUM(quantity * unit_price), 0)
+        FROM OrderDetails
+        WHERE order_id = OLD.order_id
+    ),
+    last_updated = NOW()
+    WHERE order_id = OLD.order_id;
+END$$
+
+-- 2. Tự động tạo order_code nếu null khi tạo đơn hàng
+DROP TRIGGER IF EXISTS trg_Orders_BeforeInsert$$
+CREATE TRIGGER trg_Orders_BeforeInsert
+BEFORE INSERT ON Orders
+FOR EACH ROW
+BEGIN
+    DECLARE next_id INT DEFAULT 0;
+    DECLARE code_exists INT DEFAULT 1;
+    DECLARE retry_count INT DEFAULT 0;
+    
+    IF NEW.order_code IS NULL OR NEW.order_code = '' THEN
+        SET NEW.order_code = CONCAT('ORD-', DATE_FORMAT(NOW(), '%Y%m%d'), '-', 
+                                    LPAD(FLOOR(RAND() * 10000), 4, '0'));
+        
+        SELECT COUNT(*) INTO code_exists 
+        FROM Orders 
+        WHERE order_code = NEW.order_code;
+        
+        WHILE code_exists > 0 AND retry_count < 5 DO
+            SET NEW.order_code = CONCAT('ORD-', DATE_FORMAT(NOW(), '%Y%m%d'), '-', 
+                                        LPAD(FLOOR(RAND() * 100000), 5, '0'));
+            SELECT COUNT(*) INTO code_exists 
+            FROM Orders 
+            WHERE order_code = NEW.order_code;
+            SET retry_count = retry_count + 1;
+        END WHILE;
+        
+        IF code_exists > 0 THEN
+            SELECT COALESCE(MAX(order_id), 0) + 1 INTO next_id FROM Orders;
+            SET NEW.order_code = CONCAT('ORD-', LPAD(next_id, 8, '0'));
+        END IF;
+    END IF;
+END$$
+
+-- 3. Tự động cập nhật tồn kho khi StockIn
+DROP TRIGGER IF EXISTS trg_StockIn_AfterInsert$$
+CREATE TRIGGER trg_StockIn_AfterInsert
+AFTER INSERT ON StockIn
+FOR EACH ROW
+BEGIN
+    DECLARE existing_inventory_id INT DEFAULT NULL;
+    
+    IF NEW.ref_type = 0 THEN
+        SELECT inventory_id INTO existing_inventory_id
+        FROM Inventories 
+        WHERE batch_no = NEW.batch_no AND product_id = NEW.ref_id
+        LIMIT 1;
+        
+        IF existing_inventory_id IS NOT NULL THEN
+            UPDATE Inventories
+            SET quantity = quantity + NEW.quantity,
+                last_updated = NOW()
+            WHERE inventory_id = existing_inventory_id;
+        ELSE
+            INSERT INTO Inventories (batch_no, product_id, quantity, expiry_date)
+            VALUES (NEW.batch_no, NEW.ref_id, NEW.quantity, NEW.expiry_date);
+        END IF;
+    END IF;
+END$$
+
+-- 4. Tự động cập nhật tồn kho khi StockOut (FIFO)
+DROP TRIGGER IF EXISTS trg_StockOut_AfterInsert$$
+CREATE TRIGGER trg_StockOut_AfterInsert
+AFTER INSERT ON StockOut
+FOR EACH ROW
+BEGIN
+    DECLARE v_remaining DECIMAL(10,2) DEFAULT 0;
+    DECLARE v_inv_id INT DEFAULT 0;
+    DECLARE v_inv_qty DECIMAL(10,2) DEFAULT 0;
+    DECLARE v_deduct DECIMAL(10,2) DEFAULT 0;
+    DECLARE done INT DEFAULT FALSE;
+    
+    DECLARE cur CURSOR FOR 
+        SELECT inventory_id, quantity 
+        FROM Inventories 
+        WHERE product_id = NEW.ref_id AND quantity > 0
+        ORDER BY expiry_date ASC, last_updated ASC;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    IF NEW.ref_type = 0 THEN
+        SET v_remaining = NEW.quantity;
+        
+        OPEN cur;
+        read_loop: LOOP
+            FETCH cur INTO v_inv_id, v_inv_qty;
+            IF done OR v_remaining <= 0 THEN
+                LEAVE read_loop;
+            END IF;
+            
+            SET v_deduct = LEAST(v_inv_qty, v_remaining);
+            
+            UPDATE Inventories
+            SET quantity = quantity - v_deduct,
+                last_updated = NOW()
+            WHERE inventory_id = v_inv_id;
+            
+            SET v_remaining = v_remaining - v_deduct;
+        END LOOP read_loop;
+        CLOSE cur;
+    END IF;
+END$$
+
+-- 5. Tự động cập nhật PackagingInventories khi PackagingTransactions
+DROP TRIGGER IF EXISTS trg_PackagingTransactions_AfterInsert$$
+CREATE TRIGGER trg_PackagingTransactions_AfterInsert
+AFTER INSERT ON PackagingTransactions
+FOR EACH ROW
+BEGIN
+    DECLARE v_exists INT DEFAULT 0;
+    
+    SELECT COUNT(*) INTO v_exists
+    FROM PackagingInventories
+    WHERE packaging_id = NEW.packaging_id;
+    
+    IF v_exists = 0 THEN
+        INSERT INTO PackagingInventories (packaging_id, qty_new, qty_in_use, qty_returned, qty_need_cleaning, qty_cleaned, qty_damaged)
+        VALUES (NEW.packaging_id, 0, 0, 0, 0, 0, 0);
+    END IF;
+    
+    IF NEW.type = 0 THEN
+        UPDATE PackagingInventories
+        SET qty_new = GREATEST(0, qty_new - NEW.quantity),
+            qty_in_use = qty_in_use + NEW.quantity,
+            last_updated = NOW()
+        WHERE packaging_id = NEW.packaging_id;
+    ELSEIF NEW.type = 1 THEN
+        UPDATE PackagingInventories
+        SET qty_in_use = GREATEST(0, qty_in_use - NEW.quantity),
+            qty_returned = qty_returned + NEW.quantity,
+            last_updated = NOW()
+        WHERE packaging_id = NEW.packaging_id;
+    END IF;
+END$$
+
+-- 6. Tự động cập nhật cleaned_datetime khi CleaningSchedule status = COMPLETED
+DROP TRIGGER IF EXISTS trg_CleaningSchedules_BeforeUpdate$$
+CREATE TRIGGER trg_CleaningSchedules_BeforeUpdate
+BEFORE UPDATE ON CleaningSchedules
+FOR EACH ROW
+BEGIN
+    IF NEW.status = 1 AND OLD.status != 1 AND NEW.cleaned_datetime IS NULL THEN
+        SET NEW.cleaned_datetime = NOW();
+    END IF;
+    
+    IF NEW.status != 1 THEN
+        SET NEW.cleaned_datetime = NULL;
+    END IF;
+END$$
+
+-- 7. Tự động tính điểm khách hàng khi đơn hàng hoàn thành
+DROP TRIGGER IF EXISTS trg_Orders_AfterUpdate$$
+CREATE TRIGGER trg_Orders_AfterUpdate
+AFTER UPDATE ON Orders
+FOR EACH ROW
+BEGIN
+    DECLARE v_points INT DEFAULT 0;
+    DECLARE v_msg VARCHAR(255) DEFAULT '';
+    
+    IF NEW.status = 5 AND NEW.payment_status = 1 
+       AND (OLD.status != 5 OR OLD.payment_status != 1)
+       AND NEW.customer_id IS NOT NULL THEN
+        
+        CALL sp_CalculateCustomerPoints(
+            NEW.customer_id,
+            NEW.total_amount - COALESCE(NEW.discounted_amount, 0),
+            v_points,
+            v_msg
+        );
+    END IF;
+END$$
+
+-- 8. Tự động cập nhật last_updated khi có thay đổi trong Orders
+DROP TRIGGER IF EXISTS trg_Orders_BeforeUpdate$$
+CREATE TRIGGER trg_Orders_BeforeUpdate
+BEFORE UPDATE ON Orders
+FOR EACH ROW
+BEGIN
+    IF NEW.status != OLD.status 
+       OR NEW.payment_status != OLD.payment_status
+       OR NEW.total_amount != OLD.total_amount THEN
+        SET NEW.last_updated = NOW();
+    END IF;
+END$$
+
+-- 9. Tự động tạo customer_code nếu null
+DROP TRIGGER IF EXISTS trg_Customers_BeforeInsert$$
+CREATE TRIGGER trg_Customers_BeforeInsert
+BEFORE INSERT ON Customers
+FOR EACH ROW
+BEGIN
+    DECLARE next_id INT DEFAULT 0;
+    DECLARE code_exists INT DEFAULT 1;
+    DECLARE retry_count INT DEFAULT 0;
+    
+    IF NEW.customer_code IS NULL OR NEW.customer_code = '' THEN
+        SET NEW.customer_code = CONCAT('CUS-', DATE_FORMAT(NOW(), '%Y%m%d'), '-', 
+                                       LPAD(FLOOR(RAND() * 10000), 4, '0'));
+        
+        SELECT COUNT(*) INTO code_exists 
+        FROM Customers 
+        WHERE customer_code = NEW.customer_code;
+        
+        WHILE code_exists > 0 AND retry_count < 5 DO
+            SET NEW.customer_code = CONCAT('CUS-', DATE_FORMAT(NOW(), '%Y%m%d'), '-', 
+                                           LPAD(FLOOR(RAND() * 100000), 5, '0'));
+            SELECT COUNT(*) INTO code_exists 
+            FROM Customers 
+            WHERE customer_code = NEW.customer_code;
+            SET retry_count = retry_count + 1;
+        END WHILE;
+        
+        IF code_exists > 0 THEN
+            SELECT COALESCE(MAX(customer_id), 0) + 1 INTO next_id FROM Customers;
+            SET NEW.customer_code = CONCAT('CUS-', LPAD(next_id, 8, '0'));
+        END IF;
+    END IF;
+END$$
+
+-- 10. Tự động cập nhật rank khách hàng khi total_point thay đổi
+DROP TRIGGER IF EXISTS trg_Customers_AfterUpdate$$
+CREATE TRIGGER trg_Customers_AfterUpdate
+AFTER UPDATE ON Customers
+FOR EACH ROW
+BEGIN
+    DECLARE v_rank_msg VARCHAR(255) DEFAULT '';
+    
+    IF NEW.total_point != OLD.total_point THEN
+        CALL sp_UpdateCustomerRank(NEW.customer_id, v_rank_msg);
+    END IF;
+END$$
+
+DELIMITER ;
+
+/*
+=======================================================
+TRIGGERS TỰ ĐỘNG:
+=======================================================
+
+1. trg_OrderDetails_AfterInsert/Update/Delete: 
+   - Tự động tính tổng tiền đơn hàng khi thêm/sửa/xóa chi tiết đơn
+
+2. trg_Orders_BeforeInsert: 
+   - Tự động tạo order_code nếu NULL (format: ORD-YYYYMMDD-XXXX)
+
+3. trg_StockIn_AfterInsert: 
+   - Tự động cập nhật tồn kho khi nhập hàng
+   - Nếu batch_no đã tồn tại -> cộng dồn số lượng
+   - Nếu chưa có -> tạo mới record trong Inventories
+
+4. trg_StockOut_AfterInsert: 
+   - Tự động trừ tồn kho theo FIFO (First In First Out)
+   - Ưu tiên xuất hàng gần hết hạn trước
+
+5. trg_PackagingTransactions_AfterInsert: 
+   - Tự động cập nhật PackagingInventories khi phát/thu hồi bao bì
+   - Type 0 (ISSUE): giảm qty_new, tăng qty_in_use
+   - Type 1 (RETURN): giảm qty_in_use, tăng qty_returned
+
+6. trg_CleaningSchedules_BeforeUpdate: 
+   - Tự động set cleaned_datetime khi status = COMPLETED (1)
+
+7. trg_Orders_AfterUpdate: 
+   - Tự động tính điểm khách hàng khi đơn hàng COMPLETED + PAID
+
+8. trg_Orders_BeforeUpdate: 
+   - Tự động cập nhật last_updated khi có thay đổi status/payment/total
+
+9. trg_Customers_BeforeInsert: 
+   - Tự động tạo customer_code nếu NULL (format: CUS-YYYYMMDD-XXXX)
+
+10. trg_Customers_AfterUpdate: 
+    - Tự động cập nhật rank khi total_point thay đổi
+
+=======================================================
+THỨ TỰ CHẠY FILE:
+1. Schema (CREATE TABLE)
+2. Stored Procedures
+3. Triggers (file này)
+=======================================================
+*/

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace EcoStationManagerApplication.UI.Controls
 {
-    public partial class OrdersControl : UserControl, IRefreshableControl
+    public partial class OrdersControl : UserControl
     {
         private string _currentFilter = "all";
         
@@ -26,18 +26,16 @@ namespace EcoStationManagerApplication.UI.Controls
             // Khởi tạo exporters
             _excelExporter = new ExcelExporter();
             _pdfExporter = new PdfExporter();
+        }
 
+        private void OrdersControl_Load(object sender, EventArgs e)
+        {
             SetupDataGridStyle(dgvOrders);
 
             PopulateTabPanel();
             InitializeDataGridColumns();
             _ = LoadOrdersAsync();
             InitializeEvents();
-        }
-
-        public void RefreshData()
-        {
-            _ = LoadOrdersAsync(_currentFilter);
         }
 
         // Gán tất cả sự kiện ở đây
@@ -603,9 +601,6 @@ namespace EcoStationManagerApplication.UI.Controls
 
         }
 
-        private void OrdersControl_Load(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

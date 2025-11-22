@@ -143,6 +143,16 @@ namespace EcoStationManagerApplication.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap logo_pm_test {
+            get {
+                object obj = ResourceManager.GetObject("logo_pm_test", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap menu {
             get {
                 object obj = ResourceManager.GetObject("menu", resourceCulture);
@@ -263,6 +273,16 @@ namespace EcoStationManagerApplication.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap test {
+            get {
+                object obj = ResourceManager.GetObject("test", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap thumbnail_pm {
             get {
                 object obj = ResourceManager.GetObject("thumbnail_pm", resourceCulture);
@@ -276,6 +296,16 @@ namespace EcoStationManagerApplication.UI.Properties {
         internal static System.Drawing.Bitmap thumbnail_pm1 {
             get {
                 object obj = ResourceManager.GetObject("thumbnail_pm1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap thumbnail_pm2 {
+            get {
+                object obj = ResourceManager.GetObject("thumbnail_pm2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

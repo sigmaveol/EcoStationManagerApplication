@@ -25,12 +25,13 @@ namespace EcoStationManagerApplication.Core.Services
             try
             {
                 var deliveries = await _unitOfWork.Deliveries.GetAllAsync();
-                if (!deliveries.Any())
-                {
-                    return NotFoundError<IEnumerable<DeliveryAssignment>>("phân công giao hàng");
-                }
-
-                return Result<IEnumerable<DeliveryAssignment>>.Ok(deliveries, $"Đã tải {deliveries.Count()} phân công giao hàng");
+                var deliveriesList = deliveries?.ToList() ?? new List<DeliveryAssignment>();
+                
+                return Result<IEnumerable<DeliveryAssignment>>.Ok(
+                    deliveriesList, 
+                    deliveriesList.Any() 
+                        ? $"Đã tải {deliveriesList.Count} phân công giao hàng" 
+                        : "Không có phân công giao hàng nào");
             }
             catch (Exception ex)
             {

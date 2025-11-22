@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.panelLeft = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelError = new System.Windows.Forms.Label();
             this.guna2CirclePictureBox1 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
@@ -44,6 +46,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.labelTitle = new System.Windows.Forms.Label();
             this.panelLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
@@ -53,6 +56,7 @@
             // 
             this.panelLeft.BackgroundImage = global::EcoStationManagerApplication.UI.Properties.Resources.Gemini_Generated_Image_1z21nh1z21nh1z21;
             this.panelLeft.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.panelLeft.Controls.Add(this.guna2PictureBox1);
             this.panelLeft.Controls.Add(this.pictureBox1);
             this.panelLeft.Controls.Add(this.labelError);
             this.panelLeft.Controls.Add(this.guna2CirclePictureBox1);
@@ -75,6 +79,19 @@
             this.panelLeft.Name = "panelLeft";
             this.panelLeft.Size = new System.Drawing.Size(1000, 654);
             this.panelLeft.TabIndex = 0;
+            // 
+            // guna2PictureBox1
+            // 
+            this.guna2PictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.guna2PictureBox1.FillColor = System.Drawing.Color.Transparent;
+            this.guna2PictureBox1.Image = global::EcoStationManagerApplication.UI.Properties.Resources.test;
+            this.guna2PictureBox1.ImageRotate = 0F;
+            this.guna2PictureBox1.Location = new System.Drawing.Point(85, 447);
+            this.guna2PictureBox1.Name = "guna2PictureBox1";
+            this.guna2PictureBox1.Size = new System.Drawing.Size(150, 140);
+            this.guna2PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.guna2PictureBox1.TabIndex = 20;
+            this.guna2PictureBox1.TabStop = false;
             // 
             // pictureBox1
             // 
@@ -177,12 +194,12 @@
             this.checkBoxShowPassword.Size = new System.Drawing.Size(169, 27);
             this.checkBoxShowPassword.TabIndex = 14;
             this.checkBoxShowPassword.Text = "Hiển thị mật khẩu";
-            this.checkBoxShowPassword.CheckedChanged += new System.EventHandler(this.checkBoxShowPassword_CheckedChanged);
             this.checkBoxShowPassword.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
             this.checkBoxShowPassword.UncheckedState.BorderRadius = 2;
             this.checkBoxShowPassword.UncheckedState.BorderThickness = 1;
             this.checkBoxShowPassword.UncheckedState.FillColor = System.Drawing.Color.White;
             this.checkBoxShowPassword.UseVisualStyleBackColor = false;
+            this.checkBoxShowPassword.CheckedChanged += new System.EventHandler(this.checkBoxShowPassword_CheckedChanged);
             // 
             // checkBoxRemember
             // 
@@ -308,12 +325,14 @@
             this.ClientSize = new System.Drawing.Size(1000, 654);
             this.Controls.Add(this.panelLeft);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Đăng nhập - EcoStation Manager";
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.panelLeft.ResumeLayout(false);
             this.panelLeft.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.guna2CirclePictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
@@ -338,5 +357,6 @@
         private System.Windows.Forms.Label label2;
         private Guna.UI2.WinForms.Guna2CirclePictureBox guna2CirclePictureBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox1;
     }
 }

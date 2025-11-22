@@ -310,14 +310,142 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void btnExportPDF_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Tính năng xuất PDF đang được phát triển", "Thông báo",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                // Kiểm tra xem có dữ liệu để xuất không
+                if (dataGridViewReport.DataSource == null || !dataGridViewReport.Visible)
+                {
+                    MessageBox.Show("Không có dữ liệu để xuất. Vui lòng tạo báo cáo trước.", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Lấy DataTable từ DataSource
+                var dataTable = dataGridViewReport.DataSource as DataTable;
+                if (dataTable == null || dataTable.Rows.Count == 0)
+                {
+                    MessageBox.Show("Không có dữ liệu để xuất.", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Hiển thị SaveFileDialog
+                using (var saveDialog = new SaveFileDialog())
+                {
+                    saveDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                    saveDialog.FileName = $"BaoCao_{GetReportTypeName(_currentReportType)}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+                    saveDialog.Title = "Xuất báo cáo ra PDF";
+
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        var fromDate = dtpFromDate.Value.Date;
+                        var toDate = dtpToDate.Value.Date;
+                        var reportTitle = GetReportTitleForExport();
+
+                        // Xuất PDF sử dụng FastReportHelper
+                        FastReportHelper.ExportToPdf(dataTable, saveDialog.FileName, reportTitle, fromDate, toDate);
+
+                        MessageBox.Show($"Đã xuất PDF thành công!\nFile: {saveDialog.FileName}", "Thành công",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi xuất PDF: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnExportExcel_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Tính năng xuất Excel đang được phát triển", "Thông báo",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                // Kiểm tra xem có dữ liệu để xuất không
+                if (dataGridViewReport.DataSource == null || !dataGridViewReport.Visible)
+                {
+                    MessageBox.Show("Không có dữ liệu để xuất. Vui lòng tạo báo cáo trước.", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Lấy DataTable từ DataSource
+                var dataTable = dataGridViewReport.DataSource as DataTable;
+                if (dataTable == null || dataTable.Rows.Count == 0)
+                {
+                    MessageBox.Show("Không có dữ liệu để xuất.", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Hiển thị SaveFileDialog
+                using (var saveDialog = new SaveFileDialog())
+                {
+                    saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                    saveDialog.FileName = $"BaoCao_{GetReportTypeName(_currentReportType)}_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+                    saveDialog.Title = "Xuất báo cáo ra Excel";
+
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        var fromDate = dtpFromDate.Value.Date;
+                        var toDate = dtpToDate.Value.Date;
+                        var reportTitle = GetReportTitleForExport();
+
+                        // Xuất Excel sử dụng FastReportHelper
+                        FastReportHelper.ExportToExcel(dataTable, saveDialog.FileName, reportTitle, fromDate, toDate);
+
+                        MessageBox.Show($"Đã xuất Excel thành công!\nFile: {saveDialog.FileName}", "Thành công",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi xuất Excel: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private string GetReportTitleForExport()
+        {
+            switch (_currentReportType)
+            {
+                case ReportType.REVENUE:
+                    return "Báo cáo Doanh thu";
+                case ReportType.CUSTOMER_REFILL:
+                    return "Báo cáo Tần suất Khách hàng Quay lại";
+                case ReportType.PACKAGING_RECOVERY:
+                    return "Báo cáo Thu hồi Bao bì";
+                case ReportType.PLASTIC_REDUCTION:
+                    return "Báo cáo Giảm phát thải Nhựa";
+                case ReportType.PAYMENT_METHOD:
+                    return "Báo cáo Phương thức Thanh toán";
+                case ReportType.BEST_SELLING:
+                    return "Báo cáo Mặt hàng Bán chạy";
+                default:
+                    return "Báo cáo";
+            }
+        }
+
+        private string GetReportTypeName(ReportType reportType)
+        {
+            switch (reportType)
+            {
+                case ReportType.REVENUE:
+                    return "DoanhThu";
+                case ReportType.CUSTOMER_REFILL:
+                    return "KhachHangQuayLai";
+                case ReportType.PACKAGING_RECOVERY:
+                    return "ThuHoiBaoBi";
+                case ReportType.PLASTIC_REDUCTION:
+                    return "GiamPhatThaiNhua";
+                case ReportType.PAYMENT_METHOD:
+                    return "PhuongThucThanhToan";
+                case ReportType.BEST_SELLING:
+                    return "MatHangBanChay";
+                default:
+                    return "BaoCao";
+            }
         }
 
         protected override void OnLoad(EventArgs e)

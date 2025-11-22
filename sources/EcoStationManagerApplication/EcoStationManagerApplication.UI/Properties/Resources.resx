@@ -135,6 +135,14 @@
   </data>
   <data name="thumbnail_pm2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\thumbnail_pm2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="thumbnail_pm1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\thumbnail_pm1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="inventory_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\inventory_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="setting_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\setting_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -150,6 +158,8 @@
   </data>
   <data name="logo_group" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo_group.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="refill" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refill.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="bell_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bell.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -187,13 +197,15 @@
   <data name="stockin_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stockin_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="logo_group" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo_group.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="thumbnail_pm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\thumbnail_pm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="test" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\test.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="refill-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refill-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

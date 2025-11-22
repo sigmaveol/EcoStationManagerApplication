@@ -96,7 +96,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::EcoStationManagerApplication.UI.Properties.Resources.thumbnail_pm1;
+            this.pictureBox1.Image = global::EcoStationManagerApplication.UI.Properties.Resources.refill_removebg_preview;
             this.pictureBox1.Location = new System.Drawing.Point(108, 198);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(294, 217);

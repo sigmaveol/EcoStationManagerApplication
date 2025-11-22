@@ -203,6 +203,26 @@ namespace EcoStationManagerApplication.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap refill {
+            get {
+                object obj = ResourceManager.GetObject("refill", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap refill_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("refill-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap report_icon {
             get {
                 object obj = ResourceManager.GetObject("report_icon", resourceCulture);

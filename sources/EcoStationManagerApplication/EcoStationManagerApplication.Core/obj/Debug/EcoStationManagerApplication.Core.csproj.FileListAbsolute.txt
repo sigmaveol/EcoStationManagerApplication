@@ -125,7 +125,6 @@ D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationM
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\Microsoft.Extensions.Logging.dll
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\Microsoft.Extensions.Options.dll
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\Microsoft.Extensions.Primitives.dll
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.dll
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\RBush.dll
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\SixLabors.Fonts.dll
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\System.Buffers.dll
@@ -165,7 +164,6 @@ D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationM
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\Microsoft.Extensions.Options.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\Microsoft.Extensions.Primitives.xml
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\RBush.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\SixLabors.Fonts.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\System.Buffers.xml
@@ -298,10 +296,3 @@ D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoS
 D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\obj\Debug\EcoStationManagerApplication.Core.csproj.CopyComplete
 D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\obj\Debug\EcoStationManagerApplication.Core.dll
 D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\obj\Debug\EcoStationManagerApplication.Core.pdb
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.Shared.dll
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.System.dll
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.pdb
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.Shared.pdb
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.Shared.xml
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.System.pdb
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\PdfSharp.System.xml

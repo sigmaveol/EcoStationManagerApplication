@@ -93,16 +93,6 @@ namespace EcoStationManagerApplication.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Gemini_Generated_Image_1z21nh1z21nh1z21 {
-            get {
-                object obj = ResourceManager.GetObject("Gemini_Generated_Image_1z21nh1z21nh1z21", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap image_pm {
             get {
                 object obj = ResourceManager.GetObject("image_pm", resourceCulture);
@@ -136,16 +126,6 @@ namespace EcoStationManagerApplication.UI.Properties {
         internal static System.Drawing.Bitmap logo_pm {
             get {
                 object obj = ResourceManager.GetObject("logo_pm", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap logo_pm_test {
-            get {
-                object obj = ResourceManager.GetObject("logo_pm_test", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -196,16 +176,6 @@ namespace EcoStationManagerApplication.UI.Properties {
         internal static System.Drawing.Bitmap product_icon {
             get {
                 object obj = ResourceManager.GetObject("product_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap refill {
-            get {
-                object obj = ResourceManager.GetObject("refill", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -286,56 +256,6 @@ namespace EcoStationManagerApplication.UI.Properties {
         internal static System.Drawing.Bitmap supplier_icon {
             get {
                 object obj = ResourceManager.GetObject("supplier_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap test {
-            get {
-                object obj = ResourceManager.GetObject("test", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap thumbnail_pm {
-            get {
-                object obj = ResourceManager.GetObject("thumbnail_pm", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap thumbnail_pm1 {
-            get {
-                object obj = ResourceManager.GetObject("thumbnail_pm1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap thumbnail_pm2 {
-            get {
-                object obj = ResourceManager.GetObject("thumbnail_pm2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap unnamed {
-            get {
-                object obj = ResourceManager.GetObject("unnamed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

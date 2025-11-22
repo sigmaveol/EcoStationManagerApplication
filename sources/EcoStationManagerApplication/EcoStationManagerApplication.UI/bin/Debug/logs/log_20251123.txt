@@ -1,0 +1,24 @@
+[INFO] [DatabaseHelper] 2025-11-23 00:44:20: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-23 00:44:21: Authentication attempt - Username: admin, StoredHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', InputHash: 'jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=', Match: True
+[INFO] [Service:UserService] 2025-11-23 00:44:21: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-23 00:44:21: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:21: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-23 00:44:21: Đã tạo WorkShift mới cho user - UserId: 1, ShiftId: 13, Date: 2025-11-23
+[INFO] [DatabaseHelper] 2025-11-23 00:44:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:27: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-23 00:44:27: Connection opened - State: Open

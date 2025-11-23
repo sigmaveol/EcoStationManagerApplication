@@ -772,7 +772,7 @@ namespace EcoStationManagerApplication.UI.Controls
                     // Fallback: mở form trực tiếp nếu không tìm thấy MainForm
                     if (currentMode == ViewMode.Products)
                     {
-                        using (var form = new StockInForm())
+                        using (var form = new MultiProductStockInForm())
                         {
                             if (form.ShowDialog() == DialogResult.OK)
                             {
@@ -808,7 +808,7 @@ namespace EcoStationManagerApplication.UI.Controls
                     // Fallback: mở form trực tiếp nếu không tìm thấy MainForm
                     if (currentMode == ViewMode.Products)
                     {
-                        using (var form = new StockOutForm())
+                        using (var form = new MultiProductStockOutForm())
                         {
                             if (form.ShowDialog() == DialogResult.OK)
                             {

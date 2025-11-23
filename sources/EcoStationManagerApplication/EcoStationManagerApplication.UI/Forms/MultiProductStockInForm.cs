@@ -26,7 +26,6 @@ namespace EcoStationManagerApplication.UI.Forms
             public DateTime? ExpiryDate { get; set; }
         }
 
-        private List<ProductRow> _productRows = new List<ProductRow>();
         private List<ProductDTO> _allProducts = new List<ProductDTO>();
         private List<Packaging> _allPackagings = new List<Packaging>();
         private List<Supplier> _allSuppliers = new List<Supplier>();
@@ -52,7 +51,6 @@ namespace EcoStationManagerApplication.UI.Forms
 
             await LoadDataAsync();
             InitializeDataGridView();
-            AddNewRow();
         }
 
         private async Task LoadDataAsync()
@@ -466,7 +464,40 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private void btnAddRow_Click(object sender, EventArgs e)
         {
-            AddNewRow();
+            // Mở form chọn sản phẩm/bao bì
+            using (var selectionForm = new ProductSelectionForm(_allProducts, _allPackagings))
+            {
+                if (selectionForm.ShowDialog() == DialogResult.OK && selectionForm.IsOK)
+                {
+                    // Thêm dòng mới vào DataGridView với thông tin đã chọn
+                    var rowIndex = dgvProducts.Rows.Add();
+                    var row = dgvProducts.Rows[rowIndex];
+                    
+                    // Set các giá trị từ form chọn
+                    row.Cells["ProductName"].Value = selectionForm.SelectedProductName;
+                    row.Cells["RefType"].Value = selectionForm.SelectedRefType.HasValue ? selectionForm.SelectedRefType.Value.ToString() : (object)DBNull.Value;
+                    row.Cells["RefId"].Value = selectionForm.SelectedRefId.HasValue ? (object)selectionForm.SelectedRefId.Value : DBNull.Value;
+                    row.Cells["Unit"].Value = selectionForm.SelectedUnit ?? "-";
+                    row.Cells["Quantity"].Value = selectionForm.Quantity.ToString("N2");
+                    row.Cells["UnitPrice"].Value = selectionForm.UnitPrice.ToString("N0");
+                    
+                    // Tính thành tiền tự động
+                    CalculateTotalPrice(row);
+                    
+                    // Set hạn sử dụng nếu có
+                    if (selectionForm.ExpiryDate.HasValue)
+                    {
+                        row.Cells["ExpiryDate"].Value = selectionForm.ExpiryDate.Value.ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        row.Cells["ExpiryDate"].Value = DBNull.Value;
+                    }
+                    
+                    // Cập nhật tổng kết
+                    UpdateSummary();
+                }
+            }
         }
 
         private void UpdateSummary()
@@ -579,7 +610,8 @@ namespace EcoStationManagerApplication.UI.Forms
                             BatchNo = string.IsNullOrWhiteSpace(batchNo) ? null : batchNo, // Cho phép null/trống
                             SupplierId = supplierId,
                             Notes = notes,
-                            CreatedDate = stockInDate
+                            CreatedDate = stockInDate,
+                            CreatedBy = AppUserContext.CurrentUserId // Người tạo là người hiện tại đăng nhập
                         };
 
                         // Xử lý hạn sử dụng nếu có (chỉ áp dụng cho sản phẩm)

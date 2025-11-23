@@ -416,12 +416,6 @@
     <Compile Include="Forms\UpdateOrderForm.Designer.cs">
       <DependentUpon>UpdateOrderForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\WorkShiftForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\WorkShiftForm.Designer.cs">
-      <DependentUpon>WorkShiftForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\DeliveryAssignmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -434,23 +428,17 @@
     <Compile Include="Forms\BatchDeliveryAssignmentForm.Designer.cs">
       <DependentUpon>BatchDeliveryAssignmentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\StockInForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\StockInForm.Designer.cs">
-      <DependentUpon>StockInForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\MultiProductStockInForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MultiProductStockInForm.Designer.cs">
       <DependentUpon>MultiProductStockInForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\StockOutForm.cs">
+    <Compile Include="Forms\ProductSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\StockOutForm.Designer.cs">
-      <DependentUpon>StockOutForm.cs</DependentUpon>
+    <Compile Include="Forms\ProductSelectionForm.Designer.cs">
+      <DependentUpon>ProductSelectionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MultiProductStockOutForm.cs">
       <SubType>Form</SubType>
@@ -481,6 +469,9 @@
     </Compile>
     <Compile Include="Forms\CleaningScheduleForm.Designer.cs">
       <DependentUpon>CleaningScheduleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\WorkShiftForm.Designer.cs">
+      <DependentUpon>WorkShiftForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -577,6 +568,12 @@
     <EmbeddedResource Include="Forms\PackagingTransactionForm.resx">
       <DependentUpon>PackagingTransactionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProductSelectionForm.resx">
+      <DependentUpon>ProductSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockInDetailForm.resx">
+      <DependentUpon>StockInDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\UpdateOrderForm.resx">
       <DependentUpon>UpdateOrderForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -595,20 +592,14 @@
     <EmbeddedResource Include="Forms\MultiProductStockOutForm.resx">
       <DependentUpon>MultiProductStockOutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\StockInForm.resx">
-      <DependentUpon>StockInForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\StockOutDetailForm.resx">
       <DependentUpon>StockOutDetailForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\StockOutForm.resx">
-      <DependentUpon>StockOutForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\CleaningScheduleForm.resx">
+      <DependentUpon>CleaningScheduleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\WorkShiftForm.resx">
       <DependentUpon>WorkShiftForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CleaningScheduleForm.resx">
-      <DependentUpon>CleaningScheduleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

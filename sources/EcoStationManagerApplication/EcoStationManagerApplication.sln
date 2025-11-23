@@ -19,15 +19,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EcoStationManagerApplicatio
 	ProjectSection(SolutionItems) = preProject
 		EcoStationManager_V0.sql = EcoStationManager_V0.sql
 		EcoStationManager_V1.sql = EcoStationManager_V1.sql
-		migration_01.sql = migration_01.sql
+		KET_QUA_KIEM_TRA.md = KET_QUA_KIEM_TRA.md
 		migration_00.sql = migration_00.sql
+		migration_01.sql = migration_01.sql
 		migration_02.sql = migration_02.sql
+		MIGRATION_PLAN.md = MIGRATION_PLAN.md
+		PACKAGING_RETURN_POINTS.md = PACKAGING_RETURN_POINTS.md
+		PROCEDURES_TRIGGERS_REVIEW.md = PROCEDURES_TRIGGERS_REVIEW.md
 		seed.sql = seed.sql
 		temp.sql = temp.sql
-		PROCEDURES_TRIGGERS_REVIEW.md = PROCEDURES_TRIGGERS_REVIEW.md
-		KET_QUA_KIEM_TRA.md = KET_QUA_KIEM_TRA.md
-		PACKAGING_RETURN_POINTS.md = PACKAGING_RETURN_POINTS.md
-		MIGRATION_PLAN.md = MIGRATION_PLAN.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj", "{F4FA8454-1D23-413E-87EB-34052F89AB75}"

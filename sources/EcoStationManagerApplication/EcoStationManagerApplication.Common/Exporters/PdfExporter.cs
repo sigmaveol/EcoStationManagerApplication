@@ -37,12 +37,12 @@ namespace EcoStationManagerApplication.Common.Exporters
                 {
                     try
                     {
-                        if (GlobalFontSettings.FontResolver == null)
+            if (GlobalFontSettings.FontResolver == null)
                             GlobalFontSettings.FontResolver = new WindowsFontResolver();
                         _fontResolverInitialized = true;
                     }
                     catch (Exception ex)
-                    {
+            {
                         System.Diagnostics.Debug.WriteLine($"Font resolver error: {ex.Message}");
                         _fontResolverInitialized = true;
                     }
@@ -79,7 +79,7 @@ namespace EcoStationManagerApplication.Common.Exporters
 
                 for (int pageNum = 1; pageNum <= totalPages; pageNum++)
                 {
-                    var page = document.AddPage();
+            var page = document.AddPage();
                     page.Size = PdfSharp.PageSize.A4;
 
                     using (var gfx = XGraphics.FromPdfPage(page))
@@ -208,12 +208,12 @@ namespace EcoStationManagerApplication.Common.Exporters
             Dictionary<string, string> headers, double[] colWidths, double yPos, double totalWidth, XFont font)
         {
             // Background
-            gfx.DrawRectangle(new XSolidBrush(XColor.FromArgb(46, 125, 50)),
+                    gfx.DrawRectangle(new XSolidBrush(XColor.FromArgb(46, 125, 50)),
                 new XRect(LeftMargin, yPos, totalWidth, HeaderHeight));
 
             double xPos = LeftMargin;
-            for (int i = 0; i < properties.Count; i++)
-            {
+                    for (int i = 0; i < properties.Count; i++)
+                    {
                 string headerText = GetHeaderText(properties[i].Name, headers);
                 gfx.DrawString(headerText, font, XBrushes.White,
                     new XRect(xPos + 3, yPos + 3, colWidths[i] - 6, HeaderHeight - 6),
@@ -234,7 +234,7 @@ namespace EcoStationManagerApplication.Common.Exporters
                 string headerText = GetHeaderText(dataTable.Columns[i].ColumnName, headers);
                 gfx.DrawString(headerText, font, XBrushes.White,
                     new XRect(xPos + 3, yPos + 3, colWidths[i] - 6, HeaderHeight - 6),
-                    XStringFormats.TopLeft);
+                            XStringFormats.TopLeft);
                 xPos += colWidths[i];
             }
         }
@@ -244,18 +244,18 @@ namespace EcoStationManagerApplication.Common.Exporters
         {
             // Alternate row color
             if (rowIndex % 2 == 0)
-            {
-                gfx.DrawRectangle(new XSolidBrush(XColor.FromArgb(245, 245, 245)),
-                    new XRect(LeftMargin, yPos, totalWidth, LineHeight));
-            }
+                {
+                    gfx.DrawRectangle(new XSolidBrush(XColor.FromArgb(245, 245, 245)),
+                        new XRect(LeftMargin, yPos, totalWidth, LineHeight));
+                }
 
             double xPos = LeftMargin;
-            for (int i = 0; i < properties.Count; i++)
-            {
+                for (int i = 0; i < properties.Count; i++)
+                {
                 string value = GetPropertyValue(item, properties[i]);
                 gfx.DrawString(value, font, XBrushes.Black,
                     new XRect(xPos + 3, yPos + 2, colWidths[i] - 6, LineHeight - 4),
-                    XStringFormats.TopLeft);
+                                XStringFormats.TopLeft);
                 xPos += colWidths[i];
             }
 

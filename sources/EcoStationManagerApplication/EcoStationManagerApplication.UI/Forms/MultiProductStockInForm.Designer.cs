@@ -69,7 +69,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.panelMain.Location = new System.Drawing.Point(0, 0);
             this.panelMain.Name = "panelMain";
             this.panelMain.Padding = new System.Windows.Forms.Padding(30);
-            this.panelMain.Size = new System.Drawing.Size(1050, 750);
+            this.panelMain.Size = new System.Drawing.Size(1137, 750);
             this.panelMain.TabIndex = 0;
             // 
             // panelSummary
@@ -123,14 +123,15 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             this.dgvProducts.AllowUserToAddRows = false;
             this.dgvProducts.AllowUserToDeleteRows = false;
+            this.dgvProducts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProducts.BackgroundColor = System.Drawing.Color.White;
-            this.dgvProducts.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvProducts.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProducts.Location = new System.Drawing.Point(30, 253);
+            this.dgvProducts.Location = new System.Drawing.Point(30, 262);
             this.dgvProducts.Name = "dgvProducts";
             this.dgvProducts.RowHeadersWidth = 51;
             this.dgvProducts.RowTemplate.Height = 30;
-            this.dgvProducts.Size = new System.Drawing.Size(1008, 297);
+            this.dgvProducts.Size = new System.Drawing.Size(1095, 288);
             this.dgvProducts.TabIndex = 19;
             // 
             // btnAddRow
@@ -143,11 +144,11 @@ namespace EcoStationManagerApplication.UI.Forms
             this.btnAddRow.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
             this.btnAddRow.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnAddRow.ForeColor = System.Drawing.Color.White;
-            this.btnAddRow.Location = new System.Drawing.Point(31, 197);
+            this.btnAddRow.Location = new System.Drawing.Point(31, 217);
             this.btnAddRow.Name = "btnAddRow";
-            this.btnAddRow.Size = new System.Drawing.Size(155, 39);
+            this.btnAddRow.Size = new System.Drawing.Size(219, 39);
             this.btnAddRow.TabIndex = 18;
-            this.btnAddRow.Text = "+ Thêm dòng";
+            this.btnAddRow.Text = "+ Thêm sản phẩm";
             this.btnAddRow.Click += new System.EventHandler(this.btnAddRow_Click);
             // 
             // labelError
@@ -170,7 +171,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.btnCancel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(892, 677);
+            this.btnCancel.Location = new System.Drawing.Point(983, 677);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 40);
             this.btnCancel.TabIndex = 16;
@@ -187,7 +188,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.btnSave.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(722, 677);
+            this.btnSave.Location = new System.Drawing.Point(786, 677);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(147, 40);
             this.btnSave.TabIndex = 15;
@@ -207,13 +208,13 @@ namespace EcoStationManagerApplication.UI.Forms
             this.txtNotes.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtNotes.ForeColor = System.Drawing.Color.Black;
             this.txtNotes.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
-            this.txtNotes.Location = new System.Drawing.Point(334, 156);
+            this.txtNotes.Location = new System.Drawing.Point(464, 167);
             this.txtNotes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtNotes.Multiline = true;
             this.txtNotes.Name = "txtNotes";
             this.txtNotes.PlaceholderText = "Ghi chú (tùy chọn)";
             this.txtNotes.SelectedText = "";
-            this.txtNotes.Size = new System.Drawing.Size(640, 50);
+            this.txtNotes.Size = new System.Drawing.Size(640, 69);
             this.txtNotes.TabIndex = 14;
             // 
             // lblNotes
@@ -221,7 +222,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblNotes.AutoSize = true;
             this.lblNotes.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblNotes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.lblNotes.Location = new System.Drawing.Point(330, 129);
+            this.lblNotes.Location = new System.Drawing.Point(460, 140);
             this.lblNotes.Name = "lblNotes";
             this.lblNotes.Size = new System.Drawing.Size(75, 23);
             this.lblNotes.TabIndex = 13;
@@ -240,13 +241,13 @@ namespace EcoStationManagerApplication.UI.Forms
             this.txtBatchNo.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtBatchNo.ForeColor = System.Drawing.Color.Black;
             this.txtBatchNo.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
-            this.txtBatchNo.Location = new System.Drawing.Point(330, 80);
+            this.txtBatchNo.Location = new System.Drawing.Point(446, 76);
             this.txtBatchNo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtBatchNo.MaxLength = 100;
             this.txtBatchNo.Name = "txtBatchNo";
             this.txtBatchNo.PlaceholderText = "Mã lô (tùy chọn)";
             this.txtBatchNo.SelectedText = "";
-            this.txtBatchNo.Size = new System.Drawing.Size(300, 40);
+            this.txtBatchNo.Size = new System.Drawing.Size(300, 50);
             this.txtBatchNo.TabIndex = 15;
             // 
             // lblBatchNo
@@ -254,7 +255,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblBatchNo.AutoSize = true;
             this.lblBatchNo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblBatchNo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.lblBatchNo.Location = new System.Drawing.Point(330, 55);
+            this.lblBatchNo.Location = new System.Drawing.Point(442, 49);
             this.lblBatchNo.Name = "lblBatchNo";
             this.lblBatchNo.Size = new System.Drawing.Size(60, 23);
             this.lblBatchNo.TabIndex = 16;
@@ -267,11 +268,11 @@ namespace EcoStationManagerApplication.UI.Forms
             this.dtpStockInDate.FillColor = System.Drawing.Color.White;
             this.dtpStockInDate.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.dtpStockInDate.Format = System.Windows.Forms.DateTimePickerFormat.Long;
-            this.dtpStockInDate.Location = new System.Drawing.Point(650, 80);
+            this.dtpStockInDate.Location = new System.Drawing.Point(784, 76);
             this.dtpStockInDate.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtpStockInDate.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtpStockInDate.Name = "dtpStockInDate";
-            this.dtpStockInDate.Size = new System.Drawing.Size(320, 40);
+            this.dtpStockInDate.Size = new System.Drawing.Size(320, 54);
             this.dtpStockInDate.TabIndex = 12;
             this.dtpStockInDate.Value = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
             // 
@@ -280,7 +281,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblStockInDate.AutoSize = true;
             this.lblStockInDate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblStockInDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.lblStockInDate.Location = new System.Drawing.Point(650, 55);
+            this.lblStockInDate.Location = new System.Drawing.Point(780, 50);
             this.lblStockInDate.Name = "lblStockInDate";
             this.lblStockInDate.Size = new System.Drawing.Size(102, 23);
             this.lblStockInDate.TabIndex = 11;
@@ -297,7 +298,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.cmbSupplier.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cmbSupplier.ForeColor = System.Drawing.Color.Black;
             this.cmbSupplier.ItemHeight = 30;
-            this.cmbSupplier.Location = new System.Drawing.Point(30, 144);
+            this.cmbSupplier.Location = new System.Drawing.Point(47, 167);
             this.cmbSupplier.Name = "cmbSupplier";
             this.cmbSupplier.Size = new System.Drawing.Size(280, 36);
             this.cmbSupplier.TabIndex = 10;
@@ -307,7 +308,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblSupplier.AutoSize = true;
             this.lblSupplier.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblSupplier.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.lblSupplier.Location = new System.Drawing.Point(30, 118);
+            this.lblSupplier.Location = new System.Drawing.Point(44, 141);
             this.lblSupplier.Name = "lblSupplier";
             this.lblSupplier.Size = new System.Drawing.Size(124, 23);
             this.lblSupplier.TabIndex = 9;
@@ -324,9 +325,9 @@ namespace EcoStationManagerApplication.UI.Forms
             this.cmbSource.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.cmbSource.ForeColor = System.Drawing.Color.Black;
             this.cmbSource.ItemHeight = 30;
-            this.cmbSource.Location = new System.Drawing.Point(30, 80);
+            this.cmbSource.Location = new System.Drawing.Point(47, 94);
             this.cmbSource.Name = "cmbSource";
-            this.cmbSource.Size = new System.Drawing.Size(280, 36);
+            this.cmbSource.Size = new System.Drawing.Size(296, 36);
             this.cmbSource.TabIndex = 8;
             // 
             // lblSource
@@ -334,7 +335,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblSource.AutoSize = true;
             this.lblSource.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblSource.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.lblSource.Location = new System.Drawing.Point(30, 55);
+            this.lblSource.Location = new System.Drawing.Point(43, 68);
             this.lblSource.Name = "lblSource";
             this.lblSource.Size = new System.Drawing.Size(114, 23);
             this.lblSource.TabIndex = 7;
@@ -345,7 +346,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.lblTitle.Location = new System.Drawing.Point(30, 20);
+            this.lblTitle.Location = new System.Drawing.Point(12, 9);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(156, 41);
             this.lblTitle.TabIndex = 1;
@@ -355,7 +356,7 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1050, 750);
+            this.ClientSize = new System.Drawing.Size(1137, 750);
             this.Controls.Add(this.panelMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;

@@ -81,12 +81,12 @@ namespace EcoStationManagerApplication.UI.Controls
             this.cmbWorkShiftRoleFilter = new Guna.UI2.WinForms.Guna2ComboBox();
             this.dtpWorkShiftDateFilter = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.cleaningSchedulePanel = new Guna.UI2.WinForms.Guna2Panel();
+            this.calendarControl = new EcoStationManagerApplication.UI.Controls.CalendarControl();
             this.dashboardPanel = new Guna.UI2.WinForms.Guna2Panel();
             this.lblTodayShifts = new System.Windows.Forms.Label();
             this.lblDeliveredOrders = new System.Windows.Forms.Label();
             this.lblOverdueOrders = new System.Windows.Forms.Label();
             this.lblTotalCOD = new System.Windows.Forms.Label();
-            this.calendarControl = new EcoStationManagerApplication.UI.Controls.CalendarControl();
             this.headerPanel.SuspendLayout();
             this.assignmentPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAssignments)).BeginInit();
@@ -114,7 +114,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelAssign.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.titleLabelAssign.Location = new System.Drawing.Point(15, 15);
             this.titleLabelAssign.Name = "titleLabelAssign";
-            this.titleLabelAssign.Size = new System.Drawing.Size(998, 30);
+            this.titleLabelAssign.Size = new System.Drawing.Size(956, 30);
             this.titleLabelAssign.TabIndex = 1;
             this.titleLabelAssign.Text = "Phân công nhân viên";
             // 
@@ -124,7 +124,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelKPI.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabelKPI.Location = new System.Drawing.Point(15, 15);
             this.titleLabelKPI.Name = "titleLabelKPI";
-            this.titleLabelKPI.Size = new System.Drawing.Size(998, 39);
+            this.titleLabelKPI.Size = new System.Drawing.Size(956, 39);
             this.titleLabelKPI.TabIndex = 1;
             this.titleLabelKPI.Text = "Quản lý ca làm && KPI";
             // 
@@ -134,7 +134,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelCleaningSchedule.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabelCleaningSchedule.Location = new System.Drawing.Point(15, 15);
             this.titleLabelCleaningSchedule.Name = "titleLabelCleaningSchedule";
-            this.titleLabelCleaningSchedule.Size = new System.Drawing.Size(998, 45);
+            this.titleLabelCleaningSchedule.Size = new System.Drawing.Size(956, 45);
             this.titleLabelCleaningSchedule.TabIndex = 1;
             this.titleLabelCleaningSchedule.Text = "Lịch vệ sinh";
             // 
@@ -144,7 +144,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.headerPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.headerPanel.Location = new System.Drawing.Point(10, 668);
             this.headerPanel.Name = "headerPanel";
-            this.headerPanel.Size = new System.Drawing.Size(1028, 60);
+            this.headerPanel.Size = new System.Drawing.Size(986, 60);
             this.headerPanel.TabIndex = 0;
             // 
             // assignmentPanel
@@ -158,7 +158,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.assignmentPanel.Location = new System.Drawing.Point(10, 728);
             this.assignmentPanel.Name = "assignmentPanel";
             this.assignmentPanel.Padding = new System.Windows.Forms.Padding(15);
-            this.assignmentPanel.Size = new System.Drawing.Size(1028, 424);
+            this.assignmentPanel.Size = new System.Drawing.Size(986, 424);
             this.assignmentPanel.TabIndex = 1;
             // 
             // dgvAssignments
@@ -168,7 +168,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dgvAssignments.Location = new System.Drawing.Point(15, 95);
             this.dgvAssignments.Name = "dgvAssignments";
             this.dgvAssignments.RowHeadersWidth = 51;
-            this.dgvAssignments.Size = new System.Drawing.Size(998, 314);
+            this.dgvAssignments.Size = new System.Drawing.Size(956, 314);
             this.dgvAssignments.TabIndex = 0;
             // 
             // deliveryToolbar
@@ -183,7 +183,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.deliveryToolbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.deliveryToolbar.Location = new System.Drawing.Point(15, 45);
             this.deliveryToolbar.Name = "deliveryToolbar";
-            this.deliveryToolbar.Size = new System.Drawing.Size(998, 50);
+            this.deliveryToolbar.Size = new System.Drawing.Size(956, 50);
             this.deliveryToolbar.TabIndex = 2;
             // 
             // btnAssignDelivery
@@ -315,20 +315,20 @@ namespace EcoStationManagerApplication.UI.Controls
             this.kpiPanel.Controls.Add(this.titleLabelKPI);
             this.kpiPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.kpiPanel.FillColor = System.Drawing.Color.White;
-            this.kpiPanel.Location = new System.Drawing.Point(10, 1152);
+            this.kpiPanel.Location = new System.Drawing.Point(10, 1252);
             this.kpiPanel.Name = "kpiPanel";
             this.kpiPanel.Padding = new System.Windows.Forms.Padding(15);
-            this.kpiPanel.Size = new System.Drawing.Size(1028, 550);
+            this.kpiPanel.Size = new System.Drawing.Size(986, 550);
             this.kpiPanel.TabIndex = 2;
             // 
             // dgvKPI
             // 
             this.dgvKPI.ColumnHeadersHeight = 29;
-            this.dgvKPI.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvKPI.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvKPI.Location = new System.Drawing.Point(15, 104);
             this.dgvKPI.Name = "dgvKPI";
             this.dgvKPI.RowHeadersWidth = 51;
-            this.dgvKPI.Size = new System.Drawing.Size(998, 431);
+            this.dgvKPI.Size = new System.Drawing.Size(956, 431);
             this.dgvKPI.TabIndex = 0;
             // 
             // workShiftToolbar
@@ -344,7 +344,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.workShiftToolbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.workShiftToolbar.Location = new System.Drawing.Point(15, 54);
             this.workShiftToolbar.Name = "workShiftToolbar";
-            this.workShiftToolbar.Size = new System.Drawing.Size(998, 50);
+            this.workShiftToolbar.Size = new System.Drawing.Size(956, 50);
             this.workShiftToolbar.TabIndex = 2;
             // 
             // btnAddWorkShift
@@ -482,7 +482,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dtpWorkShiftDateFilter.Name = "dtpWorkShiftDateFilter";
             this.dtpWorkShiftDateFilter.Size = new System.Drawing.Size(115, 27);
             this.dtpWorkShiftDateFilter.TabIndex = 7;
-            this.dtpWorkShiftDateFilter.Value = new System.DateTime(2024, 1, 1, 0, 0, 0, 0);
+            this.dtpWorkShiftDateFilter.Value = System.DateTime.Today;
             // 
             // cleaningSchedulePanel
             // 
@@ -494,22 +494,39 @@ namespace EcoStationManagerApplication.UI.Controls
             this.cleaningSchedulePanel.Location = new System.Drawing.Point(10, 10);
             this.cleaningSchedulePanel.Name = "cleaningSchedulePanel";
             this.cleaningSchedulePanel.Padding = new System.Windows.Forms.Padding(15);
-            this.cleaningSchedulePanel.Size = new System.Drawing.Size(1028, 658);
+            this.cleaningSchedulePanel.Size = new System.Drawing.Size(986, 658);
             this.cleaningSchedulePanel.TabIndex = 4;
+            // 
+            // calendarControl
+            // 
+            this.calendarControl.BackColor = System.Drawing.Color.White;
+            this.calendarControl.CurrentDate = new System.DateTime(2025, 11, 20, 0, 0, 0, 0);
+            this.calendarControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.calendarControl.HeaderBackground = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.calendarControl.Location = new System.Drawing.Point(15, 60);
+            this.calendarControl.Margin = new System.Windows.Forms.Padding(4);
+            this.calendarControl.Name = "calendarControl";
+            this.calendarControl.OtherMonthColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(245)))));
+            this.calendarControl.PrimaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(125)))), ((int)(((byte)(50)))));
+            this.calendarControl.SelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(245)))), ((int)(((byte)(220)))));
+            this.calendarControl.SelectedDate = new System.DateTime(2025, 11, 20, 0, 0, 0, 0);
+            this.calendarControl.Size = new System.Drawing.Size(956, 583);
+            this.calendarControl.TabIndex = 2;
+            this.calendarControl.TodayColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(235)))), ((int)(((byte)(156)))));
+            this.calendarControl.WeekendColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
             // 
             // dashboardPanel
             // 
-            this.dashboardPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dashboardPanel.BackColor = System.Drawing.Color.White;
             this.dashboardPanel.Controls.Add(this.lblTodayShifts);
             this.dashboardPanel.Controls.Add(this.lblDeliveredOrders);
             this.dashboardPanel.Controls.Add(this.lblOverdueOrders);
             this.dashboardPanel.Controls.Add(this.lblTotalCOD);
+            this.dashboardPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.dashboardPanel.FillColor = System.Drawing.Color.White;
-            this.dashboardPanel.Location = new System.Drawing.Point(20, 770);
+            this.dashboardPanel.Location = new System.Drawing.Point(10, 1152);
             this.dashboardPanel.Name = "dashboardPanel";
-            this.dashboardPanel.Size = new System.Drawing.Size(1008, 100);
+            this.dashboardPanel.Size = new System.Drawing.Size(986, 100);
             this.dashboardPanel.TabIndex = 3;
             // 
             // lblTodayShifts
@@ -554,37 +571,19 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblTotalCOD.TabIndex = 3;
             this.lblTotalCOD.Text = "COD: 0 VNĐ";
             // 
-            // calendarControl
-            // 
-            this.calendarControl.BackColor = System.Drawing.Color.White;
-            this.calendarControl.CurrentDate = new System.DateTime(2025, 11, 20, 0, 0, 0, 0);
-            this.calendarControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.calendarControl.HeaderBackground = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.calendarControl.Location = new System.Drawing.Point(15, 60);
-            this.calendarControl.Margin = new System.Windows.Forms.Padding(4);
-            this.calendarControl.Name = "calendarControl";
-            this.calendarControl.OtherMonthColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(245)))));
-            this.calendarControl.PrimaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(125)))), ((int)(((byte)(50)))));
-            this.calendarControl.SelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(245)))), ((int)(((byte)(220)))));
-            this.calendarControl.SelectedDate = new System.DateTime(2025, 11, 20, 0, 0, 0, 0);
-            this.calendarControl.Size = new System.Drawing.Size(998, 583);
-            this.calendarControl.TabIndex = 2;
-            this.calendarControl.TodayColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(235)))), ((int)(((byte)(156)))));
-            this.calendarControl.WeekendColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
-            // 
             // StaffControl
             // 
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
             this.Controls.Add(this.kpiPanel);
+            this.Controls.Add(this.dashboardPanel);
             this.Controls.Add(this.assignmentPanel);
             this.Controls.Add(this.headerPanel);
             this.Controls.Add(this.cleaningSchedulePanel);
-            this.Controls.Add(this.dashboardPanel);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "StaffControl";
             this.Padding = new System.Windows.Forms.Padding(10);
-            this.Size = new System.Drawing.Size(1048, 815);
+            this.Size = new System.Drawing.Size(1006, 815);
             this.Load += new System.EventHandler(this.StaffControl_Load);
             this.headerPanel.ResumeLayout(false);
             this.headerPanel.PerformLayout();

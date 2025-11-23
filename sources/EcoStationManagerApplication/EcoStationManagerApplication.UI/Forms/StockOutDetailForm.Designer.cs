@@ -26,6 +26,7 @@ namespace EcoStationManagerApplication.UI.Forms
         private Label lblNotesLabel;
         private TextBox txtNotes;
         private Button btnClose;
+        private Button btnExportExcel;
 
         protected override void Dispose(bool disposing)
         {
@@ -58,6 +59,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblNotesLabel = new System.Windows.Forms.Label();
             this.txtNotes = new System.Windows.Forms.TextBox();
             this.btnClose = new System.Windows.Forms.Button();
+            this.btnExportExcel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -237,20 +239,36 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(495, 344);
+            this.btnClose.Location = new System.Drawing.Point(486, 344);
             this.btnClose.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 24);
+            this.btnClose.Size = new System.Drawing.Size(84, 45);
             this.btnClose.TabIndex = 19;
             this.btnClose.Text = "Đóng";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnExportExcel
+            // 
+            this.btnExportExcel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
+            this.btnExportExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportExcel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnExportExcel.ForeColor = System.Drawing.Color.White;
+            this.btnExportExcel.Location = new System.Drawing.Point(345, 344);
+            this.btnExportExcel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnExportExcel.Name = "btnExportExcel";
+            this.btnExportExcel.Size = new System.Drawing.Size(108, 45);
+            this.btnExportExcel.TabIndex = 20;
+            this.btnExportExcel.Text = "Xuất Excel";
+            this.btnExportExcel.UseVisualStyleBackColor = false;
+            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
             // 
             // StockOutDetailForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 400);
+            this.Controls.Add(this.btnExportExcel);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.txtNotes);
             this.Controls.Add(this.lblNotesLabel);

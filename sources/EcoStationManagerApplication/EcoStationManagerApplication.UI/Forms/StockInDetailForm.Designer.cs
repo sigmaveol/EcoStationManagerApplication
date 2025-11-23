@@ -30,6 +30,7 @@ namespace EcoStationManagerApplication.UI.Forms
         private Label lblNotesLabel;
         private TextBox txtNotes;
         private Button btnClose;
+        private Button btnExportExcel;
         private DataGridView dgvProducts;
 
         protected override void Dispose(bool disposing)
@@ -43,250 +44,297 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private void InitializeComponent()
         {
-            this.lblTitle = new Label();
-            this.lblReferenceNumberLabel = new Label();
-            this.lblReferenceNumber = new Label();
-            this.lblProductNameLabel = new Label();
-            this.lblProductName = new Label();
-            this.lblBatchNoLabel = new Label();
-            this.lblBatchNo = new Label();
-            this.lblSupplierNameLabel = new Label();
-            this.lblSupplierName = new Label();
-            this.lblQuantityLabel = new Label();
-            this.lblQuantity = new Label();
-            this.lblUnitPriceLabel = new Label();
-            this.lblUnitPrice = new Label();
-            this.lblTotalValueLabel = new Label();
-            this.lblTotalValue = new Label();
-            this.lblCreatedDateLabel = new Label();
-            this.lblCreatedDate = new Label();
-            this.lblCreatedByLabel = new Label();
-            this.lblCreatedBy = new Label();
-            this.lblExpiryDateLabel = new Label();
-            this.lblExpiryDate = new Label();
-            this.lblNotesLabel = new Label();
-            this.txtNotes = new TextBox();
-            this.btnClose = new Button();
-            this.dgvProducts = new DataGridView();
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.lblReferenceNumberLabel = new System.Windows.Forms.Label();
+            this.lblReferenceNumber = new System.Windows.Forms.Label();
+            this.lblProductNameLabel = new System.Windows.Forms.Label();
+            this.lblProductName = new System.Windows.Forms.Label();
+            this.lblBatchNoLabel = new System.Windows.Forms.Label();
+            this.lblBatchNo = new System.Windows.Forms.Label();
+            this.lblSupplierNameLabel = new System.Windows.Forms.Label();
+            this.lblSupplierName = new System.Windows.Forms.Label();
+            this.lblQuantityLabel = new System.Windows.Forms.Label();
+            this.lblQuantity = new System.Windows.Forms.Label();
+            this.lblUnitPriceLabel = new System.Windows.Forms.Label();
+            this.lblUnitPrice = new System.Windows.Forms.Label();
+            this.lblTotalValueLabel = new System.Windows.Forms.Label();
+            this.lblTotalValue = new System.Windows.Forms.Label();
+            this.lblCreatedDateLabel = new System.Windows.Forms.Label();
+            this.lblCreatedDate = new System.Windows.Forms.Label();
+            this.lblCreatedByLabel = new System.Windows.Forms.Label();
+            this.lblCreatedBy = new System.Windows.Forms.Label();
+            this.lblExpiryDateLabel = new System.Windows.Forms.Label();
+            this.lblExpiryDate = new System.Windows.Forms.Label();
+            this.lblNotesLabel = new System.Windows.Forms.Label();
+            this.txtNotes = new System.Windows.Forms.TextBox();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnExportExcel = new System.Windows.Forms.Button();
+            this.dgvProducts = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.SuspendLayout();
-
+            // 
             // lblTitle
+            // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            this.lblTitle.Location = new Point(20, 20);
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.Location = new System.Drawing.Point(20, 16);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new Size(240, 32);
+            this.lblTitle.Size = new System.Drawing.Size(279, 32);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Chi tiết phiếu nhập kho";
-
+            // 
             // lblReferenceNumberLabel
+            // 
             this.lblReferenceNumberLabel.AutoSize = true;
-            this.lblReferenceNumberLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblReferenceNumberLabel.Location = new Point(20, 70);
+            this.lblReferenceNumberLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblReferenceNumberLabel.Location = new System.Drawing.Point(20, 56);
             this.lblReferenceNumberLabel.Name = "lblReferenceNumberLabel";
-            this.lblReferenceNumberLabel.Size = new Size(85, 20);
+            this.lblReferenceNumberLabel.Size = new System.Drawing.Size(78, 20);
             this.lblReferenceNumberLabel.TabIndex = 1;
             this.lblReferenceNumberLabel.Text = "Mã phiếu:";
-
+            // 
             // lblReferenceNumber
+            // 
             this.lblReferenceNumber.AutoSize = true;
-            this.lblReferenceNumber.Location = new Point(120, 70);
+            this.lblReferenceNumber.Location = new System.Drawing.Point(120, 56);
             this.lblReferenceNumber.Name = "lblReferenceNumber";
-            this.lblReferenceNumber.Size = new Size(50, 20);
+            this.lblReferenceNumber.Size = new System.Drawing.Size(0, 16);
             this.lblReferenceNumber.TabIndex = 2;
-
+            // 
             // lblProductNameLabel
+            // 
             this.lblProductNameLabel.AutoSize = true;
-            this.lblProductNameLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblProductNameLabel.Location = new Point(20, 100);
+            this.lblProductNameLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblProductNameLabel.Location = new System.Drawing.Point(20, 80);
             this.lblProductNameLabel.Name = "lblProductNameLabel";
-            this.lblProductNameLabel.Size = new Size(88, 20);
+            this.lblProductNameLabel.Size = new System.Drawing.Size(82, 20);
             this.lblProductNameLabel.TabIndex = 3;
             this.lblProductNameLabel.Text = "Sản phẩm:";
-
+            // 
             // lblProductName
+            // 
             this.lblProductName.AutoSize = true;
-            this.lblProductName.Location = new Point(120, 100);
+            this.lblProductName.Location = new System.Drawing.Point(120, 80);
             this.lblProductName.Name = "lblProductName";
-            this.lblProductName.Size = new Size(50, 20);
+            this.lblProductName.Size = new System.Drawing.Size(0, 16);
             this.lblProductName.TabIndex = 4;
-
+            // 
             // lblBatchNoLabel
+            // 
             this.lblBatchNoLabel.AutoSize = true;
-            this.lblBatchNoLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblBatchNoLabel.Location = new Point(20, 130);
+            this.lblBatchNoLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblBatchNoLabel.Location = new System.Drawing.Point(20, 104);
             this.lblBatchNoLabel.Name = "lblBatchNoLabel";
-            this.lblBatchNoLabel.Size = new Size(78, 20);
+            this.lblBatchNoLabel.Size = new System.Drawing.Size(69, 20);
             this.lblBatchNoLabel.TabIndex = 5;
             this.lblBatchNoLabel.Text = "Lô hàng:";
-
+            // 
             // lblBatchNo
+            // 
             this.lblBatchNo.AutoSize = true;
-            this.lblBatchNo.Location = new Point(120, 130);
+            this.lblBatchNo.Location = new System.Drawing.Point(120, 104);
             this.lblBatchNo.Name = "lblBatchNo";
-            this.lblBatchNo.Size = new Size(50, 20);
+            this.lblBatchNo.Size = new System.Drawing.Size(0, 16);
             this.lblBatchNo.TabIndex = 6;
-
+            // 
             // lblSupplierNameLabel
+            // 
             this.lblSupplierNameLabel.AutoSize = true;
-            this.lblSupplierNameLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblSupplierNameLabel.Location = new Point(20, 160);
+            this.lblSupplierNameLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblSupplierNameLabel.Location = new System.Drawing.Point(20, 128);
             this.lblSupplierNameLabel.Name = "lblSupplierNameLabel";
-            this.lblSupplierNameLabel.Size = new Size(120, 20);
+            this.lblSupplierNameLabel.Size = new System.Drawing.Size(108, 20);
             this.lblSupplierNameLabel.TabIndex = 7;
             this.lblSupplierNameLabel.Text = "Nhà cung cấp:";
-
+            // 
             // lblSupplierName
+            // 
             this.lblSupplierName.AutoSize = true;
-            this.lblSupplierName.Location = new Point(150, 160);
+            this.lblSupplierName.Location = new System.Drawing.Point(150, 128);
             this.lblSupplierName.Name = "lblSupplierName";
-            this.lblSupplierName.Size = new Size(50, 20);
+            this.lblSupplierName.Size = new System.Drawing.Size(0, 16);
             this.lblSupplierName.TabIndex = 8;
-
+            // 
             // lblQuantityLabel
+            // 
             this.lblQuantityLabel.AutoSize = true;
-            this.lblQuantityLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblQuantityLabel.Location = new Point(20, 190);
+            this.lblQuantityLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblQuantityLabel.Location = new System.Drawing.Point(20, 152);
             this.lblQuantityLabel.Name = "lblQuantityLabel";
-            this.lblQuantityLabel.Size = new Size(85, 20);
+            this.lblQuantityLabel.Size = new System.Drawing.Size(75, 20);
             this.lblQuantityLabel.TabIndex = 9;
             this.lblQuantityLabel.Text = "Số lượng:";
-
+            // 
             // lblQuantity
+            // 
             this.lblQuantity.AutoSize = true;
-            this.lblQuantity.Location = new Point(120, 190);
+            this.lblQuantity.Location = new System.Drawing.Point(120, 152);
             this.lblQuantity.Name = "lblQuantity";
-            this.lblQuantity.Size = new Size(50, 20);
+            this.lblQuantity.Size = new System.Drawing.Size(0, 16);
             this.lblQuantity.TabIndex = 10;
-
+            // 
             // lblUnitPriceLabel
+            // 
             this.lblUnitPriceLabel.AutoSize = true;
-            this.lblUnitPriceLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblUnitPriceLabel.Location = new Point(20, 220);
+            this.lblUnitPriceLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblUnitPriceLabel.Location = new System.Drawing.Point(20, 176);
             this.lblUnitPriceLabel.Name = "lblUnitPriceLabel";
-            this.lblUnitPriceLabel.Size = new Size(70, 20);
+            this.lblUnitPriceLabel.Size = new System.Drawing.Size(67, 20);
             this.lblUnitPriceLabel.TabIndex = 11;
             this.lblUnitPriceLabel.Text = "Đơn giá:";
-
+            // 
             // lblUnitPrice
+            // 
             this.lblUnitPrice.AutoSize = true;
-            this.lblUnitPrice.Location = new Point(120, 220);
+            this.lblUnitPrice.Location = new System.Drawing.Point(120, 176);
             this.lblUnitPrice.Name = "lblUnitPrice";
-            this.lblUnitPrice.Size = new Size(50, 20);
+            this.lblUnitPrice.Size = new System.Drawing.Size(0, 16);
             this.lblUnitPrice.TabIndex = 12;
-
+            // 
             // lblTotalValueLabel
+            // 
             this.lblTotalValueLabel.AutoSize = true;
-            this.lblTotalValueLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblTotalValueLabel.Location = new Point(20, 250);
+            this.lblTotalValueLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblTotalValueLabel.Location = new System.Drawing.Point(20, 200);
             this.lblTotalValueLabel.Name = "lblTotalValueLabel";
-            this.lblTotalValueLabel.Size = new Size(85, 20);
+            this.lblTotalValueLabel.Size = new System.Drawing.Size(80, 20);
             this.lblTotalValueLabel.TabIndex = 13;
             this.lblTotalValueLabel.Text = "Tổng tiền:";
-
+            // 
             // lblTotalValue
+            // 
             this.lblTotalValue.AutoSize = true;
-            this.lblTotalValue.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblTotalValue.ForeColor = Color.FromArgb(31, 107, 59);
-            this.lblTotalValue.Location = new Point(120, 250);
+            this.lblTotalValue.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblTotalValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
+            this.lblTotalValue.Location = new System.Drawing.Point(120, 200);
             this.lblTotalValue.Name = "lblTotalValue";
-            this.lblTotalValue.Size = new Size(50, 20);
+            this.lblTotalValue.Size = new System.Drawing.Size(0, 20);
             this.lblTotalValue.TabIndex = 14;
-
+            // 
             // lblCreatedDateLabel
+            // 
             this.lblCreatedDateLabel.AutoSize = true;
-            this.lblCreatedDateLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblCreatedDateLabel.Location = new Point(20, 280);
+            this.lblCreatedDateLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblCreatedDateLabel.Location = new System.Drawing.Point(20, 224);
             this.lblCreatedDateLabel.Name = "lblCreatedDateLabel";
-            this.lblCreatedDateLabel.Size = new Size(85, 20);
+            this.lblCreatedDateLabel.Size = new System.Drawing.Size(77, 20);
             this.lblCreatedDateLabel.TabIndex = 15;
             this.lblCreatedDateLabel.Text = "Ngày tạo:";
-
+            // 
             // lblCreatedDate
+            // 
             this.lblCreatedDate.AutoSize = true;
-            this.lblCreatedDate.Location = new Point(120, 280);
+            this.lblCreatedDate.Location = new System.Drawing.Point(120, 224);
             this.lblCreatedDate.Name = "lblCreatedDate";
-            this.lblCreatedDate.Size = new Size(50, 20);
+            this.lblCreatedDate.Size = new System.Drawing.Size(0, 16);
             this.lblCreatedDate.TabIndex = 16;
-
+            // 
             // lblCreatedByLabel
+            // 
             this.lblCreatedByLabel.AutoSize = true;
-            this.lblCreatedByLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblCreatedByLabel.Location = new Point(20, 310);
+            this.lblCreatedByLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblCreatedByLabel.Location = new System.Drawing.Point(20, 248);
             this.lblCreatedByLabel.Name = "lblCreatedByLabel";
-            this.lblCreatedByLabel.Size = new Size(95, 20);
+            this.lblCreatedByLabel.Size = new System.Drawing.Size(84, 20);
             this.lblCreatedByLabel.TabIndex = 17;
             this.lblCreatedByLabel.Text = "Người tạo:";
-
+            // 
             // lblCreatedBy
+            // 
             this.lblCreatedBy.AutoSize = true;
-            this.lblCreatedBy.Location = new Point(120, 310);
+            this.lblCreatedBy.Location = new System.Drawing.Point(120, 248);
             this.lblCreatedBy.Name = "lblCreatedBy";
-            this.lblCreatedBy.Size = new Size(50, 20);
+            this.lblCreatedBy.Size = new System.Drawing.Size(0, 16);
             this.lblCreatedBy.TabIndex = 18;
-
+            // 
             // lblExpiryDateLabel
+            // 
             this.lblExpiryDateLabel.AutoSize = true;
-            this.lblExpiryDateLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblExpiryDateLabel.Location = new Point(300, 190);
+            this.lblExpiryDateLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblExpiryDateLabel.Location = new System.Drawing.Point(392, 80);
             this.lblExpiryDateLabel.Name = "lblExpiryDateLabel";
-            this.lblExpiryDateLabel.Size = new Size(105, 20);
+            this.lblExpiryDateLabel.Size = new System.Drawing.Size(102, 20);
             this.lblExpiryDateLabel.TabIndex = 19;
             this.lblExpiryDateLabel.Text = "Hạn sử dụng:";
-
+            // 
             // lblExpiryDate
+            // 
             this.lblExpiryDate.AutoSize = true;
-            this.lblExpiryDate.Location = new Point(410, 190);
+            this.lblExpiryDate.Location = new System.Drawing.Point(410, 152);
             this.lblExpiryDate.Name = "lblExpiryDate";
-            this.lblExpiryDate.Size = new Size(50, 20);
+            this.lblExpiryDate.Size = new System.Drawing.Size(0, 16);
             this.lblExpiryDate.TabIndex = 20;
-
+            // 
             // lblNotesLabel
+            // 
             this.lblNotesLabel.AutoSize = true;
-            this.lblNotesLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblNotesLabel.Location = new Point(20, 340);
+            this.lblNotesLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblNotesLabel.Location = new System.Drawing.Point(392, 132);
             this.lblNotesLabel.Name = "lblNotesLabel";
-            this.lblNotesLabel.Size = new Size(70, 20);
+            this.lblNotesLabel.Size = new System.Drawing.Size(66, 20);
             this.lblNotesLabel.TabIndex = 21;
             this.lblNotesLabel.Text = "Ghi chú:";
-
+            // 
             // txtNotes
-            this.txtNotes.Location = new Point(20, 365);
+            // 
+            this.txtNotes.Location = new System.Drawing.Point(396, 167);
+            this.txtNotes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtNotes.Multiline = true;
             this.txtNotes.Name = "txtNotes";
             this.txtNotes.ReadOnly = true;
-            this.txtNotes.ScrollBars = ScrollBars.Vertical;
-            this.txtNotes.Size = new Size(550, 60);
+            this.txtNotes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtNotes.Size = new System.Drawing.Size(440, 73);
             this.txtNotes.TabIndex = 22;
-
+            // 
             // btnClose
-            this.btnClose.Location = new Point(495, 440);
+            // 
+            this.btnClose.Location = new System.Drawing.Point(821, 263);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new Size(75, 30);
+            this.btnClose.Size = new System.Drawing.Size(123, 46);
             this.btnClose.TabIndex = 23;
             this.btnClose.Text = "Đóng";
             this.btnClose.UseVisualStyleBackColor = true;
-            //this.btnClose.Click += new System.EventHandler(this.BtnClose_Click);
-
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnExportExcel
+            // 
+            this.btnExportExcel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
+            this.btnExportExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportExcel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnExportExcel.ForeColor = System.Drawing.Color.White;
+            this.btnExportExcel.Location = new System.Drawing.Point(654, 263);
+            this.btnExportExcel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnExportExcel.Name = "btnExportExcel";
+            this.btnExportExcel.Size = new System.Drawing.Size(122, 46);
+            this.btnExportExcel.TabIndex = 25;
+            this.btnExportExcel.Text = "Xuất Excel";
+            this.btnExportExcel.UseVisualStyleBackColor = false;
+            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
+            // 
             // dgvProducts
+            // 
             this.dgvProducts.AllowUserToAddRows = false;
             this.dgvProducts.AllowUserToDeleteRows = false;
-            this.dgvProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProducts.Location = new Point(20, 380);
+            this.dgvProducts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvProducts.Location = new System.Drawing.Point(20, 329);
+            this.dgvProducts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvProducts.Name = "dgvProducts";
             this.dgvProducts.ReadOnly = true;
             this.dgvProducts.RowHeadersWidth = 51;
-            this.dgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProducts.Size = new Size(850, 200);
+            this.dgvProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvProducts.Size = new System.Drawing.Size(965, 272);
             this.dgvProducts.TabIndex = 24;
             this.dgvProducts.Visible = false;
-
+            // 
             // StockInDetailForm
-            this.AutoScaleDimensions = new SizeF(8F, 20F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(900, 600);
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(997, 612);
             this.Controls.Add(this.dgvProducts);
+            this.Controls.Add(this.btnExportExcel);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.txtNotes);
             this.Controls.Add(this.lblNotesLabel);
@@ -311,14 +359,17 @@ namespace EcoStationManagerApplication.UI.Forms
             this.Controls.Add(this.lblReferenceNumber);
             this.Controls.Add(this.lblReferenceNumberLabel);
             this.Controls.Add(this.lblTitle);
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "StockInDetailForm";
-            this.StartPosition = FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Chi tiết phiếu nhập kho";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
     }
 }

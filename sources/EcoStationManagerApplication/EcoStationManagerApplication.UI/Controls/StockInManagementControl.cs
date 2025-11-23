@@ -1,3 +1,4 @@
+using EcoStationManagerApplication.Common.Exporters;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
@@ -456,19 +457,145 @@ namespace EcoStationManagerApplication.UI.Controls
             {
                 if (_stockInList == null || !_stockInList.Any())
                 {
-                    MessageBox.Show("Không có dữ liệu để xuất!", "Thông báo", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    UIHelper.ShowWarningMessage("Không có dữ liệu để xuất!");
                     return;
                 }
 
-                // TODO: Implement Excel export
-                MessageBox.Show("Chức năng xuất Excel sẽ được triển khai sau.", "Thông báo", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Áp dụng filter giống như trong RefreshDataGridView
+                var filteredList = _stockInList.Where(item =>
+                {
+                    // Filter by search term
+                    if (!string.IsNullOrWhiteSpace(_searchTerm))
+                    {
+                        var searchLower = _searchTerm.ToLower();
+                        if (!item.BatchNo?.ToLower().Contains(searchLower) == true &&
+                            !item.ProductName?.ToLower().Contains(searchLower) == true &&
+                            !item.PackagingName?.ToLower().Contains(searchLower) == true &&
+                            !item.SupplierName?.ToLower().Contains(searchLower) == true)
+                            return false;
+                    }
+
+                    // Filter by source
+                    if (_selectedSource != "Tất cả")
+                    {
+                        if (_selectedSource == "Nhà cung cấp" && string.IsNullOrWhiteSpace(item.SupplierName))
+                            return false;
+                        if (_selectedSource != "Nhà cung cấp" && !string.IsNullOrWhiteSpace(item.SupplierName))
+                            return false;
+                    }
+
+                    // Filter by date range
+                    if (_fromDate.HasValue && item.CreatedDate < _fromDate.Value)
+                        return false;
+                    if (_toDate.HasValue && item.CreatedDate > _toDate.Value)
+                        return false;
+
+                    return true;
+                }).ToList();
+
+                if (!filteredList.Any())
+                {
+                    UIHelper.ShowWarningMessage("Không có dữ liệu phù hợp với bộ lọc để xuất!");
+                    return;
+                }
+
+                // Hiển thị SaveFileDialog
+                using (var saveDialog = new SaveFileDialog())
+                {
+                    saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                    saveDialog.FileName = $"NhapKho_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+                    saveDialog.Title = "Xuất danh sách nhập kho ra Excel";
+
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        // Tạo DataTable từ dữ liệu đã filter
+                        var dataTable = CreateDataTableForExport(filteredList);
+
+                        // Tạo headers cho Excel
+                        var headers = new Dictionary<string, string>
+                        {
+                            { "STT", "STT" },
+                            { "BatchNo", "Mã lô" },
+                            { "ItemName", "Sản phẩm/Bao bì" },
+                            { "SupplierName", "Nhà cung cấp" },
+                            { "Quantity", "Số lượng" },
+                            { "UnitPrice", "Đơn giá" },
+                            { "TotalValue", "Thành tiền" },
+                            { "CreatedDate", "Ngày nhập" },
+                            { "CreatedBy", "Người nhập" },
+                            { "ExpiryDate", "Hạn sử dụng" },
+                            { "Notes", "Ghi chú" }
+                        };
+
+                        // Tạo title với thông tin filter
+                        var fromDateStr = _fromDate?.ToString("dd/MM/yyyy") ?? "Tất cả";
+                        var toDateStr = _toDate?.ToString("dd/MM/yyyy") ?? "Tất cả";
+                        var sourceStr = _selectedSource ?? "Tất cả";
+                        var title = $"DANH SÁCH NHẬP KHO\n" +
+                                   $"Từ ngày: {fromDateStr} - Đến ngày: {toDateStr}\n" +
+                                   $"Nguồn: {sourceStr}\n" +
+                                   $"Tổng số: {filteredList.Count} phiếu nhập";
+
+                        // Xuất Excel
+                        var excelExporter = new ExcelExporter();
+                        excelExporter.ExportToExcel(dataTable, saveDialog.FileName, "Nhập kho", headers);
+
+                        UIHelper.ShowSuccessMessage($"Đã xuất Excel thành công!\nFile: {saveDialog.FileName}");
+                    }
+                }
             }
             catch (Exception ex)
             {
                 UIHelper.ShowExceptionError(ex, "xuất Excel");
             }
+        }
+
+        private DataTable CreateDataTableForExport(List<StockInDetail> stockInList)
+        {
+            var dataTable = new DataTable();
+            dataTable.Columns.Add("STT", typeof(int));
+            dataTable.Columns.Add("BatchNo", typeof(string));
+            dataTable.Columns.Add("ItemName", typeof(string));
+            dataTable.Columns.Add("SupplierName", typeof(string));
+            dataTable.Columns.Add("Quantity", typeof(decimal));
+            dataTable.Columns.Add("UnitPrice", typeof(decimal));
+            dataTable.Columns.Add("TotalValue", typeof(decimal));
+            dataTable.Columns.Add("CreatedDate", typeof(string));
+            dataTable.Columns.Add("CreatedBy", typeof(string));
+            dataTable.Columns.Add("ExpiryDate", typeof(string));
+            dataTable.Columns.Add("Notes", typeof(string));
+
+            int stt = 1;
+            foreach (var item in stockInList.OrderByDescending(x => x.CreatedDate))
+            {
+                var batchNo = string.IsNullOrWhiteSpace(item.BatchNo) ? "(Không có lô)" : item.BatchNo;
+                var itemName = !string.IsNullOrWhiteSpace(item.ProductName) 
+                    ? $"[SP] {item.ProductName}" 
+                    : !string.IsNullOrWhiteSpace(item.PackagingName) 
+                        ? $"[BB] {item.PackagingName}" 
+                        : "-";
+                var supplierName = item.SupplierName ?? "-";
+                var createdDate = item.CreatedDate.ToString("dd/MM/yyyy HH:mm");
+                var createdBy = item.CreatedBy ?? "-";
+                var expiryDate = item.ExpiryDate?.ToString("dd/MM/yyyy") ?? "-";
+                var notes = item.Notes ?? "-";
+
+                dataTable.Rows.Add(
+                    stt++,
+                    batchNo,
+                    itemName,
+                    supplierName,
+                    item.Quantity,
+                    item.UnitPrice,
+                    item.TotalValue,
+                    createdDate,
+                    createdBy,
+                    expiryDate,
+                    notes
+                );
+            }
+
+            return dataTable;
         }
 
         private void dgvStockIn_CellContentClick(object sender, DataGridViewCellEventArgs e)

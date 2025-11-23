@@ -2,6 +2,7 @@ using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -468,7 +469,8 @@ namespace EcoStationManagerApplication.UI.Forms
                             BatchNo = row.Cells["BatchNo"].Value?.ToString(),
                             Purpose = purpose,
                             Notes = notes,
-                            CreatedDate = stockOutDate
+                            CreatedDate = stockOutDate,
+                            CreatedBy = UserContextHelper.GetCurrentUserId() // Người tạo là người hiện tại đăng nhập
                         };
 
                         stockOuts.Add(stockOut);

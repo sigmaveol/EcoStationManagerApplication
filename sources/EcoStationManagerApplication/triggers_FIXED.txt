@@ -205,7 +205,7 @@ BEGIN
     END IF;
 END$$
 
--- 7. Tự động tính điểm khách hàng khi đơn hàng hoàn thành và trừ tồn kho khi chuyển sang PROCESSING
+-- 7. Tự động tính điểm khách hàng khi đơn hàng hoàn thành và quản lý tồn kho
 DROP TRIGGER IF EXISTS trg_Orders_AfterUpdate$$
 
 CREATE TRIGGER trg_Orders_AfterUpdate
@@ -221,18 +221,27 @@ BEGIN
     DECLARE v_expiry_date DATE DEFAULT NULL;
     DECLARE done INT DEFAULT FALSE;
     
-    DECLARE cur_order_details CURSOR FOR 
+    DECLARE cur_order_details CURSOR FOR
         SELECT product_id, quantity 
         FROM OrderDetails 
         WHERE order_id = NEW.order_id;
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
     
-    -- Tự động trừ tồn kho khi chuyển sang PROCESSING (status = 2)
-    -- CHỈ trừ khi chuyển từ trạng thái khác sang PROCESSING (tránh trừ nhiều lần)
-    IF NEW.status = 2 AND OLD.status != 2 THEN
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    -- === LOGIC 1: Tự động TRỪ TỒN KHO khi thoát khỏi trạng thái 0 hoặc 1 lần đầu tiên ===
+    -- CHỈ trừ khi:
+    --   1. Chuyển từ trạng thái 0 hoặc 1 sang trạng thái >= 2 (không phải 6)
+    --   2. Đơn hàng KHÔNG phải từ nguồn thủ công (source != 3 hoặc source IS NULL)
+    IF NEW.status >= 2 
+       AND NEW.status != 6  -- Không trừ kho nếu chuyển sang trạng thái hủy
+       AND OLD.status IN (0, 1)
+       AND (NEW.source IS NULL OR NEW.source != 3) THEN
+        
         OPEN cur_order_details;
+        
         read_loop: LOOP
             FETCH cur_order_details INTO v_product_id, v_quantity;
+            
             IF done THEN
                 LEAVE read_loop;
             END IF;
@@ -250,25 +259,49 @@ BEGIN
                 -- Lấy batch_no và expiry_date từ lô có hạn sử dụng thấp nhất (FIFO - gần hết hạn nhất)
                 SELECT batch_no, expiry_date INTO v_batch_no, v_expiry_date
                 FROM Inventories
-                WHERE product_id = v_product_id AND quantity > 0
+                WHERE product_id = v_product_id 
+                  AND quantity > 0
                 ORDER BY expiry_date ASC, last_updated ASC
                 LIMIT 1;
                 
                 -- INSERT StockOut với batch_no của lô có hạn sử dụng thấp nhất
                 -- Trigger trg_StockOut_AfterInsert sẽ tự động trừ kho theo FIFO từ nhiều batch nếu cần
-                INSERT INTO StockOut (ref_type, ref_id, quantity, purpose, batch_no, notes, created_by)
-                VALUES (0, v_product_id, v_quantity, 0, 
-                        COALESCE(v_batch_no, ''),
-                        CONCAT('Đơn hàng #', NEW.order_id, ' - Tự động trừ kho khi chuyển sang trạng thái Đang xử lý',
-                               IF(v_expiry_date IS NOT NULL, CONCAT(' | First batch expiry: ', DATE_FORMAT(v_expiry_date, '%Y-%m-%d')), '')), 
-                        COALESCE(NEW.user_id, 1));
+                INSERT INTO StockOut (
+                    ref_type, 
+                    ref_id, 
+                    quantity, 
+                    purpose, 
+                    batch_no, 
+                    notes, 
+                    created_by
+                )
+                VALUES (
+                    0,
+                    v_product_id,
+                    v_quantity,
+                    0,
+                    COALESCE(v_batch_no, ''),
+                    CONCAT(
+                        'Đơn hàng #', NEW.order_id, 
+                        ' - Tự động trừ kho khi chuyển sang trạng thái Đang xử lý',
+                        IF(v_expiry_date IS NOT NULL, 
+                           CONCAT(' | First batch expiry: ', DATE_FORMAT(v_expiry_date, '%Y-%m-%d')), 
+                           '')
+                    ),
+                    COALESCE(NEW.user_id, 1)
+                );
             END IF;
+            
         END LOOP read_loop;
+        
         CLOSE cur_order_details;
+        
+        -- Reset done flag cho cursor tiếp theo
+        SET done = FALSE;
     END IF;
-    
-    -- Tự động tính điểm khách hàng khi đơn hàng hoàn thành
-    IF NEW.status = 5 AND NEW.payment_status = 1 
+    -- === LOGIC 3: Tự động tính điểm khách hàng khi đơn hàng hoàn thành ===
+    IF NEW.status = 5 
+       AND NEW.payment_status = 1 
        AND (OLD.status != 5 OR OLD.payment_status != 1)
        AND NEW.customer_id IS NOT NULL THEN
         

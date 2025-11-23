@@ -333,16 +333,23 @@ namespace EcoStationManagerApplication.Core.Services
                 if (order == null)
                     return NotFoundError<bool>("Đơn hàng", orderId);
 
-                // Xử lý business logic theo trạng thái mới (Vẫn nên giữ để đảm bảo tồn kho đúng)
-                if (newStatus == OrderStatus.PROCESSING && order.Status != OrderStatus.PROCESSING)
+                //// Xử lý business logic theo trạng thái mới (Vẫn nên giữ để đảm bảo tồn kho đúng)
+                //if (newStatus == OrderStatus.PROCESSING && order.Status != OrderStatus.PROCESSING)
+                //{
+                //    // Trừ tồn kho khi bắt đầu xử lý đơn hàng
+                //    var stockOutResult = await ProcessStockOutForOrderAsync(orderId);
+                //    // Nếu bạn muốn cho phép lỗi tồn kho vẫn đổi trạng thái, hãy comment dòng check lỗi này
+                //    if (!stockOutResult.Success)
+                //        return Result<bool>.Fail($"Lỗi xử lý tồn kho: {stockOutResult.Message}");
+                //}
+                //else
+                
+                if (order.Status == OrderStatus.COMPLETED || order.Status == OrderStatus.COMPLETED)
                 {
-                    // Trừ tồn kho khi bắt đầu xử lý đơn hàng
-                    var stockOutResult = await ProcessStockOutForOrderAsync(orderId);
-                    // Nếu bạn muốn cho phép lỗi tồn kho vẫn đổi trạng thái, hãy comment dòng check lỗi này
-                    if (!stockOutResult.Success)
-                        return Result<bool>.Fail($"Lỗi xử lý tồn kho: {stockOutResult.Message}");
+                    return Result<bool>.Fail($"Đơn hàng đã xử lí xong. Không được cập nhật trạng thái.");
                 }
-                else if (newStatus == OrderStatus.CANCELLED && order.Status != OrderStatus.CANCELLED)
+
+                if (newStatus == OrderStatus.CANCELLED && order.Status != OrderStatus.CANCELLED)
                 {
                     // Hoàn trả tồn kho nếu hủy đơn
                     var rollbackResult = await RollbackStockForOrderAsync(orderId);

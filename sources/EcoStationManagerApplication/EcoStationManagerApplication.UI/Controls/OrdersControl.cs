@@ -5,6 +5,7 @@ using EcoStationManagerApplication.UI.Common;
 using EcoStationManagerApplication.UI.Forms;
 using EcoStationManagerApplication.Common.Exporters;
 using EcoStationManagerApplication.Core.Interfaces;
+using EcoStationManagerApplication.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

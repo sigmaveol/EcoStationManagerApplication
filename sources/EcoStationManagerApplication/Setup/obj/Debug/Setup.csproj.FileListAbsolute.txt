@@ -138,4 +138,3 @@ D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setu
 D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.csproj.CopyComplete
 D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.exe
 D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.pdb
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.exe.config

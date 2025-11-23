@@ -81,12 +81,13 @@ namespace EcoStationManagerApplication.UI.Controls
             this.cmbWorkShiftRoleFilter = new Guna.UI2.WinForms.Guna2ComboBox();
             this.dtpWorkShiftDateFilter = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.cleaningSchedulePanel = new Guna.UI2.WinForms.Guna2Panel();
+            this.calendarControl = new EcoStationManagerApplication.UI.Controls.CalendarControl();
             this.dashboardPanel = new Guna.UI2.WinForms.Guna2Panel();
             this.lblTodayShifts = new System.Windows.Forms.Label();
             this.lblDeliveredOrders = new System.Windows.Forms.Label();
             this.lblOverdueOrders = new System.Windows.Forms.Label();
             this.lblTotalCOD = new System.Windows.Forms.Label();
-            this.calendarControl = new EcoStationManagerApplication.UI.Controls.CalendarControl();
+            this.cmbDeliveryPaymentFilter = new System.Windows.Forms.ComboBox();
             this.headerPanel.SuspendLayout();
             this.assignmentPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAssignments)).BeginInit();
@@ -104,7 +105,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelHeader.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabelHeader.Location = new System.Drawing.Point(3, 0);
             this.titleLabelHeader.Name = "titleLabelHeader";
-            this.titleLabelHeader.Size = new System.Drawing.Size(271, 37);
+            this.titleLabelHeader.Size = new System.Drawing.Size(250, 35);
             this.titleLabelHeader.TabIndex = 0;
             this.titleLabelHeader.Text = "Nhân sự && Giao vận";
             // 
@@ -114,7 +115,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelAssign.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.titleLabelAssign.Location = new System.Drawing.Point(15, 15);
             this.titleLabelAssign.Name = "titleLabelAssign";
-            this.titleLabelAssign.Size = new System.Drawing.Size(998, 30);
+            this.titleLabelAssign.Size = new System.Drawing.Size(979, 30);
             this.titleLabelAssign.TabIndex = 1;
             this.titleLabelAssign.Text = "Phân công nhân viên";
             // 
@@ -124,7 +125,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelKPI.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabelKPI.Location = new System.Drawing.Point(15, 15);
             this.titleLabelKPI.Name = "titleLabelKPI";
-            this.titleLabelKPI.Size = new System.Drawing.Size(998, 39);
+            this.titleLabelKPI.Size = new System.Drawing.Size(979, 39);
             this.titleLabelKPI.TabIndex = 1;
             this.titleLabelKPI.Text = "Quản lý ca làm && KPI";
             // 
@@ -134,7 +135,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelCleaningSchedule.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabelCleaningSchedule.Location = new System.Drawing.Point(15, 15);
             this.titleLabelCleaningSchedule.Name = "titleLabelCleaningSchedule";
-            this.titleLabelCleaningSchedule.Size = new System.Drawing.Size(998, 45);
+            this.titleLabelCleaningSchedule.Size = new System.Drawing.Size(979, 45);
             this.titleLabelCleaningSchedule.TabIndex = 1;
             this.titleLabelCleaningSchedule.Text = "Lịch vệ sinh";
             // 
@@ -144,7 +145,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.headerPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.headerPanel.Location = new System.Drawing.Point(10, 668);
             this.headerPanel.Name = "headerPanel";
-            this.headerPanel.Size = new System.Drawing.Size(1028, 60);
+            this.headerPanel.Size = new System.Drawing.Size(1009, 60);
             this.headerPanel.TabIndex = 0;
             // 
             // assignmentPanel
@@ -158,7 +159,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.assignmentPanel.Location = new System.Drawing.Point(10, 728);
             this.assignmentPanel.Name = "assignmentPanel";
             this.assignmentPanel.Padding = new System.Windows.Forms.Padding(15);
-            this.assignmentPanel.Size = new System.Drawing.Size(1028, 424);
+            this.assignmentPanel.Size = new System.Drawing.Size(1009, 424);
             this.assignmentPanel.TabIndex = 1;
             // 
             // dgvAssignments
@@ -168,7 +169,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dgvAssignments.Location = new System.Drawing.Point(15, 95);
             this.dgvAssignments.Name = "dgvAssignments";
             this.dgvAssignments.RowHeadersWidth = 51;
-            this.dgvAssignments.Size = new System.Drawing.Size(998, 314);
+            this.dgvAssignments.Size = new System.Drawing.Size(979, 314);
             this.dgvAssignments.TabIndex = 0;
             // 
             // deliveryToolbar
@@ -183,7 +184,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.deliveryToolbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.deliveryToolbar.Location = new System.Drawing.Point(15, 45);
             this.deliveryToolbar.Name = "deliveryToolbar";
-            this.deliveryToolbar.Size = new System.Drawing.Size(998, 50);
+            this.deliveryToolbar.Size = new System.Drawing.Size(979, 50);
             this.deliveryToolbar.TabIndex = 2;
             // 
             // btnAssignDelivery
@@ -318,7 +319,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.kpiPanel.Location = new System.Drawing.Point(10, 1152);
             this.kpiPanel.Name = "kpiPanel";
             this.kpiPanel.Padding = new System.Windows.Forms.Padding(15);
-            this.kpiPanel.Size = new System.Drawing.Size(1028, 550);
+            this.kpiPanel.Size = new System.Drawing.Size(1009, 550);
             this.kpiPanel.TabIndex = 2;
             // 
             // dgvKPI
@@ -328,7 +329,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dgvKPI.Location = new System.Drawing.Point(15, 104);
             this.dgvKPI.Name = "dgvKPI";
             this.dgvKPI.RowHeadersWidth = 51;
-            this.dgvKPI.Size = new System.Drawing.Size(998, 431);
+            this.dgvKPI.Size = new System.Drawing.Size(979, 431);
             this.dgvKPI.TabIndex = 0;
             // 
             // workShiftToolbar
@@ -344,7 +345,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.workShiftToolbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.workShiftToolbar.Location = new System.Drawing.Point(15, 54);
             this.workShiftToolbar.Name = "workShiftToolbar";
-            this.workShiftToolbar.Size = new System.Drawing.Size(998, 50);
+            this.workShiftToolbar.Size = new System.Drawing.Size(979, 50);
             this.workShiftToolbar.TabIndex = 2;
             // 
             // btnAddWorkShift
@@ -487,6 +488,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // cleaningSchedulePanel
             // 
             this.cleaningSchedulePanel.BackColor = System.Drawing.Color.White;
+            this.cleaningSchedulePanel.Controls.Add(this.cmbDeliveryPaymentFilter);
             this.cleaningSchedulePanel.Controls.Add(this.calendarControl);
             this.cleaningSchedulePanel.Controls.Add(this.titleLabelCleaningSchedule);
             this.cleaningSchedulePanel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -494,65 +496,8 @@ namespace EcoStationManagerApplication.UI.Controls
             this.cleaningSchedulePanel.Location = new System.Drawing.Point(10, 10);
             this.cleaningSchedulePanel.Name = "cleaningSchedulePanel";
             this.cleaningSchedulePanel.Padding = new System.Windows.Forms.Padding(15);
-            this.cleaningSchedulePanel.Size = new System.Drawing.Size(1028, 658);
+            this.cleaningSchedulePanel.Size = new System.Drawing.Size(1009, 658);
             this.cleaningSchedulePanel.TabIndex = 4;
-            // 
-            // dashboardPanel
-            // 
-            this.dashboardPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dashboardPanel.BackColor = System.Drawing.Color.White;
-            this.dashboardPanel.Controls.Add(this.lblTodayShifts);
-            this.dashboardPanel.Controls.Add(this.lblDeliveredOrders);
-            this.dashboardPanel.Controls.Add(this.lblOverdueOrders);
-            this.dashboardPanel.Controls.Add(this.lblTotalCOD);
-            this.dashboardPanel.FillColor = System.Drawing.Color.White;
-            this.dashboardPanel.Location = new System.Drawing.Point(20, 770);
-            this.dashboardPanel.Name = "dashboardPanel";
-            this.dashboardPanel.Size = new System.Drawing.Size(1008, 100);
-            this.dashboardPanel.TabIndex = 3;
-            // 
-            // lblTodayShifts
-            // 
-            this.lblTodayShifts.AutoSize = true;
-            this.lblTodayShifts.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTodayShifts.Location = new System.Drawing.Point(20, 20);
-            this.lblTodayShifts.Name = "lblTodayShifts";
-            this.lblTodayShifts.Size = new System.Drawing.Size(181, 23);
-            this.lblTodayShifts.TabIndex = 0;
-            this.lblTodayShifts.Text = "Số ca làm hôm nay: 0";
-            // 
-            // lblDeliveredOrders
-            // 
-            this.lblDeliveredOrders.AutoSize = true;
-            this.lblDeliveredOrders.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblDeliveredOrders.Location = new System.Drawing.Point(200, 20);
-            this.lblDeliveredOrders.Name = "lblDeliveredOrders";
-            this.lblDeliveredOrders.Size = new System.Drawing.Size(152, 23);
-            this.lblDeliveredOrders.TabIndex = 1;
-            this.lblDeliveredOrders.Text = "Số đơn đã giao: 0";
-            // 
-            // lblOverdueOrders
-            // 
-            this.lblOverdueOrders.AutoSize = true;
-            this.lblOverdueOrders.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblOverdueOrders.ForeColor = System.Drawing.Color.Red;
-            this.lblOverdueOrders.Location = new System.Drawing.Point(430, 20);
-            this.lblOverdueOrders.Name = "lblOverdueOrders";
-            this.lblOverdueOrders.Size = new System.Drawing.Size(115, 23);
-            this.lblOverdueOrders.TabIndex = 2;
-            this.lblOverdueOrders.Text = "Số đơn trễ: 0";
-            // 
-            // lblTotalCOD
-            // 
-            this.lblTotalCOD.AutoSize = true;
-            this.lblTotalCOD.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTotalCOD.ForeColor = System.Drawing.Color.Green;
-            this.lblTotalCOD.Location = new System.Drawing.Point(610, 20);
-            this.lblTotalCOD.Name = "lblTotalCOD";
-            this.lblTotalCOD.Size = new System.Drawing.Size(109, 23);
-            this.lblTotalCOD.TabIndex = 3;
-            this.lblTotalCOD.Text = "COD: 0 VNĐ";
             // 
             // calendarControl
             // 
@@ -567,10 +512,76 @@ namespace EcoStationManagerApplication.UI.Controls
             this.calendarControl.PrimaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(125)))), ((int)(((byte)(50)))));
             this.calendarControl.SelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(245)))), ((int)(((byte)(220)))));
             this.calendarControl.SelectedDate = new System.DateTime(2025, 11, 20, 0, 0, 0, 0);
-            this.calendarControl.Size = new System.Drawing.Size(998, 583);
+            this.calendarControl.Size = new System.Drawing.Size(979, 583);
             this.calendarControl.TabIndex = 2;
             this.calendarControl.TodayColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(235)))), ((int)(((byte)(156)))));
             this.calendarControl.WeekendColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
+            this.calendarControl.Load += new System.EventHandler(this.calendarControl_Load);
+            // 
+            // dashboardPanel
+            // 
+            this.dashboardPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dashboardPanel.BackColor = System.Drawing.Color.White;
+            this.dashboardPanel.Controls.Add(this.lblTodayShifts);
+            this.dashboardPanel.Controls.Add(this.lblDeliveredOrders);
+            this.dashboardPanel.Controls.Add(this.lblOverdueOrders);
+            this.dashboardPanel.Controls.Add(this.lblTotalCOD);
+            this.dashboardPanel.FillColor = System.Drawing.Color.White;
+            this.dashboardPanel.Location = new System.Drawing.Point(20, 770);
+            this.dashboardPanel.Name = "dashboardPanel";
+            this.dashboardPanel.Size = new System.Drawing.Size(989, 100);
+            this.dashboardPanel.TabIndex = 3;
+            // 
+            // lblTodayShifts
+            // 
+            this.lblTodayShifts.AutoSize = true;
+            this.lblTodayShifts.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblTodayShifts.Location = new System.Drawing.Point(20, 20);
+            this.lblTodayShifts.Name = "lblTodayShifts";
+            this.lblTodayShifts.Size = new System.Drawing.Size(171, 21);
+            this.lblTodayShifts.TabIndex = 0;
+            this.lblTodayShifts.Text = "Số ca làm hôm nay: 0";
+            // 
+            // lblDeliveredOrders
+            // 
+            this.lblDeliveredOrders.AutoSize = true;
+            this.lblDeliveredOrders.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblDeliveredOrders.Location = new System.Drawing.Point(200, 20);
+            this.lblDeliveredOrders.Name = "lblDeliveredOrders";
+            this.lblDeliveredOrders.Size = new System.Drawing.Size(141, 21);
+            this.lblDeliveredOrders.TabIndex = 1;
+            this.lblDeliveredOrders.Text = "Số đơn đã giao: 0";
+            // 
+            // lblOverdueOrders
+            // 
+            this.lblOverdueOrders.AutoSize = true;
+            this.lblOverdueOrders.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblOverdueOrders.ForeColor = System.Drawing.Color.Red;
+            this.lblOverdueOrders.Location = new System.Drawing.Point(430, 20);
+            this.lblOverdueOrders.Name = "lblOverdueOrders";
+            this.lblOverdueOrders.Size = new System.Drawing.Size(105, 21);
+            this.lblOverdueOrders.TabIndex = 2;
+            this.lblOverdueOrders.Text = "Số đơn trễ: 0";
+            // 
+            // lblTotalCOD
+            // 
+            this.lblTotalCOD.AutoSize = true;
+            this.lblTotalCOD.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblTotalCOD.ForeColor = System.Drawing.Color.Green;
+            this.lblTotalCOD.Location = new System.Drawing.Point(610, 20);
+            this.lblTotalCOD.Name = "lblTotalCOD";
+            this.lblTotalCOD.Size = new System.Drawing.Size(101, 21);
+            this.lblTotalCOD.TabIndex = 3;
+            this.lblTotalCOD.Text = "COD: 0 VNĐ";
+            // 
+            // cmbDeliveryPaymentFilter
+            // 
+            this.cmbDeliveryPaymentFilter.FormattingEnabled = true;
+            this.cmbDeliveryPaymentFilter.Location = new System.Drawing.Point(463, 28);
+            this.cmbDeliveryPaymentFilter.Name = "cmbDeliveryPaymentFilter";
+            this.cmbDeliveryPaymentFilter.Size = new System.Drawing.Size(121, 27);
+            this.cmbDeliveryPaymentFilter.TabIndex = 3;
             // 
             // StaffControl
             // 
@@ -584,7 +595,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "StaffControl";
             this.Padding = new System.Windows.Forms.Padding(10);
-            this.Size = new System.Drawing.Size(1048, 815);
+            this.Size = new System.Drawing.Size(1029, 815);
             this.Load += new System.EventHandler(this.StaffControl_Load);
             this.headerPanel.ResumeLayout(false);
             this.headerPanel.PerformLayout();
@@ -606,5 +617,6 @@ namespace EcoStationManagerApplication.UI.Controls
         private Label titleLabelKPI;
         private Label titleLabelCleaningSchedule;
         private CalendarControl calendarControl;
+        private ComboBox cmbDeliveryPaymentFilter;
     }
 }

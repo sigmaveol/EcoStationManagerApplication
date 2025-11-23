@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace EcoStationManagerApplication.UI.Controls
@@ -16,6 +17,9 @@ namespace EcoStationManagerApplication.UI.Controls
     public partial class OrdersControl : UserControl, IRefreshableControl
     {
         private string _currentFilter = "all";
+        private bool _isLoading = false;
+        private System.Threading.Timer _searchTimer;
+        private string _lastSearchText = "";
 
         // Exporters từ tầng Common
         private readonly IExcelExporter _excelExporter;
@@ -50,6 +54,9 @@ namespace EcoStationManagerApplication.UI.Controls
 
             if (btnExportExcel != null)
                 btnExportExcel.Click += btnExportExcel_Click;
+
+            if (btnImportExcel != null)
+                btnImportExcel.Click += btnImportExcel_Click;
 
             if (btnAddOrder != null)
                 btnAddOrder.Click += btnAddOrder_Click;
@@ -183,6 +190,21 @@ namespace EcoStationManagerApplication.UI.Controls
                 UseColumnTextForButtonValue = true,
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             });
+            dgvOrders.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = "colDelete",
+                HeaderText = "Xóa",
+                Text = "Xóa",
+                UseColumnTextForButtonValue = true,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    ForeColor = Color.White,
+                    BackColor = Color.FromArgb(244, 67, 54),
+                    SelectionForeColor = Color.White,
+                    SelectionBackColor = Color.FromArgb(198, 40, 40)
+                }
+            });
 
             // Tự co giãn cột
             dgvOrders.Columns["Customer"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -191,8 +213,13 @@ namespace EcoStationManagerApplication.UI.Controls
         // Thêm dữ liệu 
         private async Task LoadOrdersAsync(string filterTag = "all")
         {
+            // Tránh load nhiều lần cùng lúc
+            if (_isLoading)
+                return;
+
             try
             {
+                _isLoading = true;
                 ShowLoading(true);
                 dgvOrders.Rows.Clear();
 
@@ -265,12 +292,18 @@ namespace EcoStationManagerApplication.UI.Controls
                         }
                     }
 
+                    // Tính tổng tiền sau khi trừ discount (TotalAmount đã được tính = sum - discount)
+                    // Nhưng để hiển thị đúng, ta cần kiểm tra xem TotalAmount đã trừ discount chưa
+                    // Dựa vào code, TotalAmount trong OrderDTO đã là giá trị sau khi trừ discount
+                    var displayAmount = order.TotalAmount;
+                    if (displayAmount < 0) displayAmount = 0;
+                    
                     var row = dgvOrders.Rows[dgvOrders.Rows.Add(
                         order.OrderCode ?? $"ORD-{order.OrderId:D5}",
                         customerName,
                         customerPhone,
                         GetOrderSourceDisplay(order.Source),
-                        order.TotalAmount.ToString("N0") ?? "0",
+                        displayAmount.ToString("N0"),
                         GetOrderStatusDisplay(order.Status),
                         order.LastUpdated.ToString("dd/MM/yyyy HH:mm")
                     )];
@@ -285,6 +318,7 @@ namespace EcoStationManagerApplication.UI.Controls
             }
             finally
             {
+                _isLoading = false;
                 ShowLoading(false);
             }
         }
@@ -451,6 +485,85 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
+        private async void btnImportExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var openDialog = new OpenFileDialog())
+                {
+                    openDialog.Filter = "Excel files (*.xlsx;*.xls)|*.xlsx;*.xls|All files (*.*)|*.*";
+                    openDialog.Title = "Chọn file Excel để import đơn hàng";
+                    openDialog.Multiselect = false;
+
+                    if (openDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        ShowLoading(true);
+                        btnImportExcel.Enabled = false;
+
+                        try
+                        {
+                            // Gọi service import
+                            var result = await AppServices.ImportService.ImportOrdersFromExcelTemplateAsync(openDialog.FileName);
+
+                            ShowLoading(false);
+                            btnImportExcel.Enabled = true;
+
+                            if (result.Success && result.Data != null)
+                            {
+                                var importResult = result.Data;
+                                string message = $"Import hoàn tất!\n\n" +
+                                    $"✓ Thành công: {importResult.SuccessCount} đơn hàng\n" +
+                                    $"✗ Lỗi: {importResult.ErrorCount}";
+
+                                if (importResult.CreatedCustomerIds.Count > 0)
+                                {
+                                    message += $"\n✓ Đã tạo mới: {importResult.CreatedCustomerIds.Count} khách hàng";
+                                }
+
+                                if (importResult.Errors.Count > 0)
+                                {
+                                    message += "\n\nChi tiết lỗi:\n" + string.Join("\n", importResult.Errors.Take(10));
+                                    if (importResult.Errors.Count > 10)
+                                    {
+                                        message += $"\n... và {importResult.Errors.Count - 10} lỗi khác";
+                                    }
+                                }
+
+                                MessageBox.Show(message, "Kết quả Import",
+                                    MessageBoxButtons.OK,
+                                    importResult.ErrorCount > 0 ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+
+                                // Refresh danh sách đơn hàng
+                                if (importResult.SuccessCount > 0)
+                                {
+                                    await LoadOrdersAsync(_currentFilter);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Lỗi khi import: {result.Message}", "Lỗi",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ShowLoading(false);
+                            btnImportExcel.Enabled = true;
+                            MessageBox.Show($"Lỗi khi xử lý file: {ex.Message}", "Lỗi",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowLoading(false);
+                btnImportExcel.Enabled = true;
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private async void btnAddOrder_Click(object sender, EventArgs e)
         {
             using (var addOrderForm = new AddOrderForm())
@@ -490,6 +603,19 @@ namespace EcoStationManagerApplication.UI.Controls
                 if (row.Tag is int orderId)
                 {
                     OpenUpdateOrderForm(orderId);
+                }
+                else
+                {
+                    MessageBox.Show("Không thể lấy thông tin đơn hàng!", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else if (colName == "colDelete")
+            {
+                // Lấy OrderId từ Tag của row
+                if (row.Tag is int orderId)
+                {
+                    DeleteOrder(orderId);
                 }
                 else
                 {
@@ -569,6 +695,53 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
+        private async void DeleteOrder(int orderId)
+        {
+            try
+            {
+                // Xác nhận xóa
+                var confirmResult = MessageBox.Show(
+                    $"Bạn có chắc chắn muốn xóa đơn hàng #{orderId}?\n\n" +
+                    "Hành động này không thể hoàn tác!",
+                    "Xác nhận xóa đơn hàng",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2);
+
+                if (confirmResult != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                ShowLoading(true);
+
+                // Gọi service để xóa đơn hàng
+                var result = await AppServices.OrderService.DeleteOrderAsync(orderId);
+
+                ShowLoading(false);
+
+                if (result.Success)
+                {
+                    MessageBox.Show(result.Message ?? "Đã xóa đơn hàng thành công", "Thành công",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Refresh danh sách đơn hàng
+                    await LoadOrdersAsync(_currentFilter);
+                }
+                else
+                {
+                    MessageBox.Show(result.Message ?? "Không thể xóa đơn hàng", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowLoading(false);
+                MessageBox.Show($"Lỗi khi xóa đơn hàng: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         // --- HÀM HELPER (Hàm phụ trợ) ---
 
         // Hàm tô màu cho các ô
@@ -635,26 +808,60 @@ namespace EcoStationManagerApplication.UI.Controls
 
         }
 
-        private async void txtOrderSearch_TextChanged(object sender, EventArgs e)
+        private void txtOrderSearch_TextChanged(object sender, EventArgs e)
         {
             // Debounce: Chờ 500ms sau khi người dùng ngừng gõ
             var searchText = txtSearch.Text?.Trim() ?? "";
 
+            // Nếu text không thay đổi, không làm gì
+            if (searchText == _lastSearchText)
+                return;
+
+            _lastSearchText = searchText;
+
+            // Hủy timer cũ nếu có
+            _searchTimer?.Dispose();
+
             // Nếu ô tìm kiếm trống, load lại danh sách với filter hiện tại
             if (string.IsNullOrEmpty(searchText))
             {
-                await LoadOrdersAsync(_currentFilter);
+                _searchTimer = new System.Threading.Timer(async _ =>
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke(new Action(async () => await LoadOrdersAsync(_currentFilter)));
+                    }
+                    else
+                    {
+                        await LoadOrdersAsync(_currentFilter);
+                    }
+                }, null, 300, Timeout.Infinite);
                 return;
             }
 
-            // Tìm kiếm theo tên và số điện thoại
-            await SearchOrdersAsync(searchText);
+            // Tìm kiếm theo tên và số điện thoại sau 500ms
+            _searchTimer = new System.Threading.Timer(async _ =>
+            {
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new Action(async () => await SearchOrdersAsync(searchText)));
+                }
+                else
+                {
+                    await SearchOrdersAsync(searchText);
+                }
+            }, null, 500, Timeout.Infinite);
         }
 
         private async Task SearchOrdersAsync(string searchText)
         {
+            // Tránh search nhiều lần cùng lúc
+            if (_isLoading)
+                return;
+
             try
             {
+                _isLoading = true;
                 ShowLoading(true);
                 dgvOrders.Rows.Clear();
 
@@ -764,12 +971,16 @@ namespace EcoStationManagerApplication.UI.Controls
                         }
                     }
 
+                    // Tính tổng tiền sau khi trừ discount
+                    var displayAmount = order.TotalAmount;
+                    if (displayAmount < 0) displayAmount = 0;
+                    
                     var row = dgvOrders.Rows[dgvOrders.Rows.Add(
                         order.OrderCode ?? $"ORD-{order.OrderId:D5}",
                         customerName,
                         customerPhone,
                         GetOrderSourceDisplay(order.Source),
-                        order.TotalAmount.ToString("N0") ?? "0",
+                        displayAmount.ToString("N0"),
                         GetOrderStatusDisplay(order.Status),
                         order.LastUpdated.ToString("dd/MM/yyyy HH:mm")
                     )];
@@ -783,13 +994,9 @@ namespace EcoStationManagerApplication.UI.Controls
             }
             finally
             {
+                _isLoading = false;
                 ShowLoading(false);
             }
-        }
-
-        private void searchControl1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void headerPanel_Paint(object sender, PaintEventArgs e)
@@ -799,7 +1006,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void OrdersControl_Load(object sender, EventArgs e)
         {
-
+            // Không cần load lại vì đã load trong constructor
         }
     }
 }

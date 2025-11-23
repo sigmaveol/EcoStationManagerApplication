@@ -165,6 +165,11 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
             }
         }
 
+        public bool IsTransactionActive()
+        {
+            return _transaction != null;
+        }
+
         public async Task<bool> TestConnectionAsync()
         {
             try

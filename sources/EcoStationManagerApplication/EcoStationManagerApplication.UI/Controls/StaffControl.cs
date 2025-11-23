@@ -1435,7 +1435,7 @@ namespace EcoStationManagerApplication.UI.Controls
             var hasStatusFilter = cmbDeliveryStatusFilter != null && cmbDeliveryStatusFilter.SelectedIndex > 0;
             var hasDateFilter = dtpDeliveryDateFilter != null && dtpDeliveryDateFilter.Checked;
             var hasPaymentFilter = cmbDeliveryPaymentFilter != null && cmbDeliveryPaymentFilter.SelectedIndex > 0;
-            
+                
             System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Input assignments: {assignments.Count}");
             System.Diagnostics.Debug.WriteLine($"[ApplyDeliveryFilters] Has search: {hasSearch}, Has status filter: {hasStatusFilter}, Has date filter: {hasDateFilter}, Has payment filter: {hasPaymentFilter}");
 
@@ -2017,5 +2017,10 @@ namespace EcoStationManagerApplication.UI.Controls
 
 
         #endregion
+
+        private void calendarControl_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

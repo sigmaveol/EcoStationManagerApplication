@@ -128,7 +128,7 @@ namespace EcoStationManagerApplication.Core.Helpers
             return errors;
         }
 
-        public static List<string> ValidateOrder(Order order)
+        public static List<string> ValidateOrder(Order order, bool skipTotalAmountCheck = false)
         {
             var errors = new List<string>();
 
@@ -138,7 +138,9 @@ namespace EcoStationManagerApplication.Core.Helpers
             if (order.DiscountedAmount < 0)
                 errors.Add("Số tiền giảm giá không được âm");
 
-            if (order.DiscountedAmount > order.TotalAmount)
+            // Chỉ check DiscountedAmount > TotalAmount nếu không skip và TotalAmount > 0
+            // (khi tạo mới, TotalAmount = 0 và sẽ được tính sau từ orderDetails)
+            if (!skipTotalAmountCheck && order.TotalAmount > 0 && order.DiscountedAmount > order.TotalAmount)
                 errors.Add("Số tiền giảm giá không được lớn hơn tổng tiền");
 
             if (order.CustomerId.HasValue && order.CustomerId <= 0)

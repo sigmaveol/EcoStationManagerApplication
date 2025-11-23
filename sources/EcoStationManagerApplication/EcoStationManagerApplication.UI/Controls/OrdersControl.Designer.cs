@@ -12,6 +12,7 @@ namespace EcoStationManagerApplication.UI.Controls
         private Panel contentPanel;
         private Button btnExportPDF;
         private Button btnExportExcel;
+        private Button btnImportExcel;
         private Button btnAddOrder;
         private DataGridView dgvOrders;
         private Label lblColumnHeaders;
@@ -35,6 +36,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.headerPanel = new System.Windows.Forms.Panel();
             this.btnExportPDF = new System.Windows.Forms.Button();
             this.btnExportExcel = new System.Windows.Forms.Button();
+            this.btnImportExcel = new System.Windows.Forms.Button();
             this.btnAddOrder = new System.Windows.Forms.Button();
             this.tabPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.contentPanel = new System.Windows.Forms.Panel();
@@ -111,6 +113,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.headerPanel.Controls.Add(this.titleLabelHeader);
             this.headerPanel.Controls.Add(this.btnExportPDF);
             this.headerPanel.Controls.Add(this.btnExportExcel);
+            this.headerPanel.Controls.Add(this.btnImportExcel);
             this.headerPanel.Controls.Add(this.btnAddOrder);
             this.headerPanel.Location = new System.Drawing.Point(20, 20);
             this.headerPanel.Name = "headerPanel";
@@ -143,6 +146,20 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnExportExcel.TabIndex = 2;
             this.btnExportExcel.Text = "Xuất Excel";
             this.btnExportExcel.UseVisualStyleBackColor = false;
+            // 
+            // btnImportExcel
+            // 
+            this.btnImportExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImportExcel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.btnImportExcel.FlatAppearance.BorderSize = 0;
+            this.btnImportExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImportExcel.ForeColor = System.Drawing.Color.White;
+            this.btnImportExcel.Location = new System.Drawing.Point(440, 12);
+            this.btnImportExcel.Name = "btnImportExcel";
+            this.btnImportExcel.Size = new System.Drawing.Size(100, 35);
+            this.btnImportExcel.TabIndex = 4;
+            this.btnImportExcel.Text = "Import Excel";
+            this.btnImportExcel.UseVisualStyleBackColor = false;
             // 
             // btnAddOrder
             // 

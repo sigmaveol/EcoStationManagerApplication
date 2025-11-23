@@ -27,6 +27,13 @@ namespace EcoStationManagerApplication.Core.Interfaces
         /// Validate file trước khi import
         /// </summary>
         Task<Result<bool>> ValidateImportFileAsync(string filePath);
+
+        /// <summary>
+        /// Import đơn hàng từ file Excel theo template: OrderCode | CustomerName | Phone | ProductName | Quantity | UnitPrice | Discount | Note | CreatedDate
+        /// </summary>
+        /// <param name="filePath">Đường dẫn file Excel</param>
+        /// <returns>Kết quả import với danh sách đơn hàng đã tạo và lỗi (nếu có)</returns>
+        Task<Result<ImportResult>> ImportOrdersFromExcelTemplateAsync(string filePath);
     }
 
     /// <summary>

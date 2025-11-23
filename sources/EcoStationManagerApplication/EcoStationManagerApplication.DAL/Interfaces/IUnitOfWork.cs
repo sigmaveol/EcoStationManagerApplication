@@ -76,6 +76,11 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         Task RollbackTransactionAsync();
 
         /// <summary>
+        /// Kiểm tra xem có transaction đang active không
+        /// </summary>
+        bool IsTransactionActive();
+
+        /// <summary>
         /// Kiểm tra kết nối database
         /// </summary>
         Task<bool> TestConnectionAsync();

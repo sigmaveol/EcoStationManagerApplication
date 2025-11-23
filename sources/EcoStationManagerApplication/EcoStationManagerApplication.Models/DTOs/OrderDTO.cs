@@ -15,6 +15,7 @@ namespace EcoStationManagerApplication.Models.DTOs
         public string CustomerName { get; set; }
         public OrderSource Source { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal DiscountedAmount { get; set; }
         public OrderStatus Status { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public DateTime LastUpdated { get; set; }

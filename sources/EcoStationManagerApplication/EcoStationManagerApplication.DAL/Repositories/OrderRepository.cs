@@ -22,11 +22,11 @@ namespace EcoStationManagerApplication.DAL.Repositories
             try
             {
                 return await _databaseHelper.QueryFirstOrDefaultAsync<Order>
-                    (OrderQueries.GetByStatus, new { OrderCode = orderCode });
+                    (OrderQueries.GetByOrderCode, new { OrderCode = orderCode });
             }
             catch (Exception ex)
             {
-                _logger.Error($"GetByStatusAsync error - OrderCode: {orderCode} - {ex.Message}");
+                _logger.Error($"GetByOrderCodeAsync error - OrderCode: {orderCode} - {ex.Message}");
                 throw;
             }
         }

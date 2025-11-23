@@ -23,6 +23,7 @@ namespace EcoStationManagerApplication.Core.Helpers
                 CustomerName = order.Customer?.Name,
                 Source = order.Source,
                 TotalAmount = order.TotalAmount,
+                DiscountedAmount = order.DiscountedAmount,
                 Status = order.Status,
                 PaymentStatus = order.PaymentStatus,
                 LastUpdated = order.LastUpdated,

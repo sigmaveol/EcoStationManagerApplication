@@ -62,9 +62,10 @@ namespace EcoStationManagerApplication.Core.Services
                     return NotFoundError<IEnumerable<OrderDTO>>("đơn hàng");
                 }
 
-                // Danh sách các trạng thái đang trong quá trình xử lý
+                // Danh sách các trạng thái đang trong quá trình xử lý (bao gồm cả đơn nháp)
                 var processingStatuses = new List<OrderStatus>
                 {
+                    OrderStatus.DRAFT,        // Nháp
                     OrderStatus.CONFIRMED,    // Mới
                     OrderStatus.PROCESSING,   // Đang xử lý
                     OrderStatus.READY,        // Chuẩn bị
@@ -207,14 +208,28 @@ namespace EcoStationManagerApplication.Core.Services
 
         public async Task<Result<int>> CreateOrderAsync(Order order, List<OrderDetail> orderDetails)
         {
-
-            await _unitOfWork.BeginTransactionAsync();
+            bool transactionStartedHere = false;
             try
             {
-                // Validate dữ liệu
-                var validationErrors = ValidationHelper.ValidateOrder(order);
+                // Chỉ mở transaction nếu chưa có transaction nào đang chạy
+                // (để tránh lỗi khi được gọi từ ImportService với nhiều đơn hàng)
+                if (!_unitOfWork.IsTransactionActive())
+                {
+                    await _unitOfWork.BeginTransactionAsync();
+                    transactionStartedHere = true;
+                }
+                
+                // Validate dữ liệu - nhưng bỏ qua check DiscountedAmount > TotalAmount 
+                // vì TotalAmount sẽ được tính sau từ orderDetails
+                var validationErrors = ValidationHelper.ValidateOrder(order, skipTotalAmountCheck: true);
                 if (validationErrors.Any())
+                {
+                    if (transactionStartedHere)
+                    {
+                        await _unitOfWork.RollbackTransactionAsync();
+                    }
                     return ValidationError<int>(validationErrors);
+                }
 
                 if (orderDetails == null || !orderDetails.Any())
                     return Result<int>.Fail("Đơn hàng phải có ít nhất 1 sản phẩm");
@@ -264,22 +279,44 @@ namespace EcoStationManagerApplication.Core.Services
                     throw new Exception("Không thể thêm chi tiết đơn hàng");
 
                 // 3. Tính toán tổng tiền
-                var totalAmount = orderDetails.Sum(d => d.Quantity * d.UnitPrice);
+                var discount = order.DiscountedAmount < 0 ? 0 : order.DiscountedAmount;
+
+                var totalAmount = orderDetails.Sum(d => d.Quantity * d.UnitPrice) - discount;
+
+                if (totalAmount < 0)
+                    totalAmount = 0;
+
                 order.TotalAmount = totalAmount;
                 order.OrderId = orderId;
+
 
                 var updateSuccess = await _unitOfWork.Orders.UpdateAsync(order);
                 if (!updateSuccess)
                     throw new Exception("Không thể cập nhật tổng tiền đơn hàng");
 
-                await _unitOfWork.CommitTransactionAsync();
+                // Chỉ commit nếu transaction được mở trong method này
+                if (transactionStartedHere)
+                {
+                    await _unitOfWork.CommitTransactionAsync();
+                }
                 _logger.Info($"Đã tạo đơn hàng mới: #{orderId} - Tổng tiền: {totalAmount:N0}");
 
                 return Result<int>.Ok(orderId, $"Tạo đơn hàng #{orderId} thành công");
             }
             catch (Exception ex)
             {
-                await _unitOfWork.RollbackTransactionAsync();
+                // Chỉ rollback nếu transaction được mở trong method này
+                if (transactionStartedHere)
+                {
+                    try
+                    {
+                        await _unitOfWork.RollbackTransactionAsync();
+                    }
+                    catch
+                    {
+                        // Ignore rollback errors
+                    }
+                }
                 return HandleException<int>(ex, "tạo đơn hàng");
             }
         }
@@ -404,7 +441,10 @@ namespace EcoStationManagerApplication.Core.Services
                 var allDetails = await _unitOfWork.OrderDetails.GetByOrderAsync(orderId);
                 var newTotalAmount = allDetails.Sum(d => d.Quantity * d.UnitPrice);
 
-                order.TotalAmount = newTotalAmount;
+                var discount = order.DiscountedAmount;
+
+                // Không cho tổng tiền âm
+                order.TotalAmount = Math.Max(0, newTotalAmount - discount);
                 var updateSuccess = await _unitOfWork.Orders.UpdateAsync(order);
                 if (!updateSuccess)
                     throw new Exception("Không thể cập nhật tổng tiền đơn hàng");
@@ -566,6 +606,87 @@ namespace EcoStationManagerApplication.Core.Services
             {
                 _logger.Error($"RollbackStockForOrderAsync error - OrderId: {orderId} - {ex.Message}");
                 return Result<bool>.Fail($"Lỗi hoàn trả tồn kho: {ex.Message}");
+            }
+        }
+
+        public async Task<Result<bool>> DeleteOrderAsync(int orderId)
+        {
+            try
+            {
+                if (orderId <= 0)
+                    return Result<bool>.Fail("ID đơn hàng không hợp lệ");
+
+                // Kiểm tra đơn hàng tồn tại
+                var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+                if (order == null)
+                    return NotFoundError<bool>("Đơn hàng", orderId);
+
+                // Kiểm tra trạng thái đơn hàng - chỉ cho phép xóa đơn nháp hoặc đã hủy
+                // Có thể mở rộng logic này nếu cần
+                if (order.Status == OrderStatus.COMPLETED)
+                {
+                    return Result<bool>.Fail("Không thể xóa đơn hàng đã hoàn thành");
+                }
+
+                bool transactionStarted = false;
+                try
+                {
+                    // Chỉ mở transaction nếu chưa có transaction nào đang chạy
+                    try
+                    {
+                        await _unitOfWork.BeginTransactionAsync();
+                        transactionStarted = true;
+                    }
+                    catch (InvalidOperationException ex) when (ex.Message.Contains("already started"))
+                    {
+                        // Transaction đã được mở từ bên ngoài, không cần mở lại
+                        transactionStarted = false;
+                    }
+                    // 1. Xóa tất cả OrderDetails trước
+                    var deleteDetailsResult = await _unitOfWork.OrderDetails.DeleteByOrderAsync(orderId);
+                    if (!deleteDetailsResult)
+                    {
+                        await _unitOfWork.RollbackTransactionAsync();
+                        return Result<bool>.Fail("Không thể xóa chi tiết đơn hàng");
+                    }
+
+                    // 2. Xóa Order
+                    var deleteOrderResult = await _unitOfWork.Orders.DeleteAsync(orderId);
+                    if (!deleteOrderResult)
+                    {
+                        await _unitOfWork.RollbackTransactionAsync();
+                        return Result<bool>.Fail("Không thể xóa đơn hàng");
+                    }
+
+                    // Chỉ commit nếu transaction được mở trong method này
+                    if (transactionStarted)
+                    {
+                        await _unitOfWork.CommitTransactionAsync();
+                    }
+                    _logger.Info($"Đã xóa đơn hàng: #{orderId}");
+
+                    return Result<bool>.Ok(true, $"Đã xóa đơn hàng #{orderId} thành công");
+                }
+                catch (Exception ex)
+                {
+                    // Chỉ rollback nếu transaction được mở trong method này
+                    if (transactionStarted)
+                    {
+                        try
+                        {
+                            await _unitOfWork.RollbackTransactionAsync();
+                        }
+                        catch
+                        {
+                            // Ignore rollback errors
+                        }
+                    }
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                return HandleException<bool>(ex, "xóa đơn hàng");
             }
         }
 

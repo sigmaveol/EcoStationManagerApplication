@@ -213,6 +213,532 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
+        public async Task<Result<ImportResult>> ImportOrdersFromExcelTemplateAsync(string filePath)
+        {
+            var result = new ImportResult();
+
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    return Result<ImportResult>.Fail("File không tồn tại");
+                }
+
+                var extension = Path.GetExtension(filePath).ToLower();
+                if (extension != ".xlsx" && extension != ".xls")
+                {
+                    return Result<ImportResult>.Fail("Chỉ hỗ trợ file Excel (.xlsx, .xls)");
+                }
+
+                // Đọc file Excel bằng ClosedXML
+                using (var workbook = new XLWorkbook(filePath))
+                {
+                    var worksheet = workbook.Worksheets.First();
+                    var firstRow = worksheet.FirstRowUsed();
+                    if (firstRow == null)
+                    {
+                        return Result<ImportResult>.Fail("File không có dữ liệu");
+                    }
+
+                    // Đọc header để tìm vị trí các cột
+                    var headerRow = firstRow;
+                    var columnMap = new Dictionary<string, int>();
+                    foreach (var cell in headerRow.CellsUsed())
+                    {
+                        var headerName = cell.GetString()?.Trim().ToLowerInvariant() ?? "";
+                        columnMap[headerName] = cell.Address.ColumnNumber;
+                    }
+
+                    // Tìm các cột cần thiết (case-insensitive)
+                    int colOrderCode = FindColumn(columnMap, "ordercode", "mã đơn", "order_code");
+                    int colCustomerName = FindColumn(columnMap, "customername", "tên khách hàng", "customer_name", "name");
+                    int colPhone = FindColumn(columnMap, "phone", "số điện thoại", "phone", "sđt");
+                    int colProductName = FindColumn(columnMap, "productname", "tên sản phẩm", "product_name", "product");
+                    int colQuantity = FindColumn(columnMap, "quantity", "số lượng", "sl");
+                    int colUnitPrice = FindColumn(columnMap, "unitprice", "đơn giá", "unit_price", "price", "giá");
+                    int colDiscount = FindColumn(columnMap, "discount", "giảm giá", "discount");
+                    int colNote = FindColumn(columnMap, "note", "ghi chú", "notes");
+                    int colCreatedDate = FindColumn(columnMap, "createddate", "ngày tạo", "created_date", "date");
+
+                    if (colCustomerName == 0 || colPhone == 0 || colProductName == 0 || colQuantity == 0 || colUnitPrice == 0)
+                    {
+                        return Result<ImportResult>.Fail("File thiếu các cột bắt buộc: CustomerName, Phone, ProductName, Quantity, UnitPrice");
+                    }
+
+                    // Đọc dữ liệu và group theo OrderCode
+                    var orderGroups = new Dictionary<string, List<ExcelOrderRow>>();
+                    var rows = worksheet.RowsUsed().Skip(1); // Bỏ qua header
+
+                    int rowNumber = 2; // Bắt đầu từ dòng 2 (sau header)
+                    foreach (var row in rows)
+                    {
+                        try
+                        {
+                            var orderCode = colOrderCode > 0 ? row.Cell(colOrderCode).GetString()?.Trim() : "";
+                            var customerName = row.Cell(colCustomerName).GetString()?.Trim() ?? "";
+                            var phone = row.Cell(colPhone).GetString()?.Trim() ?? "";
+                            var productName = row.Cell(colProductName).GetString()?.Trim() ?? "";
+                            
+                            // Đọc số lượng và đơn giá - hỗ trợ cả số và text
+                            decimal quantity = 0;
+                            var quantityCell = row.Cell(colQuantity);
+                            if (quantityCell.DataType == XLDataType.Number)
+                            {
+                                quantity = quantityCell.GetValue<decimal>();
+                            }
+                            else
+                            {
+                                var quantityStr = quantityCell.GetString()?.Trim() ?? "0";
+                                if (!decimal.TryParse(quantityStr, NumberStyles.Any, CultureInfo.InvariantCulture, out quantity))
+                                {
+                                    quantity = 0;
+                                }
+                            }
+
+                            decimal unitPrice = 0;
+                            var unitPriceCell = row.Cell(colUnitPrice);
+                            if (unitPriceCell.DataType == XLDataType.Number)
+                            {
+                                unitPrice = unitPriceCell.GetValue<decimal>();
+                            }
+                            else
+                            {
+                                var unitPriceStr = unitPriceCell.GetString()?.Trim() ?? "0";
+                                if (!decimal.TryParse(unitPriceStr, NumberStyles.Any, CultureInfo.InvariantCulture, out unitPrice))
+                                {
+                                    unitPrice = 0;
+                                }
+                            }
+
+                            decimal discount = 0;
+                            if (colDiscount > 0)
+                            {
+                                var discountCell = row.Cell(colDiscount);
+                                if (discountCell.DataType == XLDataType.Number)
+                                {
+                                    discount = discountCell.GetValue<decimal>();
+                                }
+                                else
+                                {
+                                    var discountStr = discountCell.GetString()?.Trim() ?? "0";
+                                    decimal.TryParse(discountStr, NumberStyles.Any, CultureInfo.InvariantCulture, out discount);
+                                }
+                            }
+
+                            var note = colNote > 0 ? row.Cell(colNote).GetString()?.Trim() : "";
+                            var createdDateStr = colCreatedDate > 0 ? row.Cell(colCreatedDate).GetString()?.Trim() : "";
+
+                            // Validate dữ liệu
+                            if (string.IsNullOrWhiteSpace(customerName))
+                            {
+                                result.ErrorCount++;
+                                result.Errors.Add($"Dòng {rowNumber}: Thiếu tên khách hàng");
+                                rowNumber++;
+                                continue;
+                            }
+
+                            if (string.IsNullOrWhiteSpace(phone))
+                            {
+                                result.ErrorCount++;
+                                result.Errors.Add($"Dòng {rowNumber}: Thiếu số điện thoại");
+                                rowNumber++;
+                                continue;
+                            }
+
+                            if (string.IsNullOrWhiteSpace(productName))
+                            {
+                                result.ErrorCount++;
+                                result.Errors.Add($"Dòng {rowNumber}: Thiếu tên sản phẩm");
+                                rowNumber++;
+                                continue;
+                            }
+
+                            // Validate số lượng và đơn giá
+                            if (quantity <= 0)
+                            {
+                                result.ErrorCount++;
+                                result.Errors.Add($"Dòng {rowNumber}: Số lượng phải lớn hơn 0");
+                                rowNumber++;
+                                continue;
+                            }
+
+                            if (unitPrice < 0)
+                            {
+                                result.ErrorCount++;
+                                result.Errors.Add($"Dòng {rowNumber}: Đơn giá không hợp lệ");
+                                rowNumber++;
+                                continue;
+                            }
+
+                            DateTime? createdDate = null;
+                            if (colCreatedDate > 0 && !string.IsNullOrWhiteSpace(createdDateStr))
+                            {
+                                if (DateTime.TryParse(createdDateStr, out DateTime parsedDate))
+                                {
+                                    createdDate = parsedDate;
+                                }
+                            }
+
+                            // Tạo key cho order (nếu không có OrderCode, tự tạo unique cho mỗi dòng)
+                            if (string.IsNullOrWhiteSpace(orderCode))
+                            {
+                                orderCode = $"EXCEL_{DateTime.Now:yyyyMMddHHmmss}_{Guid.NewGuid().ToString().Substring(0, 8)}";
+                            }
+
+                            if (!orderGroups.ContainsKey(orderCode))
+                            {
+                                orderGroups[orderCode] = new List<ExcelOrderRow>();
+                            }
+
+                            orderGroups[orderCode].Add(new ExcelOrderRow
+                            {
+                                OrderCode = orderCode,
+                                CustomerName = customerName,
+                                Phone = phone,
+                                ProductName = productName,
+                                Quantity = quantity,
+                                UnitPrice = unitPrice,
+                                Discount = discount,
+                                Note = note,
+                                CreatedDate = createdDate
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            result.ErrorCount++;
+                            result.Errors.Add($"Dòng {rowNumber}: Lỗi đọc dữ liệu - {ex.Message}");
+                        }
+
+                        rowNumber++;
+                    }
+
+                    if (orderGroups.Count == 0)
+                    {
+                        return Result<ImportResult>.Fail("Không có dữ liệu hợp lệ để import");
+                    }
+
+                    // Xử lý từng đơn hàng
+                    foreach (var orderGroup in orderGroups)
+                    {
+                        try
+                        {
+                            var orderRows = orderGroup.Value;
+                            var firstRowData = orderRows.First();
+
+                            // 1. Tìm hoặc tạo khách hàng
+                            var customer = await _unitOfWork.Customers.GetByPhoneAsync(firstRowData.Phone);
+                            if (customer == null)
+                            {
+                                // Tạo khách hàng mới với retry logic nếu CustomerCode trùng
+                                Customer newCustomer = null;
+                                int retryCount = 0;
+                                const int maxRetries = 5;
+
+                                while (retryCount < maxRetries && newCustomer == null)
+                                {
+                                    try
+                                    {
+                                        // Tạo CustomerCode ngắn gọn hơn (max 50 chars)
+                                        var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                                        var guid = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8);
+                                        var customerCode = $"CUS{timestamp}{guid}";
+                                        
+                                        // Đảm bảo không vượt quá 50 ký tự
+                                        if (customerCode.Length > 50)
+                                        {
+                                            customerCode = customerCode.Substring(0, 50);
+                                        }
+
+                                        // Đảm bảo Name không quá dài (max 255 chars)
+                                        var customerName = firstRowData.CustomerName;
+                                        if (customerName != null && customerName.Length > 255)
+                                        {
+                                            customerName = customerName.Substring(0, 255);
+                                        }
+                                        
+                                        // Đảm bảo Phone không quá dài (max 50 chars)
+                                        var phone = firstRowData.Phone;
+                                        if (phone != null && phone.Length > 50)
+                                        {
+                                            phone = phone.Substring(0, 50);
+                                        }
+
+                                        newCustomer = new Customer
+                                        {
+                                            Name = customerName,
+                                            Phone = phone,
+                                            CustomerCode = customerCode,
+                                            Rank = CustomerRank.MEMBER,
+                                            IsActive = ActiveStatus.ACTIVE,
+                                            CreatedDate = DateTime.Now
+                                        };
+
+                                        var createCustomerResult = await _customerService.CreateCustomerAsync(newCustomer);
+                                        if (createCustomerResult.Success && createCustomerResult.Data > 0)
+                                        {
+                                            var getCustomerResult = await _customerService.GetCustomerByIdAsync(createCustomerResult.Data);
+                                            customer = getCustomerResult.Data;
+                                            result.CreatedCustomerIds.Add(createCustomerResult.Data);
+                                            break; // Thành công, thoát khỏi retry loop
+                                        }
+                                        else
+                                        {
+                                            // Nếu lỗi do CustomerCode trùng, retry với code mới
+                                            if (createCustomerResult.Message?.Contains("Mã khách hàng") == true || 
+                                                createCustomerResult.Message?.Contains("đã tồn tại") == true)
+                                            {
+                                                retryCount++;
+                                                newCustomer = null; // Reset để retry
+                                                await Task.Delay(10); // Đợi một chút trước khi retry
+                                                continue;
+                                            }
+                                            else
+                                            {
+                                                // Lỗi khác, không retry
+                                                result.ErrorCount++;
+                                                result.Errors.Add($"Đơn {orderGroup.Key}: Không thể tạo khách hàng - {createCustomerResult.Message}");
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        retryCount++;
+                                        if (retryCount >= maxRetries)
+                                        {
+                                            result.ErrorCount++;
+                                            result.Errors.Add($"Đơn {orderGroup.Key}: Lỗi tạo khách hàng sau {maxRetries} lần thử - {ex.Message}");
+                                        }
+                                        else
+                                        {
+                                            await Task.Delay(10); // Đợi trước khi retry
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (customer == null)
+                            {
+                                result.ErrorCount++;
+                                result.Errors.Add($"Đơn {orderGroup.Key}: Không thể tạo hoặc tìm khách hàng");
+                                continue;
+                            }
+
+                            // 2. Tìm sản phẩm và tạo OrderDetails
+                            var orderDetails = new List<OrderDetail>();
+                            var allProductsResult = await _productService.GetAllProductsAsync();
+                            if (!allProductsResult.Success || allProductsResult.Data == null)
+                            {
+                                result.ErrorCount++;
+                                result.Errors.Add($"Đơn {orderGroup.Key}: Không thể lấy danh sách sản phẩm");
+                                continue;
+                            }
+
+                            var allProducts = allProductsResult.Data.ToList();
+                            bool hasError = false;
+
+                            foreach (var rowData in orderRows)
+                            {
+                                // Tìm sản phẩm theo tên (case-insensitive, partial match)
+                                var productNameLower = rowData.ProductName.ToLowerInvariant();
+                                var product = allProducts.FirstOrDefault(p =>
+                                    (p.Name?.ToLowerInvariant() ?? "").Equals(productNameLower) ||
+                                    (p.Name?.ToLowerInvariant() ?? "").Contains(productNameLower) ||
+                                    productNameLower.Contains((p.Name?.ToLowerInvariant() ?? "")));
+
+                                if (product == null)
+                                {
+                                    result.ErrorCount++;
+                                    result.Errors.Add($"Đơn {orderGroup.Key}: Không tìm thấy sản phẩm '{rowData.ProductName}'");
+                                    hasError = true;
+                                    continue;
+                                }
+
+                                orderDetails.Add(new OrderDetail
+                                {
+                                    ProductId = product.ProductId,
+                                    Quantity = rowData.Quantity,
+                                    UnitPrice = rowData.UnitPrice
+                                });
+                            }
+
+                            if (hasError || orderDetails.Count == 0)
+                            {
+                                continue;
+                            }
+
+                            // 3. Kiểm tra OrderCode đã tồn tại chưa và đảm bảo độ dài hợp lệ
+                            string finalOrderCode = orderGroup.Key;
+                            
+                            // Đảm bảo OrderCode không quá dài (max 50 chars theo schema)
+                            if (!string.IsNullOrWhiteSpace(finalOrderCode) && finalOrderCode.Length > 50)
+                            {
+                                finalOrderCode = finalOrderCode.Substring(0, 50);
+                            }
+                            
+                            // Nếu OrderCode trống hoặc null, tạo mới
+                            if (string.IsNullOrWhiteSpace(finalOrderCode))
+                            {
+                                var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                                var guid = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8);
+                                finalOrderCode = $"EXCEL{timestamp}{guid}";
+                                if (finalOrderCode.Length > 50)
+                                {
+                                    finalOrderCode = finalOrderCode.Substring(0, 50);
+                                }
+                            }
+                            
+                            // Kiểm tra OrderCode đã tồn tại chưa
+                            var existingOrder = await _unitOfWork.Orders.GetByOrderCodeAsync(orderGroup.Key);
+                            
+                            // Nếu OrderCode đã tồn tại, kiểm tra xem có trùng 100% không
+                            if (existingOrder != null)
+                            {
+                                // Kiểm tra trùng 100%: cùng CustomerId, cùng số lượng sản phẩm
+                                bool isDuplicate = false;
+                                if (existingOrder.CustomerId == customer.CustomerId)
+                                {
+                                    // Lấy order details của đơn hàng đã tồn tại
+                                    var existingOrderDetails = await _unitOfWork.OrderDetails.GetByOrderAsync(existingOrder.OrderId);
+                                    if (existingOrderDetails != null && existingOrderDetails.Count() == orderDetails.Count)
+                                    {
+                                        // So sánh từng sản phẩm
+                                        var existingDetailsList = existingOrderDetails.ToList();
+                                        isDuplicate = true;
+                                        foreach (var newDetail in orderDetails)
+                                        {
+                                            var matchingDetail = existingDetailsList.FirstOrDefault(ed => 
+                                                ed.ProductId == newDetail.ProductId && 
+                                                ed.Quantity == newDetail.Quantity && 
+                                                ed.UnitPrice == newDetail.UnitPrice);
+                                            if (matchingDetail == null)
+                                            {
+                                                isDuplicate = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                if (isDuplicate)
+                                {
+                                    result.ErrorCount++;
+                                    result.Errors.Add($"Đơn {orderGroup.Key}: Đơn hàng đã tồn tại (trùng 100%)");
+                                    continue;
+                                }
+                                
+                                // Nếu không trùng 100%, tạo OrderCode mới
+                                int orderCodeRetryCount = 0;
+                                const int maxOrderCodeRetries = 5;
+                                
+                                while (existingOrder != null && orderCodeRetryCount < maxOrderCodeRetries)
+                                {
+                                    var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                                    var guid = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8);
+                                    finalOrderCode = $"EXCEL{timestamp}{guid}";
+                                    if (finalOrderCode.Length > 50)
+                                    {
+                                        finalOrderCode = finalOrderCode.Substring(0, 50);
+                                    }
+                                    
+                                    existingOrder = await _unitOfWork.Orders.GetByOrderCodeAsync(finalOrderCode);
+                                    orderCodeRetryCount++;
+                                    
+                                    if (orderCodeRetryCount > 0)
+                                    {
+                                        await Task.Delay(10);
+                                    }
+                                }
+                                
+                                if (existingOrder != null)
+                                {
+                                    result.ErrorCount++;
+                                    result.Errors.Add($"Đơn {orderGroup.Key}: Không thể tạo OrderCode unique sau {maxOrderCodeRetries} lần thử");
+                                    continue;
+                                }
+                            }
+
+                            // 4. Tạo Order
+                            var order = new Order
+                            {
+                                OrderCode = finalOrderCode,
+                                CustomerId = customer.CustomerId,
+                                Source = OrderSource.EXCEL,
+                                Status = OrderStatus.CONFIRMED,
+                                PaymentStatus = PaymentStatus.UNPAID,
+                                PaymentMethod = PaymentMethod.CASH,
+                                Note = firstRowData.Note?.Length > 1000 ? firstRowData.Note.Substring(0, 1000) : firstRowData.Note,
+                                DiscountedAmount = orderRows.Sum(r => r.Discount),
+                                LastUpdated = firstRowData.CreatedDate ?? DateTime.Now
+                            };
+
+                            var createOrderResult = await _orderService.CreateOrderAsync(order, orderDetails);
+                            if (createOrderResult.Success && createOrderResult.Data > 0)
+                            {
+                                result.SuccessCount++;
+                                result.CreatedOrderIds.Add(createOrderResult.Data);
+                            }
+                            else
+                            {
+                                result.ErrorCount++;
+                                var errorMsg = createOrderResult.Message ?? "Lỗi không xác định";
+                                result.Errors.Add($"Đơn {orderGroup.Key}: {errorMsg}");
+                                _logger.Error($"Import order failed - OrderCode: {orderGroup.Key}, Error: {errorMsg}");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            result.ErrorCount++;
+                            var errorMsg = $"Lỗi xử lý - {ex.Message}";
+                            if (ex.InnerException != null)
+                            {
+                                errorMsg += $" | Inner: {ex.InnerException.Message}";
+                            }
+                            result.Errors.Add($"Đơn {orderGroup.Key}: {errorMsg}");
+                            _logger.Error($"Import order exception - OrderCode: {orderGroup.Key}, Exception: {ex.Message}");
+                            if (ex.InnerException != null)
+                            {
+                                _logger.Error($"Inner exception: {ex.InnerException.Message}");
+                            }
+                        }
+                    }
+
+                    return Result<ImportResult>.Ok(result,
+                        $"Import hoàn tất: {result.SuccessCount} đơn thành công, {result.ErrorCount} lỗi");
+                }
+            }
+            catch (Exception ex)
+            {
+                return HandleException<ImportResult>(ex, "import đơn hàng từ Excel template");
+            }
+        }
+
+        private int FindColumn(Dictionary<string, int> columnMap, params string[] possibleNames)
+        {
+            foreach (var name in possibleNames)
+            {
+                var key = name.ToLowerInvariant();
+                if (columnMap.ContainsKey(key))
+                {
+                    return columnMap[key];
+                }
+            }
+            return 0;
+        }
+
+        private class ExcelOrderRow
+        {
+            public string OrderCode { get; set; }
+            public string CustomerName { get; set; }
+            public string Phone { get; set; }
+            public string ProductName { get; set; }
+            public decimal Quantity { get; set; }
+            public decimal UnitPrice { get; set; }
+            public decimal Discount { get; set; }
+            public string Note { get; set; }
+            public DateTime? CreatedDate { get; set; }
+        }
+
         #region Private Methods
 
         private DataTable ReadExcelFile(string filePath)

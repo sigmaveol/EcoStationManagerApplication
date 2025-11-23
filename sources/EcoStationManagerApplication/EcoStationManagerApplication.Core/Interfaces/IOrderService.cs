@@ -89,5 +89,10 @@ namespace EcoStationManagerApplication.Core.Interfaces
         /// </summary>
         Task<Result<(IEnumerable<Order> Orders, int TotalCount)>> GetPagedOrdersAsync(
             int pageNumber, int pageSize, OrderSearchCriteria criteria);
+
+        /// <summary>
+        /// Xóa đơn hàng (xóa cả OrderDetails và Order)
+        /// </summary>
+        Task<Result<bool>> DeleteOrderAsync(int orderId);
     }
 }

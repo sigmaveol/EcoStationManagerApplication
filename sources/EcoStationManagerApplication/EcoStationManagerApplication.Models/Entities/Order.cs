@@ -69,6 +69,7 @@ namespace EcoStationManagerApplication.Models.Entities
         public virtual User User { get; set; }
 
         // Navigation property for details
+        [NotMapped]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 

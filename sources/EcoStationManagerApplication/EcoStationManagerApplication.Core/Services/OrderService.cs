@@ -264,9 +264,16 @@ namespace EcoStationManagerApplication.Core.Services
                     throw new Exception("Không thể thêm chi tiết đơn hàng");
 
                 // 3. Tính toán tổng tiền
-                var totalAmount = orderDetails.Sum(d => d.Quantity * d.UnitPrice);
+                var discount = order.DiscountedAmount < 0 ? 0 : order.DiscountedAmount;
+
+                var totalAmount = orderDetails.Sum(d => d.Quantity * d.UnitPrice) - discount;
+
+                if (totalAmount < 0)
+                    totalAmount = 0;
+
                 order.TotalAmount = totalAmount;
                 order.OrderId = orderId;
+
 
                 var updateSuccess = await _unitOfWork.Orders.UpdateAsync(order);
                 if (!updateSuccess)
@@ -404,7 +411,10 @@ namespace EcoStationManagerApplication.Core.Services
                 var allDetails = await _unitOfWork.OrderDetails.GetByOrderAsync(orderId);
                 var newTotalAmount = allDetails.Sum(d => d.Quantity * d.UnitPrice);
 
-                order.TotalAmount = newTotalAmount;
+                var discount = order.DiscountedAmount;
+
+                // Không cho tổng tiền âm
+                order.TotalAmount = Math.Max(0, newTotalAmount - discount);
                 var updateSuccess = await _unitOfWork.Orders.UpdateAsync(order);
                 if (!updateSuccess)
                     throw new Exception("Không thể cập nhật tổng tiền đơn hàng");

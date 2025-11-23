@@ -29,7 +29,6 @@ namespace EcoStationManagerApplication.UI.Forms
         private void InitializeComponent()
         {
             this.lblTitle = new System.Windows.Forms.Label();
-            this.btnClose = new System.Windows.Forms.Button();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.panelContent = new System.Windows.Forms.Panel();
             this.lblPaymentStatus = new System.Windows.Forms.Label();
@@ -58,24 +57,9 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Cập nhật đơn hàng";
             // 
-            // btnClose
-            // 
-            this.btnClose.FlatAppearance.BorderSize = 0;
-            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnClose.ForeColor = System.Drawing.Color.Gray;
-            this.btnClose.Location = new System.Drawing.Point(470, 10);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(40, 35);
-            this.btnClose.TabIndex = 1;
-            this.btnClose.Text = "×";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.Color.White;
-            this.panelHeader.Controls.Add(this.btnClose);
             this.panelHeader.Controls.Add(this.lblTitle);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
@@ -261,7 +245,6 @@ namespace EcoStationManagerApplication.UI.Forms
         #endregion
 
         private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.Panel panelContent;
         private System.Windows.Forms.Label lblPaymentStatus;

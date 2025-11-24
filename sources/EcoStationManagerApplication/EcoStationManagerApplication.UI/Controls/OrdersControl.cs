@@ -21,6 +21,9 @@ namespace EcoStationManagerApplication.UI.Controls
         private bool _isLoading = false;
         private System.Threading.Timer _searchTimer;
         private string _lastSearchText = "";
+        private DateTime? _dateFilterStart = null;
+        private DateTime? _dateFilterEnd = null;
+        private string _currentDateFilter = null; // "today", "week", "month", "range", null
 
         // Exporters từ tầng Common
         private readonly IExcelExporter _excelExporter;
@@ -72,6 +75,20 @@ namespace EcoStationManagerApplication.UI.Controls
             {
                 txtSearch.TextChanged += txtOrderSearch_TextChanged;
             }
+
+            // Date filter events
+            if (btnFilterToday != null)
+                btnFilterToday.Click += btnFilterToday_Click;
+            if (btnFilterThisWeek != null)
+                btnFilterThisWeek.Click += btnFilterThisWeek_Click;
+            if (btnFilterThisMonth != null)
+                btnFilterThisMonth.Click += btnFilterThisMonth_Click;
+            if (btnFilterDateRange != null)
+                btnFilterDateRange.Click += btnFilterDateRange_Click;
+            if (dtpStartDate != null)
+                dtpStartDate.ValueChanged += dtpStartDate_ValueChanged;
+            if (dtpEndDate != null)
+                dtpEndDate.ValueChanged += dtpEndDate_ValueChanged;
         }
 
         // Đổ các nút Tab vào FlowLayoutPanel
@@ -275,6 +292,23 @@ namespace EcoStationManagerApplication.UI.Controls
                     }).ToList();
                 }
 
+                // Áp dụng bộ lọc ngày nếu có
+                if (_dateFilterStart.HasValue || _dateFilterEnd.HasValue)
+                {
+                    orders = orders.Where(order =>
+                    {
+                        var orderDate = order.LastUpdated.Date;
+                        bool matches = true;
+
+                        if (_dateFilterStart.HasValue)
+                            matches = matches && orderDate >= _dateFilterStart.Value.Date;
+                        if (_dateFilterEnd.HasValue)
+                            matches = matches && orderDate <= _dateFilterEnd.Value.Date;
+
+                        return matches;
+                    }).ToList();
+                }
+
                 orders = orders.Take(50).ToList(); // Giới hạn hiển thị
 
                 // Populate DataGridView
@@ -329,13 +363,14 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             switch (source)
             {
-                case OrderSource.GOOGLEFORM:
-                case OrderSource.EMAIL:
-                    return "Email";
                 case OrderSource.MANUAL:
-                    return "Offline";
+                    return "Thủ công";
+                case OrderSource.GOOGLEFORM:
+                    return "Google Form";
                 case OrderSource.EXCEL:
                     return "Excel";
+                case OrderSource.EMAIL:
+                    return "Email";
                 default:
                     return "Khác";
             }
@@ -914,6 +949,23 @@ namespace EcoStationManagerApplication.UI.Controls
                     }).ToList();
                 }
 
+                // Áp dụng bộ lọc ngày nếu có
+                if (_dateFilterStart.HasValue || _dateFilterEnd.HasValue)
+                {
+                    allOrders = allOrders.Where(order =>
+                    {
+                        var orderDate = order.LastUpdated.Date;
+                        bool matches = true;
+
+                        if (_dateFilterStart.HasValue)
+                            matches = matches && orderDate >= _dateFilterStart.Value.Date;
+                        if (_dateFilterEnd.HasValue)
+                            matches = matches && orderDate <= _dateFilterEnd.Value.Date;
+
+                        return matches;
+                    }).ToList();
+                }
+
                 // Tìm kiếm theo tên và số điện thoại
                 var searchLower = searchText.ToLower();
                 var filteredOrders = new List<OrderDTO>();
@@ -1008,6 +1060,141 @@ namespace EcoStationManagerApplication.UI.Controls
         private void OrdersControl_Load(object sender, EventArgs e)
         {
             // Không cần load lại vì đã load trong constructor
+        }
+
+        // Date filter event handlers
+        private async void btnFilterToday_Click(object sender, EventArgs e)
+        {
+            ResetDateFilterButtons();
+            btnFilterToday.BackColor = Color.FromArgb(46, 125, 50);
+            btnFilterToday.ForeColor = Color.White;
+
+            var today = DateTime.Now.Date;
+            _dateFilterStart = today;
+            _dateFilterEnd = today;
+            _currentDateFilter = "today";
+
+            HideDateRangePickers();
+            await LoadOrdersAsync(_currentFilter);
+        }
+
+        private async void btnFilterThisWeek_Click(object sender, EventArgs e)
+        {
+            ResetDateFilterButtons();
+            btnFilterThisWeek.BackColor = Color.FromArgb(46, 125, 50);
+            btnFilterThisWeek.ForeColor = Color.White;
+
+            var today = DateTime.Now.Date;
+            var startOfWeek = today.AddDays(-(int)today.DayOfWeek);
+            _dateFilterStart = startOfWeek;
+            _dateFilterEnd = today;
+            _currentDateFilter = "week";
+
+            HideDateRangePickers();
+            await LoadOrdersAsync(_currentFilter);
+        }
+
+        private async void btnFilterThisMonth_Click(object sender, EventArgs e)
+        {
+            ResetDateFilterButtons();
+            btnFilterThisMonth.BackColor = Color.FromArgb(46, 125, 50);
+            btnFilterThisMonth.ForeColor = Color.White;
+
+            var today = DateTime.Now.Date;
+            var startOfMonth = new DateTime(today.Year, today.Month, 1);
+            _dateFilterStart = startOfMonth;
+            _dateFilterEnd = today;
+            _currentDateFilter = "month";
+
+            HideDateRangePickers();
+            await LoadOrdersAsync(_currentFilter);
+        }
+
+        private void btnFilterDateRange_Click(object sender, EventArgs e)
+        {
+            ResetDateFilterButtons();
+            btnFilterDateRange.BackColor = Color.FromArgb(46, 125, 50);
+            btnFilterDateRange.ForeColor = Color.White;
+
+            _currentDateFilter = "range";
+            ShowDateRangePickers();
+        }
+
+        private async void dtpStartDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (_currentDateFilter == "range")
+            {
+                _dateFilterStart = dtpStartDate.Value.Date;
+                if (_dateFilterEnd.HasValue && _dateFilterStart.Value > _dateFilterEnd.Value)
+                {
+                    _dateFilterEnd = _dateFilterStart.Value;
+                    dtpEndDate.Value = _dateFilterEnd.Value;
+                }
+                await LoadOrdersAsync(_currentFilter);
+            }
+        }
+
+        private async void dtpEndDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (_currentDateFilter == "range")
+            {
+                _dateFilterEnd = dtpEndDate.Value.Date;
+                if (_dateFilterStart.HasValue && _dateFilterEnd.Value < _dateFilterStart.Value)
+                {
+                    _dateFilterStart = _dateFilterEnd.Value;
+                    dtpStartDate.Value = _dateFilterStart.Value;
+                }
+                await LoadOrdersAsync(_currentFilter);
+            }
+        }
+
+        private void ResetDateFilterButtons()
+        {
+            btnFilterToday.BackColor = Color.White;
+            btnFilterToday.ForeColor = Color.Black;
+            btnFilterThisWeek.BackColor = Color.White;
+            btnFilterThisWeek.ForeColor = Color.Black;
+            btnFilterThisMonth.BackColor = Color.White;
+            btnFilterThisMonth.ForeColor = Color.Black;
+            btnFilterDateRange.BackColor = Color.White;
+            btnFilterDateRange.ForeColor = Color.Black;
+        }
+
+        private void ShowDateRangePickers()
+        {
+            dtpStartDate.Visible = true;
+            dtpEndDate.Visible = true;
+            lblDateRange.Visible = true;
+            lblDateRange.Text = "Từ:";
+
+            if (!_dateFilterStart.HasValue)
+            {
+                dtpStartDate.Value = DateTime.Now.Date.AddDays(-7);
+                _dateFilterStart = dtpStartDate.Value.Date;
+            }
+            else
+            {
+                dtpStartDate.Value = _dateFilterStart.Value;
+            }
+
+            if (!_dateFilterEnd.HasValue)
+            {
+                dtpEndDate.Value = DateTime.Now.Date;
+                _dateFilterEnd = dtpEndDate.Value.Date;
+            }
+            else
+            {
+                dtpEndDate.Value = _dateFilterEnd.Value;
+            }
+
+            _ = LoadOrdersAsync(_currentFilter);
+        }
+
+        private void HideDateRangePickers()
+        {
+            dtpStartDate.Visible = false;
+            dtpEndDate.Visible = false;
+            lblDateRange.Visible = false;
         }
     }
 }

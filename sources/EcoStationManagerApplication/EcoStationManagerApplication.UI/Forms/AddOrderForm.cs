@@ -25,6 +25,7 @@ namespace EcoStationManagerApplication.UI.Forms
         
         // Flag để tránh vòng lặp khi tự động điền
         private bool _isUpdatingCustomerName = false;
+        private bool _isUpdatingPhone = false;
         private System.Windows.Forms.Timer _phoneSearchTimer;
 
         public AddOrderForm()
@@ -68,7 +69,7 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             _phoneSearchTimer.Stop();
             
-            if (_isUpdatingCustomerName)
+            if (_isUpdatingCustomerName || _isUpdatingPhone)
                 return;
 
             string phoneInput = NormalizePhone(txtPhone.Text);
@@ -195,17 +196,21 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private void SetupCustomerAutoComplete()
         {
-            // Tạo AutoCompleteStringCollection từ danh sách khách hàng
             var autoCompleteSource = new AutoCompleteStringCollection();
+            var addedNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
             foreach (var customer in _customers)
             {
-                string displayText = $"{customer.Name} - {customer.Phone ?? ""}";
-                autoCompleteSource.Add(displayText);
+                if (string.IsNullOrWhiteSpace(customer.Name))
+                    continue;
+
+                if (addedNames.Add(customer.Name.Trim()))
+                {
+                    autoCompleteSource.Add(customer.Name.Trim());
+                }
             }
 
-            // Cấu hình AutoComplete cho TextBox
-            txtCustomer.AutoCompleteMode = AutoCompleteMode.Suggest;
+            txtCustomer.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             txtCustomer.AutoCompleteSource = AutoCompleteSource.CustomSource;
             txtCustomer.AutoCompleteCustomSource = autoCompleteSource;
         }
@@ -228,8 +233,23 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private void txtCustomer_TextChanged(object sender, EventArgs e)
         {
-            // Có thể thêm logic tìm kiếm real-time nếu cần
-            // Hiện tại đã có AutoComplete nên không cần xử lý thêm
+            if (_isUpdatingCustomerName)
+                return;
+
+            string input = txtCustomer.Text?.Trim() ?? "";
+            if (string.IsNullOrWhiteSpace(input))
+                return;
+
+            var customer = _customers.FirstOrDefault(c =>
+                !string.IsNullOrWhiteSpace(c.Name) &&
+                c.Name.Equals(input, StringComparison.OrdinalIgnoreCase));
+
+            if (customer != null)
+            {
+                _isUpdatingPhone = true;
+                txtPhone.Text = customer.Phone ?? "";
+                _isUpdatingPhone = false;
+            }
         }
 
         private void txtPhone_TextChanged(object sender, EventArgs e)
@@ -318,14 +338,12 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            // Validation - chỉ sản phẩm là bắt buộc
             if (_selectedProducts.Count == 0)
             {
                 MessageBox.Show("Vui lòng thêm ít nhất một sản phẩm!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Tạo đơn hàng
             _ = CreateOrderAsync();
         }
 
@@ -336,21 +354,13 @@ namespace EcoStationManagerApplication.UI.Forms
                 btnCreate.Enabled = false;
                 Cursor = Cursors.WaitCursor;
 
-                // Tìm khách hàng - ưu tiên tìm theo SĐT, sau đó mới tìm theo tên
-                int? customerId = null;
-                string phoneInput = txtPhone.Text.Trim();
-                string customerNameInput = txtCustomer.Text.Trim();
-
-                // Ưu tiên tìm theo SĐT
-                if (!string.IsNullOrWhiteSpace(phoneInput))
+                var orderSource = GetOrderSource();
+                var customerId = await ResolveCustomerIdAsync(orderSource);
+                if (customerId == null && IsOnlineOrderSource(orderSource))
                 {
-                    customerId = await FindCustomerIdByPhoneAsync(phoneInput);
-                }
-
-                // Nếu không tìm thấy theo SĐT, tìm theo tên
-                if (customerId == null && !string.IsNullOrWhiteSpace(customerNameInput))
-                {
-                    customerId = await FindCustomerIdByNameAsync(customerNameInput);
+                    btnCreate.Enabled = true;
+                    Cursor = Cursors.Default;
+                    return;
                 }
 
                 // TẠO ĐƠN HÀNG (cho phép CustomerId = null cho khách vãng lai)
@@ -399,59 +409,6 @@ namespace EcoStationManagerApplication.UI.Forms
             }
         }
 
-        private async Task<int?> FindCustomerIdByPhoneAsync(string phone)
-        {
-            if (string.IsNullOrWhiteSpace(phone))
-                return null;
-
-            try
-            {
-                // Tìm trong danh sách đã load
-                var cachedCustomer = _customers.FirstOrDefault(c =>
-                    c.Phone != null && c.Phone.Equals(phone, StringComparison.OrdinalIgnoreCase));
-
-                if (cachedCustomer != null)
-                    return cachedCustomer.CustomerId;
-
-                // Nếu không tìm thấy trong cache, có thể tìm kiếm bằng service
-                // (Tùy chọn - nếu bạn muốn tìm kiếm real-time từ database)
-                return null;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private async Task<int?> FindCustomerIdByNameAsync(string customerName)
-        {
-            if (string.IsNullOrWhiteSpace(customerName))
-                return null;
-
-            try
-            {
-                // Kịch bản 1: Người dùng chọn từ AutoComplete (chuỗi chính xác)
-                var cachedCustomer = _customers.FirstOrDefault(c =>
-                    $"{c.Name} - {c.Phone ?? ""}" == customerName);
-
-                if (cachedCustomer != null)
-                    return cachedCustomer.CustomerId;
-
-                // Kịch bản 2: Người dùng gõ TÊN chính xác (nhưng không chọn từ AutoComplete)
-                cachedCustomer = _customers.FirstOrDefault(c =>
-                    c.Name != null && c.Name.Equals(customerName, StringComparison.OrdinalIgnoreCase));
-
-                if (cachedCustomer != null)
-                    return cachedCustomer.CustomerId;
-
-                return null;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
         private OrderSource GetOrderSource()
         {
             // Kiểm tra SelectedIndex hợp lệ
@@ -487,6 +444,197 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private bool IsOnlineOrderSource(OrderSource source)
+        {
+            return source == OrderSource.GOOGLEFORM ||
+                   source == OrderSource.EXCEL ||
+                   source == OrderSource.EMAIL;
+        }
+
+        private async Task<int?> ResolveCustomerIdAsync(OrderSource source)
+        {
+            string phone = NormalizePhone(txtPhone.Text);
+            string customerName = txtCustomer.Text.Trim();
+            bool isOnline = IsOnlineOrderSource(source);
+
+            if (isOnline)
+            {
+                if (string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(customerName))
+                {
+                    MessageBox.Show("Đơn từ Google Form / Excel / Email bắt buộc nhập đầy đủ tên và số điện thoại khách hàng.",
+                        "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(phone) && string.IsNullOrWhiteSpace(customerName))
+            {
+                // Khách vãng lai
+                return null;
+            }
+
+            var existingCustomer = await FindCustomerAsync(phone, customerName);
+            if (existingCustomer != null)
+            {
+                return existingCustomer.CustomerId;
+            }
+
+            var confirm = MessageBox.Show(
+                "Khách hàng này chưa tồn tại. Bạn có muốn tạo mới không?",
+                "Tạo khách hàng",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes)
+            {
+                if (isOnline)
+                {
+                    MessageBox.Show("Bạn cần chọn hoặc tạo khách hàng hợp lệ cho đơn online.",
+                        "Yêu cầu khách hàng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+                return null;
+            }
+
+            if (string.IsNullOrWhiteSpace(customerName))
+            {
+                MessageBox.Show("Vui lòng nhập tên khách hàng để tạo mới.", "Thiếu thông tin",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
+            }
+
+            var newCustomerId = await CreateCustomerAsync(customerName, phone);
+            if (newCustomerId.HasValue)
+            {
+                var newCustomer = await AppServices.CustomerService.GetCustomerByIdAsync(newCustomerId.Value);
+                if (newCustomer.Success && newCustomer.Data != null)
+                {
+                    AddOrUpdateCustomerCache(newCustomer.Data);
+                }
+                MessageBox.Show("Đã tạo khách hàng mới thành công.", "Thành công",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (isOnline)
+            {
+                MessageBox.Show("Không tạo được khách hàng mới. Vui lòng kiểm tra lại.",
+                    "Lỗi tạo khách hàng", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return newCustomerId;
+        }
+
+        private async Task<Customer> FindCustomerAsync(string phone, string customerName)
+        {
+            Customer foundCustomer = null;
+
+            if (!string.IsNullOrWhiteSpace(phone))
+            {
+                string normalized = NormalizePhone(phone);
+                foundCustomer = _customers.FirstOrDefault(c =>
+                    !string.IsNullOrWhiteSpace(c.Phone) &&
+                    NormalizePhone(c.Phone).Equals(normalized, StringComparison.OrdinalIgnoreCase));
+
+                if (foundCustomer != null)
+                    return foundCustomer;
+
+                var searchResult = await AppServices.CustomerService.SearchCustomersAsync(phone);
+                if (searchResult.Success && searchResult.Data != null)
+                {
+                    AddOrUpdateCustomerCache(searchResult.Data);
+                    foundCustomer = searchResult.Data.FirstOrDefault(c =>
+                        !string.IsNullOrWhiteSpace(c.Phone) &&
+                        NormalizePhone(c.Phone).Equals(normalized, StringComparison.OrdinalIgnoreCase));
+                    if (foundCustomer != null)
+                        return foundCustomer;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(customerName))
+            {
+                foundCustomer = _customers.FirstOrDefault(c =>
+                    !string.IsNullOrWhiteSpace(c.Name) &&
+                    c.Name.Equals(customerName, StringComparison.OrdinalIgnoreCase));
+
+                if (foundCustomer != null)
+                    return foundCustomer;
+
+                var searchResult = await AppServices.CustomerService.SearchCustomersAsync(customerName);
+                if (searchResult.Success && searchResult.Data != null)
+                {
+                    AddOrUpdateCustomerCache(searchResult.Data);
+                    foundCustomer = searchResult.Data.FirstOrDefault(c =>
+                        !string.IsNullOrWhiteSpace(c.Name) &&
+                        c.Name.Equals(customerName, StringComparison.OrdinalIgnoreCase));
+                }
+            }
+
+            return foundCustomer;
+        }
+
+        private async Task<int?> CreateCustomerAsync(string customerName, string phone)
+        {
+            try
+            {
+                var customer = new Customer
+                {
+                    Name = customerName,
+                    Phone = string.IsNullOrWhiteSpace(phone) ? null : phone,
+                    CustomerCode = GenerateCustomerCode(),
+                    Rank = CustomerRank.MEMBER,
+                    IsActive = ActiveStatus.ACTIVE,
+                    CreatedDate = DateTime.Now
+                };
+
+                var result = await AppServices.CustomerService.CreateCustomerAsync(customer);
+                if (!result.Success || result.Data <= 0)
+                {
+                    MessageBox.Show($"Không thể tạo khách hàng: {result.Message}", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+
+                return result.Data;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi tạo khách hàng: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        private string GenerateCustomerCode()
+        {
+            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            var random = Guid.NewGuid().ToString("N").Substring(0, 6);
+            var code = $"CUS{timestamp}{random}";
+            return code.Length > 50 ? code.Substring(0, 50) : code;
+        }
+
+        private void AddOrUpdateCustomerCache(IEnumerable<Customer> customers)
+        {
+            foreach (var customer in customers)
+            {
+                AddOrUpdateCustomerCache(customer);
+            }
+        }
+
+        private void AddOrUpdateCustomerCache(Customer customer)
+        {
+            if (customer == null) return;
+
+            var existing = _customers.FirstOrDefault(c => c.CustomerId == customer.CustomerId);
+            if (existing != null)
+            {
+                existing.Name = customer.Name;
+                existing.Phone = customer.Phone;
+            }
+            else
+            {
+                _customers.Add(customer);
+            }
         }
 
         private void AddOrderForm_Load(object sender, EventArgs e)

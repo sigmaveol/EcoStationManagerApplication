@@ -253,6 +253,7 @@ namespace EcoStationManagerApplication.Core.Services
                     int colOrderCode = FindColumn(columnMap, "ordercode", "mã đơn", "order_code");
                     int colCustomerName = FindColumn(columnMap, "customername", "tên khách hàng", "customer_name", "name");
                     int colPhone = FindColumn(columnMap, "phone", "số điện thoại", "phone", "sđt");
+                    int colAddress = FindColumn(columnMap, "address", "địa chỉ", "diachi", "deliveryaddress", "shippingaddress");
                     int colProductName = FindColumn(columnMap, "productname", "tên sản phẩm", "product_name", "product");
                     int colQuantity = FindColumn(columnMap, "quantity", "số lượng", "sl");
                     int colUnitPrice = FindColumn(columnMap, "unitprice", "đơn giá", "unit_price", "price", "giá");
@@ -278,6 +279,11 @@ namespace EcoStationManagerApplication.Core.Services
                             var customerName = row.Cell(colCustomerName).GetString()?.Trim() ?? "";
                             var phone = row.Cell(colPhone).GetString()?.Trim() ?? "";
                             var productName = row.Cell(colProductName).GetString()?.Trim() ?? "";
+                            var address = colAddress > 0 ? row.Cell(colAddress).GetString()?.Trim() ?? "" : "";
+                            if (!string.IsNullOrEmpty(address) && address.Length > 255)
+                            {
+                                address = address.Substring(0, 255);
+                            }
                             
                             // Đọc số lượng và đơn giá - hỗ trợ cả số và text
                             decimal quantity = 0;
@@ -395,6 +401,7 @@ namespace EcoStationManagerApplication.Core.Services
                                 OrderCode = orderCode,
                                 CustomerName = customerName,
                                 Phone = phone,
+                                Address = address,
                                 ProductName = productName,
                                 Quantity = quantity,
                                 UnitPrice = unitPrice,
@@ -667,6 +674,11 @@ namespace EcoStationManagerApplication.Core.Services
                                 Status = OrderStatus.CONFIRMED,
                                 PaymentStatus = PaymentStatus.UNPAID,
                                 PaymentMethod = PaymentMethod.CASH,
+                                Address = string.IsNullOrWhiteSpace(firstRowData.Address)
+                                    ? null
+                                    : (firstRowData.Address.Length > 255
+                                        ? firstRowData.Address.Substring(0, 255)
+                                        : firstRowData.Address),
                                 Note = firstRowData.Note?.Length > 1000 ? firstRowData.Note.Substring(0, 1000) : firstRowData.Note,
                                 DiscountedAmount = orderRows.Sum(r => r.Discount),
                                 LastUpdated = firstRowData.CreatedDate ?? DateTime.Now
@@ -731,6 +743,7 @@ namespace EcoStationManagerApplication.Core.Services
             public string OrderCode { get; set; }
             public string CustomerName { get; set; }
             public string Phone { get; set; }
+            public string Address { get; set; }
             public string ProductName { get; set; }
             public decimal Quantity { get; set; }
             public decimal UnitPrice { get; set; }

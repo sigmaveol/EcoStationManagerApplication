@@ -71,7 +71,7 @@
             // 
             this.lblPhone.AutoSize = true;
             this.lblPhone.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblPhone.Location = new System.Drawing.Point(33, 130);
+            this.lblPhone.Location = new System.Drawing.Point(22, 70);
             this.lblPhone.Name = "lblPhone";
             this.lblPhone.Size = new System.Drawing.Size(97, 19);
             this.lblPhone.TabIndex = 1;
@@ -80,7 +80,7 @@
             // txtPhone
             // 
             this.txtPhone.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtPhone.Location = new System.Drawing.Point(26, 152);
+            this.txtPhone.Location = new System.Drawing.Point(26, 96);
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(350, 26);
             this.txtPhone.TabIndex = 2;
@@ -89,7 +89,7 @@
             // 
             this.lblCustomer.AutoSize = true;
             this.lblCustomer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblCustomer.Location = new System.Drawing.Point(22, 70);
+            this.lblCustomer.Location = new System.Drawing.Point(22, 130);
             this.lblCustomer.Name = "lblCustomer";
             this.lblCustomer.Size = new System.Drawing.Size(112, 19);
             this.lblCustomer.TabIndex = 3;
@@ -254,7 +254,7 @@
             // txtCustomer
             // 
             this.txtCustomer.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtCustomer.Location = new System.Drawing.Point(26, 96);
+            this.txtCustomer.Location = new System.Drawing.Point(26, 152);
             this.txtCustomer.Name = "txtCustomer";
             this.txtCustomer.Size = new System.Drawing.Size(350, 26);
             this.txtCustomer.TabIndex = 18;

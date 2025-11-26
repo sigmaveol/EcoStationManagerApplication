@@ -158,6 +158,8 @@
     <Compile Include="Services\WorkShiftService.cs" />
     <Compile Include="Services\ImportService.cs" />
     <Compile Include="Services\CleaningScheduleService.cs" />
+    <Compile Include="Interfaces\INotificationService.cs" />
+    <Compile Include="Services\NotificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />

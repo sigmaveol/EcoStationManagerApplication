@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.DAL.SqlQueries;
 using EcoStationManagerApplication.Models.Entities;
@@ -134,8 +134,9 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
-                var sql = "SELECT COALESCE(SUM(total_amount - discounted_amount), 0) FROM Orders WHERE status = 'COMPLETED'";
+                var sql = "SELECT COALESCE(SUM(total_amount - discounted_amount), 0) FROM Orders WHERE status = @CompletedStatus";
                 var parameters = new DynamicParameters();
+                parameters.Add("CompletedStatus", (int)OrderStatus.COMPLETED);
 
                 if (startDate.HasValue && endDate.HasValue)
                 {
@@ -157,8 +158,9 @@ namespace EcoStationManagerApplication.DAL.Repositories
         {
             try
             {
-                var sql = "SELECT COUNT(*) FROM Orders WHERE status = 'COMPLETED'";
+                var sql = "SELECT COUNT(*) FROM Orders WHERE status = @CompletedStatus";
                 var parameters = new DynamicParameters();
+                parameters.Add("CompletedStatus", (int)OrderStatus.COMPLETED);
 
                 if (startDate.HasValue && endDate.HasValue)
                 {

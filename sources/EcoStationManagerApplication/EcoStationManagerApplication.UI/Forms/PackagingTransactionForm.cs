@@ -235,7 +235,7 @@ namespace EcoStationManagerApplication.UI.Forms
                         _customerId,
                         quantity,
                         amount,
-                        AppUserContext.CurrentUserId, // userId sẽ được lấy từ context
+                        AppServices.State.CurrentUser.UserId, // userId sẽ được lấy từ context
                         notes
                     );
 
@@ -253,7 +253,7 @@ namespace EcoStationManagerApplication.UI.Forms
                         _customerId,
                         quantity,
                         amount,
-                        AppUserContext.CurrentUserId, // userId sẽ được lấy từ context
+                        AppServices.State.CurrentUser.UserId, // userId sẽ được lấy từ context
                         notes
                     );
 

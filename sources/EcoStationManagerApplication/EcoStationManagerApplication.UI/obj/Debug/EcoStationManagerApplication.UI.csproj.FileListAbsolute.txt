@@ -98,7 +98,6 @@ D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationM
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\EcoStationManagerApplication.UI.exe
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\EcoStationManagerApplication.UI.pdb
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\AForge.dll
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\AForge.Video.DirectShow.dll
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\AForge.Video.dll
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\ClosedXML.dll
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\ClosedXML.Parser.dll
@@ -148,7 +147,6 @@ D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationM
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\EcoStationManagerApplication.Models.dll.config
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\AForge.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\AForge.Video.xml
-D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\AForge.Video.DirectShow.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\ClosedXML.pdb
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\ClosedXML.xml
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\bin\Debug\ClosedXML.Parser.xml
@@ -239,3 +237,4 @@ D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationM
 d:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\obj\Debug\EcoStationManagerApplication.UI.Forms.SingleProductStockOutForm.resources
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\obj\Debug\EcoStationManagerApplication.UI.exe.config
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\obj\Debug\EcoStationManagerApplication.UI.Forms.PackagingTransactionDetailForm.resources
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.UI\obj\Debug\EcoStationManagerApplication.UI.Forms.NotificationForm.resources

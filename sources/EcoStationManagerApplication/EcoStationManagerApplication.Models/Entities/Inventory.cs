@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.Enums;
+using EcoStationManagerApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -37,6 +37,12 @@ namespace EcoStationManagerApplication.Models.Entities
         // Navigation properties
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
+
+        [NotMapped]
+        public string ProductName { get; set; }
+
+        [NotMapped]
+        public decimal MinStockLevel { get; set; }
     }
 
     [Table("PackagingInventories")]

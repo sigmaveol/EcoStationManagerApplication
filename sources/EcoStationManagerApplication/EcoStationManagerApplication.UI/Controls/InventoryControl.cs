@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
@@ -12,7 +12,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static EcoStationManagerApplication.UI.Common.AppColors;
-using static EcoStationManagerApplication.UI.Common.AppFonts;
 using MainForm = EcoStationManagerApplication.UI.Forms.MainForm;
 
 namespace EcoStationManagerApplication.UI.Controls
@@ -219,10 +218,12 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewPackaging.Columns.Add("PackagingCode", "Mã bao bì");
             dataGridViewPackaging.Columns.Add("PackagingName", "Loại bao bì");
             dataGridViewPackaging.Columns.Add("Capacity", "Dung tích");
+            dataGridViewPackaging.Columns.Add("QtyNew", "Mới");
             dataGridViewPackaging.Columns.Add("QtyInUse", "Đang dùng");
-            dataGridViewPackaging.Columns.Add("QtyReturned", "Thu hồi");
+            dataGridViewPackaging.Columns.Add("QtyNeedCleaning", "Cần vệ sinh");
+            dataGridViewPackaging.Columns.Add("QtyCleaned", "Đã vệ sinh");
             dataGridViewPackaging.Columns.Add("QtyDamaged", "Hỏng");
-            dataGridViewPackaging.Columns.Add("TotalStock", "Tổng tồn");
+            dataGridViewPackaging.Columns.Add("TotalStock", "Tổng tồn khả dụng");
             dataGridViewPackaging.Columns.Add("Status", "Trạng thái");
 
             // Thiết lập độ rộng cột
@@ -232,10 +233,14 @@ namespace EcoStationManagerApplication.UI.Controls
                 dataGridViewPackaging.Columns["PackagingName"].Width = 200;
             if (dataGridViewPackaging.Columns["Capacity"] != null)
                 dataGridViewPackaging.Columns["Capacity"].Width = 100;
+            if (dataGridViewPackaging.Columns["QtyNew"] != null)
+                dataGridViewPackaging.Columns["QtyNew"].Width = 100;
             if (dataGridViewPackaging.Columns["QtyInUse"] != null)
                 dataGridViewPackaging.Columns["QtyInUse"].Width = 100;
-            if (dataGridViewPackaging.Columns["QtyReturned"] != null)
-                dataGridViewPackaging.Columns["QtyReturned"].Width = 100;
+            if (dataGridViewPackaging.Columns["QtyNeedCleaning"] != null)
+                dataGridViewPackaging.Columns["QtyNeedCleaning"].Width = 110;
+            if (dataGridViewPackaging.Columns["QtyCleaned"] != null)
+                dataGridViewPackaging.Columns["QtyCleaned"].Width = 110;
             if (dataGridViewPackaging.Columns["QtyDamaged"] != null)
                 dataGridViewPackaging.Columns["QtyDamaged"].Width = 100;
             if (dataGridViewPackaging.Columns["TotalStock"] != null)
@@ -244,7 +249,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 dataGridViewPackaging.Columns["Status"].Width = 150;
 
             // Căn giữa cho các cột số lượng
-            foreach (string colName in new[] { "QtyInUse", "QtyReturned", "QtyDamaged", "TotalStock" })
+            foreach (string colName in new[] { "QtyNew", "QtyInUse", "QtyNeedCleaning", "QtyCleaned", "QtyDamaged", "TotalStock" })
             {
                 if (dataGridViewPackaging.Columns[colName] != null)
                     dataGridViewPackaging.Columns[colName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
@@ -355,20 +360,23 @@ namespace EcoStationManagerApplication.UI.Controls
                     if (!packagingResult.Success || packagingResult.Data == null)
                         continue;
 
-                    var packaging = packagingResult.Data;
-                    int totalStock = inv.QtyNew + inv.QtyInUse + inv.QtyReturned + inv.QtyCleaned;
+                var packaging = packagingResult.Data;
+                int totalStock = inv.QtyNew + inv.QtyCleaned;
 
-                    var dto = new PackagingInventoryDTO
-                    {
-                        PackagingId = inv.PackagingId,
-                        PackagingCode = packaging.Barcode ?? "",
-                        PackagingName = packaging.Name,
-                        Capacity = packaging.Type ?? "",
-                        QtyInUse = inv.QtyInUse,
-                        QtyReturned = inv.QtyReturned,
-                        QtyDamaged = inv.QtyDamaged,
-                        TotalStock = totalStock
-                    };
+                var dto = new PackagingInventoryDTO
+                {
+                    PackagingId = inv.PackagingId,
+                    PackagingCode = packaging.Barcode ?? "",
+                    PackagingName = packaging.Name,
+                    Capacity = packaging.Type ?? "",
+                    QtyNew = inv.QtyNew,
+                    QtyInUse = inv.QtyInUse,
+                    QtyReturned = inv.QtyReturned,
+                    QtyNeedCleaning = inv.QtyNeedCleaning,
+                    QtyCleaned = inv.QtyCleaned,
+                    QtyDamaged = inv.QtyDamaged,
+                    TotalStock = totalStock
+                };
 
                     packagingInventories.Add(dto);
                 }
@@ -387,11 +395,15 @@ namespace EcoStationManagerApplication.UI.Controls
                 BindProductData();
                 lblStatusFilter.Visible = true;
                 cmbStatusFilter.Visible = true;
+                lblCategoryFilter.Visible = true;
+                cmbCategoryFilter.Visible = true;
             }
             else
             {
                 lblStatusFilter.Visible = false;
                 cmbStatusFilter.Visible = false;
+                lblCategoryFilter.Visible = false;
+                cmbCategoryFilter.Visible = false;
                 BindPackagingData();
             }
         }
@@ -507,8 +519,10 @@ namespace EcoStationManagerApplication.UI.Controls
                         inv.PackagingCode,
                         inv.PackagingName,
                         inv.Capacity,
+                        inv.QtyNew.ToString("N0"),
                         inv.QtyInUse.ToString("N0"),
-                        inv.QtyReturned.ToString("N0"),
+                        inv.QtyNeedCleaning.ToString("N0"),
+                        inv.QtyCleaned.ToString("N0"),
                         inv.QtyDamaged.ToString("N0"),
                         inv.TotalStock.ToString("N0"),
                         status
@@ -773,12 +787,16 @@ namespace EcoStationManagerApplication.UI.Controls
                 }
                 else
                 {
-                    // Fallback: mở form trực tiếp nếu không tìm thấy MainForm
                     if (currentMode == ViewMode.Products)
                     {
                         using (var form = new MultiProductStockInForm())
                         {
-                            if (form.ShowDialog() == DialogResult.OK)
+                            var owner = this.FindForm() ?? this.TopLevelControl as Form;
+                            DialogResult result = owner != null
+                                ? FormHelper.ShowModalWithDim(owner, form)
+                                : form.ShowDialog();
+
+                            if (result == DialogResult.OK)
                             {
                                 _ = LoadDataAsync();
                             }
@@ -809,12 +827,16 @@ namespace EcoStationManagerApplication.UI.Controls
                 }
                 else
                 {
-                    // Fallback: mở form trực tiếp nếu không tìm thấy MainForm
                     if (currentMode == ViewMode.Products)
                     {
                         using (var form = new MultiProductStockOutForm())
                         {
-                            if (form.ShowDialog() == DialogResult.OK)
+                            var owner = this.FindForm() ?? this.TopLevelControl as Form;
+                            DialogResult result = owner != null
+                                ? FormHelper.ShowModalWithDim(owner, form)
+                                : form.ShowDialog();
+
+                            if (result == DialogResult.OK)
                             {
                                 _ = LoadDataAsync();
                             }
@@ -962,8 +984,11 @@ namespace EcoStationManagerApplication.UI.Controls
         public string PackagingCode { get; set; }
         public string PackagingName { get; set; }
         public string Capacity { get; set; }
+        public int QtyNew { get; set; }
         public int QtyInUse { get; set; }
         public int QtyReturned { get; set; }
+        public int QtyNeedCleaning { get; set; }
+        public int QtyCleaned { get; set; }
         public int QtyDamaged { get; set; }
         public int TotalStock { get; set; }
     }

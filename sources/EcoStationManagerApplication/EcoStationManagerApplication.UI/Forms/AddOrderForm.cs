@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using AppServices = EcoStationManagerApplication.UI.Common.AppServices;
 using System;
@@ -284,14 +284,15 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             using (var addProductForm = new AddProductToOrderForm(_products))
             {
-                if (addProductForm.ShowDialog() == DialogResult.OK)
+                DialogResult result = FormHelper.ShowModalWithDim(this, addProductForm);
+                if (result == DialogResult.OK)
                 {
                     var selectedProduct = addProductForm.SelectedProduct;
                     var quantity = addProductForm.Quantity;
 
                     if (selectedProduct != null && quantity > 0)
                     {
-                        // Kiểm tra sản phẩm đã tồn tại chưa
+                        
                         var existing = _selectedProducts.FirstOrDefault(p => p.ProductId == selectedProduct.ProductId);
                         if (existing != null)
                         {
@@ -376,7 +377,7 @@ namespace EcoStationManagerApplication.UI.Forms
                     Status = OrderStatus.DRAFT,
                     TotalAmount = _selectedProducts.Sum(p => p.TotalPrice),
                     LastUpdated = DateTime.Now,
-                    UserId = AppUserContext.CurrentUserId,
+                    UserId = AppServices.State.CurrentUser.UserId,
                 };
 
                 // ... (phần còn lại của hàm giữ nguyên) ...

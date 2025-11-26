@@ -63,7 +63,7 @@ namespace EcoStationManagerApplication.UI.Controls
             try
             {
                 _pinVerified = true;
-                _canEdit = AppUserContext.IsAdmin;
+                _canEdit = AppServices.State.IsAdmin || AppServices.State.IsManager;
                 InitializeControls();
                 ApplyPermissionState();
                 ApplyRoleSpecificLayout();

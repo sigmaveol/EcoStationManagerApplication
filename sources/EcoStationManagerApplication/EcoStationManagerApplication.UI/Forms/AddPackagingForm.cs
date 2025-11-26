@@ -32,7 +32,7 @@ namespace EcoStationManagerApplication.UI.Forms
             {
                 this.Text = lblTitle.Text = "Chỉnh sửa bao bì";
                 btnSave.Text = "Cập nhật";
-                btnDelete.Visible = AppUserContext.IsAdmin;
+                btnDelete.Visible = AppServices.State.IsAdmin || AppServices.State.IsManager;
                 txtBarcode.ReadOnly = true;
                 await LoadPackagingData(_packagingId.Value);
             }

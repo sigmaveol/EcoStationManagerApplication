@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -54,6 +54,8 @@ namespace EcoStationManagerApplication.DAL.Interfaces
 
         // Cleaning Schedule Management
         ICleaningScheduleRepository CleaningSchedules { get; }
+
+        INotificationRepository Notifications { get; }
 
         /// <summary>
         /// Lưu tất cả thay đổi

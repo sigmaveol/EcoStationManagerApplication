@@ -1,5 +1,5 @@
 using EcoStationManagerApplication.Common.Config;
-using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.DTOs;
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +12,7 @@ namespace EcoStationManagerApplication.UI.Common.Services
     {
         private static AppStateManager _instance;
         private Dictionary<string, object> _stateCache;
-        private User _currentUser;
+        private UserDTO _currentUser;
         private string _currentTheme;
 
         private AppStateManager()
@@ -36,7 +36,7 @@ namespace EcoStationManagerApplication.UI.Common.Services
         /// <summary>
         /// User hiện tại đang đăng nhập
         /// </summary>
-        public User CurrentUser
+        public UserDTO CurrentUser
         {
             get => _currentUser;
             set

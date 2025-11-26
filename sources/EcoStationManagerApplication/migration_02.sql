@@ -2,6 +2,7 @@
 -- Chuyển tất cả cột ENUM sang TINYINT
 -- Mapping Enum C# tương ứng được ghi chú bên dưới
 -- ================================
+USE EcoStationManager;
 
 -- Users.role: ADMIN=0, STAFF=1, MANAGER=2, DRIVER=3
 ALTER TABLE Users MODIFY COLUMN role TINYINT NOT NULL DEFAULT 1; -- default STAFF

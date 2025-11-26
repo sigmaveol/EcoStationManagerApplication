@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.UI.Common;
 using EcoStationManagerApplication.UI.Forms;
 using System;
@@ -295,11 +295,20 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private async void BtnAddSupplier_Click(object sender, EventArgs e)
         {
+            Form mainForm = this.FindForm();
+            while (mainForm != null && !(mainForm is MainForm))
+            {
+                mainForm = mainForm.ParentForm ?? mainForm.Owner;
+            }
+
             using (var addSupplierForm = new AddSupplierForm())
             {
-                if (addSupplierForm.ShowDialog() == DialogResult.OK)
+                DialogResult result = mainForm != null
+                    ? FormHelper.ShowModalWithDim(mainForm, addSupplierForm)
+                    : addSupplierForm.ShowDialog();
+
+                if (result == DialogResult.OK)
                 {
-                    // Nhà cung cấp đã được tạo thành công, refresh danh sách
                     await LoadSuppliersAsync();
                 }
             }
@@ -307,11 +316,20 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private async void OpenEditSupplierForm(Supplier supplier)
         {
+            Form mainForm = this.FindForm();
+            while (mainForm != null && !(mainForm is MainForm))
+            {
+                mainForm = mainForm.ParentForm ?? mainForm.Owner;
+            }
+
             using (var editSupplierForm = new AddSupplierForm(supplier))
             {
-                if (editSupplierForm.ShowDialog() == DialogResult.OK)
+                DialogResult result = mainForm != null
+                    ? FormHelper.ShowModalWithDim(mainForm, editSupplierForm)
+                    : editSupplierForm.ShowDialog();
+
+                if (result == DialogResult.OK)
                 {
-                    // Nhà cung cấp đã được cập nhật thành công, refresh danh sách
                     await LoadSuppliersAsync();
                 }
             }

@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Common.Config;
+using EcoStationManagerApplication.Common.Config;
 using EcoStationManagerApplication.Models.Results;
 using Guna.UI2.WinForms;
 using System;
@@ -167,6 +167,46 @@ namespace EcoStationManagerApplication.UI.Common
             {
                 action();
             }
+        }
+
+        public static Image CreateInitialAvatar(string fullName, Size size)
+        {
+            var initials = GetInitials(fullName);
+            var bmp = new Bitmap(Math.Max(size.Width, 52), Math.Max(size.Height, 50));
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.Clear(GetColorFromName(fullName));
+                var font = new Font("Segoe UI Semibold", 20, FontStyle.Bold);
+                var textSize = g.MeasureString(initials, font);
+                var x = (bmp.Width - textSize.Width) / 2f;
+                var y = (bmp.Height - textSize.Height) / 2f;
+                using (var brush = new SolidBrush(Color.White))
+                {
+                    g.DrawString(initials, font, brush, x, y);
+                }
+            }
+            return bmp;
+        }
+
+        private static string GetInitials(string fullName)
+        {
+            if (string.IsNullOrWhiteSpace(fullName)) return "?";
+            var parts = fullName.Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 0) return "?";
+            if (parts.Length == 1) return parts[0].Substring(0, 1).ToUpper();
+            var first = parts[0].Substring(0, 1).ToUpper();
+            var last = parts[parts.Length - 1].Substring(0, 1).ToUpper();
+            return first + last;
+        }
+
+        private static Color GetColorFromName(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return Color.FromArgb(120, 120, 120);
+            var hash = name.GetHashCode();
+            var r = 100 + (Math.Abs(hash) % 156);
+            var g = 100 + (Math.Abs(hash / 3) % 156);
+            var b = 100 + (Math.Abs(hash / 7) % 156);
+            return Color.FromArgb(r, g, b);
         }
     }
 }

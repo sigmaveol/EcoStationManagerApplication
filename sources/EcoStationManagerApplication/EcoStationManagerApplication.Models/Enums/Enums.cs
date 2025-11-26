@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace EcoStationManagerApplication.Models.Enums
 {
@@ -137,5 +137,17 @@ namespace EcoStationManagerApplication.Models.Enums
     {
         INACTIVE = 0,
         ACTIVE = 1
+    }
+
+    public enum NotificationType
+    {
+        INFO = 0,
+        WARNING = 1,
+        ERROR = 2,
+        SUCCESS = 3,
+        LOWSTOCK = 4,
+        ORDER = 5,
+        REFILL = 6,
+        SYSTEM = 7
     }
 }

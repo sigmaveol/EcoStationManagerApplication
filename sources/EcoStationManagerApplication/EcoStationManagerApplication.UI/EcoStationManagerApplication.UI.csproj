@@ -45,9 +45,6 @@
     <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
     </Reference>
-    <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
-      <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
-    </Reference>
     <Reference Include="ClosedXML, Version=0.105.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.0.105.0\lib\netstandard2.0\ClosedXML.dll</HintPath>
     </Reference>
@@ -150,7 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AppColors.cs" />
-    <Compile Include="Common\ApplicationContext.cs" />
     <Compile Include="Common\AppServices.cs" />
     <Compile Include="Common\EnumHelper.cs" />
     <Compile Include="Common\Services\NavigationService.cs" />
@@ -584,6 +580,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\BatchDeliveryAssignmentForm.resx">
       <DependentUpon>BatchDeliveryAssignmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NotificationForm.resx">
+      <DependentUpon>NotificationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OrderDetailForm.resx">
       <DependentUpon>OrderDetailForm.cs</DependentUpon>

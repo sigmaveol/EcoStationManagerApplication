@@ -37,11 +37,11 @@ namespace EcoStationManagerApplication.UI.Forms
             txtStatus.Text = user.IsActive == ActiveStatus.ACTIVE ? "Đang hoạt động" : "Không hoạt động";
             txtCreated.Text = user.CreatedDate.ToString("dd/MM/yyyy HH:mm");
 
-            try
+            var nameForAvatar = string.IsNullOrWhiteSpace(user.Fullname) ? user.Username : user.Fullname;
+            if (!string.IsNullOrWhiteSpace(nameForAvatar))
             {
-                pictureAvatar.Image = Properties.Resources.logo_pm;
+                pictureAvatar.Image = UIHelper.CreateInitialAvatar(nameForAvatar, pictureAvatar.Size);
             }
-            catch { }
         }
 
         private void btnClose_Click(object sender, EventArgs e)

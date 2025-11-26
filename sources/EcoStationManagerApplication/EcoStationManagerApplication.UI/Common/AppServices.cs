@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Core.Composition;
+using EcoStationManagerApplication.Core.Composition;
 using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.UI.Common.Services;
 using System;
@@ -32,6 +32,7 @@ namespace EcoStationManagerApplication.UI.Common
         public static IWorkShiftService WorkShiftService => ServiceRegistry.WorkShiftService;
         public static IImportService ImportService => ServiceRegistry.ImportService;
         public static ICleaningScheduleService CleaningScheduleService => ServiceRegistry.CleaningScheduleService;
+        public static INotificationService NotificationService => ServiceRegistry.NotificationService;
 
         // UI Services
         public static NavigationService Navigation => NavigationService.Instance;

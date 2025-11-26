@@ -214,36 +214,36 @@ namespace EcoStationManagerApplication.Core.Helpers
         //    };
         //}
 
-        //// ===== USER MAPPINGS =====
-        //public static UserDTO MapToUserDTO(User user)
-        //{
-        //    if (user == null) return null;
+        // ===== USER MAPPINGS =====
+        public static UserDTO MapToUserDTO(User user)
+        {
+            if (user == null) return null;
 
-        //    return new UserDTO
-        //    {
-        //        UserId = user.UserId,
-        //        Username = user.Username,
-        //        Fullname = user.Fullname,
-        //        Role = user.Role,
-        //        IsActive = user.IsActive,
-        //        CreatedDate = user.CreatedDate
-        //    };
-        //}
+            return new UserDTO
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Fullname = user.Fullname,
+                Role = user.Role,
+                IsActive = user.IsActive,
+                CreatedDate = user.CreatedDate
+            };
+        }
 
-        //public static User MapToUser(UserDTO dto)
-        //{
-        //    if (dto == null) return null;
+        public static User MapToUser(UserDTO dto)
+        {
+            if (dto == null) return null;
 
-        //    return new User
-        //    {
-        //        UserId = dto.UserId,
-        //        Username = dto.Username,
-        //        Fullname = dto.Fullname,
-        //        Role = dto.Role,
-        //        IsActive = dto.IsActive,
-        //        CreatedDate = dto.CreatedDate
-        //    };
-        //}
+            return new User
+            {
+                UserId = dto.UserId,
+                Username = dto.Username,
+                Fullname = dto.Fullname,
+                Role = dto.Role,
+                IsActive = dto.IsActive,
+                CreatedDate = dto.CreatedDate
+            };
+        }
 
         //// ===== DASHBOARD MAPPINGS =====
         //public static DashboardStatsDTO MapToDashboardStatsDTO(

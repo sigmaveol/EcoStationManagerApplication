@@ -1,6 +1,7 @@
-﻿using EcoStationManagerApplication.Core.Composition;
+using EcoStationManagerApplication.Core.Composition;
 using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.UI.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,91 +15,12 @@ namespace EcoStationManagerApplication.UI.Forms
     public partial class NotificationForm : Form
     {
         private readonly IInventoryService _inventoryService;
-        private DataGridView dgvAlerts;
-        private Label lblTitle;
-        private Button btnRefresh;
-        private Button btnClose;
 
         public NotificationForm()
         {
             InitializeComponent();
-            _inventoryService = ServiceRegistry.InventoryService;
-            InitializeCustomComponents();
+            _inventoryService = AppServices.InventoryService;
             LoadAlerts();
-        }
-
-        private void InitializeCustomComponents()
-        {
-            this.SuspendLayout();
-
-            // Form properties
-            this.Text = "Cảnh báo Tồn kho";
-            this.Size = new Size(800, 500);
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-
-            // Title label
-            lblTitle = new Label
-            {
-                Text = "Cảnh báo Sản phẩm Sắp Hết",
-                Font = new Font("Segoe UI", 14, FontStyle.Bold),
-                Location = new Point(20, 20),
-                Size = new Size(400, 30),
-                AutoSize = false
-            };
-
-            // Refresh button
-            btnRefresh = new Button
-            {
-                Text = "Làm mới",
-                Location = new Point(600, 20),
-                Size = new Size(80, 30),
-                UseVisualStyleBackColor = true
-            };
-            btnRefresh.Click += BtnRefresh_Click;
-
-            // Close button
-            btnClose = new Button
-            {
-                Text = "Đóng",
-                Location = new Point(690, 20),
-                Size = new Size(80, 30),
-                UseVisualStyleBackColor = true
-            };
-            btnClose.Click += (s, e) => this.Close();
-
-            // DataGridView for alerts
-            dgvAlerts = new DataGridView
-            {
-                Location = new Point(20, 60),
-                Size = new Size(750, 350),
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ReadOnly = true,
-                AllowUserToAddRows = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                MultiSelect = false
-            };
-
-            // Add columns
-            dgvAlerts.Columns.Add("ProductName", "Tên sản phẩm");
-            dgvAlerts.Columns.Add("CurrentStock", "Tồn kho hiện tại");
-            dgvAlerts.Columns.Add("MinStock", "Tồn kho tối thiểu");
-            dgvAlerts.Columns.Add("AlertLevel", "Mức cảnh báo");
-
-            // Format columns
-            dgvAlerts.Columns["CurrentStock"].DefaultCellStyle.Format = "N2";
-            dgvAlerts.Columns["MinStock"].DefaultCellStyle.Format = "N2";
-            dgvAlerts.Columns["AlertLevel"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            // Add controls to form
-            this.Controls.Add(lblTitle);
-            this.Controls.Add(btnRefresh);
-            this.Controls.Add(btnClose);
-            this.Controls.Add(dgvAlerts);
-
-            this.ResumeLayout(false);
         }
 
         private async void LoadAlerts()
@@ -113,9 +35,9 @@ namespace EcoStationManagerApplication.UI.Forms
                 {
                     foreach (var inventory in result.Data)
                     {
-                        var productName = inventory.Product?.Name ?? "N/A";
+                        var productName = string.IsNullOrWhiteSpace(inventory.ProductName) ? (inventory.Product?.Name ?? "N/A") : inventory.ProductName;
                         var currentStock = inventory.Quantity;
-                        var minStock = inventory.Product?.MinStockLevel ?? 0;
+                        var minStock = inventory.MinStockLevel > 0 ? inventory.MinStockLevel : (inventory.Product?.MinStockLevel ?? 0);
                         var alertLevel = GetAlertLevel(currentStock, minStock);
 
                         var row = new DataGridViewRow();
@@ -174,15 +96,29 @@ namespace EcoStationManagerApplication.UI.Forms
                 return "Bình thường";
         }
 
-        private async void BtnRefresh_Click(object sender, EventArgs e)
-        {
-            LoadAlerts();
-        }
-
         public static void ShowLowStockAlerts()
         {
             var form = new NotificationForm();
-            form.ShowDialog();
+            var parent = Form.ActiveForm;
+            if (parent != null)
+            {
+                FormHelper.ShowModalWithDim(parent, form);
+            }
+            else
+            {
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.ShowDialog();
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadAlerts();
         }
     }
 }

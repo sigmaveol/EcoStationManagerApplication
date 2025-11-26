@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Common.Exporters;
+using EcoStationManagerApplication.Common.Exporters;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
@@ -277,10 +277,12 @@ namespace EcoStationManagerApplication.UI.Controls
                     // Không có lịch, mở form tạo mới
                     using (var form = new CleaningScheduleForm())
                     {
-                        // Set ngày mặc định
                         form.SetDefaultDate(selectedDate);
-                        
-                        if (form.ShowDialog() == DialogResult.OK)
+                        var owner = this.FindForm();
+                        DialogResult result = owner != null
+                            ? FormHelper.ShowModalWithDim(owner, form)
+                            : form.ShowDialog();
+                        if (result == DialogResult.OK)
                         {
                             await LoadCleaningScheduleDataAsync();
                         }
@@ -486,7 +488,15 @@ namespace EcoStationManagerApplication.UI.Controls
             dialog.Controls.Add(btnAdd);
             dialog.Controls.Add(btnClose);
 
-            dialog.ShowDialog();
+            var owner = this.FindForm();
+            if (owner != null)
+            {
+                FormHelper.ShowModalWithDim(owner, dialog);
+            }
+            else
+            {
+                dialog.ShowDialog();
+            }
         }
 
         /// <summary>
@@ -563,7 +573,11 @@ namespace EcoStationManagerApplication.UI.Controls
                 using (var form = new CleaningScheduleForm())
                 {
                     form.SetDefaultDate(date);
-                    if (form.ShowDialog() == DialogResult.OK)
+                    var owner = this.FindForm();
+                    DialogResult result = owner != null
+                        ? FormHelper.ShowModalWithDim(owner, form)
+                        : form.ShowDialog();
+                    if (result == DialogResult.OK)
                     {
                         _ = LoadCleaningScheduleDataAsync();
                     }
@@ -583,7 +597,15 @@ namespace EcoStationManagerApplication.UI.Controls
             dialog.Controls.Add(btnAdd);
             dialog.Controls.Add(btnClose);
 
-            dialog.ShowDialog();
+            var owner2 = this.FindForm();
+            if (owner2 != null)
+            {
+                FormHelper.ShowModalWithDim(owner2, dialog);
+            }
+            else
+            {
+                dialog.ShowDialog();
+            }
         }
 
         /// <summary>
@@ -593,7 +615,11 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             using (var form = new CleaningScheduleForm(schedule))
             {
-                if (form.ShowDialog() == DialogResult.OK)
+                var owner = this.FindForm();
+                DialogResult result = owner != null
+                    ? FormHelper.ShowModalWithDim(owner, form)
+                    : form.ShowDialog();
+                if (result == DialogResult.OK)
                 {
                     await LoadCleaningScheduleDataAsync();
                 }
@@ -1051,7 +1077,11 @@ namespace EcoStationManagerApplication.UI.Controls
             {
                 using (var form = new WorkShiftForm(null))
                 {
-                    if (form.ShowDialog() == DialogResult.OK)
+                    var owner = this.FindForm();
+                    DialogResult result = owner != null
+                        ? FormHelper.ShowModalWithDim(owner, form)
+                        : form.ShowDialog();
+                    if (result == DialogResult.OK)
                     {
                         await LoadWorkShiftDataAsync();
                         await LoadDashboardDataAsync();
@@ -1081,7 +1111,11 @@ namespace EcoStationManagerApplication.UI.Controls
                 {
                     using (var form = new WorkShiftForm(shift))
                     {
-                        if (form.ShowDialog() == DialogResult.OK)
+                        var owner = this.FindForm();
+                        DialogResult result = owner != null
+                            ? FormHelper.ShowModalWithDim(owner, form)
+                            : form.ShowDialog();
+                        if (result == DialogResult.OK)
                         {
                             await LoadWorkShiftDataAsync();
                             await LoadDashboardDataAsync();

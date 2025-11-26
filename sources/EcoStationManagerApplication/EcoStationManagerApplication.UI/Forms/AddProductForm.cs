@@ -60,7 +60,7 @@ namespace EcoStationManagerApplication.UI.Forms
                 lblTitle.Text = "Chỉnh sửa sản phẩm";
                 btnSave.Text = "Cập nhật";
                 // Chỉ hiển thị nút Xóa nếu user là Admin
-                btnDelete.Visible = AppUserContext.IsAdmin;
+                btnDelete.Visible = AppServices.State.IsAdmin || AppServices.State.IsManager;
                 txtSKU.ReadOnly = true; // Không cho sửa SKU khi edit
                 await LoadProductData(_productId.Value);
             }

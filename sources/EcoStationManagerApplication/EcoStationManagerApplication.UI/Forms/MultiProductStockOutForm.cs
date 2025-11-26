@@ -475,7 +475,8 @@ namespace EcoStationManagerApplication.UI.Forms
             // Mở form chọn sản phẩm/bao bì
             using (var selectionForm = new SingleProductStockOutForm(_allProducts, _allPackagings))
             {
-                if (selectionForm.ShowDialog() == DialogResult.OK && selectionForm.IsOK)
+                DialogResult result = FormHelper.ShowModalWithDim(this, selectionForm);
+                if (result == DialogResult.OK && selectionForm.IsOK)
                 {
                     // Thêm dòng mới vào DataGridView với thông tin đã chọn
                     var rowIndex = dgvProducts.Rows.Add();
@@ -636,7 +637,7 @@ namespace EcoStationManagerApplication.UI.Forms
                             Purpose = purpose,
                             Notes = notes,
                             CreatedDate = stockOutDate,
-                            CreatedBy = AppUserContext.CurrentUserId // Người tạo là người hiện tại đăng nhập
+                            CreatedBy = AppServices.State.CurrentUser.UserId // Người tạo là người hiện tại đăng nhập
                         };
 
                         stockOuts.Add(stockOut);

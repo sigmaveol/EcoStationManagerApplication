@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EcoStationManagerApplicatio
 		migration_00.sql = migration_00.sql
 		migration_01.sql = migration_01.sql
 		migration_02.sql = migration_02.sql
+		migration_03.sql = migration_03.sql
 		MIGRATION_PLAN.md = MIGRATION_PLAN.md
 		PACKAGING_RETURN_POINTS.md = PACKAGING_RETURN_POINTS.md
 		PROCEDURES_TRIGGERS_REVIEW.md = PROCEDURES_TRIGGERS_REVIEW.md

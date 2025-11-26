@@ -421,10 +421,14 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             try
             {
-                // Sử dụng form xuất kho nhiều sản phẩm
                 using (var form = new MultiProductStockOutForm())
                 {
-                    if (form.ShowDialog() == DialogResult.OK)
+                    var owner = this.FindForm();
+                    DialogResult result = owner != null
+                        ? FormHelper.ShowModalWithDim(owner, form)
+                        : form.ShowDialog();
+
+                    if (result == DialogResult.OK)
                     {
                         _ = LoadDataAsync();
                     }
@@ -600,7 +604,15 @@ namespace EcoStationManagerApplication.UI.Controls
                 {
                     using (var form = new StockOutDetailForm(detail))
                     {
-                        form.ShowDialog();
+                        var owner = this.FindForm();
+                        if (owner != null)
+                        {
+                            FormHelper.ShowModalWithDim(owner, form);
+                        }
+                        else
+                        {
+                            form.ShowDialog();
+                        }
                     }
                 }
                 else

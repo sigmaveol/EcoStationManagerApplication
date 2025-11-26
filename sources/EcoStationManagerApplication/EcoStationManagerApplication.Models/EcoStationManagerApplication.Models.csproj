@@ -157,6 +157,7 @@
     <Compile Include="Entities\Station.cs" />
     <Compile Include="Entities\Tank.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\Notification.cs" />
     <Compile Include="Entities\CleaningSchedule.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

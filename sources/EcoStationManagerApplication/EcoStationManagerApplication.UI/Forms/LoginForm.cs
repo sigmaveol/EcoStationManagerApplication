@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.UI.Common;
 using EcoStationManagerApplication.UI.Common.Services;
 using EcoStationManagerApplication.UI.Forms;
 using System;
@@ -129,9 +129,7 @@ namespace EcoStationManagerApplication.UI
                 else
                 {
                     // Reset nếu không có Remember me
-                    txtUsername.Text = "";
-                    txtPassword.Text = "";
-                    checkBoxRemember.Checked = false;
+                    ResetCredentials();
                 }
             }
             catch (Exception ex)
@@ -139,9 +137,7 @@ namespace EcoStationManagerApplication.UI
                 // Log lỗi nhưng không hiển thị cho user
                 System.Diagnostics.Debug.WriteLine($"Lỗi khi load saved credentials: {ex.Message}");
                 // Reset về trạng thái mặc định
-                txtUsername.Text = "";
-                txtPassword.Text = "";
-                checkBoxRemember.Checked = false;
+                ResetCredentials();
             }
         }
 
@@ -172,6 +168,13 @@ namespace EcoStationManagerApplication.UI
                 // Log lỗi nhưng không làm ảnh hưởng đến trải nghiệm user
                 System.Diagnostics.Debug.WriteLine($"Lỗi khi save credentials: {ex.Message}");
             }
+        }
+
+        private void ResetCredentials()
+        {
+            txtUsername.Text = "";
+            txtPassword.Text = "";
+            checkBoxRemember.Checked = false;
         }
 
         private async void btnLogin_Click(object sender, EventArgs e)
@@ -215,12 +218,6 @@ namespace EcoStationManagerApplication.UI
                 if (result.Success && result.Data != null)
                 {
                     var user = result.Data;
-
-                    // Lưu thông tin user vào AppUserContext
-                    AppUserContext.CurrentUserId = user.UserId;
-                    AppUserContext.CurrentUsername = user.Username;
-                    AppUserContext.CurrentUserRole = user.Role;
-                    AppUserContext.CurrentFullname = user.Fullname;
 
                     // Lưu user vào AppStateManager
                     AppServices.State.CurrentUser = user;
@@ -340,8 +337,35 @@ namespace EcoStationManagerApplication.UI
                 var mainForm = new MainForm();
                 mainForm.FormClosed += (s, args) =>
                 {
-                    AppUserContext.Clear(); // Clear context khi đóng MainForm
-                    this.Close();
+                    var logoutRequested = AppServices.State.GetState<bool>("LogoutRequested", false);
+                    if (logoutRequested)
+                    {
+                        AppServices.State.SetState("LogoutRequested", false);
+                        this.Show();
+                        this.BringToFront();
+                        try
+                        {
+                            if (Properties.Settings.Default.RememberMe)
+                            {
+                                LoadSavedCredentials();
+                                txtUsername.Focus();
+                            }
+                            else
+                            {
+                                ResetCredentials();
+                                txtUsername.Focus();
+                            }
+                        }
+                        catch
+                        {
+                            ResetCredentials();
+                            txtUsername.Focus();
+                        }
+                    }
+                    else
+                    {
+                        this.Close();
+                    }
                 };
                 mainForm.Show();
             }

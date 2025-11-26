@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.Enums;
+using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.Models.Results;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.UI.Common;
@@ -602,11 +602,20 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private async void btnAddOrder_Click(object sender, EventArgs e)
         {
+            Form mainForm = this.FindForm();
+            while (mainForm != null && !(mainForm is MainForm))
+            {
+                mainForm = mainForm.ParentForm ?? mainForm.Owner;
+            }
+
             using (var addOrderForm = new AddOrderForm())
             {
-                if (addOrderForm.ShowDialog() == DialogResult.OK)
+                DialogResult result = mainForm != null
+                    ? FormHelper.ShowModalWithDim(mainForm, addOrderForm)
+                    : addOrderForm.ShowDialog();
+
+                if (result == DialogResult.OK)
                 {
-                    // Đơn hàng đã được tạo thành công, refresh danh sách
                     await LoadOrdersAsync(_currentFilter);
                 }
             }

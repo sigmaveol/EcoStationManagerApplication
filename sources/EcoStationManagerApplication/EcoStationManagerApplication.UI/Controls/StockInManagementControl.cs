@@ -637,7 +637,15 @@ namespace EcoStationManagerApplication.UI.Controls
                     {
                         using (var form = new StockInDetailForm("", noBatchItems))
                         {
-                            form.ShowDialog();
+                            var owner = this.FindForm();
+                            if (owner != null)
+                            {
+                                FormHelper.ShowModalWithDim(owner, form);
+                            }
+                            else
+                            {
+                                form.ShowDialog();
+                            }
                         }
                     }
                     else
@@ -654,7 +662,15 @@ namespace EcoStationManagerApplication.UI.Controls
                     {
                         using (var form = new StockInDetailForm(batchNo, result.Data))
                         {
-                            form.ShowDialog();
+                            var owner = this.FindForm();
+                            if (owner != null)
+                            {
+                                FormHelper.ShowModalWithDim(owner, form);
+                            }
+                            else
+                            {
+                                form.ShowDialog();
+                            }
                         }
                     }
                     else

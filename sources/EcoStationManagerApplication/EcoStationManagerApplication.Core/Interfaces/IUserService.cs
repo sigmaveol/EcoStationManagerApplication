@@ -15,7 +15,7 @@ namespace EcoStationManagerApplication.Core.Interfaces
         /// <summary>
         /// Xác thực người dùng (đăng nhập)
         /// </summary>
-        Task<Result<User>> AuthenticateAsync(string username, string password);
+        Task<Result<UserDTO>> AuthenticateAsync(string username, string password);
 
         /// <summary>
         /// Lấy thông tin người dùng theo ID

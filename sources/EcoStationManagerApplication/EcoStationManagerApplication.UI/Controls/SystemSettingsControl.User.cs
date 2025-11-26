@@ -574,7 +574,9 @@ namespace EcoStationManagerApplication.UI.Controls
                 prompt.CancelButton = btnCancel;
 
                 var owner = FindForm();
-                var dialogResult = owner != null ? prompt.ShowDialog(owner) : prompt.ShowDialog();
+                var dialogResult = owner != null 
+                    ? FormHelper.ShowModalWithDim(owner, prompt)
+                    : prompt.ShowDialog();
 
                 return dialogResult == DialogResult.OK ? txtPin.Text : null;
             }
@@ -690,7 +692,9 @@ namespace EcoStationManagerApplication.UI.Controls
                 form.CancelButton = btnCancel;
 
                 var owner = FindForm();
-                var result = owner != null ? form.ShowDialog(owner) : form.ShowDialog();
+                var result = owner != null 
+                    ? FormHelper.ShowModalWithDim(owner, form)
+                    : form.ShowDialog();
 
                 currentPin = txtCurrent.Text;
                 newPin = txtNew.Text;

@@ -1,4 +1,5 @@
 ﻿using EcoStationManagerApplication.Common.Helpers;
+using EcoStationManagerApplication.Core.Helpers;
 using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.Models.DTOs;
@@ -23,21 +24,21 @@ namespace EcoStationManagerApplication.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<User>> AuthenticateAsync(string username, string password)
+        public async Task<Result<UserDTO>> AuthenticateAsync(string username, string password)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-                    return Result<User>.Fail("Tên đăng nhập và mật khẩu không được để trống");
+                    return Result<UserDTO>.Fail("Tên đăng nhập và mật khẩu không được để trống");
 
                 // Lấy user theo username trước
                 var user = await _unitOfWork.Users.GetByUsernameAsync(username);
                 if (user == null)
-                    return Result<User>.Fail("Tên đăng nhập hoặc mật khẩu không đúng");
+                    return Result<UserDTO>.Fail("Tên đăng nhập hoặc mật khẩu không đúng");
 
                 // Kiểm tra trạng thái active
                 if (user.IsActive != ActiveStatus.ACTIVE)
-                    return Result<User>.Fail("Tài khoản đã bị vô hiệu hóa");
+                    return Result<UserDTO>.Fail("Tài khoản đã bị vô hiệu hóa");
 
                 // So sánh password hash trong code (chính xác hơn so sánh trong SQL)
                 var inputPasswordHash = SecurityHelper.HashPassword(password);
@@ -46,13 +47,9 @@ namespace EcoStationManagerApplication.Core.Services
                 var storedHash = user.PasswordHash?.Trim();
                 var inputHash = inputPasswordHash?.Trim();
                 
-                // Debug logging (có thể xóa sau khi fix)
-                _logger.Info($"Authentication attempt - Username: {username}, StoredHash: '{storedHash}', InputHash: '{inputHash}', Match: {storedHash == inputHash}");
-                
                 if (string.IsNullOrEmpty(storedHash) || storedHash != inputHash)
                 {
-                    _logger.Warning($"Password mismatch for user: {username}. Stored length: {storedHash?.Length}, Input length: {inputHash?.Length}");
-                    return Result<User>.Fail("Tên đăng nhập hoặc mật khẩu không đúng");
+                    return Result<UserDTO>.Fail("Tên đăng nhập hoặc mật khẩu không đúng");
                 }
 
                 _logger.Info($"User authenticated: {username} (ID: {user.UserId})");
@@ -60,11 +57,11 @@ namespace EcoStationManagerApplication.Core.Services
                 // Tự động tạo WorkShift cho user nếu chưa có ca làm việc hôm nay
                 await EnsureWorkShiftForTodayAsync(user.UserId);
                 
-                return Result<User>.Ok(user, "Đăng nhập thành công");
+                return Result<UserDTO>.Ok(MappingHelper.MapToUserDTO(user), "Đăng nhập thành công");
             }
             catch (Exception ex)
             {
-                return HandleException<User>(ex, "xác thực người dùng");
+                return HandleException<UserDTO>(ex, "xác thực người dùng");
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Core.Interfaces;
+using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.Core.Services;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.DAL.UnitOfWork;
@@ -35,6 +35,7 @@ namespace EcoStationManagerApplication.Core.Composition
         private static IWorkShiftService _workShiftService;
         private static IImportService _importService;
         private static ICleaningScheduleService _cleaningScheduleService;
+        private static INotificationService _notificationService;
 
         private static IUnitOfWork GetUnitOfWork()
         {
@@ -104,5 +105,7 @@ namespace EcoStationManagerApplication.Core.Composition
             ProductService));
 
         public static ICleaningScheduleService CleaningScheduleService => _cleaningScheduleService ?? (_cleaningScheduleService = new CleaningScheduleService(GetUnitOfWork()));
+
+        public static INotificationService NotificationService => _notificationService ?? (_notificationService = new NotificationService(GetUnitOfWork()));
     }
 }

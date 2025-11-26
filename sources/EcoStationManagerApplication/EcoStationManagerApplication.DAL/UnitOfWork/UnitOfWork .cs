@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Common.Logging;
+using EcoStationManagerApplication.Common.Logging;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.DAL.Repositories;
 using System;
@@ -36,6 +36,7 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
         private IStationRepository _stations;
         private IDeliveryRepository _deliveries;
         private ICleaningScheduleRepository _cleaningSchedules;
+        private INotificationRepository _notifications;
 
         public UnitOfWork(IDatabaseHelper databaseHelper)
         {
@@ -84,6 +85,8 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
 
         // Cleaning Schedule Management
         public ICleaningScheduleRepository CleaningSchedules => _cleaningSchedules ?? (_cleaningSchedules = new CleaningScheduleRepository(_databaseHelper));
+
+        public INotificationRepository Notifications => _notifications ?? (_notifications = new NotificationRepository(_databaseHelper));
 
         public async Task<int> SaveChangesAsync()
         {

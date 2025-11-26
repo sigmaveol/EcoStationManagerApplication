@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
 using System;
@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
@@ -32,17 +33,11 @@ namespace EcoStationManagerApplication.UI.Controls
         private async Task InitializeComponentCustom()
         {
             PopulateStatsPanel();
-            InitializeDataGrid();
-
-
-            btnViewAllOrders.Click += btnViewAllOrders_Click;
+            InitializeCharts();
             await LoadDashboardData();
         }
 
-        private void btnViewAllOrders_Click(object sender, EventArgs e)
-        {
-            ViewAllOrdersClicked?.Invoke(this, EventArgs.Empty);
-        }
+        
 
         // Đổ dữ liệu tạm thời cho các thẻ thống kê
         private void PopulateStatsPanel()
@@ -77,7 +72,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 // Load dữ liệu song song
                 await Task.WhenAll(
                     LoadStatistics(),
-                    LoadRecentOrders()
+                    LoadChartsData()
                 );
             }
             catch (Exception ex)
@@ -184,76 +179,103 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        private async Task LoadRecentOrders()
+        private async Task LoadChartsData()
         {
             try
             {
-                // Sử dụng GetTodayOrdersAsync để lấy đơn hàng gần đây
-                var recentOrdersResult = await AppServices.OrderService.GetTodayOrdersAsync();
+                var endDate = DateTime.Today;
+                var startDate = endDate.AddDays(-6);
 
-                if (recentOrdersResult.Success && dgvRecentOrders != null)
+                var criteria = new EcoStationManagerApplication.Models.DTOs.OrderSearchCriteria
                 {
-                    dgvRecentOrders.Rows.Clear();
+                    FromDate = startDate,
+                    ToDate = endDate
+                };
 
-                    // Lấy 10 đơn hàng gần đây nhất
-                    var recentOrders = recentOrdersResult.Data
-                        .OrderByDescending(o => o.LastUpdated)
-                        .Take(10)
-                        .ToList();
+                var ordersResult = await AppServices.OrderService.GetPagedOrdersAsync(1, 1000, criteria);
+                var orders = ordersResult.Success ? ordersResult.Data.Orders.ToList() : new System.Collections.Generic.List<EcoStationManagerApplication.Models.Entities.Order>();
 
-                    if (!recentOrders.Any())
+                if (chartOrderSource != null)
+                {
+                    chartOrderSource.Series.Clear();
+                    chartOrderSource.ChartAreas.Clear();
+                    chartOrderSource.Legends.Clear();
+
+                    var area = new ChartArea("PieArea");
+                    chartOrderSource.ChartAreas.Add(area);
+                    var legend = new Legend("Legend");
+                    legend.Docking = Docking.Right;
+                    chartOrderSource.Legends.Add(legend);
+                    var series = new Series("Sources")
                     {
-                        return;
-                    }
+                        ChartType = SeriesChartType.Pie,
+                        ChartArea = "PieArea",
+                        Legend = "Legend"
+                    };
+                    series.IsValueShownAsLabel = true;
 
-                    foreach (var order in recentOrders)
+                    var total = Math.Max(orders.Count, 1);
+                    var sourceGroups = orders.GroupBy(o => o.Source)
+                        .ToDictionary(g => g.Key, g => g.Count());
+
+                    foreach (var src in new[] { OrderSource.EXCEL, OrderSource.GOOGLEFORM, OrderSource.MANUAL, OrderSource.EMAIL })
                     {
-                        // Lấy thông tin khách hàng
-                        string customerName = "Khách lẻ";
-                        if (order.CustomerId.HasValue)
+                        var count = sourceGroups.ContainsKey(src) ? sourceGroups[src] : 0;
+                        var pct = (double)count / total;
+                        var dp = new DataPoint
                         {
-                            var customerResult = await AppServices.CustomerService.GetCustomerByIdAsync(order.CustomerId.Value);
-                            if (customerResult.Success && customerResult.Data != null)
-                            {
-                                customerName = customerResult.Data.Name;
-                            }
-                        }
-
-                        // Lấy thông tin sản phẩm từ chi tiết đơn hàng
-                        var orderDetailsResult = await AppServices.OrderService.GetOrderWithDetailsAsync(order.OrderId);
-                        string productInfo = "Đa dạng sản phẩm";
-
-                        if (orderDetailsResult.Success && orderDetailsResult.Data?.OrderDetails?.Any() == true)
-                        {
-                            var firstProduct = orderDetailsResult.Data.OrderDetails.First();
-                            var productResult = await AppServices.ProductService.GetProductByIdAsync(firstProduct.ProductId);
-                            if (productResult.Success)
-                            {
-                                var product = productResult.Data;
-                                productInfo = $"{product.Name} ({firstProduct.Quantity} {product.Unit})";
-                            }
-                        }
-
-                        dgvRecentOrders.Rows.Add(
-                            order.OrderCode,
-                            customerName,
-                            productInfo,
-                            GetOrderSourceDisplay(order.Source),
-                            GetOrderStatusDisplay(order.Status),
-                            order.LastUpdated.ToString("dd/MM/yyyy HH:mm")
-                        );
+                            AxisLabel = GetOrderSourceDisplay(src),
+                            YValues = new[] { (double)count }
+                        };
+                        dp.Label = string.Format("{0:P0}", pct);
+                        dp.LegendText = GetOrderSourceDisplay(src);
+                        series.Points.Add(dp);
                     }
 
-                    // Nếu không có đơn hàng nào, hiển thị thông báo
-                    if (!recentOrders.Any())
+                    chartOrderSource.Series.Add(series);
+                }
+
+                if (chartRevenue7Days != null)
+                {
+                    chartRevenue7Days.Series.Clear();
+                    chartRevenue7Days.ChartAreas.Clear();
+                    chartRevenue7Days.Legends.Clear();
+
+                    var area = new ChartArea("BarArea");
+                    area.AxisX.Interval = 1;
+                    area.AxisX.MajorGrid.Enabled = false;
+                    area.AxisY.MajorGrid.LineColor = Color.Gainsboro;
+                    area.AxisY.LabelStyle.Format = "#,0";
+                    chartRevenue7Days.ChartAreas.Add(area);
+                    var legend = new Legend("Legend");
+                    chartRevenue7Days.Legends.Add(legend);
+                    var series = new Series("Revenue")
                     {
-                        dgvRecentOrders.Rows.Add("", "Không có đơn hàng nào hôm nay", "", "", "", "");
+                        ChartType = SeriesChartType.Column,
+                        ChartArea = "BarArea",
+                        Legend = "Legend"
+                    };
+                    series.IsValueShownAsLabel = true;
+
+                    for (int i = 6; i >= 0; i--)
+                    {
+                        var day = endDate.AddDays(-i);
+                        var dayOrders = orders.Where(o => o.LastUpdated.Date == day.Date && o.Status == OrderStatus.COMPLETED);
+                        var revenue = dayOrders.Sum(o => Math.Max(o.TotalAmount - o.DiscountedAmount, 0));
+                        var point = new DataPoint
+                        {
+                            AxisLabel = day.ToString("dd/MM"),
+                            YValues = new[] { (double)revenue }
+                        };
+                        series.Points.Add(point);
                     }
+
+                    chartRevenue7Days.Series.Add(series);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Lỗi tải đơn hàng gần đây: {ex.Message}");
+                Console.WriteLine($"Lỗi tải dữ liệu biểu đồ: {ex.Message}");
             }
         }
 
@@ -310,65 +332,20 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        // Khởi tạo DataGridView
-        private void InitializeDataGrid()
+        private void InitializeCharts()
         {
-            if (dgvRecentOrders == null) return;
-
-            dgvRecentOrders.BackgroundColor = Color.White;
-            dgvRecentOrders.BorderStyle = BorderStyle.None;
-            dgvRecentOrders.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvRecentOrders.GridColor = Color.FromArgb(240, 240, 240);
-            dgvRecentOrders.AllowUserToAddRows = false;
-            dgvRecentOrders.AllowUserToDeleteRows = false;
-            dgvRecentOrders.AllowUserToResizeRows = false;
-            dgvRecentOrders.RowHeadersVisible = false;
-            dgvRecentOrders.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            dgvRecentOrders.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
-            dgvRecentOrders.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-            dgvRecentOrders.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvRecentOrders.EnableHeadersVisualStyles = false;
-            dgvRecentOrders.ColumnHeadersHeight = 40;
-            dgvRecentOrders.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
-            dgvRecentOrders.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 245, 255);
-            dgvRecentOrders.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dgvRecentOrders.RowTemplate.Height = 35;
-
-            // Clear existing columns
-            dgvRecentOrders.Columns.Clear();
-
-            dgvRecentOrders.Columns.Add("OrderCode", "Mã đơn");           // OrderCode
-            dgvRecentOrders.Columns.Add("CustomerName", "Khách hàng");    // CustomerName
-            dgvRecentOrders.Columns.Add("Products", "Sản phẩm");          // Nối từ OrderDetails.ProductName
-            dgvRecentOrders.Columns.Add("Source", "Loại");                // Source
-            dgvRecentOrders.Columns.Add("Status", "Trạng thái");          // Status
-            dgvRecentOrders.Columns.Add("LastUpdated", "Thời gian");      // LastUpdated
-            dgvRecentOrders.Columns.Add("Detail", "Chi tiết");      // LastUpdated
-            // Tự động co giãn cột
-            dgvRecentOrders.Columns["Products"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvRecentOrders.Columns["CustomerName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-            dgvRecentOrders.CellFormatting += dgvRecentOrders_CellFormatting;
-        }
-
-        private void dgvRecentOrders_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-
-            string colName = dgvRecentOrders.Columns[e.ColumnIndex].Name;
-
-            if (colName == "Source" || colName == "Status")
+            if (chartOrderSource != null)
             {
-                if (e.Value != null)
-                {
-                    string status = e.Value.ToString();
-                    e.CellStyle.BackColor = GetBadgeColor(status);
-                    e.CellStyle.ForeColor = Color.Black;
-                    e.CellStyle.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
-                    e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
+                chartOrderSource.Palette = ChartColorPalette.BrightPastel;
+            }
+
+            if (chartRevenue7Days != null)
+            {
+                chartRevenue7Days.Palette = ChartColorPalette.SeaGreen;
             }
         }
+
+        
 
         private Panel CreateStatCard(string label, string value, string desc, bool isEco = false)
         {
@@ -409,23 +386,7 @@ namespace EcoStationManagerApplication.UI.Controls
             return card;
         }
 
-        private Color GetBadgeColor(string status)
-        {
-            switch (status)
-            {
-                case "Online": return Color.FromArgb(187, 222, 251);
-                case "Offline": return Color.FromArgb(224, 224, 224);
-                case "Đang giao": return Color.FromArgb(200, 230, 201);
-                case "Chuẩn bị": return Color.FromArgb(255, 249, 196);
-                case "Hoàn thành": return Color.FromArgb(200, 230, 201);
-                case "Đã xác nhận": return Color.FromArgb(255, 249, 196);
-                case "Đang xử lý": return Color.FromArgb(255, 243, 205);
-                case "Sẵn sàng": return Color.FromArgb(209, 231, 221);
-                case "Đã hủy": return Color.FromArgb(245, 198, 203);
-                case "Nháp": return Color.FromArgb(222, 226, 230);
-                default: return Color.LightGray;
-            }
-        }
+        
 
         // Method để refresh dữ liệu từ bên ngoài
         public async Task RefreshDataAsync()

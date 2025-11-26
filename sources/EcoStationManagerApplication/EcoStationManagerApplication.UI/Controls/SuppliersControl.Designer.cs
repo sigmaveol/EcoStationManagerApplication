@@ -61,7 +61,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelHeader.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabelHeader.Location = new System.Drawing.Point(0, 0);
             this.titleLabelHeader.Name = "titleLabelHeader";
-            this.titleLabelHeader.Size = new System.Drawing.Size(190, 37);
+            this.titleLabelHeader.Size = new System.Drawing.Size(175, 35);
             this.titleLabelHeader.TabIndex = 0;
             this.titleLabelHeader.Text = "Nhà cung cấp";
             // 
@@ -72,7 +72,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.descriptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.descriptionLabel.Location = new System.Drawing.Point(0, 35);
             this.descriptionLabel.Name = "descriptionLabel";
-            this.descriptionLabel.Size = new System.Drawing.Size(451, 20);
+            this.descriptionLabel.Size = new System.Drawing.Size(424, 19);
             this.descriptionLabel.TabIndex = 1;
             this.descriptionLabel.Text = "Quản lý danh sách nhà cung cấp, thông tin liên hệ, lịch sử đặt hàng.";
             // 
@@ -132,7 +132,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelContent.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.titleLabelContent.Location = new System.Drawing.Point(0, 0);
             this.titleLabelContent.Name = "titleLabelContent";
-            this.titleLabelContent.Size = new System.Drawing.Size(242, 28);
+            this.titleLabelContent.Size = new System.Drawing.Size(226, 25);
             this.titleLabelContent.TabIndex = 0;
             this.titleLabelContent.Text = "Danh sách nhà cung cấp";
             // 

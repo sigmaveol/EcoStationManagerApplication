@@ -113,7 +113,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblReportTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblReportTitle.Location = new System.Drawing.Point(3, 0);
             this.lblReportTitle.Name = "lblReportTitle";
-            this.lblReportTitle.Size = new System.Drawing.Size(261, 41);
+            this.lblReportTitle.Size = new System.Drawing.Size(246, 38);
             this.lblReportTitle.TabIndex = 0;
             this.lblReportTitle.Text = "Báo cáo thống kê";
             // 
@@ -124,7 +124,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblReportDescription.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblReportDescription.Location = new System.Drawing.Point(15, 47);
             this.lblReportDescription.Name = "lblReportDescription";
-            this.lblReportDescription.Size = new System.Drawing.Size(449, 25);
+            this.lblReportDescription.Size = new System.Drawing.Size(410, 23);
             this.lblReportDescription.TabIndex = 1;
             this.lblReportDescription.Text = "Phân tích và thống kê dữ liệu hoạt động kinh doanh";
             // 
@@ -322,7 +322,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnGenerateReport.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
             this.btnGenerateReport.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGenerateReport.ForeColor = System.Drawing.Color.White;
-            this.btnGenerateReport.Location = new System.Drawing.Point(366, 20);
+            this.btnGenerateReport.Location = new System.Drawing.Point(352, 20);
             this.btnGenerateReport.Name = "btnGenerateReport";
             this.btnGenerateReport.Size = new System.Drawing.Size(154, 60);
             this.btnGenerateReport.TabIndex = 3;
@@ -347,7 +347,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblFromDate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFromDate.Location = new System.Drawing.Point(0, 10);
             this.lblFromDate.Name = "lblFromDate";
-            this.lblFromDate.Size = new System.Drawing.Size(65, 20);
+            this.lblFromDate.Size = new System.Drawing.Size(61, 19);
             this.lblFromDate.TabIndex = 0;
             this.lblFromDate.Text = "Từ ngày:";
             // 
@@ -372,7 +372,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblToDate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblToDate.Location = new System.Drawing.Point(270, 10);
             this.lblToDate.Name = "lblToDate";
-            this.lblToDate.Size = new System.Drawing.Size(75, 20);
+            this.lblToDate.Size = new System.Drawing.Size(71, 19);
             this.lblToDate.TabIndex = 2;
             this.lblToDate.Text = "Đến ngày:";
             // 
@@ -409,7 +409,7 @@ namespace EcoStationManagerApplication.UI.Controls
             "Tháng này",
             "Tháng trước",
             "Khoảng thời gian tùy chỉnh"});
-            this.cmbTimeRange.Location = new System.Drawing.Point(166, 20);
+            this.cmbTimeRange.Location = new System.Drawing.Point(152, 20);
             this.cmbTimeRange.Name = "cmbTimeRange";
             this.cmbTimeRange.Size = new System.Drawing.Size(200, 36);
             this.cmbTimeRange.TabIndex = 1;
@@ -422,7 +422,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblTimeRange.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTimeRange.Location = new System.Drawing.Point(20, 20);
             this.lblTimeRange.Name = "lblTimeRange";
-            this.lblTimeRange.Size = new System.Drawing.Size(146, 23);
+            this.lblTimeRange.Size = new System.Drawing.Size(132, 21);
             this.lblTimeRange.TabIndex = 0;
             this.lblTimeRange.Text = "Khoảng thời gian:";
             // 

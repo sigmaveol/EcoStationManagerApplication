@@ -79,7 +79,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblAppName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
             this.lblAppName.Location = new System.Drawing.Point(3, 3);
             this.lblAppName.Name = "lblAppName";
-            this.lblAppName.Size = new System.Drawing.Size(164, 25);
+            this.lblAppName.Size = new System.Drawing.Size(143, 22);
             this.lblAppName.TabIndex = 0;
             this.lblAppName.Text = "EcoStation Manager";
             this.lblAppName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
@@ -92,7 +92,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblSupportInfo.ForeColor = System.Drawing.Color.Gray;
             this.lblSupportInfo.Location = new System.Drawing.Point(3, 33);
             this.lblSupportInfo.Name = "lblSupportInfo";
-            this.lblSupportInfo.Size = new System.Drawing.Size(253, 19);
+            this.lblSupportInfo.Size = new System.Drawing.Size(237, 17);
             this.lblSupportInfo.TabIndex = 3;
             this.lblSupportInfo.Text = "Hỗ trợ kỹ thuật: hungminhtobe@gmail.com";
             this.lblSupportInfo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;
@@ -103,9 +103,9 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblCopyright.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblCopyright.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCopyright.ForeColor = System.Drawing.Color.DimGray;
-            this.lblCopyright.Location = new System.Drawing.Point(503, 3);
+            this.lblCopyright.Location = new System.Drawing.Point(520, 3);
             this.lblCopyright.Name = "lblCopyright";
-            this.lblCopyright.Size = new System.Drawing.Size(294, 22);
+            this.lblCopyright.Size = new System.Drawing.Size(277, 21);
             this.lblCopyright.TabIndex = 4;
             this.lblCopyright.Text = "© 2025 Green Core Tech. All rights reserved.";
             this.lblCopyright.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
@@ -116,9 +116,9 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblVersion.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblVersion.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVersion.ForeColor = System.Drawing.Color.Gray;
-            this.lblVersion.Location = new System.Drawing.Point(595, 33);
+            this.lblVersion.Location = new System.Drawing.Point(615, 33);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(202, 19);
+            this.lblVersion.Size = new System.Drawing.Size(182, 17);
             this.lblVersion.TabIndex = 5;
             this.lblVersion.Text = "Phiên bản: 1.0.0 | Build: 2025.11.27";
             this.lblVersion.TextAlignment = System.Drawing.ContentAlignment.MiddleRight;

@@ -99,9 +99,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.headerPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.headerPanel.Controls.Add(this.titleLabel);
-            this.headerPanel.Location = new System.Drawing.Point(23, 21);
+            this.headerPanel.Location = new System.Drawing.Point(17, 17);
+            this.headerPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.headerPanel.Name = "headerPanel";
-            this.headerPanel.Size = new System.Drawing.Size(1029, 64);
+            this.headerPanel.Size = new System.Drawing.Size(772, 52);
             this.headerPanel.TabIndex = 0;
             // 
             // titleLabel
@@ -109,8 +110,9 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabel.Dock = System.Windows.Forms.DockStyle.Left;
             this.titleLabel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabel.Location = new System.Drawing.Point(0, 0);
+            this.titleLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(229, 64);
+            this.titleLabel.Size = new System.Drawing.Size(172, 52);
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "Cài đặt hệ thống";
             this.titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -125,9 +127,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.settingsSection.Controls.Add(this.notificationCard);
             this.settingsSection.Controls.Add(this.inventoryCard);
             this.settingsSection.Controls.Add(this.packagingCard);
-            this.settingsSection.Location = new System.Drawing.Point(23, 96);
+            this.settingsSection.Location = new System.Drawing.Point(17, 78);
+            this.settingsSection.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.settingsSection.Name = "settingsSection";
-            this.settingsSection.Size = new System.Drawing.Size(1029, 640);
+            this.settingsSection.Size = new System.Drawing.Size(772, 520);
             this.settingsSection.TabIndex = 1;
             // 
             // businessCard
@@ -136,11 +139,11 @@ namespace EcoStationManagerApplication.UI.Controls
             this.businessCard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.businessCard.Controls.Add(this.businessTable);
             this.businessCard.Controls.Add(this.btnSaveBusinessInfo);
-            this.businessCard.Location = new System.Drawing.Point(11, 11);
-            this.businessCard.Margin = new System.Windows.Forms.Padding(11, 11, 11, 11);
+            this.businessCard.Location = new System.Drawing.Point(8, 9);
+            this.businessCard.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
             this.businessCard.Name = "businessCard";
-            this.businessCard.Padding = new System.Windows.Forms.Padding(17, 16, 17, 16);
-            this.businessCard.Size = new System.Drawing.Size(491, 341);
+            this.businessCard.Padding = new System.Windows.Forms.Padding(13, 13, 13, 13);
+            this.businessCard.Size = new System.Drawing.Size(369, 277);
             this.businessCard.TabIndex = 0;
             // 
             // businessTable
@@ -156,19 +159,20 @@ namespace EcoStationManagerApplication.UI.Controls
             this.businessTable.Controls.Add(this.lblEmail, 0, 7);
             this.businessTable.Controls.Add(this.txtEmail, 0, 8);
             this.businessTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.businessTable.Location = new System.Drawing.Point(17, 16);
+            this.businessTable.Location = new System.Drawing.Point(13, 13);
+            this.businessTable.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.businessTable.Name = "businessTable";
             this.businessTable.RowCount = 9;
-            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.businessTable.Size = new System.Drawing.Size(455, 270);
+            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.businessTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.businessTable.Size = new System.Drawing.Size(341, 219);
             this.businessTable.TabIndex = 0;
             // 
             // lblBusinessName
@@ -176,9 +180,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblBusinessName.AutoSize = true;
             this.lblBusinessName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblBusinessName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblBusinessName.Location = new System.Drawing.Point(3, 32);
+            this.lblBusinessName.Location = new System.Drawing.Point(2, 26);
+            this.lblBusinessName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblBusinessName.Name = "lblBusinessName";
-            this.lblBusinessName.Size = new System.Drawing.Size(449, 27);
+            this.lblBusinessName.Size = new System.Drawing.Size(337, 22);
             this.lblBusinessName.TabIndex = 0;
             this.lblBusinessName.Text = "Tên doanh nghiệp";
             this.lblBusinessName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -186,9 +191,10 @@ namespace EcoStationManagerApplication.UI.Controls
             // txtBusinessName
             // 
             this.txtBusinessName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBusinessName.Location = new System.Drawing.Point(3, 62);
+            this.txtBusinessName.Location = new System.Drawing.Point(2, 50);
+            this.txtBusinessName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtBusinessName.Name = "txtBusinessName";
-            this.txtBusinessName.Size = new System.Drawing.Size(449, 22);
+            this.txtBusinessName.Size = new System.Drawing.Size(337, 20);
             this.txtBusinessName.TabIndex = 1;
             this.txtBusinessName.Text = "EcoStation Refill";
             // 
@@ -197,9 +203,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblAddress.AutoSize = true;
             this.lblAddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblAddress.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblAddress.Location = new System.Drawing.Point(3, 91);
+            this.lblAddress.Location = new System.Drawing.Point(2, 74);
+            this.lblAddress.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAddress.Name = "lblAddress";
-            this.lblAddress.Size = new System.Drawing.Size(449, 27);
+            this.lblAddress.Size = new System.Drawing.Size(337, 22);
             this.lblAddress.TabIndex = 2;
             this.lblAddress.Text = "Địa chỉ";
             this.lblAddress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -207,9 +214,10 @@ namespace EcoStationManagerApplication.UI.Controls
             // txtAddress
             // 
             this.txtAddress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtAddress.Location = new System.Drawing.Point(3, 121);
+            this.txtAddress.Location = new System.Drawing.Point(2, 98);
+            this.txtAddress.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(449, 22);
+            this.txtAddress.Size = new System.Drawing.Size(337, 20);
             this.txtAddress.TabIndex = 3;
             this.txtAddress.Text = "123 Đường ABC, Quận 1, TP.HCM";
             // 
@@ -218,9 +226,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblPhone.AutoSize = true;
             this.lblPhone.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblPhone.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblPhone.Location = new System.Drawing.Point(3, 150);
+            this.lblPhone.Location = new System.Drawing.Point(2, 122);
+            this.lblPhone.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(449, 27);
+            this.lblPhone.Size = new System.Drawing.Size(337, 22);
             this.lblPhone.TabIndex = 4;
             this.lblPhone.Text = "Số điện thoại";
             this.lblPhone.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -228,9 +237,10 @@ namespace EcoStationManagerApplication.UI.Controls
             // txtPhone
             // 
             this.txtPhone.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtPhone.Location = new System.Drawing.Point(3, 180);
+            this.txtPhone.Location = new System.Drawing.Point(2, 146);
+            this.txtPhone.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(449, 22);
+            this.txtPhone.Size = new System.Drawing.Size(337, 20);
             this.txtPhone.TabIndex = 5;
             this.txtPhone.Text = "0909123456";
             // 
@@ -239,9 +249,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblEmail.AutoSize = true;
             this.lblEmail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblEmail.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblEmail.Location = new System.Drawing.Point(3, 209);
+            this.lblEmail.Location = new System.Drawing.Point(2, 170);
+            this.lblEmail.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(449, 27);
+            this.lblEmail.Size = new System.Drawing.Size(337, 22);
             this.lblEmail.TabIndex = 6;
             this.lblEmail.Text = "Email";
             this.lblEmail.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -249,9 +260,10 @@ namespace EcoStationManagerApplication.UI.Controls
             // txtEmail
             // 
             this.txtEmail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtEmail.Location = new System.Drawing.Point(3, 239);
+            this.txtEmail.Location = new System.Drawing.Point(2, 194);
+            this.txtEmail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(449, 22);
+            this.txtEmail.Size = new System.Drawing.Size(337, 20);
             this.txtEmail.TabIndex = 7;
             this.txtEmail.Text = "contact@ecostation.vn";
             // 
@@ -262,9 +274,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnSaveBusinessInfo.FlatAppearance.BorderSize = 0;
             this.btnSaveBusinessInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSaveBusinessInfo.ForeColor = System.Drawing.Color.White;
-            this.btnSaveBusinessInfo.Location = new System.Drawing.Point(17, 286);
+            this.btnSaveBusinessInfo.Location = new System.Drawing.Point(13, 232);
+            this.btnSaveBusinessInfo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSaveBusinessInfo.Name = "btnSaveBusinessInfo";
-            this.btnSaveBusinessInfo.Size = new System.Drawing.Size(455, 37);
+            this.btnSaveBusinessInfo.Size = new System.Drawing.Size(341, 30);
             this.btnSaveBusinessInfo.TabIndex = 1;
             this.btnSaveBusinessInfo.Text = "Lưu thông tin";
             this.btnSaveBusinessInfo.UseVisualStyleBackColor = false;
@@ -276,20 +289,21 @@ namespace EcoStationManagerApplication.UI.Controls
             this.notificationCard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.notificationCard.Controls.Add(this.notificationFlowPanel);
             this.notificationCard.Controls.Add(this.btnSaveNotificationSettings);
-            this.notificationCard.Location = new System.Drawing.Point(11, 374);
-            this.notificationCard.Margin = new System.Windows.Forms.Padding(11, 11, 11, 11);
+            this.notificationCard.Location = new System.Drawing.Point(393, 9);
+            this.notificationCard.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
             this.notificationCard.Name = "notificationCard";
-            this.notificationCard.Padding = new System.Windows.Forms.Padding(17, 16, 17, 16);
-            this.notificationCard.Size = new System.Drawing.Size(491, 341);
+            this.notificationCard.Padding = new System.Windows.Forms.Padding(13, 13, 13, 13);
+            this.notificationCard.Size = new System.Drawing.Size(369, 277);
             this.notificationCard.TabIndex = 1;
             // 
             // notificationFlowPanel
             // 
             this.notificationFlowPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.notificationFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.notificationFlowPanel.Location = new System.Drawing.Point(17, 16);
+            this.notificationFlowPanel.Location = new System.Drawing.Point(13, 13);
+            this.notificationFlowPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.notificationFlowPanel.Name = "notificationFlowPanel";
-            this.notificationFlowPanel.Size = new System.Drawing.Size(455, 270);
+            this.notificationFlowPanel.Size = new System.Drawing.Size(341, 219);
             this.notificationFlowPanel.TabIndex = 0;
             // 
             // btnSaveNotificationSettings
@@ -299,9 +313,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnSaveNotificationSettings.FlatAppearance.BorderSize = 0;
             this.btnSaveNotificationSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSaveNotificationSettings.ForeColor = System.Drawing.Color.White;
-            this.btnSaveNotificationSettings.Location = new System.Drawing.Point(17, 286);
+            this.btnSaveNotificationSettings.Location = new System.Drawing.Point(13, 232);
+            this.btnSaveNotificationSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSaveNotificationSettings.Name = "btnSaveNotificationSettings";
-            this.btnSaveNotificationSettings.Size = new System.Drawing.Size(455, 37);
+            this.btnSaveNotificationSettings.Size = new System.Drawing.Size(341, 30);
             this.btnSaveNotificationSettings.TabIndex = 1;
             this.btnSaveNotificationSettings.Text = "Lưu cài đặt";
             this.btnSaveNotificationSettings.UseVisualStyleBackColor = false;
@@ -316,33 +331,35 @@ namespace EcoStationManagerApplication.UI.Controls
             this.inventoryCard.Controls.Add(this.lblDefaultUnit);
             this.inventoryCard.Controls.Add(this.cmbDefaultUnit);
             this.inventoryCard.Controls.Add(this.btnSaveInventorySettings);
-            this.inventoryCard.Location = new System.Drawing.Point(11, 737);
-            this.inventoryCard.Margin = new System.Windows.Forms.Padding(11, 11, 11, 11);
+            this.inventoryCard.Location = new System.Drawing.Point(8, 304);
+            this.inventoryCard.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
             this.inventoryCard.Name = "inventoryCard";
-            this.inventoryCard.Padding = new System.Windows.Forms.Padding(17, 16, 17, 16);
-            this.inventoryCard.Size = new System.Drawing.Size(491, 267);
+            this.inventoryCard.Padding = new System.Windows.Forms.Padding(13, 13, 13, 13);
+            this.inventoryCard.Size = new System.Drawing.Size(369, 217);
             this.inventoryCard.TabIndex = 2;
             // 
             // lblStockAlert
             // 
             this.lblStockAlert.AutoSize = true;
             this.lblStockAlert.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblStockAlert.Location = new System.Drawing.Point(17, 43);
+            this.lblStockAlert.Location = new System.Drawing.Point(13, 35);
+            this.lblStockAlert.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblStockAlert.Name = "lblStockAlert";
-            this.lblStockAlert.Size = new System.Drawing.Size(165, 20);
+            this.lblStockAlert.Size = new System.Drawing.Size(158, 19);
             this.lblStockAlert.TabIndex = 0;
             this.lblStockAlert.Text = "Mức cảnh báo tồn kho";
             // 
             // numStockAlertLevel
             // 
-            this.numStockAlertLevel.Location = new System.Drawing.Point(17, 69);
+            this.numStockAlertLevel.Location = new System.Drawing.Point(13, 56);
+            this.numStockAlertLevel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numStockAlertLevel.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numStockAlertLevel.Name = "numStockAlertLevel";
-            this.numStockAlertLevel.Size = new System.Drawing.Size(114, 22);
+            this.numStockAlertLevel.Size = new System.Drawing.Size(86, 20);
             this.numStockAlertLevel.TabIndex = 1;
             this.numStockAlertLevel.Value = new decimal(new int[] {
             10,
@@ -354,9 +371,10 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             this.lblDefaultUnit.AutoSize = true;
             this.lblDefaultUnit.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblDefaultUnit.Location = new System.Drawing.Point(149, 43);
+            this.lblDefaultUnit.Location = new System.Drawing.Point(112, 35);
+            this.lblDefaultUnit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDefaultUnit.Name = "lblDefaultUnit";
-            this.lblDefaultUnit.Size = new System.Drawing.Size(154, 20);
+            this.lblDefaultUnit.Size = new System.Drawing.Size(146, 19);
             this.lblDefaultUnit.TabIndex = 2;
             this.lblDefaultUnit.Text = "Đơn vị tính mặc định";
             // 
@@ -369,9 +387,10 @@ namespace EcoStationManagerApplication.UI.Controls
             "Mililit (ml)",
             "Kilogram (kg)",
             "Gram (g)"});
-            this.cmbDefaultUnit.Location = new System.Drawing.Point(149, 69);
+            this.cmbDefaultUnit.Location = new System.Drawing.Point(112, 56);
+            this.cmbDefaultUnit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmbDefaultUnit.Name = "cmbDefaultUnit";
-            this.cmbDefaultUnit.Size = new System.Drawing.Size(171, 24);
+            this.cmbDefaultUnit.Size = new System.Drawing.Size(129, 21);
             this.cmbDefaultUnit.TabIndex = 3;
             // 
             // btnSaveInventorySettings
@@ -381,9 +400,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnSaveInventorySettings.FlatAppearance.BorderSize = 0;
             this.btnSaveInventorySettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSaveInventorySettings.ForeColor = System.Drawing.Color.White;
-            this.btnSaveInventorySettings.Location = new System.Drawing.Point(337, 213);
+            this.btnSaveInventorySettings.Location = new System.Drawing.Point(253, 173);
+            this.btnSaveInventorySettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSaveInventorySettings.Name = "btnSaveInventorySettings";
-            this.btnSaveInventorySettings.Size = new System.Drawing.Size(137, 37);
+            this.btnSaveInventorySettings.Size = new System.Drawing.Size(103, 30);
             this.btnSaveInventorySettings.TabIndex = 4;
             this.btnSaveInventorySettings.Text = "Lưu cài đặt";
             this.btnSaveInventorySettings.UseVisualStyleBackColor = false;
@@ -401,33 +421,35 @@ namespace EcoStationManagerApplication.UI.Controls
             this.packagingCard.Controls.Add(this.numTargetRecoveryRate);
             this.packagingCard.Controls.Add(this.percentLabel);
             this.packagingCard.Controls.Add(this.btnSavePackagingSettings);
-            this.packagingCard.Location = new System.Drawing.Point(11, 1026);
-            this.packagingCard.Margin = new System.Windows.Forms.Padding(11, 11, 11, 11);
+            this.packagingCard.Location = new System.Drawing.Point(393, 304);
+            this.packagingCard.Margin = new System.Windows.Forms.Padding(8, 9, 8, 9);
             this.packagingCard.Name = "packagingCard";
-            this.packagingCard.Padding = new System.Windows.Forms.Padding(17, 16, 17, 16);
-            this.packagingCard.Size = new System.Drawing.Size(491, 267);
+            this.packagingCard.Padding = new System.Windows.Forms.Padding(13, 13, 13, 13);
+            this.packagingCard.Size = new System.Drawing.Size(369, 217);
             this.packagingCard.TabIndex = 3;
             // 
             // lblMaxReuse
             // 
             this.lblMaxReuse.AutoSize = true;
             this.lblMaxReuse.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblMaxReuse.Location = new System.Drawing.Point(17, 43);
+            this.lblMaxReuse.Location = new System.Drawing.Point(13, 35);
+            this.lblMaxReuse.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMaxReuse.Name = "lblMaxReuse";
-            this.lblMaxReuse.Size = new System.Drawing.Size(178, 20);
+            this.lblMaxReuse.Size = new System.Drawing.Size(171, 19);
             this.lblMaxReuse.TabIndex = 0;
             this.lblMaxReuse.Text = "Số lần tái sử dụng tối đa";
             // 
             // numMaxReuse
             // 
-            this.numMaxReuse.Location = new System.Drawing.Point(17, 69);
+            this.numMaxReuse.Location = new System.Drawing.Point(13, 56);
+            this.numMaxReuse.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numMaxReuse.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numMaxReuse.Name = "numMaxReuse";
-            this.numMaxReuse.Size = new System.Drawing.Size(114, 22);
+            this.numMaxReuse.Size = new System.Drawing.Size(86, 20);
             this.numMaxReuse.TabIndex = 1;
             this.numMaxReuse.Value = new decimal(new int[] {
             15,
@@ -439,22 +461,24 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             this.lblCleaningCycle.AutoSize = true;
             this.lblCleaningCycle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblCleaningCycle.Location = new System.Drawing.Point(149, 43);
+            this.lblCleaningCycle.Location = new System.Drawing.Point(112, 35);
+            this.lblCleaningCycle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCleaningCycle.Name = "lblCleaningCycle";
-            this.lblCleaningCycle.Size = new System.Drawing.Size(159, 20);
+            this.lblCleaningCycle.Size = new System.Drawing.Size(151, 19);
             this.lblCleaningCycle.TabIndex = 2;
             this.lblCleaningCycle.Text = "Chu kỳ vệ sinh (ngày)";
             // 
             // numCleaningCycle
             // 
-            this.numCleaningCycle.Location = new System.Drawing.Point(149, 69);
+            this.numCleaningCycle.Location = new System.Drawing.Point(112, 56);
+            this.numCleaningCycle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numCleaningCycle.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numCleaningCycle.Name = "numCleaningCycle";
-            this.numCleaningCycle.Size = new System.Drawing.Size(114, 22);
+            this.numCleaningCycle.Size = new System.Drawing.Size(86, 20);
             this.numCleaningCycle.TabIndex = 3;
             this.numCleaningCycle.Value = new decimal(new int[] {
             7,
@@ -466,22 +490,24 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             this.lblTargetRecovery.AutoSize = true;
             this.lblTargetRecovery.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblTargetRecovery.Location = new System.Drawing.Point(17, 107);
+            this.lblTargetRecovery.Location = new System.Drawing.Point(13, 87);
+            this.lblTargetRecovery.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTargetRecovery.Name = "lblTargetRecovery";
-            this.lblTargetRecovery.Size = new System.Drawing.Size(161, 20);
+            this.lblTargetRecovery.Size = new System.Drawing.Size(152, 19);
             this.lblTargetRecovery.TabIndex = 4;
             this.lblTargetRecovery.Text = "Tỷ lệ thu hồi mục tiêu";
             // 
             // numTargetRecoveryRate
             // 
-            this.numTargetRecoveryRate.Location = new System.Drawing.Point(17, 133);
+            this.numTargetRecoveryRate.Location = new System.Drawing.Point(13, 108);
+            this.numTargetRecoveryRate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.numTargetRecoveryRate.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numTargetRecoveryRate.Name = "numTargetRecoveryRate";
-            this.numTargetRecoveryRate.Size = new System.Drawing.Size(114, 22);
+            this.numTargetRecoveryRate.Size = new System.Drawing.Size(86, 20);
             this.numTargetRecoveryRate.TabIndex = 5;
             this.numTargetRecoveryRate.Value = new decimal(new int[] {
             80,
@@ -493,9 +519,10 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             this.percentLabel.AutoSize = true;
             this.percentLabel.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.percentLabel.Location = new System.Drawing.Point(137, 137);
+            this.percentLabel.Location = new System.Drawing.Point(103, 111);
+            this.percentLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.percentLabel.Name = "percentLabel";
-            this.percentLabel.Size = new System.Drawing.Size(21, 20);
+            this.percentLabel.Size = new System.Drawing.Size(20, 19);
             this.percentLabel.TabIndex = 6;
             this.percentLabel.Text = "%";
             // 
@@ -506,9 +533,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnSavePackagingSettings.FlatAppearance.BorderSize = 0;
             this.btnSavePackagingSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSavePackagingSettings.ForeColor = System.Drawing.Color.White;
-            this.btnSavePackagingSettings.Location = new System.Drawing.Point(337, 213);
+            this.btnSavePackagingSettings.Location = new System.Drawing.Point(253, 173);
+            this.btnSavePackagingSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSavePackagingSettings.Name = "btnSavePackagingSettings";
-            this.btnSavePackagingSettings.Size = new System.Drawing.Size(137, 37);
+            this.btnSavePackagingSettings.Size = new System.Drawing.Size(103, 30);
             this.btnSavePackagingSettings.TabIndex = 7;
             this.btnSavePackagingSettings.Text = "Lưu cài đặt";
             this.btnSavePackagingSettings.UseVisualStyleBackColor = false;
@@ -573,10 +601,11 @@ namespace EcoStationManagerApplication.UI.Controls
             this.systemInfoPanel.Controls.Add(this.systemTable);
             this.systemInfoPanel.Controls.Add(this.buttonPanel);
             this.systemInfoPanel.Controls.Add(this.systemTitleLabel);
-            this.systemInfoPanel.Location = new System.Drawing.Point(23, 747);
+            this.systemInfoPanel.Location = new System.Drawing.Point(17, 607);
+            this.systemInfoPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.systemInfoPanel.Name = "systemInfoPanel";
-            this.systemInfoPanel.Padding = new System.Windows.Forms.Padding(17, 16, 17, 16);
-            this.systemInfoPanel.Size = new System.Drawing.Size(1028, 213);
+            this.systemInfoPanel.Padding = new System.Windows.Forms.Padding(13, 13, 13, 13);
+            this.systemInfoPanel.Size = new System.Drawing.Size(772, 173);
             this.systemInfoPanel.TabIndex = 2;
             // 
             // systemTable
@@ -592,12 +621,13 @@ namespace EcoStationManagerApplication.UI.Controls
             this.systemTable.Controls.Add(this.lblDataSize, 2, 0);
             this.systemTable.Controls.Add(this.txtDataSize, 2, 1);
             this.systemTable.Dock = System.Windows.Forms.DockStyle.Top;
-            this.systemTable.Location = new System.Drawing.Point(17, 48);
+            this.systemTable.Location = new System.Drawing.Point(13, 39);
+            this.systemTable.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.systemTable.Name = "systemTable";
             this.systemTable.RowCount = 2;
-            this.systemTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.systemTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.systemTable.Size = new System.Drawing.Size(992, 59);
+            this.systemTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.systemTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.systemTable.Size = new System.Drawing.Size(744, 48);
             this.systemTable.TabIndex = 2;
             // 
             // lblVersion
@@ -605,9 +635,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblVersion.AutoSize = true;
             this.lblVersion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblVersion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblVersion.Location = new System.Drawing.Point(3, 0);
+            this.lblVersion.Location = new System.Drawing.Point(2, 0);
+            this.lblVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(390, 27);
+            this.lblVersion.Size = new System.Drawing.Size(293, 22);
             this.lblVersion.TabIndex = 0;
             this.lblVersion.Text = "Phiên bản";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -615,10 +646,11 @@ namespace EcoStationManagerApplication.UI.Controls
             // txtVersion
             // 
             this.txtVersion.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtVersion.Location = new System.Drawing.Point(3, 30);
+            this.txtVersion.Location = new System.Drawing.Point(2, 24);
+            this.txtVersion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtVersion.Name = "txtVersion";
             this.txtVersion.ReadOnly = true;
-            this.txtVersion.Size = new System.Drawing.Size(390, 22);
+            this.txtVersion.Size = new System.Drawing.Size(293, 20);
             this.txtVersion.TabIndex = 1;
             this.txtVersion.Text = "EcoStation Manager - Ver.0 (Offline)";
             // 
@@ -627,9 +659,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblInstallDate.AutoSize = true;
             this.lblInstallDate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblInstallDate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblInstallDate.Location = new System.Drawing.Point(399, 0);
+            this.lblInstallDate.Location = new System.Drawing.Point(299, 0);
+            this.lblInstallDate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblInstallDate.Name = "lblInstallDate";
-            this.lblInstallDate.Size = new System.Drawing.Size(291, 27);
+            this.lblInstallDate.Size = new System.Drawing.Size(219, 22);
             this.lblInstallDate.TabIndex = 2;
             this.lblInstallDate.Text = "Ngày cài đặt";
             this.lblInstallDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -637,10 +670,11 @@ namespace EcoStationManagerApplication.UI.Controls
             // txtInstallDate
             // 
             this.txtInstallDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtInstallDate.Location = new System.Drawing.Point(399, 30);
+            this.txtInstallDate.Location = new System.Drawing.Point(299, 24);
+            this.txtInstallDate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtInstallDate.Name = "txtInstallDate";
             this.txtInstallDate.ReadOnly = true;
-            this.txtInstallDate.Size = new System.Drawing.Size(291, 22);
+            this.txtInstallDate.Size = new System.Drawing.Size(219, 20);
             this.txtInstallDate.TabIndex = 3;
             this.txtInstallDate.Text = "15/03/2025";
             // 
@@ -649,9 +683,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblDataSize.AutoSize = true;
             this.lblDataSize.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblDataSize.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblDataSize.Location = new System.Drawing.Point(696, 0);
+            this.lblDataSize.Location = new System.Drawing.Point(522, 0);
+            this.lblDataSize.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDataSize.Name = "lblDataSize";
-            this.lblDataSize.Size = new System.Drawing.Size(293, 27);
+            this.lblDataSize.Size = new System.Drawing.Size(220, 22);
             this.lblDataSize.TabIndex = 4;
             this.lblDataSize.Text = "Dung lượng dữ liệu";
             this.lblDataSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -659,10 +694,11 @@ namespace EcoStationManagerApplication.UI.Controls
             // txtDataSize
             // 
             this.txtDataSize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtDataSize.Location = new System.Drawing.Point(696, 30);
+            this.txtDataSize.Location = new System.Drawing.Point(522, 24);
+            this.txtDataSize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtDataSize.Name = "txtDataSize";
             this.txtDataSize.ReadOnly = true;
-            this.txtDataSize.Size = new System.Drawing.Size(293, 22);
+            this.txtDataSize.Size = new System.Drawing.Size(220, 20);
             this.txtDataSize.TabIndex = 5;
             this.txtDataSize.Text = "45.2 MB";
             // 
@@ -671,9 +707,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.buttonPanel.Controls.Add(this.btnExportSystemLog);
             this.buttonPanel.Controls.Add(this.btnResetSettings);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonPanel.Location = new System.Drawing.Point(17, 152);
+            this.buttonPanel.Location = new System.Drawing.Point(13, 123);
+            this.buttonPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonPanel.Name = "buttonPanel";
-            this.buttonPanel.Size = new System.Drawing.Size(992, 43);
+            this.buttonPanel.Size = new System.Drawing.Size(744, 35);
             this.buttonPanel.TabIndex = 1;
             // 
             // btnExportSystemLog
@@ -681,9 +718,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnExportSystemLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnExportSystemLog.FlatAppearance.BorderSize = 0;
             this.btnExportSystemLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExportSystemLog.Location = new System.Drawing.Point(3, 3);
+            this.btnExportSystemLog.Location = new System.Drawing.Point(2, 2);
+            this.btnExportSystemLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnExportSystemLog.Name = "btnExportSystemLog";
-            this.btnExportSystemLog.Size = new System.Drawing.Size(149, 37);
+            this.btnExportSystemLog.Size = new System.Drawing.Size(112, 30);
             this.btnExportSystemLog.TabIndex = 0;
             this.btnExportSystemLog.Text = "Xuất log hệ thống";
             this.btnExportSystemLog.UseVisualStyleBackColor = false;
@@ -695,9 +733,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnResetSettings.FlatAppearance.BorderSize = 0;
             this.btnResetSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnResetSettings.ForeColor = System.Drawing.Color.White;
-            this.btnResetSettings.Location = new System.Drawing.Point(158, 3);
+            this.btnResetSettings.Location = new System.Drawing.Point(118, 2);
+            this.btnResetSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnResetSettings.Name = "btnResetSettings";
-            this.btnResetSettings.Size = new System.Drawing.Size(149, 37);
+            this.btnResetSettings.Size = new System.Drawing.Size(112, 30);
             this.btnResetSettings.TabIndex = 1;
             this.btnResetSettings.Text = "Đặt lại cài đặt";
             this.btnResetSettings.UseVisualStyleBackColor = false;
@@ -707,22 +746,24 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             this.systemTitleLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.systemTitleLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.systemTitleLabel.Location = new System.Drawing.Point(17, 16);
+            this.systemTitleLabel.Location = new System.Drawing.Point(13, 13);
+            this.systemTitleLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.systemTitleLabel.Name = "systemTitleLabel";
-            this.systemTitleLabel.Size = new System.Drawing.Size(992, 32);
+            this.systemTitleLabel.Size = new System.Drawing.Size(744, 26);
             this.systemTitleLabel.TabIndex = 0;
             this.systemTitleLabel.Text = "Thông tin Hệ thống";
             this.systemTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // SettingsControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.systemInfoPanel);
             this.Controls.Add(this.settingsSection);
             this.Controls.Add(this.headerPanel);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "SettingsControl";
-            this.Size = new System.Drawing.Size(1074, 981);
+            this.Size = new System.Drawing.Size(806, 797);
             this.headerPanel.ResumeLayout(false);
             this.settingsSection.ResumeLayout(false);
             this.businessCard.ResumeLayout(false);

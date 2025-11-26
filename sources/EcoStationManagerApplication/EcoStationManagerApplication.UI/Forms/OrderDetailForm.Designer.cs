@@ -38,6 +38,8 @@
         private System.Windows.Forms.Label lblNoteTitle;
         private System.Windows.Forms.TextBox txtNote;
         private System.Windows.Forms.Button btnCloseForm;
+        private System.Windows.Forms.Button btnExportExcel;
+        private System.Windows.Forms.Button btnExportPDF;
         private System.Windows.Forms.Panel panelSeparator1;
         private System.Windows.Forms.Panel panelSeparator2;
         private System.Windows.Forms.Panel panelSeparator3;
@@ -87,6 +89,8 @@
             this.lblNoteTitle = new System.Windows.Forms.Label();
             this.txtNote = new System.Windows.Forms.TextBox();
             this.btnCloseForm = new System.Windows.Forms.Button();
+            this.btnExportExcel = new System.Windows.Forms.Button();
+            this.btnExportPDF = new System.Windows.Forms.Button();
             this.panelSeparator1 = new System.Windows.Forms.Panel();
             this.panelSeparator2 = new System.Windows.Forms.Panel();
             this.panelSeparator3 = new System.Windows.Forms.Panel();
@@ -381,6 +385,8 @@
             this.panelSummary.Controls.Add(this.lblTotalItems);
             this.panelSummary.Controls.Add(this.lblNoteTitle);
             this.panelSummary.Controls.Add(this.txtNote);
+            this.panelSummary.Controls.Add(this.btnExportExcel);
+            this.panelSummary.Controls.Add(this.btnExportPDF);
             this.panelSummary.Controls.Add(this.btnCloseForm);
             this.panelSummary.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelSummary.Location = new System.Drawing.Point(0, 573);
@@ -486,6 +492,34 @@
             this.btnCloseForm.Text = "Đóng";
             this.btnCloseForm.UseVisualStyleBackColor = false;
             this.btnCloseForm.Click += new System.EventHandler(this.btnCloseForm_Click);
+            // 
+            // btnExportExcel
+            // 
+            this.btnExportExcel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.btnExportExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportExcel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnExportExcel.ForeColor = System.Drawing.Color.White;
+            this.btnExportExcel.Location = new System.Drawing.Point(580, 120);
+            this.btnExportExcel.Name = "btnExportExcel";
+            this.btnExportExcel.Size = new System.Drawing.Size(90, 40);
+            this.btnExportExcel.TabIndex = 9;
+            this.btnExportExcel.Text = "Xuất Excel";
+            this.btnExportExcel.UseVisualStyleBackColor = false;
+            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
+            // 
+            // btnExportPDF
+            // 
+            this.btnExportPDF.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(67)))), ((int)(((byte)(54)))));
+            this.btnExportPDF.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportPDF.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnExportPDF.ForeColor = System.Drawing.Color.White;
+            this.btnExportPDF.Location = new System.Drawing.Point(680, 120);
+            this.btnExportPDF.Name = "btnExportPDF";
+            this.btnExportPDF.Size = new System.Drawing.Size(90, 40);
+            this.btnExportPDF.TabIndex = 10;
+            this.btnExportPDF.Text = "Xuất PDF";
+            this.btnExportPDF.UseVisualStyleBackColor = false;
+            this.btnExportPDF.Click += new System.EventHandler(this.btnExportPDF_Click);
             // 
             // panelSeparator1
             // 

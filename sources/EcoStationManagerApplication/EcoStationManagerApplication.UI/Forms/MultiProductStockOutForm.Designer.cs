@@ -115,6 +115,7 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             this.dgvProducts.AllowUserToAddRows = false;
             this.dgvProducts.AllowUserToDeleteRows = false;
+            this.dgvProducts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvProducts.BackgroundColor = System.Drawing.Color.White;
             this.dgvProducts.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -137,9 +138,9 @@ namespace EcoStationManagerApplication.UI.Forms
             this.btnAddRow.ForeColor = System.Drawing.Color.White;
             this.btnAddRow.Location = new System.Drawing.Point(30, 210);
             this.btnAddRow.Name = "btnAddRow";
-            this.btnAddRow.Size = new System.Drawing.Size(155, 46);
+            this.btnAddRow.Size = new System.Drawing.Size(180, 46);
             this.btnAddRow.TabIndex = 18;
-            this.btnAddRow.Text = "+ Thêm dòng";
+            this.btnAddRow.Text = "- Xuất sản phẩm";
             this.btnAddRow.Click += new System.EventHandler(this.btnAddRow_Click);
             // 
             // labelError

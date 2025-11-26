@@ -336,21 +336,18 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        private string GetPurposeText(string purpose)
+        private string GetPurposeText(StockOutPurpose purpose)
         {
-            switch (purpose?.ToUpper())
+            switch (purpose)
             {
-                case "SALE":
+                case StockOutPurpose.SALE:
                     return "Bán hàng";
-                case "TRANSFER":
+                case StockOutPurpose.TRANSFER:
                     return "Chuyển kho";
-                case "DAMAGE":
-                case "WASTE":
+                case StockOutPurpose.DAMAGE:
                     return "Hao hụt";
-                case "SAMPLE":
-                    return "Mẫu thử nghiệm";
                 default:
-                    return purpose ?? "-";
+                    return purpose.ToString();
             }
         }
 
@@ -371,16 +368,15 @@ namespace EcoStationManagerApplication.UI.Controls
             UpdateStatCard("TotalStockOuts", totalStockOuts.ToString("N0"), "Tổng phiếu xuất");
 
             // Xuất bán hàng
-            int saleCount = _stockOutList.Count(x => x.Purpose?.ToUpper() == "SALE");
+            int saleCount = _stockOutList.Count(x => x.Purpose == StockOutPurpose.SALE);
             UpdateStatCard("Sale", saleCount.ToString("N0"), "Phiếu bán hàng");
 
             // Chuyển kho
-            int transferCount = _stockOutList.Count(x => x.Purpose?.ToUpper() == "TRANSFER");
+            int transferCount = _stockOutList.Count(x => x.Purpose == StockOutPurpose.TRANSFER);
             UpdateStatCard("Transfer", transferCount.ToString("N0"), "Phiếu chuyển kho");
 
             // Hao hụt
-            int wasteCount = _stockOutList.Count(x => 
-                x.Purpose?.ToUpper() == "DAMAGE" || x.Purpose?.ToUpper() == "WASTE");
+            int wasteCount = _stockOutList.Count(x => x.Purpose == StockOutPurpose.DAMAGE );
             UpdateStatCard("Waste", wasteCount.ToString("N0"), "Phiếu hao hụt");
 
             // Tổng số lượng xuất

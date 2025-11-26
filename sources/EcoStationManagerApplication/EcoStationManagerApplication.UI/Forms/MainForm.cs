@@ -74,7 +74,7 @@ namespace EcoStationManagerApplication.UI.Forms
             sidebarControl.AddMenuItem("Nhập Kho", Properties.Resources.stockin_icon, "Stockin");
             sidebarControl.AddMenuItem("Xuất Kho", Properties.Resources.stockout_icon, "Stockout");
             sidebarControl.AddMenuItem("Nhân sự giao vận", Properties.Resources.station_icon, "Staffs");
-            //sidebarControl.AddMenuItem("Thanh Toán", Properties.Resources.payment_icon, "Payment");
+            sidebarControl.AddMenuItem("Backup dữ liệu", Properties.Resources.payment_icon, "Backup");
             sidebarControl.AddMenuItem("Báo cáo", Properties.Resources.report_icon, "Reports");
             sidebarControl.AddMenuItem("Cài đặt hệ thống", Properties.Resources.setting_icon, "SystemSettings");
         }

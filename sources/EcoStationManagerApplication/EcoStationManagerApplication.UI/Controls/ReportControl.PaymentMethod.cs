@@ -87,6 +87,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void BuildPaymentMethodKpis(List<PaymentMethodStat> stats, List<Order> orders)
         {
+            flowPanelKPICards.SuspendLayout();
             flowPanelKPICards.Controls.Clear();
 
             var totalOrders = orders.Count;
@@ -113,10 +114,12 @@ namespace EcoStationManagerApplication.UI.Controls
                 card.Size = new Size(230, 100);
                 flowPanelKPICards.Controls.Add(card);
             }
+            flowPanelKPICards.ResumeLayout(true);
         }
 
         private void BuildPaymentMethodTable(List<PaymentMethodStat> stats)
         {
+            dataGridViewReport.SuspendLayout();
             var totalOrders = stats.Sum(s => s.OrderCount);
             var totalRevenue = stats.Sum(s => s.Revenue);
 
@@ -149,10 +152,12 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewReport.DataSource = table;
             dataGridViewReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewReport.BringToFront();
+            dataGridViewReport.ResumeLayout(true);
         }
 
         private void BuildPaymentMethodChart(List<PaymentMethodStat> stats)
         {
+            panelChart.SuspendLayout();
             panelChart.Controls.Clear();
             panelChart.Padding = new Padding(20);
 
@@ -236,6 +241,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
             panelChart.Controls.Add(stack);
             panelChart.Controls.Add(title);
+            panelChart.ResumeLayout(true);
         }
 
         private string GetPaymentMethodDisplayName(PaymentMethod method)

@@ -58,6 +58,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void BuildBestSellingKpis(IList<ProductSales> products)
         {
+            flowPanelKPICards.SuspendLayout();
             flowPanelKPICards.Controls.Clear();
 
             var totalQuantity = products.Sum(p => p.TotalQuantity);
@@ -80,10 +81,12 @@ namespace EcoStationManagerApplication.UI.Controls
                 card.Size = new Size(230, 100);
                 flowPanelKPICards.Controls.Add(card);
             }
+            flowPanelKPICards.ResumeLayout(true);
         }
 
         private void BuildBestSellingTable(IList<ProductSales> products)
         {
+            dataGridViewReport.SuspendLayout();
             var totalQuantity = products.Sum(p => p.TotalQuantity);
 
             var table = new DataTable();
@@ -119,10 +122,12 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewReport.DataSource = table;
             dataGridViewReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewReport.BringToFront();
+            dataGridViewReport.ResumeLayout(true);
         }
 
         private void BuildBestSellingChart(IList<ProductSales> products)
         {
+            panelChart.SuspendLayout();
             panelChart.Controls.Clear();
             panelChart.Padding = new Padding(20);
 
@@ -209,6 +214,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
             panelChart.Controls.Add(stack);
             panelChart.Controls.Add(title);
+            panelChart.ResumeLayout(true);
         }
     }
 }

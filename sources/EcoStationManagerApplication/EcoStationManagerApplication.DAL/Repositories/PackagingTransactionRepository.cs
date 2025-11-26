@@ -1,4 +1,6 @@
-﻿using Dapper;
+using Dapper;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.DAL.SqlQueries;
 using EcoStationManagerApplication.Models.DTOs;
@@ -40,14 +42,96 @@ namespace EcoStationManagerApplication.DAL.Repositories
             }
         }
 
-        public async Task<IEnumerable<PackagingTransaction>> GetByCustomerAsync(int customerId)
+        public async Task<IEnumerable<PackagingTransaction>> GetByCustomerAsync(int customerId, DateTime? fromDate = null, DateTime? toDate = null)
         {
             try
             {
-                return await _databaseHelper.QueryAsync<PackagingTransaction>(
-                    PackagingTransactionQueries.GetByCustomer,
-                    new { CustomerId = customerId }
+                var parameters = new DynamicParameters();
+                parameters.Add("CustomerId", customerId);
+
+                string sql = PackagingTransactionQueries.GetByCustomer;
+                if (fromDate.HasValue)
+                {
+                    sql += " AND pt.created_date >= @FromDate";
+                    parameters.Add("FromDate", fromDate);
+                }
+                if (toDate.HasValue)
+                {
+                    sql += " AND pt.created_date <= @ToDate";
+                    parameters.Add("ToDate", toDate);
+                }
+
+                sql += " ORDER BY pt.created_date DESC";
+
+                var data = await _databaseHelper.QueryAsync<PackagingTransaction>(
+                    sql,
+                    parameters
                 );
+
+                var list = data.ToList();
+                foreach (var t in list)
+                {
+                    if (t.Type == PackagingTransactionType.RETURN)
+                    {
+                        t.Quantity = -Math.Abs(t.Quantity);
+                        t.RefundAmount = -Math.Abs(t.RefundAmount);
+                        t.DepositPrice = 0m;
+                    }
+                    else if (t.Type == PackagingTransactionType.ISSUE)
+                    {
+                        t.Quantity = Math.Abs(t.Quantity);
+                        t.DepositPrice = Math.Abs(t.DepositPrice);
+                        t.RefundAmount = 0m;
+                    }
+                }
+
+                var packagingIds = list.Select(x => x.PackagingId).Distinct().ToList();
+                var customerIds = list.Where(x => x.CustomerId.HasValue).Select(x => x.CustomerId.Value).Distinct().ToList();
+                var userIds = list.Where(x => x.UserId.HasValue).Select(x => x.UserId.Value).Distinct().ToList();
+
+                if (packagingIds.Any())
+                {
+                    var packagings = await _databaseHelper.QueryAsync<Packaging>(
+                        "SELECT * FROM Packaging WHERE packaging_id IN @Ids",
+                        new { Ids = packagingIds }
+                    );
+                    var pDict = packagings.ToDictionary(p => p.PackagingId);
+                    foreach (var t in list)
+                    {
+                        if (pDict.TryGetValue(t.PackagingId, out var p))
+                            t.Packaging = p;
+                    }
+                }
+
+                if (customerIds.Any())
+                {
+                    var customers = await _databaseHelper.QueryAsync<Customer>(
+                        "SELECT * FROM Customers WHERE customer_id IN @Ids",
+                        new { Ids = customerIds }
+                    );
+                    var cDict = customers.ToDictionary(c => c.CustomerId);
+                    foreach (var t in list)
+                    {
+                        if (t.CustomerId.HasValue && cDict.TryGetValue(t.CustomerId.Value, out var c))
+                            t.Customer = c;
+                    }
+                }
+
+                if (userIds.Any())
+                {
+                    var users = await _databaseHelper.QueryAsync<User>(
+                        "SELECT * FROM Users WHERE user_id IN @Ids",
+                        new { Ids = userIds }
+                    );
+                    var uDict = users.ToDictionary(u => u.UserId);
+                    foreach (var t in list)
+                    {
+                        if (t.UserId.HasValue && uDict.TryGetValue(t.UserId.Value, out var u))
+                            t.User = u;
+                    }
+                }
+
+                return list;
             }
             catch (Exception ex)
             {
@@ -217,6 +301,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                             new
                             {
                                 PackagingId = packagingId,
+                                RefProductId = (int?)null,
                                 CustomerId = customerId,
                                 UserId = userId,
                                 Type = (int)PackagingTransactionType.ISSUE, // Với TINYINT, pass số nguyên
@@ -281,6 +366,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
                             new
                             {
                                 PackagingId = packagingId,
+                                RefProductId = (int?)null,
                                 CustomerId = customerId,
                                 UserId = userId,
                                 Type = (int)PackagingTransactionType.RETURN, // Với TINYINT, pass số nguyên

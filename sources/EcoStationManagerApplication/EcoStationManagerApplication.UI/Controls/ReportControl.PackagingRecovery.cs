@@ -55,6 +55,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void BuildPackagingRecoveryKpis(PackagingRecoveryReportDTO report)
         {
+            flowPanelKPICards.SuspendLayout();
             flowPanelKPICards.Controls.Clear();
 
             var best = report.PackagingData.OrderByDescending(p => p.RecoveryRate).FirstOrDefault();
@@ -76,10 +77,12 @@ namespace EcoStationManagerApplication.UI.Controls
                 card.Size = new Size(220, 100);
                 flowPanelKPICards.Controls.Add(card);
             }
+            flowPanelKPICards.ResumeLayout(true);
         }
 
         private void BuildPackagingRecoveryTable(List<PackagingRecoveryData> data)
         {
+            dataGridViewReport.SuspendLayout();
             var table = new DataTable();
             table.Columns.Add("STT", typeof(int));
             table.Columns.Add("Mã bao bì", typeof(string));
@@ -103,10 +106,12 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewReport.DataSource = table;
             dataGridViewReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewReport.BringToFront();
+            dataGridViewReport.ResumeLayout(true);
         }
 
         private void BuildPackagingRecoveryChart(List<PackagingRecoveryData> data)
         {
+            panelChart.SuspendLayout();
             panelChart.Controls.Clear();
             panelChart.Padding = new Padding(20);
 
@@ -187,6 +192,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
             panelChart.Controls.Add(stack);
             panelChart.Controls.Add(title);
+            panelChart.ResumeLayout(true);
         }
 
         private int ClampPercent(double value) =>

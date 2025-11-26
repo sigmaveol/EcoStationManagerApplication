@@ -12,7 +12,7 @@ namespace EcoStationManagerApplication.Core.Interfaces
     public interface IPackagingTransactionService
     {
         Task<Result<PackagingTransaction>> GetTransactionByIdAsync(int transactionId);
-        Task<Result<List<PackagingTransaction>>> GetTransactionsByCustomerAsync(int customerId);
+        Task<Result<List<PackagingTransaction>>> GetTransactionsByCustomerAsync(int customerId, DateTime? fromDate = null, DateTime? toDate = null);
         Task<Result<List<PackagingTransaction>>> GetTransactionsByPackagingAsync(int packagingId);
         Task<Result<PackagingTransaction>> IssuePackagingAsync(int packagingId, int? customerId, int quantity, decimal depositPrice, int? userId, string notes = null);
         Task<Result<PackagingTransaction>> ReturnPackagingAsync(int packagingId, int customerId, int quantity, decimal refundAmount, int? userId, string notes = null);

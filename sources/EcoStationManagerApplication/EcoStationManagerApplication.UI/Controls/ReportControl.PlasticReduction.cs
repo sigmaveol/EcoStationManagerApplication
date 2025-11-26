@@ -56,6 +56,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void BuildPlasticReductionKpis(EnvironmentalImpactReportDTO report)
         {
+            flowPanelKPICards.SuspendLayout();
             flowPanelKPICards.Controls.Clear();
 
             var avgPlastic = report.TotalRefills > 0
@@ -83,10 +84,12 @@ namespace EcoStationManagerApplication.UI.Controls
                 card.Size = new Size(220, 100);
                 flowPanelKPICards.Controls.Add(card);
             }
+            flowPanelKPICards.ResumeLayout(true);
         }
 
         private void BuildPlasticReductionTable(IEnumerable<EnvironmentalImpactDataPoint> dataPoints)
         {
+            dataGridViewReport.SuspendLayout();
             var table = new DataTable();
             table.Columns.Add("STT", typeof(int));
             table.Columns.Add("Ngày", typeof(string));
@@ -108,10 +111,12 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewReport.DataSource = table;
             dataGridViewReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewReport.BringToFront();
+            dataGridViewReport.ResumeLayout(true);
         }
 
         private void BuildPlasticReductionChart(IEnumerable<EnvironmentalImpactDataPoint> dataPoints)
         {
+            panelChart.SuspendLayout();
             panelChart.Controls.Clear();
             panelChart.Padding = new Padding(20);
 
@@ -218,6 +223,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
             panelChart.Controls.Add(stack);
             panelChart.Controls.Add(title);
+            panelChart.ResumeLayout(true);
         }
     }
 }

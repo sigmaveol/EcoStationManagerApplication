@@ -16,11 +16,7 @@ namespace EcoStationManagerApplication.UI.Common
         /// <summary>
         /// ID của user hiện tại
         /// </summary>
-        public static int? CurrentUserId 
-        { 
-            get => UserContextHelper.CurrentUserId;
-            set => UserContextHelper.CurrentUserId = value;
-        }
+        public static int? CurrentUserId { get; set; }
 
         /// <summary>
         /// Username của user hiện tại
@@ -43,7 +39,6 @@ namespace EcoStationManagerApplication.UI.Common
             CurrentUserId = null;
             CurrentUsername = null;
             CurrentFullname = null;
-            UserContextHelper.Clear();
         }
     }
 }

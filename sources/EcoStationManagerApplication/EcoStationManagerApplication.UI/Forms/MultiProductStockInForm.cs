@@ -420,24 +420,6 @@ namespace EcoStationManagerApplication.UI.Forms
             UpdateSummary();
         }
 
-        //private void DgvProducts_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        //{
-        //    if (e.RowIndex < 0) return;
-        //    var row = dgvProducts.Rows[e.RowIndex];
-            
-        //    // Cập nhật thông tin sản phẩm sau khi edit
-        //    if (e.ColumnIndex == dgvProducts.Columns["ProductName"].Index)
-        //    {
-        //        UpdateProductInfo();
-        //    }
-        //    // Tính lại thành tiền sau khi edit
-        //    else if (e.ColumnIndex == dgvProducts.Columns["Quantity"].Index || 
-        //             e.ColumnIndex == dgvProducts.Columns["UnitPrice"].Index)
-        //    {
-        //        CalculateTotalPrice(row);
-        //    }
-        //}
-
         private void DgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
@@ -447,19 +429,6 @@ namespace EcoStationManagerApplication.UI.Forms
                 dgvProducts.Rows.RemoveAt(e.RowIndex);
                 UpdateSummary();
             }
-        }
-
-        private void AddNewRow()
-        {
-            var rowIndex = dgvProducts.Rows.Add();
-            var row = dgvProducts.Rows[rowIndex];
-            row.Cells["ProductName"].Value = "-- Chọn sản phẩm/bao bì --";
-            row.Cells["Quantity"].Value = "0";
-            row.Cells["UnitPrice"].Value = "0";
-            row.Cells["TotalPrice"].Value = "0";
-            row.Cells["Unit"].Value = "-";
-            row.Cells["RefType"].Value = DBNull.Value;
-            row.Cells["RefId"].Value = DBNull.Value;
         }
 
         private void btnAddRow_Click(object sender, EventArgs e)
@@ -650,7 +619,7 @@ namespace EcoStationManagerApplication.UI.Forms
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
-                    else
+                    else 
                     {
                         UIHelper.HandleServiceResult(result);
                     }

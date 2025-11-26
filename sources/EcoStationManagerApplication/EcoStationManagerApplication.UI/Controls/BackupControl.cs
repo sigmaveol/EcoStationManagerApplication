@@ -207,8 +207,41 @@ namespace EcoStationManagerApplication.UI.Controls
             if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
                 throw new FileNotFoundException("Không tìm thấy file sao lưu để phục hồi.", filePath);
 
-            // TODO: Thực hiện import dữ liệu vào database
-            Console.WriteLine($"Data restored from: {filePath}");
+            var ext = Path.GetExtension(filePath)?.ToLowerInvariant();
+            if (ext == ".pdf")
+            {
+                throw new InvalidOperationException("Không hỗ trợ phục hồi từ file PDF. Vui lòng chọn file Excel/CSV.");
+            }
+
+            var importService = AppServices.ImportService;
+            if (importService == null)
+                throw new InvalidOperationException("Không thể khởi tạo dịch vụ import.");
+
+            var validate = importService.ValidateImportFileAsync(filePath).GetAwaiter().GetResult();
+            if (!validate.Success || !validate.Data)
+            {
+                var reason = string.IsNullOrEmpty(validate.Message) ? "File không hợp lệ để import" : validate.Message;
+                throw new InvalidOperationException(reason);
+            }
+
+            if (ext == ".xlsx" || ext == ".xls")
+            {
+                var templateImport = importService.ImportOrdersFromExcelTemplateAsync(filePath).GetAwaiter().GetResult();
+                if (templateImport.Success)
+                {
+                    ShowImportSummary(templateImport.Data, templateImport.Message);
+                    return;
+                }
+            }
+
+            var fallbackImport = importService.ImportOrdersFromFileAsync(filePath, EcoStationManagerApplication.Models.Enums.OrderSource.EXCEL).GetAwaiter().GetResult();
+            if (!fallbackImport.Success)
+            {
+                var msg = string.IsNullOrEmpty(fallbackImport.Message) ? "Phục hồi thất bại" : fallbackImport.Message;
+                throw new InvalidOperationException(msg);
+            }
+
+            ShowImportSummary(fallbackImport.Data, fallbackImport.Message);
         }
 
         private async Task<List<OrderExportDTO>> GetOrderExportDataAsync()
@@ -244,6 +277,17 @@ namespace EcoStationManagerApplication.UI.Controls
         private void UpdateLastBackupTime()
         {
             _lastBackupTime = DateTime.Now;
+        }
+
+        private void ShowImportSummary(ImportResult result, string message)
+        {
+            var summary = $"{message}\n\nThành công: {result.SuccessCount}\nLỗi: {result.ErrorCount}";
+            if (result.Errors != null && result.Errors.Count > 0)
+            {
+                var firstErrors = string.Join("\n", result.Errors.Take(5));
+                summary += $"\n\nMột số lỗi:\n{firstErrors}";
+            }
+            ShowSuccessMessage(summary);
         }
         #endregion
 

@@ -385,9 +385,13 @@ namespace EcoStationManagerApplication.UI.Controls
             if (currentMode == ViewMode.Products)
             {
                 BindProductData();
+                lblStatusFilter.Visible = true;
+                cmbStatusFilter.Visible = true;
             }
             else
             {
+                lblStatusFilter.Visible = false;
+                cmbStatusFilter.Visible = false;
                 BindPackagingData();
             }
         }

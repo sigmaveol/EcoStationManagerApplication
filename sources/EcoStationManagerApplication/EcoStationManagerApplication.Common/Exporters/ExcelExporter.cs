@@ -140,7 +140,7 @@ namespace EcoStationManagerApplication.Common.Exporters
         /// <summary>
         /// Export DataTable to Excel
         /// </summary>
-        public void ExportToExcel(DataTable dataTable, string filePath, string worksheetName = "Sheet1", Dictionary<string, string> headers = null)
+        public void ExportToExcel(DataTable dataTable, string filePath, string worksheetName = "Sheet1", Dictionary<string, string> headers = null, string title = null)
         {
             if (dataTable == null)
                 throw new ArgumentNullException(nameof(dataTable));
@@ -163,6 +163,24 @@ namespace EcoStationManagerApplication.Common.Exporters
                 worksheet.Cell(currentRow, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 worksheet.Range(currentRow, 1, currentRow, dataTable.Columns.Count).Merge();
                 currentRow++;
+
+                if (!string.IsNullOrWhiteSpace(title))
+                {
+                    // Tách title thành các dòng nếu có xuống dòng
+                    var titleLines = title.Split('\n');
+                    foreach (var line in titleLines)
+                    {
+                        if (!string.IsNullOrWhiteSpace(line))
+                        {
+                            worksheet.Cell(currentRow, 1).Value = line.Trim();
+                            worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                            worksheet.Cell(currentRow, 1).Style.Font.FontSize = line.StartsWith("DANH SÁCH") ? 14 : 11;
+                            worksheet.Range(currentRow, 1, currentRow, dataTable.Columns.Count).Merge();
+                            currentRow++;
+                        }
+                    }
+                    currentRow++; // Thêm khoảng cách sau title
+                }
 
                 // Thông tin xuất
                 worksheet.Cell(currentRow, 1).Value = $"Ngày xuất: {DateTime.Now:dd/MM/yyyy HH:mm:ss}";

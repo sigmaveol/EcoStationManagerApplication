@@ -10,9 +10,10 @@ namespace EcoStationManagerApplication.UI.Common
     public static class AppColors
     {
         // Primary Colors
-        public static Color Primary = Color.FromArgb(31, 107, 59);     // #1f6b3b
+        public static Color Primary = Color.FromArgb(45, 120, 60);     // #1f6b3b
         public static Color PrimaryHover = Color.FromArgb(33, 140, 73); // #218c49
         public static Color PrimaryLight = Color.FromArgb(241, 248, 243);
+        public static Color SelectCell = Color.FromArgb(200, 230, 210);
 
         // Background Colors
         public static Color Background = Color.FromArgb(245, 247, 250); // #f5f7fa

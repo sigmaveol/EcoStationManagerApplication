@@ -19,7 +19,7 @@ namespace EcoStationManagerApplication.UI.Controls
     {
         private List<ProductDTO> products;
         private List<Packaging> packagings;
-        private List<CategoryDTO> categories;
+        private List<Category> categories;
         private string searchTerm = "";
 
         public ProductsControl()
@@ -71,30 +71,27 @@ namespace EcoStationManagerApplication.UI.Controls
                 }
 
                 // Load Categories từ database
-                var categoriesResult = await AppServices.CategoryService.GetActiveCategoriesAsync();
+                var categoriesResult = await AppServices.CategoryService.GetAllCategoriesAsync();
                 if (categoriesResult.Success && categoriesResult.Data != null)
                 {
-                    categories = categoriesResult.Data.Select(c => new CategoryDTO
-                    {
-                        CategoryId = c.CategoryId,
-                        Name = c.Name
-                    }).ToList();
+                    categories = categoriesResult.Data.ToList();
                 }
                 else
                 {
-                    categories = new List<CategoryDTO>();
+                    categories = new List<Category>();
                 }
 
                 // Bind data vào UI
                 BindProductsData();
                 BindPackagingsData();
+                BindCategoriesData();
             }
             catch (Exception ex)
             {
                 UIHelper.ShowExceptionError(ex, "tải dữ liệu sản phẩm và bao bì");
                 products = new List<ProductDTO>();
                 packagings = new List<Packaging>();
-                categories = new List<CategoryDTO>();
+                categories = new List<Category>();
             }
         }
 
@@ -126,6 +123,55 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewPackagings.Columns.Add("PackagingType", "Loại");
             dataGridViewPackagings.Columns.Add("DepositPrice", "Giá ký quỹ");
             dataGridViewPackagings.Columns.Add("PackagingAction", "Thao tác");
+
+
+            dataGridViewCategories.Columns.Clear();
+            dataGridViewCategories.Columns.Add("CategoryName", "Tên danh mục");
+            dataGridViewCategories.Columns.Add("CategoryType", "Loại danh mục");
+            dataGridViewCategories.Columns.Add("CreatedDate", "Ngày tạo");
+            dataGridViewCategories.Columns.Add("IsActive", "Trạng thái");
+            dataGridViewCategories.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+        }
+
+        private void BindCategoriesData()
+        {
+            if (categories == null)
+            {
+                dataGridViewCategories.Rows.Clear();
+                return;
+            }
+
+            var filteredCategories = categories.Where(category =>
+                category.Name.ToLower().Contains(searchTerm.ToLower()) ||
+                category.CategoryType.ToString().ToLower().Contains(searchTerm.ToLower())
+            ).ToList();
+
+            dataGridViewCategories.Rows.Clear();
+            foreach (var category in filteredCategories)
+            {
+                dataGridViewCategories.Rows.Add(
+                    category.Name,
+                    DisplayCategoryType(category.CategoryType),
+                    category.CreatedDate,
+                    category.IsActive == ActiveStatus.ACTIVE ? "Hoạt động" : "Ngưng",
+                    "👁️"
+                );
+            }
+        }
+
+        private string DisplayCategoryType(CategoryType categoryType)
+        {
+            switch (categoryType)
+            {
+                case CategoryType.PRODUCT:
+                    return "Sản phẩm";
+                case CategoryType.SERVICE:
+                    return "Dịch vụ";
+                case CategoryType.OTHER:
+                    return "Khác";
+                default:
+                    return "Sản phẩm";
+            }
         }
 
         private void BindProductsData()

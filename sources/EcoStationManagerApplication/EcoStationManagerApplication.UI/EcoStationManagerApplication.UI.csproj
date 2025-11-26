@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -151,6 +151,7 @@
     <Compile Include="Common\AppColors.cs" />
     <Compile Include="Common\ApplicationContext.cs" />
     <Compile Include="Common\AppServices.cs" />
+    <Compile Include="Common\EnumHelper.cs" />
     <Compile Include="Common\Services\NavigationService.cs" />
     <Compile Include="Common\Services\DialogService.cs" />
     <Compile Include="Common\Services\AppStateManager.cs" />
@@ -368,6 +369,9 @@
     <Compile Include="Forms\AddPackagingForm.Designer.cs">
       <DependentUpon>AddPackagingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PackagingTransactionDetailForm.Designer.cs">
+      <DependentUpon>PackagingTransactionDetailForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\PackagingTransactionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -446,6 +450,12 @@
     <Compile Include="Forms\MultiProductStockOutForm.Designer.cs">
       <DependentUpon>MultiProductStockOutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SingleProductStockOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SingleProductStockOutForm.Designer.cs">
+      <DependentUpon>SingleProductStockOutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\StockInDetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -457,6 +467,9 @@
     </Compile>
     <Compile Include="Forms\StockOutDetailForm.Designer.cs">
       <DependentUpon>StockOutDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PackagingTransactionDetailForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\WorkShiftForm.cs">
       <SubType>Form</SubType>
@@ -568,6 +581,9 @@
     <EmbeddedResource Include="Forms\OrderDetailForm.resx">
       <DependentUpon>OrderDetailForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PackagingTransactionDetailForm.resx">
+      <DependentUpon>PackagingTransactionDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PackagingTransactionForm.resx">
       <DependentUpon>PackagingTransactionForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -594,6 +610,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MultiProductStockOutForm.resx">
       <DependentUpon>MultiProductStockOutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SingleProductStockOutForm.resx">
+      <DependentUpon>SingleProductStockOutForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StockOutDetailForm.resx">
       <DependentUpon>StockOutDetailForm.cs</DependentUpon>

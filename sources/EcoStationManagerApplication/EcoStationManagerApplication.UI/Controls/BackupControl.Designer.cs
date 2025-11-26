@@ -60,12 +60,12 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // headerPanel
             // 
-            this.headerPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.headerPanel.Controls.Add(this.titleLabel);
-            this.headerPanel.Location = new System.Drawing.Point(20, 20);
+            this.headerPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.headerPanel.Location = new System.Drawing.Point(10, 10);
             this.headerPanel.Name = "headerPanel";
-            this.headerPanel.Size = new System.Drawing.Size(900, 60);
+            this.headerPanel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 20);
+            this.headerPanel.Size = new System.Drawing.Size(920, 60);
             this.headerPanel.TabIndex = 0;
             // 
             // titleLabel
@@ -75,21 +75,20 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabel.Location = new System.Drawing.Point(0, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(237, 37);
+            this.titleLabel.Size = new System.Drawing.Size(260, 37);
             this.titleLabel.TabIndex = 0;
-            this.titleLabel.Text = "Sao lưu & Phục hồi";
+            this.titleLabel.Text = "Sao lưu && Phục hồi";
             // 
             // alertPanel
             // 
-            this.alertPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.alertPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
             this.alertPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.alertPanel.Controls.Add(this.alertLabel);
-            this.alertPanel.Location = new System.Drawing.Point(20, 90);
+            this.alertPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.alertPanel.Location = new System.Drawing.Point(10, 70);
             this.alertPanel.Name = "alertPanel";
-            this.alertPanel.Padding = new System.Windows.Forms.Padding(15);
-            this.alertPanel.Size = new System.Drawing.Size(900, 60);
+            this.alertPanel.Padding = new System.Windows.Forms.Padding(15, 15, 15, 20);
+            this.alertPanel.Size = new System.Drawing.Size(920, 60);
             this.alertPanel.TabIndex = 1;
             // 
             // alertLabel
@@ -99,7 +98,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.alertLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
             this.alertLabel.Location = new System.Drawing.Point(15, 15);
             this.alertLabel.Name = "alertLabel";
-            this.alertLabel.Size = new System.Drawing.Size(868, 28);
+            this.alertLabel.Size = new System.Drawing.Size(888, 23);
             this.alertLabel.TabIndex = 0;
             this.alertLabel.Text = "Lưu ý: Thực hiện sao lưu định kỳ để tránh mất mát dữ liệu. Dữ liệu sẽ được xuất r" +
     "a file Excel hoặc PDF.";
@@ -107,15 +106,15 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // backupSection
             // 
-            this.backupSection.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.backupSection.AutoSize = true;
             this.backupSection.Controls.Add(this.excelCard);
             this.backupSection.Controls.Add(this.pdfCard);
             this.backupSection.Controls.Add(this.restoreCard);
-            this.backupSection.Location = new System.Drawing.Point(20, 160);
+            this.backupSection.Dock = System.Windows.Forms.DockStyle.Top;
+            this.backupSection.Location = new System.Drawing.Point(10, 130);
             this.backupSection.Name = "backupSection";
-            this.backupSection.Size = new System.Drawing.Size(900, 400);
+            this.backupSection.Padding = new System.Windows.Forms.Padding(0, 0, 0, 20);
+            this.backupSection.Size = new System.Drawing.Size(920, 260);
             this.backupSection.TabIndex = 2;
             // 
             // excelCard
@@ -329,9 +328,9 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
-            this.Controls.Add(this.headerPanel);
-            this.Controls.Add(this.alertPanel);
             this.Controls.Add(this.backupSection);
+            this.Controls.Add(this.alertPanel);
+            this.Controls.Add(this.headerPanel);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "BackupControl";
             this.Padding = new System.Windows.Forms.Padding(10);
@@ -346,6 +345,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.filePanel.ResumeLayout(false);
             this.filePanel.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

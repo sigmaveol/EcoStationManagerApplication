@@ -56,6 +56,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void BuildRevenueKpis(RevenueReportDTO report)
         {
+            flowPanelKPICards.SuspendLayout();
             flowPanelKPICards.Controls.Clear();
 
             var kpis = new[]
@@ -75,6 +76,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 control.Size = new Size(220, 100);
                 flowPanelKPICards.Controls.Add(control);
             }
+            flowPanelKPICards.ResumeLayout(true);
         }
 
         private void BuildRevenueTable(IEnumerable<RevenueDataPoint> points)
@@ -102,6 +104,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void BuildRevenueChart(IEnumerable<RevenueDataPoint> points)
         {
+            panelChart.SuspendLayout();
             panelChart.Controls.Clear();
             panelChart.Padding = new Padding(20);
 
@@ -186,6 +189,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
             panelChart.Controls.Add(stack);
             panelChart.Controls.Add(title);
+            panelChart.ResumeLayout(true);
         }
     }
 }

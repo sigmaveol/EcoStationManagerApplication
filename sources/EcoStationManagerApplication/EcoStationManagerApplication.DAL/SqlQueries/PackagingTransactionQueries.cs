@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,9 +25,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         FROM PackagingTransactions pt
         JOIN Packaging p ON pt.packaging_id = p.packaging_id
         LEFT JOIN Users u ON pt.user_id = u.user_id
-        WHERE pt.customer_id = @CustomerId
-        ORDER BY pt.created_date DESC";
-
+        WHERE pt.customer_id = @CustomerId";
         // Lấy lịch sử giao dịch theo loại
         public const string GetByType = @"
         SELECT pt.*, p.name as packaging_name, c.name as customer_name, u.fullname as created_by_name

@@ -30,6 +30,13 @@ namespace EcoStationManagerApplication.UI.Controls
             _orderService = orderService;
             _orderDetailService = orderDetailService;
             InitializeComponent();
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.UserPaint, true);
+            UpdateStyles();
+            EnableDoubleBuffering(this);
+            EnableDoubleBuffering(panelReportContent);
+            EnableDoubleBuffering(flowPanelKPICards);
+            EnableDoubleBuffering(panelChart);
+            EnableDoubleBuffering(dataGridViewReport);
             InitializeEvents();
             SetDefaultDates();
         }
@@ -125,9 +132,6 @@ namespace EcoStationManagerApplication.UI.Controls
                         await LoadBestSellingReport(fromDate, toDate);
                         break;
                 }
-
-                // Refresh UI để đảm bảo các thay đổi được hiển thị
-                this.Refresh();
             }
             finally
             {
@@ -180,6 +184,9 @@ namespace EcoStationManagerApplication.UI.Controls
 
         protected void ClearReportContent()
         {
+            panelReportContent.SuspendLayout();
+            flowPanelKPICards.SuspendLayout();
+            panelChart.SuspendLayout();
             flowPanelKPICards.Controls.Clear();
             dataGridViewReport.DataSource = null;
             dataGridViewReport.Columns.Clear();
@@ -190,6 +197,9 @@ namespace EcoStationManagerApplication.UI.Controls
                 panelReportContent.Controls.Remove(control);
                 control.Dispose();
             }
+            panelChart.ResumeLayout(true);
+            flowPanelKPICards.ResumeLayout(true);
+            panelReportContent.ResumeLayout(true);
         }
 
         protected Panel CreateKPICard(string title, string value, string icon, Color color)
@@ -225,7 +235,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 Text = value,
                 Font = new Font("Segoe UI", 18, FontStyle.Bold),
                 ForeColor = Color.FromArgb(51, 51, 51),
-                Location = new Point(50, 12),
+                Location = new Point(75, 12),
                 AutoSize = true
             };
 
@@ -457,6 +467,17 @@ namespace EcoStationManagerApplication.UI.Controls
             // Hiển thị placeholder message
             ClearReportContent();
             ShowPlaceholderMessage("Vui lòng chọn khoảng thời gian và nhấn 'Tạo báo cáo' để xem dữ liệu.");
+        }
+
+        private void EnableDoubleBuffering(Control control)
+        {
+            if (control == null) return;
+            var prop = typeof(Control).GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            prop?.SetValue(control, true, null);
+            foreach (Control child in control.Controls)
+            {
+                EnableDoubleBuffering(child);
+            }
         }
 
         // Placeholder methods - được implement trong các file partial

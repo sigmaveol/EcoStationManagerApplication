@@ -19,7 +19,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// <summary>
         /// Lấy lịch sử giao dịch theo khách hàng
         /// </summary>
-        Task<IEnumerable<PackagingTransaction>> GetByCustomerAsync(int customerId);
+        Task<IEnumerable<PackagingTransaction>> GetByCustomerAsync(int customerId, DateTime? fromDate = null, DateTime? toDate = null);
 
         /// <summary>
         /// Lấy lịch sử giao dịch theo loại (ISSUE/RETURN)

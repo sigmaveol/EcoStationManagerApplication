@@ -1,3 +1,4 @@
+using EcoStationManagerApplication.Common.Helpers;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
@@ -234,7 +235,7 @@ namespace EcoStationManagerApplication.UI.Forms
                         _customerId,
                         quantity,
                         amount,
-                        null, // userId sẽ được lấy từ context
+                        AppUserContext.CurrentUserId, // userId sẽ được lấy từ context
                         notes
                     );
 
@@ -252,7 +253,7 @@ namespace EcoStationManagerApplication.UI.Forms
                         _customerId,
                         quantity,
                         amount,
-                        null, // userId sẽ được lấy từ context
+                        AppUserContext.CurrentUserId, // userId sẽ được lấy từ context
                         notes
                     );
 

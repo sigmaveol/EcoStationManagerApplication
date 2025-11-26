@@ -80,13 +80,5 @@ namespace EcoStationManagerApplication.Core.Services
         {
             return Result.Fail(message);
         }
-
-        /// <summary>
-        /// Lấy CurrentUserId từ UserContextHelper
-        /// </summary>
-        protected int? GetCurrentUserId()
-        {
-            return Common.Helpers.UserContextHelper.GetCurrentUserId();
-        }
     }
 }

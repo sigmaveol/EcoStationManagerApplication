@@ -25,26 +25,4 @@ namespace EcoStationManagerApplication.Models.DTOs
         public string Name { get; set; }
     }
 
-    public class CreateProductDTO
-	{
-		public string SKU { get; set; }
-		public string Name { get; set; }
-		public ProductType ProductType { get; set; }
-		public string Unit { get; set; }
-		public decimal Price { get; set; }
-		public decimal MinStockLevel { get; set; }
-		public int? CategoryId { get; set; }
-	}
-
-	public class UpdateProductDTO
-	{
-		public int ProductId { get; set; }
-		public string Name { get; set; }
-		public ProductType ProductType { get; set; }
-		public string Unit { get; set; }
-		public decimal Price { get; set; }
-		public decimal MinStockLevel { get; set; }
-		public int? CategoryId { get; set; }
-		public bool IsActive { get; set; }
-	}
 }

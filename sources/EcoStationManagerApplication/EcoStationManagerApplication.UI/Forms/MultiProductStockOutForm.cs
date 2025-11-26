@@ -14,20 +14,8 @@ namespace EcoStationManagerApplication.UI.Forms
 {
     public partial class MultiProductStockOutForm : Form
     {
-        private class ProductRow
-        {
-            public int? ProductId { get; set; }
-            public string ProductName { get; set; }
-            public string BatchNo { get; set; }
-            public string Unit { get; set; }
-            public decimal Quantity { get; set; }
-            public decimal CurrentStock { get; set; }
-            public bool IsValid { get; set; } = true;
-            public string ErrorMessage { get; set; }
-        }
-
-        private List<ProductRow> _productRows = new List<ProductRow>();
         private List<ProductDTO> _allProducts = new List<ProductDTO>();
+        private List<Packaging> _allPackagings = new List<Packaging>();
         private Dictionary<int, decimal> _productStocks = new Dictionary<int, decimal>();
 
         public MultiProductStockOutForm()
@@ -53,7 +41,6 @@ namespace EcoStationManagerApplication.UI.Forms
 
             await LoadDataAsync();
             InitializeDataGridView();
-            AddNewRow();
         }
 
         private async Task LoadDataAsync()
@@ -90,6 +77,13 @@ namespace EcoStationManagerApplication.UI.Forms
                         }
                     }
                 }
+
+                // Load bao bì
+                var packagingsResult = await AppServices.PackagingService.GetAllPackagingsAsync();
+                if (packagingsResult.Success && packagingsResult.Data != null)
+                {
+                    _allPackagings = packagingsResult.Data.ToList();
+                }
             }
             catch (Exception ex)
             {
@@ -105,30 +99,48 @@ namespace EcoStationManagerApplication.UI.Forms
             dgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProducts.MultiSelect = false;
 
-            // Cột ẩn ProductId
+            // Cột ẩn RefType (PRODUCT hoặc PACKAGING)
             dgvProducts.Columns.Add(new DataGridViewTextBoxColumn
             {
-                Name = "ProductId",
-                HeaderText = "ProductId",
+                Name = "RefType",
+                HeaderText = "RefType",
                 Visible = false
             });
 
-            // Cột Sản phẩm (TextBox với autocomplete)
-            var productColumn = new DataGridViewTextBoxColumn
+            // Cột ẩn RefId (ProductId hoặc PackagingId)
+            dgvProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "RefId",
+                HeaderText = "RefId",
+                Visible = false
+            });
+
+            // Cột Sản phẩm/Bao bì (ComboBox) - Chọn từ danh sách database
+            var productColumn = new DataGridViewComboBoxColumn
             {
                 Name = "ProductName",
-                HeaderText = "Sản phẩm",
-                Width = 250
+                HeaderText = "Sản phẩm/Bao bì",
+                Width = 300,
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton,
+                DisplayStyleForCurrentCellOnly = false,
+                FlatStyle = FlatStyle.Flat
             };
             dgvProducts.Columns.Add(productColumn);
 
-            // Cột Lô hàng
-            dgvProducts.Columns.Add(new DataGridViewTextBoxColumn
+            // Thêm danh sách sản phẩm và bao bì vào ComboBox
+            productColumn.Items.Add("-- Chọn sản phẩm/bao bì --");
+
+            // Thêm sản phẩm với prefix [SP]
+            foreach (var product in _allProducts)
             {
-                Name = "BatchNo",
-                HeaderText = "Lô hàng",
-                Width = 120
-            });
+                productColumn.Items.Add($"[SP] {product.Code} - {product.Name}");
+            }
+
+            // Thêm bao bì với prefix [BB]
+            foreach (var packaging in _allPackagings)
+            {
+                productColumn.Items.Add($"[BB] {packaging.Barcode ?? ""} - {packaging.Name}");
+            }
 
             // Cột Đơn vị
             dgvProducts.Columns.Add(new DataGridViewTextBoxColumn
@@ -137,6 +149,14 @@ namespace EcoStationManagerApplication.UI.Forms
                 HeaderText = "Đơn vị",
                 Width = 80,
                 ReadOnly = true
+            });
+
+            // Cột Lô hàng
+            dgvProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "BatchNo",
+                HeaderText = "Lô hàng",
+                Width = 120
             });
 
             // Cột Tồn kho
@@ -184,18 +204,62 @@ namespace EcoStationManagerApplication.UI.Forms
             dgvProducts.EditingControlShowing += DgvProducts_EditingControlShowing;
         }
 
+        private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (dgvProducts.CurrentRow == null || dgvProducts.CurrentCell == null) return;
+
+            if (sender is ComboBox comboBox && comboBox.SelectedItem != null)
+            {
+                var selectedText = comboBox.SelectedItem.ToString();
+                if (selectedText != "-- Chọn sản phẩm/bao bì --")
+                {
+                    // Kiểm tra xem là sản phẩm [SP] hay bao bì [BB]
+                    if (selectedText.StartsWith("[SP]"))
+                    {
+                        // Là sản phẩm
+                        var productText = selectedText.Substring(5).Trim(); // Bỏ "[SP] "
+                        var product = _allProducts.FirstOrDefault(p =>
+                            $"{p.Code} - {p.Name}".Equals(productText, StringComparison.OrdinalIgnoreCase));
+                        if (product != null)
+                        {
+                            dgvProducts.CurrentRow.Cells["RefType"].Value = RefType.PRODUCT.ToString();
+                            dgvProducts.CurrentRow.Cells["RefId"].Value = product.ProductId;
+                            dgvProducts.CurrentRow.Cells["Unit"].Value = product.UnitMeasure ?? "-";
+                        }
+                    }
+                    else if (selectedText.StartsWith("[BB]"))
+                    {
+                        // Là bao bì
+                        var packagingText = selectedText.Substring(5).Trim(); // Bỏ "[BB] "
+                        var packaging = _allPackagings.FirstOrDefault(p =>
+                            $"{p.Barcode ?? ""} - {p.Name}".Equals(packagingText, StringComparison.OrdinalIgnoreCase));
+                        if (packaging != null)
+                        {
+                            dgvProducts.CurrentRow.Cells["RefType"].Value = RefType.PACKAGING.ToString();
+                            dgvProducts.CurrentRow.Cells["RefId"].Value = packaging.PackagingId;
+                            dgvProducts.CurrentRow.Cells["Unit"].Value = "cái";
+                        }
+                    }
+                }
+                else
+                {
+                    dgvProducts.CurrentRow.Cells["RefType"].Value = DBNull.Value;
+                    dgvProducts.CurrentRow.Cells["RefId"].Value = DBNull.Value;
+                    dgvProducts.CurrentRow.Cells["Unit"].Value = "-";
+                }
+            }
+        }
+
         private void DgvProducts_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            // Xử lý autocomplete cho cột sản phẩm
+            // Xử lý khi chọn sản phẩm từ ComboBox
             if (dgvProducts.CurrentCell.ColumnIndex == dgvProducts.Columns["ProductName"].Index)
             {
-                if (e.Control is TextBox textBox)
+                if (e.Control is ComboBox comboBox)
                 {
-                    textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                    textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                    var autoComplete = new AutoCompleteStringCollection();
-                    autoComplete.AddRange(_allProducts.Select(p => $"{p.Code} - {p.Name}").ToArray());
-                    textBox.AutoCompleteCustomSource = autoComplete;
+                    comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+                    comboBox.SelectedIndexChanged -= ComboBox_SelectedIndexChanged;
+                    comboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
                 }
             }
         }
@@ -242,25 +306,45 @@ namespace EcoStationManagerApplication.UI.Forms
             if (productCell.Value != null)
             {
                 var productText = productCell.Value.ToString();
-                var product = _allProducts.FirstOrDefault(p => 
-                    $"{p.Code} - {p.Name}".Equals(productText, StringComparison.OrdinalIgnoreCase));
-                if (product != null)
+                if (productText.StartsWith("[SP]"))
                 {
-                    row.Cells["ProductId"].Value = product.ProductId;
-                    row.Cells["Unit"].Value = product.UnitMeasure ?? "-";
-                    
-                    // Hiển thị tồn kho
-                    var currentStock = _productStocks.ContainsKey(product.ProductId) 
-                        ? _productStocks[product.ProductId] 
-                        : 0;
-                    row.Cells["CurrentStock"].Value = currentStock.ToString("N2");
-                    
-                    // Kiểm tra lại tồn kho
-                    ValidateStock(row);
+                    var productCodeName = productText.Substring(5).Trim();
+                    var product = _allProducts.FirstOrDefault(p => 
+                        $"{p.Code} - {p.Name}".Equals(productCodeName, StringComparison.OrdinalIgnoreCase));
+                    if (product != null)
+                    {
+                        row.Cells["RefType"].Value = RefType.PRODUCT.ToString();
+                        row.Cells["RefId"].Value = product.ProductId;
+                        row.Cells["Unit"].Value = product.UnitMeasure ?? "-";
+                        
+                        // Hiển thị tồn kho
+                        var currentStock = _productStocks.ContainsKey(product.ProductId) 
+                            ? _productStocks[product.ProductId] 
+                            : 0;
+                        row.Cells["CurrentStock"].Value = currentStock.ToString("N2");
+                        
+                        // Kiểm tra lại tồn kho
+                        ValidateStock(row);
+                    }
+                }
+                else if (productText.StartsWith("[BB]"))
+                {
+                    var packagingCodeName = productText.Substring(5).Trim();
+                    var packaging = _allPackagings.FirstOrDefault(p => 
+                        $"{p.Barcode ?? ""} - {p.Name}".Equals(packagingCodeName, StringComparison.OrdinalIgnoreCase));
+                    if (packaging != null)
+                    {
+                        row.Cells["RefType"].Value = RefType.PACKAGING.ToString();
+                        row.Cells["RefId"].Value = packaging.PackagingId;
+                        row.Cells["Unit"].Value = "cái";
+                        row.Cells["CurrentStock"].Value = "0"; // Bao bì không có tồn kho
+                        row.Cells["Warning"].Value = "";
+                    }
                 }
                 else
                 {
-                    row.Cells["ProductId"].Value = DBNull.Value;
+                    row.Cells["RefType"].Value = DBNull.Value;
+                    row.Cells["RefId"].Value = DBNull.Value;
                     row.Cells["Unit"].Value = "-";
                     row.Cells["CurrentStock"].Value = "0";
                     row.Cells["Warning"].Value = "";
@@ -271,16 +355,20 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private void ValidateStock(DataGridViewRow row)
         {
-            var productIdCell = row.Cells["ProductId"];
+            var refTypeCell = row.Cells["RefType"];
+            var refIdCell = row.Cells["RefId"];
             var quantityCell = row.Cells["Quantity"];
             var currentStockCell = row.Cells["CurrentStock"];
             var warningCell = row.Cells["Warning"];
 
-            if (productIdCell.Value != null && productIdCell.Value != DBNull.Value &&
-                int.TryParse(productIdCell.Value.ToString(), out int productId))
+            // Chỉ validate tồn kho cho sản phẩm (PRODUCT), không validate cho bao bì
+            if (refTypeCell.Value != null && refTypeCell.Value != DBNull.Value &&
+                refTypeCell.Value.ToString() == RefType.PRODUCT.ToString() &&
+                refIdCell.Value != null && refIdCell.Value != DBNull.Value &&
+                int.TryParse(refIdCell.Value.ToString(), out int refId))
             {
-                var currentStock = _productStocks.ContainsKey(productId) 
-                    ? _productStocks[productId] 
+                var currentStock = _productStocks.ContainsKey(refId) 
+                    ? _productStocks[refId] 
                     : 0;
 
                 if (decimal.TryParse(quantityCell.Value?.ToString(), out decimal quantity))
@@ -310,12 +398,65 @@ namespace EcoStationManagerApplication.UI.Forms
                     warningCell.Style.ForeColor = System.Drawing.Color.Red;
                 }
             }
+            else if (refTypeCell.Value != null && refTypeCell.Value != DBNull.Value &&
+                     refTypeCell.Value.ToString() == RefType.PACKAGING.ToString())
+            {
+                // Bao bì không cần kiểm tra tồn kho, chỉ kiểm tra số lượng > 0
+                if (decimal.TryParse(quantityCell.Value?.ToString(), out decimal quantity))
+                {
+                    if (quantity <= 0)
+                    {
+                        warningCell.Value = "⚠ Số lượng phải > 0";
+                        warningCell.Style.ForeColor = System.Drawing.Color.Red;
+                        row.Cells["Quantity"].Style.ForeColor = System.Drawing.Color.Red;
+                    }
+                    else
+                    {
+                        warningCell.Value = "✓ Hợp lệ";
+                        warningCell.Style.ForeColor = System.Drawing.Color.Green;
+                        row.Cells["Quantity"].Style.ForeColor = System.Drawing.Color.Black;
+                    }
+                }
+                else
+                {
+                    warningCell.Value = "⚠ Số lượng không hợp lệ";
+                    warningCell.Style.ForeColor = System.Drawing.Color.Red;
+                }
+            }
             else
             {
                 warningCell.Value = "";
             }
             
             UpdateSummary();
+        }
+
+        private void UpdateStockInfoAndValidate(DataGridViewRow row)
+        {
+            // Cập nhật thông tin tồn kho và validate
+            var refTypeCell = row.Cells["RefType"];
+            var refIdCell = row.Cells["RefId"];
+            
+            if (refTypeCell.Value != null && refTypeCell.Value != DBNull.Value &&
+                refTypeCell.Value.ToString() == RefType.PRODUCT.ToString() &&
+                refIdCell.Value != null && refIdCell.Value != DBNull.Value &&
+                int.TryParse(refIdCell.Value.ToString(), out int refId))
+            {
+                // Cập nhật tồn kho cho sản phẩm
+                var currentStock = _productStocks.ContainsKey(refId) 
+                    ? _productStocks[refId] 
+                    : 0;
+                row.Cells["CurrentStock"].Value = currentStock.ToString("N2");
+            }
+            else if (refTypeCell.Value != null && refTypeCell.Value != DBNull.Value &&
+                     refTypeCell.Value.ToString() == RefType.PACKAGING.ToString())
+            {
+                // Bao bì không có tồn kho
+                row.Cells["CurrentStock"].Value = "0";
+            }
+            
+            // Validate sau khi cập nhật
+            ValidateStock(row);
         }
 
         private void DgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -329,20 +470,37 @@ namespace EcoStationManagerApplication.UI.Forms
             }
         }
 
-        private void AddNewRow()
-        {
-            var rowIndex = dgvProducts.Rows.Add();
-            var row = dgvProducts.Rows[rowIndex];
-            row.Cells["ProductName"].Value = "";
-            row.Cells["Quantity"].Value = "0";
-            row.Cells["Unit"].Value = "-";
-            row.Cells["CurrentStock"].Value = "0";
-            row.Cells["Warning"].Value = "";
-        }
-
         private void btnAddRow_Click(object sender, EventArgs e)
         {
-            AddNewRow();
+            // Mở form chọn sản phẩm/bao bì
+            using (var selectionForm = new SingleProductStockOutForm(_allProducts, _allPackagings))
+            {
+                if (selectionForm.ShowDialog() == DialogResult.OK && selectionForm.IsOK)
+                {
+                    // Thêm dòng mới vào DataGridView với thông tin đã chọn
+                    var rowIndex = dgvProducts.Rows.Add();
+                    var row = dgvProducts.Rows[rowIndex];
+
+                    // Set các giá trị từ form chọn
+                    row.Cells["ProductName"].Value = selectionForm.SelectedProductName;
+                    row.Cells["RefType"].Value = selectionForm.SelectedRefType.HasValue ? selectionForm.SelectedRefType.Value.ToString() : (object)DBNull.Value;
+                    row.Cells["RefId"].Value = selectionForm.SelectedRefId.HasValue ? (object)selectionForm.SelectedRefId.Value : DBNull.Value;
+                    row.Cells["Unit"].Value = selectionForm.SelectedUnit ?? "-";
+                    row.Cells["Quantity"].Value = selectionForm.Quantity.ToString("N2");
+
+                    // Set BatchNo nếu có từ form chọn
+                    if (!string.IsNullOrEmpty(selectionForm.BatchNo))
+                    {
+                        row.Cells["BatchNo"].Value = selectionForm.BatchNo;
+                    }
+
+                    // Cập nhật tồn kho và kiểm tra
+                    UpdateStockInfoAndValidate(row);
+
+                    // Cập nhật tổng kết
+                    UpdateSummary();
+                }
+            }
         }
 
         private void UpdateSummary()
@@ -396,12 +554,14 @@ namespace EcoStationManagerApplication.UI.Forms
             {
                 var row = dgvProducts.Rows[i];
                 var productCell = row.Cells["ProductName"];
-                var productIdCell = row.Cells["ProductId"];
+                var refTypeCell = row.Cells["RefType"];
+                var refIdCell = row.Cells["RefId"];
                 
                 if (productCell.Value == null || string.IsNullOrWhiteSpace(productCell.Value.ToString()) ||
-                    productIdCell.Value == null || productIdCell.Value == DBNull.Value)
+                    refTypeCell.Value == null || refTypeCell.Value == DBNull.Value ||
+                    refIdCell.Value == null || refIdCell.Value == DBNull.Value)
                 {
-                    ShowError($"Dòng {i + 1}: Vui lòng chọn sản phẩm.");
+                    ShowError($"Dòng {i + 1}: Vui lòng chọn sản phẩm hoặc bao bì.");
                     dgvProducts.CurrentCell = productCell;
                     return false;
                 }
@@ -413,11 +573,13 @@ namespace EcoStationManagerApplication.UI.Forms
                     return false;
                 }
 
-                // Kiểm tra tồn kho
-                if (int.TryParse(productIdCell.Value.ToString(), out int productId))
+                // Kiểm tra tồn kho chỉ cho sản phẩm (PRODUCT)
+                if (refTypeCell.Value != null && refTypeCell.Value != DBNull.Value &&
+                    refTypeCell.Value.ToString() == RefType.PRODUCT.ToString() &&
+                    int.TryParse(refIdCell.Value.ToString(), out int refId))
                 {
-                    var currentStock = _productStocks.ContainsKey(productId) 
-                        ? _productStocks[productId] 
+                    var currentStock = _productStocks.ContainsKey(refId) 
+                        ? _productStocks[refId] 
                         : 0;
                     
                     if (quantity > currentStock)
@@ -457,20 +619,24 @@ namespace EcoStationManagerApplication.UI.Forms
 
                 foreach (DataGridViewRow row in dgvProducts.Rows)
                 {
-                    var productIdCell = row.Cells["ProductId"];
-                    if (productIdCell.Value != null && productIdCell.Value != DBNull.Value &&
-                        int.TryParse(productIdCell.Value.ToString(), out int productId))
+                    var refTypeCell = row.Cells["RefType"];
+                    var refIdCell = row.Cells["RefId"];
+                    
+                    if (refTypeCell.Value != null && refTypeCell.Value != DBNull.Value &&
+                        refIdCell.Value != null && refIdCell.Value != DBNull.Value &&
+                        Enum.TryParse<RefType>(refTypeCell.Value.ToString(), out RefType refType) &&
+                        int.TryParse(refIdCell.Value.ToString(), out int refId))
                     {
                         var stockOut = new StockOut
                         {
-                            RefType = RefType.PRODUCT,
-                            RefId = productId,
+                            RefType = refType,
+                            RefId = refId,
                             Quantity = decimal.Parse(row.Cells["Quantity"].Value?.ToString() ?? "0"),
                             BatchNo = row.Cells["BatchNo"].Value?.ToString(),
                             Purpose = purpose,
                             Notes = notes,
                             CreatedDate = stockOutDate,
-                            CreatedBy = UserContextHelper.GetCurrentUserId() // Người tạo là người hiện tại đăng nhập
+                            CreatedBy = AppUserContext.CurrentUserId // Người tạo là người hiện tại đăng nhập
                         };
 
                         stockOuts.Add(stockOut);
@@ -482,15 +648,19 @@ namespace EcoStationManagerApplication.UI.Forms
                     var result = await AppServices.StockOutService.CreateMultipleStockOutsAsync(stockOuts);
                     if (result.Success)
                     {
+                        // Hiển thị thông báo thành công và đợi người dùng đóng
                         UIHelper.ShowSuccessMessage($"Xuất kho thành công {stockOuts.Count} sản phẩm!");
-                        this.DialogResult = DialogResult.OK;
-                        this.Close();
+                        btnCancel_Click(sender, e);
                     }
                     else
                     {
                         UIHelper.HandleServiceResult(result);
                     }
                 }
+                else
+                {
+                    UIHelper.ShowWarningMessage("Không có sản phẩm nào để xuất kho!");
+                }   
             }
             catch (Exception ex)
             {

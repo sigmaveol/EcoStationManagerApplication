@@ -1,5 +1,6 @@
 using EcoStationManagerApplication.Common.Exporters;
 using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
 using System;
 using System.Collections.Generic;
@@ -47,21 +48,18 @@ namespace EcoStationManagerApplication.UI.Forms
             txtNotes.Text = _detail.Notes ?? "";
         }
 
-        private string GetPurposeText(string purpose)
+        private string GetPurposeText(StockOutPurpose purpose)
         {
-            switch (purpose?.ToUpper())
+            switch (purpose)
             {
-                case "SALE":
+                case StockOutPurpose.SALE:
                     return "Bán hàng";
-                case "TRANSFER":
+                case StockOutPurpose.TRANSFER:
                     return "Chuyển kho";
-                case "DAMAGE":
-                case "WASTE":
+                case StockOutPurpose.DAMAGE:
                     return "Hao hụt";
-                case "SAMPLE":
-                    return "Mẫu thử nghiệm";
                 default:
-                    return purpose ?? "-";
+                    return purpose.ToString();
             }
         }
 

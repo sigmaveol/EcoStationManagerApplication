@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using EcoStationManagerApplication.UI.Common;
 
 namespace EcoStationManagerApplication.UI.Forms
 {
@@ -364,7 +365,8 @@ namespace EcoStationManagerApplication.UI.Forms
                     Note = txtNote.Text.Trim(),
                     Status = OrderStatus.DRAFT,
                     TotalAmount = _selectedProducts.Sum(p => p.TotalPrice),
-                    LastUpdated = DateTime.Now
+                    LastUpdated = DateTime.Now,
+                    UserId = AppUserContext.CurrentUserId,
                 };
 
                 // ... (phần còn lại của hàm giữ nguyên) ...

@@ -76,6 +76,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void CreateCustomerRefillKPICards(List<CustomerReturnData> customerData, Dictionary<int, decimal> customerTotals)
         {
+            flowPanelKPICards.SuspendLayout();
             flowPanelKPICards.Controls.Clear();
 
             int returningCustomers = customerData.Count(c => c.ReturnCount >= 2);
@@ -105,10 +106,12 @@ namespace EcoStationManagerApplication.UI.Controls
                 control.Size = new Size(220, 100);
                 flowPanelKPICards.Controls.Add(control);
             }
+            flowPanelKPICards.ResumeLayout(true);
         }
 
         private void CreateCustomerRefillDataTable(List<CustomerReturnData> customerData, Dictionary<int, decimal> customerTotals)
         {
+            dataGridViewReport.SuspendLayout();
             var table = new DataTable();
             table.Columns.Add("STT", typeof(int));
             table.Columns.Add("Mã KH", typeof(string));
@@ -144,6 +147,7 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewReport.DataSource = table;
             dataGridViewReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewReport.EnableHeadersVisualStyles = false;
+            dataGridViewReport.ResumeLayout(true);
         }
 
         private string GetCustomerType(int refillCount)
@@ -156,6 +160,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void CreateCustomerRefillChart(List<CustomerReturnData> customerData)
         {
+            panelChart.SuspendLayout();
             panelChart.Controls.Clear();
             panelChart.Padding = new Padding(20);
 
@@ -237,6 +242,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
             panelChart.Controls.Add(container);
             panelChart.Controls.Add(title);
+            panelChart.ResumeLayout(true);
         }
 
     }

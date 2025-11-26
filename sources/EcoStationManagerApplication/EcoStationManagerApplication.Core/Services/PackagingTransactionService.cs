@@ -47,14 +47,14 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
-        public async Task<Result<List<PackagingTransaction>>> GetTransactionsByCustomerAsync(int customerId)
+        public async Task<Result<List<PackagingTransaction>>> GetTransactionsByCustomerAsync(int customerId, DateTime? fromDate = null, DateTime? toDate = null)
         {
             try
             {
                 if (customerId <= 0)
                     return NotFoundError<List<PackagingTransaction>>("Khách hàng", customerId);
 
-                var transactions = await _unitOfWork.PackagingTransactions.GetByCustomerAsync(customerId);
+                var transactions = await _unitOfWork.PackagingTransactions.GetByCustomerAsync(customerId, fromDate, toDate);
                 return Result<List<PackagingTransaction>>.Ok(transactions.ToList());
             }
             catch (Exception ex)
@@ -105,12 +105,6 @@ namespace EcoStationManagerApplication.Core.Services
                         return Result<PackagingTransaction>.Fail(customerResult.Message);
                 }
 
-                // Tự động gán userId từ context nếu chưa có
-                if (!userId.HasValue)
-                {
-                    userId = GetCurrentUserId();
-                }
-
                 // Thực hiện phát hành bao bì
                 var success = await _unitOfWork.PackagingTransactions.IssuePackagingAsync(
                     packagingId, customerId, quantity, depositPrice, userId, notes);
@@ -156,16 +150,10 @@ namespace EcoStationManagerApplication.Core.Services
                 if (!customerResult.Success)
                     return Result<PackagingTransaction>.Fail(customerResult.Message);
 
-                // Kiểm tra khách hàng có đang giữ đủ số lượng không
-                var holdingQuantity = await _unitOfWork.PackagingTransactions.GetCustomerHoldingQuantityAsync(customerId, packagingId);
-                if (holdingQuantity < quantity)
-                    return BusinessError<PackagingTransaction>($"Khách hàng chỉ đang giữ {holdingQuantity} bao bì, không đủ để trả {quantity}");
-
-                // Tự động gán userId từ context nếu chưa có
-                if (!userId.HasValue)
-                {
-                    userId = GetCurrentUserId();
-                }
+                //// Kiểm tra khách hàng có đang giữ đủ số lượng không
+                //var holdingQuantity = await _unitOfWork.PackagingTransactions.GetCustomerHoldingQuantityAsync(customerId, packagingId);
+                //if (holdingQuantity < quantity)
+                //    return BusinessError<PackagingTransaction>($"Khách hàng chỉ đang giữ {holdingQuantity} bao bì, không đủ để trả {quantity}");
 
                 // Thực hiện thu hồi bao bì
                 var success = await _unitOfWork.PackagingTransactions.ReturnPackagingAsync(

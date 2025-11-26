@@ -132,13 +132,6 @@ namespace EcoStationManagerApplication.Core.Services
                         return BusinessError<StockIn>("Số lô đã tồn tại cho sản phẩm/bao bì này");
                 }
 
-                // Tự động gán created_by từ context (người nhập kho)
-                var currentUserId = GetCurrentUserId();
-                if (currentUserId.HasValue && stockIn.CreatedBy <= 0)
-                {
-                    stockIn.CreatedBy = currentUserId.Value;
-                }
-
                 // Thực hiện nhập kho
                 await _unitOfWork.BeginTransactionAsync();
                 {
@@ -236,17 +229,10 @@ namespace EcoStationManagerApplication.Core.Services
                 // Thực hiện nhập kho cho tất cả các phiếu
                 await _unitOfWork.BeginTransactionAsync();
                 var createdStockIns = new List<StockIn>();
-                var currentUserId = GetCurrentUserId();
                 try
                 {
                     foreach (var stockIn in stockIns)
                     {
-                        // Tự động gán created_by từ context (người nhập kho)
-                        if (currentUserId.HasValue && stockIn.CreatedBy <= 0)
-                        {
-                            stockIn.CreatedBy = currentUserId.Value;
-                        }
-
                         // Thêm phiếu nhập kho
                         var stockInId = await _unitOfWork.StockIn.AddAsync(stockIn);
                         if (stockInId <= 0)

@@ -77,7 +77,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.btnCancel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(360, 370);
+            this.btnCancel.Location = new System.Drawing.Point(327, 370);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 40);
             this.btnCancel.TabIndex = 4;
@@ -94,9 +94,9 @@ namespace EcoStationManagerApplication.UI.Forms
             this.btnSave.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(470, 370);
+            this.btnSave.Location = new System.Drawing.Point(443, 370);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(100, 40);
+            this.btnSave.Size = new System.Drawing.Size(127, 40);
             this.btnSave.TabIndex = 3;
             this.btnSave.Text = "Lưu";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -124,7 +124,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblRank.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblRank.Location = new System.Drawing.Point(30, 235);
             this.lblRank.Name = "lblRank";
-            this.lblRank.Size = new System.Drawing.Size(50, 23);
+            this.lblRank.Size = new System.Drawing.Size(53, 23);
             this.lblRank.TabIndex = 8;
             this.lblRank.Text = "Hạng";
             // 
@@ -157,7 +157,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblPhone.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblPhone.Location = new System.Drawing.Point(300, 145);
             this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(100, 23);
+            this.lblPhone.Size = new System.Drawing.Size(111, 23);
             this.lblPhone.TabIndex = 6;
             this.lblPhone.Text = "Số điện thoại";
             // 
@@ -190,7 +190,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblName.Location = new System.Drawing.Point(30, 145);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(130, 23);
+            this.lblName.Size = new System.Drawing.Size(159, 23);
             this.lblName.TabIndex = 4;
             this.lblName.Text = "Tên khách hàng (*)";
             // 
@@ -223,7 +223,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblCustomerCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblCustomerCode.Location = new System.Drawing.Point(30, 80);
             this.lblCustomerCode.Name = "lblCustomerCode";
-            this.lblCustomerCode.Size = new System.Drawing.Size(130, 23);
+            this.lblCustomerCode.Size = new System.Drawing.Size(157, 23);
             this.lblCustomerCode.TabIndex = 2;
             this.lblCustomerCode.Text = "Mã khách hàng (*)";
             // 
@@ -234,7 +234,7 @@ namespace EcoStationManagerApplication.UI.Forms
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblTitle.Location = new System.Drawing.Point(30, 30);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(280, 41);
+            this.lblTitle.Size = new System.Drawing.Size(339, 41);
             this.lblTitle.TabIndex = 1;
             this.lblTitle.Text = "Thêm Khách Hàng Mới";
             // 

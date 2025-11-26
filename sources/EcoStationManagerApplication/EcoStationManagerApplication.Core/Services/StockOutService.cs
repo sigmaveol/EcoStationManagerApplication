@@ -127,13 +127,6 @@ namespace EcoStationManagerApplication.Core.Services
                         }
                 }
 
-                // Tự động gán created_by từ context (người xuất kho)
-                var currentUserId = GetCurrentUserId();
-                if (currentUserId.HasValue && stockOut.CreatedBy <= 0)
-                {
-                    stockOut.CreatedBy = currentUserId.Value;
-                }
-
                 // Thực hiện xuất kho
                 await _unitOfWork.BeginTransactionAsync();
                 {
@@ -243,17 +236,10 @@ namespace EcoStationManagerApplication.Core.Services
                 // Thực hiện xuất kho cho tất cả các phiếu
                 await _unitOfWork.BeginTransactionAsync();
                 var createdStockOuts = new List<StockOut>();
-                var currentUserId = GetCurrentUserId();
                 try
                 {
                     foreach (var stockOut in stockOuts)
                     {
-                        // Tự động gán created_by từ context (người xuất kho)
-                        if (currentUserId.HasValue && stockOut.CreatedBy <= 0)
-                        {
-                            stockOut.CreatedBy = currentUserId.Value;
-                        }
-
                         // Thêm phiếu xuất kho
                         var stockOutId = await _unitOfWork.StockOut.AddAsync(stockOut);
                         if (stockOutId <= 0)

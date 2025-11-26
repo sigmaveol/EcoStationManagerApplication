@@ -25,7 +25,7 @@ namespace EcoStationManagerApplication.Common.Exporters
         /// <param name="filePath">Đường dẫn file để lưu</param>
         /// <param name="worksheetName">Tên worksheet</param>
         /// <param name="headers">Tiêu đề các cột (tùy chọn)</param>
-        void ExportToExcel(DataTable dataTable, string filePath, string worksheetName = "Sheet1", Dictionary<string, string> headers = null);
+        void ExportToExcel(DataTable dataTable, string filePath, string worksheetName = "Sheet1", Dictionary<string, string> headers = null, string title = null);
     }
 }
 

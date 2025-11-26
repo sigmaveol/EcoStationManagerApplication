@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EcoStationManagerApplication.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -65,7 +66,7 @@ namespace EcoStationManagerApplication.Models.DTOs
         public string ProductName { get; set; }
         public string PackagingName { get; set; }
         public decimal Quantity { get; set; }
-        public string Purpose { get; set; }
+        public StockOutPurpose Purpose { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public int? OrderId { get; set; }

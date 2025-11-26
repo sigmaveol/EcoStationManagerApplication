@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
@@ -22,19 +22,26 @@ namespace EcoStationManagerApplication.UI.Controls
             this.ordersTable = new System.Windows.Forms.TableLayoutPanel();
             this.panelContent = new System.Windows.Forms.Panel();
             this.recentOrdersPanel = new System.Windows.Forms.Panel();
-            this.dgvRecentOrders = new System.Windows.Forms.DataGridView();
             this.headerPanel = new System.Windows.Forms.Panel();
             this.titleLabel = new System.Windows.Forms.Label();
-            this.btnViewAllOrders = new System.Windows.Forms.Button();
             this.borderPanelOrders = new System.Windows.Forms.Panel();
+            this.panelChartsRight = new System.Windows.Forms.Panel();
+            this.chartRevenue7Days = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.lblRevenueTitle = new System.Windows.Forms.Label();
+            this.panelChartsLeft = new System.Windows.Forms.Panel();
+            this.chartOrderSource = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.lblSourceTitle = new System.Windows.Forms.Label();
             this.statsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.alertPanel = new System.Windows.Forms.Panel();
             this.alertLabel = new System.Windows.Forms.Label();
             this.borderPanel = new System.Windows.Forms.Panel();
             this.panelContent.SuspendLayout();
             this.recentOrdersPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRecentOrders)).BeginInit();
             this.headerPanel.SuspendLayout();
+            this.panelChartsRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartRevenue7Days)).BeginInit();
+            this.panelChartsLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartOrderSource)).BeginInit();
             this.alertPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,8 +68,9 @@ namespace EcoStationManagerApplication.UI.Controls
             // recentOrdersPanel
             // 
             this.recentOrdersPanel.BackColor = System.Drawing.Color.White;
-            this.recentOrdersPanel.Controls.Add(this.dgvRecentOrders);
             this.recentOrdersPanel.Controls.Add(this.headerPanel);
+            this.recentOrdersPanel.Controls.Add(this.panelChartsRight);
+            this.recentOrdersPanel.Controls.Add(this.panelChartsLeft);
             this.recentOrdersPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.recentOrdersPanel.Location = new System.Drawing.Point(15, 110);
             this.recentOrdersPanel.MinimumSize = new System.Drawing.Size(200, 200);
@@ -71,28 +79,14 @@ namespace EcoStationManagerApplication.UI.Controls
             this.recentOrdersPanel.Size = new System.Drawing.Size(905, 512);
             this.recentOrdersPanel.TabIndex = 2;
             // 
-            // dgvRecentOrders
-            // 
-            this.dgvRecentOrders.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvRecentOrders.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dgvRecentOrders.ColumnHeadersHeight = 29;
-            this.dgvRecentOrders.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dgvRecentOrders.Location = new System.Drawing.Point(15, 55);
-            this.dgvRecentOrders.Name = "dgvRecentOrders";
-            this.dgvRecentOrders.ReadOnly = true;
-            this.dgvRecentOrders.RowHeadersWidth = 51;
-            this.dgvRecentOrders.Size = new System.Drawing.Size(875, 445);
-            this.dgvRecentOrders.TabIndex = 0;
-            // 
             // headerPanel
             // 
             this.headerPanel.Controls.Add(this.titleLabel);
-            this.headerPanel.Controls.Add(this.btnViewAllOrders);
             this.headerPanel.Controls.Add(this.borderPanelOrders);
             this.headerPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.headerPanel.Location = new System.Drawing.Point(15, 15);
+            this.headerPanel.Location = new System.Drawing.Point(445, 15);
             this.headerPanel.Name = "headerPanel";
-            this.headerPanel.Size = new System.Drawing.Size(875, 40);
+            this.headerPanel.Size = new System.Drawing.Size(445, 40);
             this.headerPanel.TabIndex = 1;
             // 
             // titleLabel
@@ -102,23 +96,9 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
             this.titleLabel.Location = new System.Drawing.Point(0, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(203, 30);
+            this.titleLabel.Size = new System.Drawing.Size(185, 30);
             this.titleLabel.TabIndex = 0;
-            this.titleLabel.Text = "Đơn hàng gần đây";
-            // 
-            // btnViewAllOrders
-            // 
-            this.btnViewAllOrders.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnViewAllOrders.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnViewAllOrders.FlatAppearance.BorderSize = 0;
-            this.btnViewAllOrders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnViewAllOrders.Location = new System.Drawing.Point(775, 0);
-            this.btnViewAllOrders.Name = "btnViewAllOrders";
-            this.btnViewAllOrders.Size = new System.Drawing.Size(100, 39);
-            this.btnViewAllOrders.TabIndex = 1;
-            this.btnViewAllOrders.Text = "Xem tất cả";
-            this.btnViewAllOrders.UseVisualStyleBackColor = false;
-            this.btnViewAllOrders.Click += new System.EventHandler(this.btnViewAllOrders_Click);
+            this.titleLabel.Text = "Thống kê 7 ngày";
             // 
             // borderPanelOrders
             // 
@@ -126,8 +106,70 @@ namespace EcoStationManagerApplication.UI.Controls
             this.borderPanelOrders.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.borderPanelOrders.Location = new System.Drawing.Point(0, 39);
             this.borderPanelOrders.Name = "borderPanelOrders";
-            this.borderPanelOrders.Size = new System.Drawing.Size(875, 1);
+            this.borderPanelOrders.Size = new System.Drawing.Size(445, 1);
             this.borderPanelOrders.TabIndex = 2;
+            // 
+            // panelChartsRight
+            // 
+            this.panelChartsRight.BackColor = System.Drawing.Color.White;
+            this.panelChartsRight.Controls.Add(this.chartRevenue7Days);
+            this.panelChartsRight.Controls.Add(this.lblRevenueTitle);
+            this.panelChartsRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelChartsRight.Location = new System.Drawing.Point(445, 15);
+            this.panelChartsRight.Name = "panelChartsRight";
+            this.panelChartsRight.Padding = new System.Windows.Forms.Padding(10);
+            this.panelChartsRight.Size = new System.Drawing.Size(445, 482);
+            this.panelChartsRight.TabIndex = 4;
+            // 
+            // chartRevenue7Days
+            // 
+            this.chartRevenue7Days.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartRevenue7Days.Location = new System.Drawing.Point(10, 35);
+            this.chartRevenue7Days.Name = "chartRevenue7Days";
+            this.chartRevenue7Days.Size = new System.Drawing.Size(425, 437);
+            this.chartRevenue7Days.TabIndex = 1;
+            // 
+            // lblRevenueTitle
+            // 
+            this.lblRevenueTitle.AutoSize = true;
+            this.lblRevenueTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblRevenueTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblRevenueTitle.Location = new System.Drawing.Point(10, 10);
+            this.lblRevenueTitle.Name = "lblRevenueTitle";
+            this.lblRevenueTitle.Size = new System.Drawing.Size(291, 25);
+            this.lblRevenueTitle.TabIndex = 6;
+            this.lblRevenueTitle.Text = "Doanh thu 7 ngày (biểu đồ cột)";
+            // 
+            // panelChartsLeft
+            // 
+            this.panelChartsLeft.BackColor = System.Drawing.Color.White;
+            this.panelChartsLeft.Controls.Add(this.chartOrderSource);
+            this.panelChartsLeft.Controls.Add(this.lblSourceTitle);
+            this.panelChartsLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelChartsLeft.Location = new System.Drawing.Point(15, 15);
+            this.panelChartsLeft.Name = "panelChartsLeft";
+            this.panelChartsLeft.Padding = new System.Windows.Forms.Padding(10);
+            this.panelChartsLeft.Size = new System.Drawing.Size(430, 482);
+            this.panelChartsLeft.TabIndex = 3;
+            // 
+            // chartOrderSource
+            // 
+            this.chartOrderSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartOrderSource.Location = new System.Drawing.Point(10, 35);
+            this.chartOrderSource.Name = "chartOrderSource";
+            this.chartOrderSource.Size = new System.Drawing.Size(410, 437);
+            this.chartOrderSource.TabIndex = 0;
+            // 
+            // lblSourceTitle
+            // 
+            this.lblSourceTitle.AutoSize = true;
+            this.lblSourceTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblSourceTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.lblSourceTitle.Location = new System.Drawing.Point(10, 10);
+            this.lblSourceTitle.Name = "lblSourceTitle";
+            this.lblSourceTitle.Size = new System.Drawing.Size(238, 25);
+            this.lblSourceTitle.TabIndex = 5;
+            this.lblSourceTitle.Text = "Tỷ lệ nguồn đơn (7 ngày)";
             // 
             // statsPanel
             // 
@@ -186,23 +228,32 @@ namespace EcoStationManagerApplication.UI.Controls
             this.panelContent.ResumeLayout(false);
             this.panelContent.PerformLayout();
             this.recentOrdersPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvRecentOrders)).EndInit();
             this.headerPanel.ResumeLayout(false);
             this.headerPanel.PerformLayout();
+            this.panelChartsRight.ResumeLayout(false);
+            this.panelChartsRight.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartRevenue7Days)).EndInit();
+            this.panelChartsLeft.ResumeLayout(false);
+            this.panelChartsLeft.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartOrderSource)).EndInit();
             this.alertPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
         private Panel panelContent;
         private Panel recentOrdersPanel;
-        private DataGridView dgvRecentOrders;
         private Panel headerPanel;
         private Label titleLabel;
-        private Button btnViewAllOrders;
         private Panel borderPanelOrders;
         private FlowLayoutPanel statsPanel;
         private Panel alertPanel;
         private Label alertLabel;
         private Panel borderPanel;
+        private Panel panelChartsLeft;
+        private Panel panelChartsRight;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartOrderSource;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartRevenue7Days;
+        private Label lblSourceTitle;
+        private Label lblRevenueTitle;
     }
 }

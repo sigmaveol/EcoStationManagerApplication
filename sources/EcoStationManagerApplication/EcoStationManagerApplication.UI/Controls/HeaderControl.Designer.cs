@@ -30,17 +30,24 @@ namespace EcoStationManagerApplication.UI.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HeaderControl));
             this.guna2PanelHeader = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.headerPanel = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.userInfoPanel = new Guna.UI2.WinForms.Guna2Panel();
+            this.lblUserFullname = new System.Windows.Forms.Label();
+            this.lblUserRole = new System.Windows.Forms.Label();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.lblDescription = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.pictureBoxAvatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             this.guna2PanelHeader.SuspendLayout();
             this.headerPanel.SuspendLayout();
+            this.userInfoPanel.SuspendLayout();
             this.guna2Panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAvatar)).BeginInit();
             this.SuspendLayout();
             // 
             // guna2PanelHeader
@@ -74,7 +81,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(125)))), ((int)(((byte)(50)))));
             this.lblTitle.Location = new System.Drawing.Point(20, 20);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(275, 37);
+            this.lblTitle.Size = new System.Drawing.Size(249, 35);
             this.lblTitle.TabIndex = 1;
             this.lblTitle.Text = "EcoStation Manager";
             // 
@@ -86,7 +93,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblDate.ForeColor = System.Drawing.Color.Gray;
             this.lblDate.Location = new System.Drawing.Point(1502, 20);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(264, 23);
+            this.lblDate.Size = new System.Drawing.Size(242, 21);
             this.lblDate.TabIndex = 2;
             this.lblDate.Text = "Thứ Tư, 12 Tháng Mười Một 2025";
             this.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -99,10 +106,47 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblStatus.ForeColor = System.Drawing.Color.OrangeRed;
             this.lblStatus.Location = new System.Drawing.Point(1352, 22);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(118, 20);
+            this.lblStatus.Size = new System.Drawing.Size(109, 19);
             this.lblStatus.TabIndex = 3;
             this.lblStatus.Text = "● Chế độ Offline";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // userInfoPanel
+            // 
+            this.userInfoPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.userInfoPanel.BackColor = System.Drawing.Color.White;
+            this.userInfoPanel.BorderRadius = 18;
+            this.userInfoPanel.Controls.Add(this.pictureBoxAvatar);
+            this.userInfoPanel.Controls.Add(this.lblUserFullname);
+            this.userInfoPanel.Controls.Add(this.lblUserRole);
+            this.userInfoPanel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.userInfoPanel.Location = new System.Drawing.Point(486, 15);
+            this.userInfoPanel.Name = "userInfoPanel";
+            this.userInfoPanel.Size = new System.Drawing.Size(311, 50);
+            this.userInfoPanel.TabIndex = 5;
+            this.userInfoPanel.Click += new System.EventHandler(this.userInfoPanel_Click);
+            this.userInfoPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.userInfoPanel_Paint);
+            // 
+            // lblUserFullname
+            // 
+            this.lblUserFullname.AutoSize = true;
+            this.lblUserFullname.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblUserFullname.Location = new System.Drawing.Point(52, 8);
+            this.lblUserFullname.Name = "lblUserFullname";
+            this.lblUserFullname.Size = new System.Drawing.Size(0, 21);
+            this.lblUserFullname.TabIndex = 1;
+            this.lblUserFullname.Click += new System.EventHandler(this.userInfoPanel_Click);
+            // 
+            // lblUserRole
+            // 
+            this.lblUserRole.AutoSize = true;
+            this.lblUserRole.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblUserRole.ForeColor = System.Drawing.Color.Gray;
+            this.lblUserRole.Location = new System.Drawing.Point(52, 28);
+            this.lblUserRole.Name = "lblUserRole";
+            this.lblUserRole.Size = new System.Drawing.Size(0, 19);
+            this.lblUserRole.TabIndex = 2;
+            this.lblUserRole.Click += new System.EventHandler(this.userInfoPanel_Click);
             // 
             // guna2Panel1
             // 
@@ -110,6 +154,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.guna2Panel1.BackColor = System.Drawing.Color.White;
             this.guna2Panel1.Controls.Add(this.lblDescription);
             this.guna2Panel1.Controls.Add(this.label1);
+            this.guna2Panel1.Controls.Add(this.userInfoPanel);
             this.guna2Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2Panel1.Location = new System.Drawing.Point(0, 0);
             this.guna2Panel1.Name = "guna2Panel1";
@@ -123,7 +168,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblDescription.ForeColor = System.Drawing.Color.Gray;
             this.lblDescription.Location = new System.Drawing.Point(22, 46);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(0, 20);
+            this.lblDescription.Size = new System.Drawing.Size(0, 19);
             this.lblDescription.TabIndex = 1;
             // 
             // label1
@@ -132,8 +177,22 @@ namespace EcoStationManagerApplication.UI.Controls
             this.label1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(19, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 37);
+            this.label1.Size = new System.Drawing.Size(0, 35);
             this.label1.TabIndex = 0;
+            // 
+            // pictureBoxAvatar
+            // 
+            this.pictureBoxAvatar.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxAvatar.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxAvatar.Image")));
+            this.pictureBoxAvatar.ImageRotate = 0F;
+            this.pictureBoxAvatar.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxAvatar.Name = "pictureBoxAvatar";
+            this.pictureBoxAvatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.pictureBoxAvatar.Size = new System.Drawing.Size(52, 50);
+            this.pictureBoxAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxAvatar.TabIndex = 0;
+            this.pictureBoxAvatar.TabStop = false;
+            this.pictureBoxAvatar.Click += new System.EventHandler(this.userInfoPanel_Click);
             // 
             // HeaderControl
             // 
@@ -143,8 +202,11 @@ namespace EcoStationManagerApplication.UI.Controls
             this.guna2PanelHeader.ResumeLayout(false);
             this.headerPanel.ResumeLayout(false);
             this.headerPanel.PerformLayout();
+            this.userInfoPanel.ResumeLayout(false);
+            this.userInfoPanel.PerformLayout();
             this.guna2Panel1.ResumeLayout(false);
             this.guna2Panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAvatar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -159,5 +221,9 @@ namespace EcoStationManagerApplication.UI.Controls
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.Label label1;
+        private Guna.UI2.WinForms.Guna2Panel userInfoPanel;
+        private System.Windows.Forms.Label lblUserFullname;
+        private System.Windows.Forms.Label lblUserRole;
+        private Guna.UI2.WinForms.Guna2CirclePictureBox pictureBoxAvatar;
     }
 }

@@ -105,6 +105,8 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             // Initialize Products DataGridView
             dataGridViewProducts.Columns.Clear();
+            var colProductId = new DataGridViewTextBoxColumn { Name = "ProductId", HeaderText = "ID", Visible = false };
+            dataGridViewProducts.Columns.Add(colProductId);
             dataGridViewProducts.Columns.Add("ProductCode", "Mã SP");
             dataGridViewProducts.Columns.Add("ProductName", "Tên sản phẩm");
             dataGridViewProducts.Columns.Add("ProductCategory", "Danh mục");
@@ -126,11 +128,15 @@ namespace EcoStationManagerApplication.UI.Controls
 
 
             dataGridViewCategories.Columns.Clear();
+            var colCategoryId = new DataGridViewTextBoxColumn { Name = "CategoryId", HeaderText = "ID", Visible = false };
+            dataGridViewCategories.Columns.Add(colCategoryId);
             dataGridViewCategories.Columns.Add("CategoryName", "Tên danh mục");
             dataGridViewCategories.Columns.Add("CategoryType", "Loại danh mục");
             dataGridViewCategories.Columns.Add("CreatedDate", "Ngày tạo");
             dataGridViewCategories.Columns.Add("IsActive", "Trạng thái");
+            dataGridViewCategories.Columns.Add("CategoryAction", "Thao tác");
             dataGridViewCategories.Columns["CreatedDate"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            dataGridViewCategories.CellClick += dataGridViewCategories_CellClick;
         }
 
         private void BindCategoriesData()
@@ -150,11 +156,12 @@ namespace EcoStationManagerApplication.UI.Controls
             foreach (var category in filteredCategories)
             {
                 dataGridViewCategories.Rows.Add(
+                    category.CategoryId,
                     category.Name,
                     DisplayCategoryType(category.CategoryType),
                     category.CreatedDate,
                     category.IsActive == ActiveStatus.ACTIVE ? "Hoạt động" : "Ngưng",
-                    "👁️"
+                    "⋯"
                 );
             }
         }
@@ -191,6 +198,7 @@ namespace EcoStationManagerApplication.UI.Controls
             foreach (var product in filteredProducts)
             {
                 dataGridViewProducts.Rows.Add(
+                    product.ProductId,
                     product.Code,
                     product.Name,
                     GetCategoryName(product.CategoryId),
@@ -198,7 +206,7 @@ namespace EcoStationManagerApplication.UI.Controls
                     product.BasePrice?.ToString("N0") + "₫",
                     product.ProductType,
                     product.IsActive ? "Hoạt động" : "Ngưng",
-                    "👁️"
+                    "⋯"
                 );
             }
         }
@@ -226,7 +234,7 @@ namespace EcoStationManagerApplication.UI.Controls
                     packaging.Name,
                     packaging.Type ?? "",
                     packaging.DepositPrice.ToString("N0") + "₫",
-                    "👁️"
+                    "⋯"
                 );
             }
         }
@@ -276,6 +284,18 @@ namespace EcoStationManagerApplication.UI.Controls
 
                     if (result == DialogResult.OK)
                         await RefreshPackagingsData();
+                }
+            }
+            else if (tabControl.SelectedTab == tabPageCategories)
+            {
+                using (var addCategoryForm = new AddCategoryForm())
+                {
+                    DialogResult result = mainForm != null
+                        ? FormHelper.ShowModalWithDim(mainForm, addCategoryForm)
+                        : addCategoryForm.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                        await RefreshCategoriesData();
                 }
             }
         }
@@ -330,6 +350,11 @@ namespace EcoStationManagerApplication.UI.Controls
                 btnAddProduct.Text = "Thêm bao bì";
                 BindPackagingsData();
             }
+            else if (tabControl.SelectedTab == tabPageCategories)
+            {
+                btnAddProduct.Text = "Thêm danh mục";
+                BindCategoriesData();
+            }
         }
 
         private async void dataGridViewProducts_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -338,40 +363,61 @@ namespace EcoStationManagerApplication.UI.Controls
 
             if (e.ColumnIndex == dataGridViewProducts.Columns["ProductAction"].Index)
             {
-                // Lấy ProductId từ dòng được chọn
-                var productCode = dataGridViewProducts.Rows[e.RowIndex].Cells["ProductCode"].Value?.ToString();
-                if (string.IsNullOrEmpty(productCode)) return;
+                var idCell = dataGridViewProducts.Rows[e.RowIndex].Cells["ProductId"];
+                if (idCell?.Value == null || !int.TryParse(idCell.Value.ToString(), out int productId)) return;
 
-                // Tìm product theo Code (SKU)
-                var product = products?.FirstOrDefault(p => p.Code == productCode);
-                if (product == null) return;
+                var productDto = products?.FirstOrDefault(p => p.ProductId == productId);
+                if (productDto == null) return;
 
-                // Tìm MainForm
-                Form mainForm = this.FindForm();
-                while (mainForm != null && !(mainForm is MainForm))
+                var menu = new ContextMenuStrip();
+                var editItem = new ToolStripMenuItem("Sửa");
+                var toggleItem = new ToolStripMenuItem(productDto.IsActive ? "Vô hiệu hóa" : "Kích hoạt");
+                var deleteItem = new ToolStripMenuItem("Xóa");
+
+                editItem.Click += async (_, __) =>
                 {
-                    mainForm = mainForm.ParentForm ?? mainForm.Owner;
-                }
-
-                // Mở form Edit
-                using (var editProductForm = new AddProductForm(product.ProductId))
-                {
-                    DialogResult result;
-                    if (mainForm != null)
+                    using (var editProductForm = new AddProductForm(productId))
                     {
-                        result = FormHelper.ShowModalWithDim(mainForm, editProductForm);
+                        var result = editProductForm.ShowDialog(this.FindForm());
+                        if (result == DialogResult.OK)
+                            await RefreshProductsData();
+                    }
+                };
+
+                toggleItem.Click += async (_, __) =>
+                {
+                    var newStatus = !productDto.IsActive;
+                    var toggleResult = await AppServices.ProductService.ToggleProductStatusAsync(productId, newStatus);
+                    if (toggleResult.Success)
+                    {
+                        await RefreshProductsData();
                     }
                     else
                     {
-                        result = editProductForm.ShowDialog();
+                        MessageBox.Show(toggleResult.Message ?? "Thay đổi trạng thái thất bại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                };
 
-                    if (result == DialogResult.OK)
+                deleteItem.Click += async (_, __) =>
+                {
+                    if (MessageBox.Show("Xác nhận xóa sản phẩm?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        // Refresh danh sách sản phẩm sau khi cập nhật thành công
-                        await RefreshProductsData();
+                        var deleteResult = await AppServices.ProductService.DeleteProductAsync(productId);
+                        if (deleteResult.Success)
+                        {
+                            await RefreshProductsData();
+                        }
+                        else
+                        {
+                            MessageBox.Show(deleteResult.Message ?? "Xóa sản phẩm thất bại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
-                }
+                };
+
+                menu.Items.AddRange(new ToolStripItem[] { editItem, toggleItem, deleteItem });
+                var cellLocProd = dataGridViewProducts.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true).Location;
+                var screenPoint = dataGridViewProducts.PointToScreen(new Point(cellLocProd.X + 20, cellLocProd.Y + 20));
+                menu.Show(screenPoint);
             }
         }
 
@@ -385,29 +431,40 @@ namespace EcoStationManagerApplication.UI.Controls
                 if (packagingIdCell?.Value == null || !int.TryParse(packagingIdCell.Value.ToString(), out int packagingId))
                     return;
 
-                Form mainForm = this.FindForm();
-                while (mainForm != null && !(mainForm is MainForm))
-                {
-                    mainForm = mainForm.ParentForm ?? mainForm.Owner;
-                }
+                var menu = new ContextMenuStrip();
+                var editItem = new ToolStripMenuItem("Sửa");
+                var deleteItem = new ToolStripMenuItem("Xóa");
 
-                using (var editPackagingForm = new AddPackagingForm(packagingId))
+                editItem.Click += async (_, __) =>
                 {
-                    DialogResult result;
-                    if (mainForm != null)
+                    using (var editPackagingForm = new AddPackagingForm(packagingId))
                     {
-                        result = FormHelper.ShowModalWithDim(mainForm, editPackagingForm);
+                        var result = editPackagingForm.ShowDialog(this.FindForm());
+                        if (result == DialogResult.OK)
+                            await RefreshPackagingsData();
                     }
-                    else
-                    {
-                        result = editPackagingForm.ShowDialog();
-                    }
+                };
 
-                    if (result == DialogResult.OK)
+                deleteItem.Click += async (_, __) =>
+                {
+                    if (MessageBox.Show("Xác nhận xóa bao bì?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        await RefreshPackagingsData();
+                        var deleteResult = await AppServices.PackagingService.DeletePackagingAsync(packagingId);
+                        if (deleteResult.Success)
+                        {
+                            await RefreshPackagingsData();
+                        }
+                        else
+                        {
+                            MessageBox.Show(deleteResult.Message ?? "Xóa bao bì thất bại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
-                }
+                };
+
+                menu.Items.AddRange(new ToolStripItem[] { editItem, deleteItem });
+                var cellLocPkg = dataGridViewPackagings.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true).Location;
+                var screenPoint = dataGridViewPackagings.PointToScreen(new Point(cellLocPkg.X + 20, cellLocPkg.Y + 20));
+                menu.Show(screenPoint);
             }
         }
 
@@ -419,6 +476,81 @@ namespace EcoStationManagerApplication.UI.Controls
         private void btnAddProduct_MouseLeave(object sender, EventArgs e)
         {
             btnAddProduct.FillColor = Color.FromArgb(31, 107, 59);
+        }
+        
+        private async Task RefreshCategoriesData()
+        {
+            var categoriesResult = await AppServices.CategoryService.GetAllCategoriesAsync();
+            if (categoriesResult.Success && categoriesResult.Data != null)
+            {
+                categories = categoriesResult.Data.ToList();
+            }
+            else
+            {
+                categories = new List<Category>();
+            }
+            BindCategoriesData();
+        }
+
+        private async void dataGridViewCategories_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (e.ColumnIndex != dataGridViewCategories.Columns["CategoryAction"].Index) return;
+
+            var idCell = dataGridViewCategories.Rows[e.RowIndex].Cells["CategoryId"];
+            if (idCell?.Value == null || !int.TryParse(idCell.Value.ToString(), out int categoryId)) return;
+
+            var categoryResult = await AppServices.CategoryService.GetCategoryByIdAsync(categoryId);
+            if (!categoryResult.Success || categoryResult.Data == null) return;
+            var category = categoryResult.Data;
+
+            var menu = new ContextMenuStrip();
+            var editItem = new ToolStripMenuItem("Sửa");
+            var toggleItem = new ToolStripMenuItem(category.IsActive == ActiveStatus.ACTIVE ? "Vô hiệu hóa" : "Kích hoạt");
+            var deleteItem = new ToolStripMenuItem("Xóa");
+            editItem.Click += async (_, __) =>
+            {
+                using (var editCategoryForm = new AddCategoryForm(category.CategoryId))
+                {
+                    DialogResult result = editCategoryForm.ShowDialog(this.FindForm());
+                    if (result == DialogResult.OK)
+                    {
+                        await RefreshCategoriesData();
+                    }
+                }
+            };
+            toggleItem.Click += async (_, __) =>
+            {
+                var newStatus = category.IsActive != ActiveStatus.ACTIVE;
+                var toggleResult = await AppServices.CategoryService.ToggleCategoryStatusAsync(category.CategoryId, newStatus);
+                if (toggleResult.Success)
+                {
+                    await RefreshCategoriesData();
+                }
+                else
+                {
+                    MessageBox.Show(toggleResult.Message ?? "Thay đổi trạng thái thất bại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
+            deleteItem.Click += async (_, __) =>
+            {
+                if (MessageBox.Show("Xác nhận xóa danh mục?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    var deleteResult = await AppServices.CategoryService.DeleteCategoryAsync(category.CategoryId);
+                    if (deleteResult.Success)
+                    {
+                        await RefreshCategoriesData();
+                    }
+                    else
+                    {
+                        MessageBox.Show(deleteResult.Message ?? "Xóa danh mục thất bại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            };
+            menu.Items.AddRange(new ToolStripItem[] { editItem, toggleItem, deleteItem });
+            var cellLocCat = dataGridViewCategories.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true).Location;
+            var screenPoint = dataGridViewCategories.PointToScreen(new Point(cellLocCat.X + 20, cellLocCat.Y + 20));
+            menu.Show(screenPoint);
         }
         #endregion
     }

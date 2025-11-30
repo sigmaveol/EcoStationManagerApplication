@@ -28,6 +28,7 @@ namespace EcoStationManagerApplication.UI.Controls
         private Label lblToDate;
         private Guna2Panel panelToolbar;
         private Guna2Button btnExportExcel;
+        private Guna2Button btnExportPDF;
         private Guna2Button btnCreateStockOut;
         private Guna2Button btnRefresh;
         private Guna2DataGridView dgvStockOut;
@@ -43,13 +44,14 @@ namespace EcoStationManagerApplication.UI.Controls
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelMain = new Guna.UI2.WinForms.Guna2Panel();
             this.dgvStockOut = new Guna.UI2.WinForms.Guna2DataGridView();
             this.panelToolbar = new Guna.UI2.WinForms.Guna2Panel();
             this.btnRefresh = new Guna.UI2.WinForms.Guna2Button();
+            this.btnExportPDF = new Guna.UI2.WinForms.Guna2Button();
             this.btnExportExcel = new Guna.UI2.WinForms.Guna2Button();
             this.btnCreateStockOut = new Guna.UI2.WinForms.Guna2Button();
             this.panelFilter = new Guna.UI2.WinForms.Guna2Panel();
@@ -97,26 +99,26 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // dgvStockOut
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            this.dgvStockOut.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10.5F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvStockOut.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
+            this.dgvStockOut.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvStockOut.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.dgvStockOut.ColumnHeadersHeight = 40;
             this.dgvStockOut.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 10.5F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(248)))), ((int)(((byte)(243)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvStockOut.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 10.5F);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(248)))), ((int)(((byte)(243)))));
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvStockOut.DefaultCellStyle = dataGridViewCellStyle9;
             this.dgvStockOut.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvStockOut.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dgvStockOut.Location = new System.Drawing.Point(20, 523);
@@ -125,6 +127,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dgvStockOut.ReadOnly = true;
             this.dgvStockOut.RowHeadersVisible = false;
             this.dgvStockOut.RowHeadersWidth = 51;
+            this.dgvStockOut.RowTemplate.Height = 30;
             this.dgvStockOut.Size = new System.Drawing.Size(1160, 296);
             this.dgvStockOut.TabIndex = 4;
             this.dgvStockOut.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
@@ -145,7 +148,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dgvStockOut.ThemeStyle.RowsStyle.BorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dgvStockOut.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Segoe UI", 10.5F);
             this.dgvStockOut.ThemeStyle.RowsStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.dgvStockOut.ThemeStyle.RowsStyle.Height = 22;
+            this.dgvStockOut.ThemeStyle.RowsStyle.Height = 30;
             this.dgvStockOut.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(248)))), ((int)(((byte)(243)))));
             this.dgvStockOut.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.dgvStockOut.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStockOut_CellContentClick);
@@ -154,6 +157,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             this.panelToolbar.BackColor = System.Drawing.Color.White;
             this.panelToolbar.Controls.Add(this.btnRefresh);
+            this.panelToolbar.Controls.Add(this.btnExportPDF);
             this.panelToolbar.Controls.Add(this.btnExportExcel);
             this.panelToolbar.Controls.Add(this.btnCreateStockOut);
             this.panelToolbar.Dock = System.Windows.Forms.DockStyle.Top;
@@ -174,13 +178,31 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnRefresh.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(308, 8);
+            this.btnRefresh.Location = new System.Drawing.Point(454, 8);
             this.btnRefresh.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(120, 44);
             this.btnRefresh.TabIndex = 2;
             this.btnRefresh.Text = "Làm mới";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnExportPDF
+            // 
+            this.btnExportPDF.BorderRadius = 5;
+            this.btnExportPDF.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnExportPDF.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnExportPDF.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnExportPDF.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnExportPDF.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(24)))), ((int)(((byte)(61)))));
+            this.btnExportPDF.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnExportPDF.ForeColor = System.Drawing.Color.White;
+            this.btnExportPDF.Location = new System.Drawing.Point(306, 8);
+            this.btnExportPDF.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnExportPDF.Name = "btnExportPDF";
+            this.btnExportPDF.Size = new System.Drawing.Size(140, 44);
+            this.btnExportPDF.TabIndex = 0;
+            this.btnExportPDF.Text = "Xuất PDF";
+            this.btnExportPDF.Click += new System.EventHandler(this.btnExportPDF_Click);
             // 
             // btnExportExcel
             // 
@@ -189,7 +211,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnExportExcel.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnExportExcel.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnExportExcel.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnExportExcel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(212)))), ((int)(((byte)(24)))), ((int)(((byte)(61)))));
+            this.btnExportExcel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(160)))), ((int)(((byte)(160)))));
             this.btnExportExcel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnExportExcel.ForeColor = System.Drawing.Color.White;
             this.btnExportExcel.Location = new System.Drawing.Point(158, 8);

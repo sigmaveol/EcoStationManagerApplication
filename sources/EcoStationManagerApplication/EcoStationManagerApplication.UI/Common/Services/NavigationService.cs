@@ -146,6 +146,9 @@ namespace EcoStationManagerApplication.UI.Common.Services
                 case "backup":
                     control = new BackupControl();
                     break;
+                case "integrations":
+                    control = new IntegrationsControl();
+                    break;
                 default:
                     control = new DashboardControl(); // Default: trả về DashboardControl
                     break;

@@ -12,6 +12,8 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.IO;
 using static EcoStationManagerApplication.UI.Common.AppColors;
 using static EcoStationManagerApplication.UI.Common.AppFonts;
 
@@ -406,6 +408,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 UIHelper.SafeInvoke(this, () =>
                 {
                     btnExportExcel.Enabled = enabled;
+                    btnExportPDF.Enabled = enabled;
                     btnCreateStockIn.Enabled = enabled;
                     btnRefresh.Enabled = enabled;
                     txtSearch.Enabled = enabled;
@@ -538,7 +541,8 @@ namespace EcoStationManagerApplication.UI.Controls
 
                         // Xuất Excel
                         var excelExporter = new ExcelExporter();
-                        excelExporter.ExportToExcel(dataTable, saveDialog.FileName, "Nhập kho", headers);
+                        var charts = GenerateChartsForExport(filteredList);
+                        excelExporter.ExportToExcel(dataTable, saveDialog.FileName, "Nhập kho", headers, title, charts);
 
                         UIHelper.ShowSuccessMessage($"Đã xuất Excel thành công!\nFile: {saveDialog.FileName}");
                     }
@@ -548,6 +552,152 @@ namespace EcoStationManagerApplication.UI.Controls
             {
                 UIHelper.ShowExceptionError(ex, "xuất Excel");
             }
+        }
+
+        private void btnExportPDF_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_stockInList == null || !_stockInList.Any())
+                {
+                    UIHelper.ShowWarningMessage("Không có dữ liệu để xuất!");
+                    return;
+                }
+
+                var filteredList = _stockInList.Where(item =>
+                {
+                    if (!string.IsNullOrWhiteSpace(_searchTerm))
+                    {
+                        var s = _searchTerm.ToLower();
+                        if (!item.BatchNo?.ToLower().Contains(s) == true &&
+                            !item.ProductName?.ToLower().Contains(s) == true &&
+                            !item.PackagingName?.ToLower().Contains(s) == true &&
+                            !item.SupplierName?.ToLower().Contains(s) == true)
+                            return false;
+                    }
+
+                    if (_selectedSource != "Tất cả")
+                    {
+                        if (_selectedSource == "Nhà cung cấp" && string.IsNullOrWhiteSpace(item.SupplierName))
+                            return false;
+                        if (_selectedSource != "Nhà cung cấp" && !string.IsNullOrWhiteSpace(item.SupplierName))
+                            return false;
+                    }
+
+                    if (_fromDate.HasValue && item.CreatedDate < _fromDate.Value)
+                        return false;
+                    if (_toDate.HasValue && item.CreatedDate > _toDate.Value)
+                        return false;
+
+                    return true;
+                }).ToList();
+
+                if (!filteredList.Any())
+                {
+                    UIHelper.ShowWarningMessage("Không có dữ liệu phù hợp với bộ lọc để xuất!");
+                    return;
+                }
+
+                using (var saveDialog = new SaveFileDialog())
+                {
+                    saveDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                    saveDialog.FileName = $"NhapKho_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+                    saveDialog.Title = "Xuất danh sách nhập kho ra PDF";
+
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        var dataTable = CreateDataTableForExport(filteredList);
+                        var headers = new Dictionary<string, string>
+                        {
+                            { "STT", "STT" },
+                            { "BatchNo", "Mã lô" },
+                            { "ItemName", "Sản phẩm/Bao bì" },
+                            { "SupplierName", "Nhà cung cấp" },
+                            { "Quantity", "Số lượng" },
+                            { "UnitPrice", "Đơn giá" },
+                            { "TotalValue", "Thành tiền" },
+                            { "CreatedDate", "Ngày nhập" },
+                            { "CreatedBy", "Người nhập" },
+                            { "ExpiryDate", "Hạn sử dụng" },
+                            { "Notes", "Ghi chú" }
+                        };
+
+                        var fromDateStr = _fromDate?.ToString("dd/MM/yyyy") ?? "Tất cả";
+                        var toDateStr = _toDate?.ToString("dd/MM/yyyy") ?? "Tất cả";
+                        var sourceStr = _selectedSource ?? "Tất cả";
+                        var title = $"DANH SÁCH NHẬP KHO \n" +
+                                   $"Từ ngày: {fromDateStr} - Đến ngày: {toDateStr}\n" +
+                                   $"Nguồn: {sourceStr}\n" +
+                                   $"Tổng số: {filteredList.Count} phiếu nhập";
+
+                        var charts = GenerateChartsForExport(filteredList);
+                        var pdfExporter = new PdfExporter();
+                        pdfExporter.ExportToPdf(dataTable, saveDialog.FileName, title, headers, charts);
+
+                        UIHelper.ShowSuccessMessage($"Đã xuất PDF thành công!\nFile: {saveDialog.FileName}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "xuất PDF");
+            }
+        }
+
+        private IList<byte[]> GenerateChartsForExport(List<StockInDetail> list)
+        {
+            var charts = new List<byte[]>();
+
+            var bySupplier = list
+                .GroupBy(x => string.IsNullOrWhiteSpace(x.SupplierName) ? "Khác" : x.SupplierName)
+                .Select(g => new { Supplier = g.Key, Qty = g.Sum(i => i.Quantity) })
+                .OrderByDescending(x => x.Qty)
+                .Take(8)
+                .ToList();
+
+            var chart1 = new Chart();
+            chart1.Width = 800;
+            chart1.Height = 400;
+            var area1 = new ChartArea("a1");
+            area1.AxisX.Interval = 1;
+            chart1.ChartAreas.Add(area1);
+            var s1 = new Series("supplier");
+            s1.ChartType = SeriesChartType.Column;
+            s1.IsValueShownAsLabel = true;
+            chart1.Series.Add(s1);
+            foreach (var item in bySupplier) s1.Points.AddXY(item.Supplier, (double)item.Qty);
+            chart1.Titles.Add("Số lượng theo nhà cung cấp (Top 8)");
+            using (var bmp = new Bitmap(chart1.Width, chart1.Height))
+            {
+                chart1.DrawToBitmap(bmp, new Rectangle(0, 0, chart1.Width, chart1.Height));
+                using (var ms = new MemoryStream()) { bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png); charts.Add(ms.ToArray()); }
+            }
+
+            var byDay = list
+                .GroupBy(x => x.CreatedDate.Date)
+                .Select(g => new { Day = g.Key, Qty = g.Sum(i => i.Quantity) })
+                .OrderBy(x => x.Day)
+                .ToList();
+
+            var chart2 = new Chart();
+            chart2.Width = 800;
+            chart2.Height = 400;
+            var area2 = new ChartArea("a2");
+            area2.AxisX.Interval = 1;
+            chart2.ChartAreas.Add(area2);
+            var s2 = new Series("qty");
+            s2.ChartType = SeriesChartType.Line;
+            s2.BorderWidth = 2;
+            chart2.Series.Add(s2);
+            foreach (var item in byDay) s2.Points.AddXY(item.Day.ToString("dd/MM"), (double)item.Qty);
+            chart2.Titles.Add("Số lượng nhập theo ngày");
+            using (var bmp = new Bitmap(chart2.Width, chart2.Height))
+            {
+                chart2.DrawToBitmap(bmp, new Rectangle(0, 0, chart2.Width, chart2.Height));
+                using (var ms = new MemoryStream()) { bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png); charts.Add(ms.ToArray()); }
+            }
+
+            return charts;
         }
 
         private DataTable CreateDataTableForExport(List<StockInDetail> stockInList)

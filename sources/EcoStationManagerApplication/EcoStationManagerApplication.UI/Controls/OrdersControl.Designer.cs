@@ -72,7 +72,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelHeader.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabelHeader.Location = new System.Drawing.Point(0, 0);
             this.titleLabelHeader.Name = "titleLabelHeader";
-            this.titleLabelHeader.Size = new System.Drawing.Size(225, 35);
+            this.titleLabelHeader.Size = new System.Drawing.Size(245, 37);
             this.titleLabelHeader.TabIndex = 0;
             this.titleLabelHeader.Text = "Quản lý Đơn hàng";
             // 
@@ -109,7 +109,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtSearch.Location = new System.Drawing.Point(460, 6);
             this.txtSearch.MaxLength = 100;
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(280, 26);
+            this.txtSearch.Size = new System.Drawing.Size(280, 27);
             this.txtSearch.TabIndex = 1;
             // 
             // titleLabelContent
@@ -119,7 +119,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelContent.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.titleLabelContent.Location = new System.Drawing.Point(0, 0);
             this.titleLabelContent.Name = "titleLabelContent";
-            this.titleLabelContent.Size = new System.Drawing.Size(193, 25);
+            this.titleLabelContent.Size = new System.Drawing.Size(207, 28);
             this.titleLabelContent.TabIndex = 0;
             this.titleLabelContent.Text = "Danh sách đơn hàng";
             // 
@@ -226,7 +226,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblDateRange.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lblDateRange.Location = new System.Drawing.Point(450, 15);
             this.lblDateRange.Name = "lblDateRange";
-            this.lblDateRange.Size = new System.Drawing.Size(0, 19);
+            this.lblDateRange.Size = new System.Drawing.Size(0, 20);
             this.lblDateRange.TabIndex = 6;
             this.lblDateRange.Visible = false;
             // 
@@ -236,7 +236,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dtpEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpEndDate.Location = new System.Drawing.Point(580, 12);
             this.dtpEndDate.Name = "dtpEndDate";
-            this.dtpEndDate.Size = new System.Drawing.Size(120, 26);
+            this.dtpEndDate.Size = new System.Drawing.Size(120, 27);
             this.dtpEndDate.TabIndex = 5;
             this.dtpEndDate.Visible = false;
             // 
@@ -246,7 +246,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpStartDate.Location = new System.Drawing.Point(450, 12);
             this.dtpStartDate.Name = "dtpStartDate";
-            this.dtpStartDate.Size = new System.Drawing.Size(120, 26);
+            this.dtpStartDate.Size = new System.Drawing.Size(120, 27);
             this.dtpStartDate.TabIndex = 4;
             this.dtpStartDate.Visible = false;
             // 

@@ -618,11 +618,18 @@ namespace EcoStationManagerApplication.Core.Services
                 if (order == null)
                     return NotFoundError<bool>("Đơn hàng", orderId);
 
+                var cannotDeleteStatuses = new[]
+                {
+                    OrderStatus.PROCESSING,
+                    OrderStatus.READY,
+                    OrderStatus.SHIPPED,
+                    OrderStatus.COMPLETED
+                };
                 // Kiểm tra trạng thái đơn hàng - chỉ cho phép xóa đơn nháp hoặc đã hủy
                 // Có thể mở rộng logic này nếu cần
-                if (order.Status == OrderStatus.COMPLETED)
+                if (cannotDeleteStatuses.Contains(order.Status))
                 {
-                    return Result<bool>.Fail("Không thể xóa đơn hàng đã hoàn thành");
+                    return Result<bool>.Fail("Không thể xóa đơn hàng đang trong quá trình xử lý hoặc đã hoàn thành");
                 }
 
                 bool transactionStarted = false;

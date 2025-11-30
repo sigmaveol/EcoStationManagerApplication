@@ -77,6 +77,7 @@ namespace EcoStationManagerApplication.UI.Forms
             sidebarControl.AddMenuItem("Backup dữ liệu", Properties.Resources.payment_icon, "Backup");
             sidebarControl.AddMenuItem("Báo cáo", Properties.Resources.report_icon, "Reports");
             sidebarControl.AddMenuItem("Cài đặt hệ thống", Properties.Resources.setting_icon, "SystemSettings");
+            sidebarControl.AddMenuItem("Tích hợp công cụ online", Properties.Resources.setting_icon, "integrations");
         }
 
         private void OnSidebarMenuClicked(object sender, string menuName)

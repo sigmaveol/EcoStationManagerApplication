@@ -1,6 +1,7 @@
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
+using EcoStationManagerApplication.Common.Exporters;
 using EcoStationManagerApplication.UI.Common;
 using EcoStationManagerApplication.UI.Forms;
 using Guna.UI2.WinForms;
@@ -13,6 +14,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static EcoStationManagerApplication.UI.Common.AppColors;
 using MainForm = EcoStationManagerApplication.UI.Forms.MainForm;
+using System.IO;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
@@ -754,8 +757,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 {
                     btnProducts.Enabled = enabled;
                     btnPackaging.Enabled = enabled;
-                    btnStockIn.Enabled = enabled;
-                    btnStockOut.Enabled = enabled;
+                    btnExportExcel.Enabled = enabled;
                     btnExportPDF.Enabled = enabled;
                     btnRefresh.Enabled = enabled;
                 });
@@ -880,20 +882,181 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             try
             {
-                if (currentMode == ViewMode.Products)
+                var saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                saveDialog.Title = "Chọn nơi lưu PDF";
+                saveDialog.FileName = currentMode == ViewMode.Products ? "TonKho_SanPham.pdf" : "TonKho_BaoBi.pdf";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Chức năng xuất PDF báo cáo sản phẩm sẽ được triển khai sau.", "Thông báo", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Chức năng xuất PDF báo cáo bao bì sẽ được triển khai sau.", "Thông báo", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var pdfExporter = new PdfExporter();
+                    var title = currentMode == ViewMode.Products ? "Danh sách tồn kho sản phẩm" : "Danh sách tồn kho bao bì";
+
+                    var dataTable = currentMode == ViewMode.Products ? BuildProductsDataTable() : BuildPackagingDataTable();
+                    byte[] chartBytes = GenerateOverviewChartImage();
+
+                    pdfExporter.ExportToPdf(dataTable, saveDialog.FileName, title, null, chartBytes);
+
+                    MessageBox.Show($"Đã xuất PDF thành công\nFile: {saveDialog.FileName}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
             {
                 UIHelper.ShowExceptionError(ex, "xuất PDF");
+            }
+        }
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                saveDialog.Title = "Chọn nơi lưu Excel";
+                saveDialog.FileName = currentMode == ViewMode.Products ? "TonKho_SanPham.xlsx" : "TonKho_BaoBi.xlsx";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var excelExporter = new ExcelExporter();
+                    var worksheetName = currentMode == ViewMode.Products ? "Tồn kho sản phẩm" : "Tồn kho bao bì";
+                    var title = currentMode == ViewMode.Products ? "Danh sách tồn kho sản phẩm" : "Danh sách tồn kho bao bì";
+
+                    var dataTable = currentMode == ViewMode.Products ? BuildProductsDataTable() : BuildPackagingDataTable();
+                    byte[] chartBytes = GenerateOverviewChartImage();
+
+                    excelExporter.ExportToExcel(dataTable, saveDialog.FileName, worksheetName, null, title, chartBytes);
+
+                    MessageBox.Show($"Đã xuất Excel thành công\nFile: {saveDialog.FileName}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "xuất Excel");
+            }
+        }
+
+        private DataTable BuildProductsDataTable()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Mã SP");
+            table.Columns.Add("Tên sản phẩm");
+            table.Columns.Add("Mã lô");
+            table.Columns.Add("Số lượng", typeof(decimal));
+            table.Columns.Add("Đơn vị");
+            table.Columns.Add("Hạn sử dụng");
+            table.Columns.Add("Ngày cập nhật");
+            table.Columns.Add("Trạng thái");
+
+            var list = productInventories ?? new List<ProductInventoryDTO>();
+            foreach (var inv in list.OrderBy(p => p.ProductName).ThenBy(p => p.BatchNo))
+            {
+                string status = GetProductBatchStatus(inv.Quantity, inv.ExpiryDate, inv.AlertLevel);
+                string expiryDateStr = inv.ExpiryDate.HasValue ? inv.ExpiryDate.Value.ToString("dd/MM/yyyy") : "Không có";
+                string lastUpdatedStr = inv.LastUpdated.ToString("dd/MM/yyyy HH:mm");
+
+                var row = table.NewRow();
+                row[0] = inv.ProductCode;
+                row[1] = inv.ProductName;
+                row[2] = inv.BatchNo;
+                row[3] = inv.Quantity;
+                row[4] = inv.Unit;
+                row[5] = expiryDateStr;
+                row[6] = lastUpdatedStr;
+                row[7] = status;
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
+        private DataTable BuildPackagingDataTable()
+        {
+            var table = new DataTable();
+            table.Columns.Add("Mã bao bì");
+            table.Columns.Add("Loại bao bì");
+            table.Columns.Add("Dung tích");
+            table.Columns.Add("Mới", typeof(int));
+            table.Columns.Add("Đang dùng", typeof(int));
+            table.Columns.Add("Cần vệ sinh", typeof(int));
+            table.Columns.Add("Đã vệ sinh", typeof(int));
+            table.Columns.Add("Hỏng", typeof(int));
+            table.Columns.Add("Tổng tồn khả dụng", typeof(int));
+            table.Columns.Add("Trạng thái");
+
+            var list = packagingInventories ?? new List<PackagingInventoryDTO>();
+            foreach (var inv in list.OrderBy(p => p.PackagingName))
+            {
+                string status = GetPackagingStatus(inv.TotalStock, inv.QtyDamaged);
+
+                var row = table.NewRow();
+                row[0] = inv.PackagingCode;
+                row[1] = inv.PackagingName;
+                row[2] = inv.Capacity;
+                row[3] = inv.QtyNew;
+                row[4] = inv.QtyInUse;
+                row[5] = inv.QtyNeedCleaning;
+                row[6] = inv.QtyCleaned;
+                row[7] = inv.QtyDamaged;
+                row[8] = inv.TotalStock;
+                row[9] = status;
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
+        private byte[] GenerateOverviewChartImage()
+        {
+            var chart = new Chart();
+            chart.Width = 800;
+            chart.Height = 400;
+            chart.BackColor = System.Drawing.Color.White;
+            var chartArea = new ChartArea("area");
+            chartArea.AxisX.Interval = 1;
+            chartArea.AxisX.MajorGrid.Enabled = false;
+            chartArea.AxisY.MajorGrid.Enabled = true;
+            chartArea.AxisY.LabelStyle.Format = "N0";
+            chart.ChartAreas.Add(chartArea);
+
+            var series = new Series("data");
+            series.ChartType = SeriesChartType.Column;
+            series.Color = System.Drawing.Color.FromArgb(31, 107, 59);
+            series.IsValueShownAsLabel = true;
+            chart.Series.Add(series);
+
+            if (currentMode == ViewMode.Products)
+            {
+                var list = productInventories ?? new List<ProductInventoryDTO>();
+                int countNormal = list.Count(p => GetProductBatchStatus(p.Quantity, p.ExpiryDate, p.AlertLevel) == "Bình thường");
+                int countNear = list.Count(p => GetProductBatchStatus(p.Quantity, p.ExpiryDate, p.AlertLevel).Contains("Sắp"));
+                int countOut = list.Count(p => GetProductBatchStatus(p.Quantity, p.ExpiryDate, p.AlertLevel).Contains("Hết"));
+                series.Points.AddXY("Bình thường", countNormal);
+                series.Points.AddXY("Sắp hết/hạn", countNear);
+                series.Points.AddXY("Hết hàng/hạn", countOut);
+                chart.Titles.Add("Tổng quan lô sản phẩm");
+            }
+            else
+            {
+                var list = packagingInventories ?? new List<PackagingInventoryDTO>();
+                int totalNew = list.Sum(p => p.QtyNew);
+                int totalInUse = list.Sum(p => p.QtyInUse);
+                int totalNeedClean = list.Sum(p => p.QtyNeedCleaning);
+                int totalCleaned = list.Sum(p => p.QtyCleaned);
+                int totalDamaged = list.Sum(p => p.QtyDamaged);
+                series.Points.AddXY("Mới", totalNew);
+                series.Points.AddXY("Đang dùng", totalInUse);
+                series.Points.AddXY("Cần vệ sinh", totalNeedClean);
+                series.Points.AddXY("Đã vệ sinh", totalCleaned);
+                series.Points.AddXY("Hỏng", totalDamaged);
+                chart.Titles.Add("Tổng quan bao bì");
+            }
+
+            using (var bmp = new Bitmap(chart.Width, chart.Height))
+            {
+                chart.DrawToBitmap(bmp, new Rectangle(0, 0, chart.Width, chart.Height));
+                using (var ms = new MemoryStream())
+                {
+                    bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    return ms.ToArray();
+                }
             }
         }
 

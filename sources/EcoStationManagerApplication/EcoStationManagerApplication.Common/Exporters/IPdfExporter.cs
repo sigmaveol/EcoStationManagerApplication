@@ -26,6 +26,12 @@ namespace EcoStationManagerApplication.Common.Exporters
         /// <param name="title">Tiêu đề tài liệu</param>
         /// <param name="headers">Tiêu đề các cột (tùy chọn)</param>
         void ExportToPdf(DataTable dataTable, string filePath, string title = "Danh sách", Dictionary<string, string> headers = null);
+
+        void ExportToPdf(DataTable dataTable, string filePath, string title, Dictionary<string, string> headers, byte[] chartImageBytes);
+
+        void ExportToPdf(DataTable dataTable, string filePath, string title, Dictionary<string, string> headers, IList<byte[]> chartImages);
+
+        void ExportMultipleSections(Dictionary<string, DataTable> sections, string filePath, Dictionary<string, Dictionary<string, string>> headersBySection = null, Dictionary<string, string> titlesBySection = null, Dictionary<string, IList<byte[]>> chartsBySection = null);
     }
 }
 

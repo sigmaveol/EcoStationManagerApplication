@@ -1,7 +1,8 @@
-﻿using EcoStationManagerApplication.Core.Helpers;
+using EcoStationManagerApplication.Core.Helpers;
 using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.Models.Results;
 using System;
 using System.Collections.Generic;
@@ -178,8 +179,22 @@ namespace EcoStationManagerApplication.Core.Services
                 if (packaging == null)
                     return NotFoundError<bool>("Bao bì", packagingId);
 
-                // TODO: Kiểm tra xem bao bì có đang được sử dụng không
-                // (có thể kiểm tra trong PackagingTransactions, PackagingInventory, etc.)
+                var quantities = await _unitOfWork.PackagingInventories.GetPackagingQuantitiesAsync(packagingId);
+                if (quantities != null)
+                {
+                    var totalQty = quantities.QtyNew + quantities.QtyInUse + quantities.QtyReturned +
+                                   quantities.QtyNeedCleaning + quantities.QtyCleaned + quantities.QtyDamaged;
+                    if (totalQty > 0)
+                        return BusinessError<bool>("Không thể xóa bao bì vì vẫn còn tồn kho hoặc đang được sử dụng");
+                }
+
+                var transactions = await _unitOfWork.PackagingTransactions.GetByPackagingAsync(packagingId);
+                if (transactions != null)
+                {
+                    var netQuantity = transactions.Sum(t => t.Type == PackagingTransactionType.ISSUE ? t.Quantity : -t.Quantity);
+                    if (netQuantity > 0)
+                        return BusinessError<bool>("Không thể xóa bao bì vì khách hàng vẫn đang giữ bao bì");
+                }
 
                 // Xóa bao bì
                 var success = await _unitOfWork.Packaging.DeleteAsync(packagingId);

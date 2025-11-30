@@ -655,9 +655,6 @@ namespace EcoStationManagerApplication.UI.Forms
                     IsActive = chkIsActive.Checked ? ActiveStatus.ACTIVE : ActiveStatus.INACTIVE
                 };
 
-                // Debug log để kiểm tra
-                System.Diagnostics.Debug.WriteLine($"Saving product - ProductType: {product.ProductType} ({product.ProductType.ToString()})");
-
                 // Set ProductId nếu là Edit mode
                 if (_isEditMode)
                 {

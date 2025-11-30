@@ -90,38 +90,6 @@ BEGIN
     END IF;
 END$$
 
--- 5. Tự động cập nhật PackagingInventories khi PackagingTransactions
-DROP TRIGGER IF EXISTS trg_PackagingTransactions_AfterInsert$$
-CREATE TRIGGER trg_PackagingTransactions_AfterInsert
-AFTER INSERT ON PackagingTransactions
-FOR EACH ROW
-BEGIN
-    DECLARE v_exists INT DEFAULT 0;
-    
-    SELECT COUNT(*) INTO v_exists
-    FROM PackagingInventories
-    WHERE packaging_id = NEW.packaging_id;
-    
-    IF v_exists = 0 THEN
-        INSERT INTO PackagingInventories (packaging_id, qty_new, qty_in_use, qty_returned, qty_need_cleaning, qty_cleaned, qty_damaged)
-        VALUES (NEW.packaging_id, 0, 0, 0, 0, 0, 0);
-    END IF;
-    
-    IF NEW.type = 0 THEN
-        UPDATE PackagingInventories
-        SET qty_new = GREATEST(0, qty_new - NEW.quantity),
-            qty_in_use = qty_in_use + NEW.quantity,
-            last_updated = NOW()
-        WHERE packaging_id = NEW.packaging_id;
-    ELSEIF NEW.type = 1 THEN
-        UPDATE PackagingInventories
-        SET qty_in_use = GREATEST(0, qty_in_use - NEW.quantity),
-            qty_returned = qty_returned + NEW.quantity,
-            last_updated = NOW()
-        WHERE packaging_id = NEW.packaging_id;
-    END IF;
-END$$
-
 -- 6. Tự động cập nhật cleaned_datetime khi CleaningSchedule status = COMPLETED
 DROP TRIGGER IF EXISTS trg_CleaningSchedules_BeforeUpdate$$
 CREATE TRIGGER trg_CleaningSchedules_BeforeUpdate

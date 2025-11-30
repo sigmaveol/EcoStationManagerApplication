@@ -196,3 +196,4 @@ D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplica
 D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.csproj.Up2Date
 D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.exe
 D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.pdb
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\Setup\obj\Debug\Setup.exe.config

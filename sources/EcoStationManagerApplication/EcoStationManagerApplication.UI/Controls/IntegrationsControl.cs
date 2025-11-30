@@ -1,156 +1,291 @@
-﻿using System;
-using System.Drawing;
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Net.Sockets;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using EcoStationManagerApplication.Core.Composition;
+using EcoStationManagerApplication.Models.Enums;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
     public partial class IntegrationsControl : UserControl
     {
+        private bool isGoogleSheetsConnected;
+
         public IntegrationsControl()
         {
             InitializeComponent();
-
-            PopulateIntegrationsPanel();
-
-            if (btnUpdateGoogleForms != null)
-                btnUpdateGoogleForms.Click += btnUpdateGoogleForms_Click;
-
-            if (btnConnectGoogleSheets != null)
-                btnConnectGoogleSheets.Click += btnConnectGoogleSheets_Click;
+            InitializeBusinessLogic();
         }
 
-        // --- HÀM XỬ LÝ SỰ KIỆN ---
+        private void InitializeBusinessLogic()
+        {
+            InitializeEventHandlers();
+            InitializeTimer();
+        }
 
+        private void InitializeEventHandlers()
+        {
+            btnUpdateGoogleForms.Click += btnUpdateGoogleForms_Click;
+            btnConnectGoogleSheets.Click += btnConnectGoogleSheets_Click;
+            btnTestGoogleSheets.Click += btnTestGoogleSheets_Click;
+            cmbGoogleSheetsInterval.SelectedIndexChanged += cmbGoogleSheetsInterval_SelectedIndexChanged;
+            btnTestGmail.Click += btnTestGmail_Click;
+            btnConnectGmail.Click += btnConnectGmail_Click;
+        }
+
+        private void InitializeTimer()
+        {
+            googleSheetsTimer.Tick += async (s, e) => await SyncGoogleSheetsAsync();
+        }
+
+        private void cmbGoogleSheetsInterval_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (int.TryParse(cmbGoogleSheetsInterval.SelectedItem?.ToString(), out var minutes))
+            {
+                googleSheetsTimer.Interval = minutes * 60 * 1000;
+            }
+        }
+
+        // --- EVENT HANDLERS ---
         private void btnUpdateGoogleForms_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Cập nhật cài đặt Google Forms", "Cập nhật");
         }
 
-        private void btnConnectGoogleSheets_Click(object sender, EventArgs e)
+        private async void btnConnectGoogleSheets_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Kết nối Google Sheets", "Kết nối");
-        }
-
-        // --- HÀM ĐỔ DỮ LIỆU (LOGIC) ---
-
-        // Hàm này chứa logic (if/foreach...)
-        private void PopulateIntegrationsPanel()
-        {
-            if (integrationsPanel == null) return;
-
-            var googleFormsCard = CreateIntegrationCard(
-                "Google Forms",
-                "Thu thập đơn hàng từ khách hàng qua Google Forms",
-                "https://forms.google.com/...",
-                "Đã kết nối",
-                true
-            );
-            googleFormsCard.Size = new Size(430, 300);
-            googleFormsCard.Margin = new Padding(10);
-
-            var googleSheetsCard = CreateIntegrationCard(
-                "Google Sheets",
-                "Đồng bộ dữ liệu đặt hàng từ Google Sheets",
-                "https://docs.google.com/spreadsheets/...",
-                "Chưa kết nối",
-                false
-            );
-            googleSheetsCard.Size = new Size(430, 300);
-            googleSheetsCard.Margin = new Padding(10);
-
-            integrationsPanel.Controls.Add(googleFormsCard);
-            integrationsPanel.Controls.Add(googleSheetsCard);
-        }
-
-        private Panel CreateIntegrationCard(string title, string description, string urlPlaceholder, string status, bool isConnected)
-        {
-            var card = new Panel();
-            card.BackColor = Color.White;
-            card.BorderStyle = BorderStyle.None;
-            card.Padding = new Padding(15);
-
-            var titleLabel = new Label();
-            titleLabel.Text = title;
-            titleLabel.Font = new Font("Segoe UI", 14, FontStyle.Bold);
-            titleLabel.AutoSize = true;
-            titleLabel.Location = new Point(15, 15);
-
-            var descLabel = new Label();
-            descLabel.Text = description;
-            descLabel.Font = new Font("Segoe UI", 9);
-            descLabel.AutoSize = false;
-            descLabel.Size = new Size(380, 40); 
-            descLabel.Location = new Point(15, 45);
-
-            var lblUrl = new Label();
-            lblUrl.Text = title + " URL";
-            lblUrl.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            lblUrl.AutoSize = true;
-            lblUrl.Location = new Point(15, 95);
-
-            var txtUrl = new TextBox();
-            txtUrl.Size = new Size(380, 25);
-            txtUrl.Location = new Point(15, 120);
-            txtUrl.Text = urlPlaceholder;
-
-            var lblApiKey = new Label();
-            lblApiKey.Text = "API Key (Nếu có)";
-            lblApiKey.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            lblApiKey.AutoSize = true;
-            lblApiKey.Location = new Point(15, 155);
-            lblApiKey.Visible = (title == "Google Sheets");
-
-            var txtApiKey = new TextBox();
-            txtApiKey.Size = new Size(380, 25);
-            txtApiKey.Location = new Point(15, 180);
-            txtApiKey.UseSystemPasswordChar = true;
-            txtApiKey.Visible = (title == "Google Sheets");
-
-            var lblStatus = new Label();
-            lblStatus.Text = "Trạng thái:";
-            lblStatus.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            lblStatus.AutoSize = true;
-            lblStatus.Location = new Point(15, 230);
-
-            var statusLabel = new Label();
-            statusLabel.Text = status;
-            statusLabel.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            statusLabel.AutoSize = true;
-            statusLabel.Location = new Point(90, 230);
-            statusLabel.ForeColor = isConnected ? Color.Green : Color.Red;
-
-            Button actionButton = new Button();
-            actionButton.Size = new Size(120, 35);
-            actionButton.Location = new Point(275, 225);
-            actionButton.BackColor = isConnected ? Color.FromArgb(25, 118, 210) : Color.FromArgb(46, 125, 50);
-            actionButton.ForeColor = Color.White;
-            actionButton.FlatStyle = FlatStyle.Flat;
-            actionButton.FlatAppearance.BorderSize = 0;
-
-            if (title == "Google Forms")
+            if (!isGoogleSheetsConnected)
             {
-                actionButton.Text = "Cập nhật";
-                btnUpdateGoogleForms = actionButton;
-                actionButton.Click += btnUpdateGoogleForms_Click; 
+                await ConnectGoogleSheetsAsync();
             }
             else
             {
-                actionButton.Text = isConnected ? "Ngắt kết nối" : "Kết nối";
-                btnConnectGoogleSheets = actionButton;
-                actionButton.Click += btnConnectGoogleSheets_Click;
+                DisconnectGoogleSheets();
+            }
+        }
+
+        private async void btnTestGoogleSheets_Click(object sender, EventArgs e)
+        {
+            await TestGoogleSheetsConnectionAsync();
+        }
+
+        private async void btnTestGmail_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var server = txtGmailServer?.Text?.Trim();
+                if (string.IsNullOrWhiteSpace(server))
+                {
+                    MessageBox.Show("Vui lòng nhập IMAP Server (ví dụ: imap.gmail.com)", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                using (var client = new TcpClient())
+                {
+                    var connectTask = client.ConnectAsync(server, 993);
+                    var timeoutTask = Task.Delay(TimeSpan.FromSeconds(8));
+                    var finished = await Task.WhenAny(connectTask, timeoutTask);
+                    if (finished == timeoutTask || !client.Connected)
+                    {
+                        MessageBox.Show("Không thể kết nối đến IMAP server", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                MessageBox.Show("Kết nối IMAP thành công", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnConnectGmail_Click(object sender, EventArgs e)
+        {
+            var connected = string.Equals(statusLabelGmail?.Text, "Đã kết nối", StringComparison.OrdinalIgnoreCase);
+            if (!connected)
+            {
+                statusLabelGmail.Text = "Đã kết nối";
+                statusLabelGmail.ForeColor = System.Drawing.Color.Green;
+                btnConnectGmail.Text = "Ngắt kết nối";
+            }
+            else
+            {
+                statusLabelGmail.Text = "Chưa kết nối";
+                statusLabelGmail.ForeColor = System.Drawing.Color.Red;
+                btnConnectGmail.Text = "Kết nối";
+            }
+        }
+
+        // --- BUSINESS LOGIC METHODS ---
+        private async Task ConnectGoogleSheetsAsync()
+        {
+            var url = txtGoogleSheetsUrl?.Text?.Trim();
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                MessageBox.Show("Vui lòng nhập URL Google Sheets", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
-            card.Controls.Add(titleLabel);
-            card.Controls.Add(descLabel);
-            card.Controls.Add(lblUrl);
-            card.Controls.Add(txtUrl);
-            card.Controls.Add(lblApiKey);
-            card.Controls.Add(txtApiKey);
-            card.Controls.Add(lblStatus);
-            card.Controls.Add(statusLabel);
-            card.Controls.Add(actionButton);
+            isGoogleSheetsConnected = true;
+            UpdateGoogleSheetsUI();
+            await SyncGoogleSheetsAsync();
+            googleSheetsTimer.Start();
+        }
 
-            return card;
+        private void DisconnectGoogleSheets()
+        {
+            isGoogleSheetsConnected = false;
+            googleSheetsTimer.Stop();
+            UpdateGoogleSheetsUI();
+        }
+
+        private void UpdateGoogleSheetsUI()
+        {
+            btnConnectGoogleSheets.Text = isGoogleSheetsConnected ? "Ngắt kết nối" : "Kết nối";
+            statusLabelGoogleSheets.Text = isGoogleSheetsConnected ? "Đã kết nối" : "Chưa kết nối";
+            statusLabelGoogleSheets.ForeColor = isGoogleSheetsConnected ? System.Drawing.Color.Green : System.Drawing.Color.Red;
+        }
+
+        private async Task TestGoogleSheetsConnectionAsync()
+        {
+            try
+            {
+                var url = txtGoogleSheetsUrl?.Text?.Trim();
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    MessageBox.Show("Vui lòng nhập URL Google Sheets", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var csvUrl = BuildCsvUrl(url);
+                using (var http = new HttpClient())
+                {
+                    var response = await http.GetAsync(csvUrl, HttpCompletionOption.ResponseHeadersRead);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Kết nối thất bại hoặc URL không hợp lệ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    var contentType = response.Content.Headers.ContentType?.MediaType ?? "";
+                    var okType = contentType.Contains("csv") || contentType.Contains("excel") || contentType.Contains("text");
+                    var sample = await response.Content.ReadAsByteArrayAsync();
+                    var okData = sample != null && sample.Length > 0;
+                    var headerInfo = "";
+                    if (okData)
+                    {
+                        var text = Encoding.UTF8.GetString(sample);
+                        var firstLine = text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+                        if (!string.IsNullOrEmpty(firstLine))
+                        {
+                            var cols = firstLine.Split(',');
+                            headerInfo = "\nCột: " + string.Join(", ", cols.Take(6)) + (cols.Length > 6 ? " ..." : "");
+                        }
+                    }
+
+                    if (okType && okData)
+                    {
+                        MessageBox.Show("Kết nối thành công và truy cập được dữ liệu" + headerInfo, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Kết nối thành công nhưng dữ liệu không hợp lệ", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task SyncGoogleSheetsAsync()
+        {
+            try
+            {
+                var inputUrl = txtGoogleSheetsUrl?.Text?.Trim();
+                if (string.IsNullOrWhiteSpace(inputUrl)) return;
+
+                var csvUrl = BuildCsvUrl(inputUrl);
+                using (var http = new HttpClient())
+                {
+                    var response = await http.GetAsync(csvUrl);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Không tải được dữ liệu từ Google Sheets", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    var bytes = await response.Content.ReadAsByteArrayAsync();
+                    var tempPath = Path.Combine(Path.GetTempPath(), "gsync_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv");
+                    File.WriteAllBytes(tempPath, bytes);
+
+                    var import = ServiceRegistry.ImportService;
+                    var validate = await import.ValidateImportFileAsync(tempPath);
+                    if (!validate.Success)
+                    {
+                        MessageBox.Show("File CSV không hợp lệ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    var result = await import.ImportOrdersFromFileAsync(tempPath, OrderSource.EXCEL);
+                    if (result.Success)
+                    {
+                        MessageBox.Show("Đồng bộ Google Sheets thành công", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        lblLastSyncGoogleSheets.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                    }
+                    else
+                    {
+                        MessageBox.Show(result.Message ?? "Đồng bộ thất bại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private string BuildCsvUrl(string inputUrl)
+        {
+            try
+            {
+                var uri = new Uri(inputUrl);
+                var path = uri.AbsolutePath;
+                var idx = path.IndexOf("/d/");
+                if (idx >= 0)
+                {
+                    var after = path.Substring(idx + 3);
+                    var parts = after.Split('/');
+                    var id = parts[0];
+                    var gid = "0";
+                    var frag = uri.Fragment;
+                    if (!string.IsNullOrWhiteSpace(frag))
+                    {
+                        var key = "gid=";
+                        var pos = frag.IndexOf(key, StringComparison.OrdinalIgnoreCase);
+                        if (pos >= 0)
+                        {
+                            var g = frag.Substring(pos + key.Length);
+                            if (g.StartsWith("#")) g = g.Substring(1);
+                            gid = g;
+                        }
+                    }
+                    return "https://docs.google.com/spreadsheets/d/" + id + "/export?format=csv&gid=" + gid;
+                }
+            }
+            catch { }
+            return inputUrl;
+        }
+
+        private void googleSheetsCard_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

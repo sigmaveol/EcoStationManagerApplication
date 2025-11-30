@@ -185,14 +185,256 @@ namespace EcoStationManagerApplication.Common.Exporters
             }
         }
 
+        public void ExportToPdf(DataTable dataTable, string filePath, string title, Dictionary<string, string> headers, byte[] chartImageBytes)
+        {
+            if (dataTable == null) throw new ArgumentNullException(nameof(dataTable));
+            if (string.IsNullOrWhiteSpace(filePath)) throw new ArgumentException("File path is required", nameof(filePath));
+            if (dataTable.Rows.Count == 0) throw new InvalidOperationException("No data to export");
+
+            title = string.IsNullOrWhiteSpace(title) ? "Danh sách" : title;
+
+            using (var document = new PdfDocument())
+            {
+                document.Info.Title = title;
+
+                int totalPages = (int)Math.Ceiling((double)dataTable.Rows.Count / ItemsPerPage);
+                if (totalPages == 0) totalPages = 1;
+
+                int rowIndex = 0;
+
+                for (int pageNum = 1; pageNum <= totalPages; pageNum++)
+                {
+                    var page = document.AddPage();
+                    page.Size = PdfSharp.PageSize.A4;
+
+                    using (var gfx = XGraphics.FromPdfPage(page))
+                    {
+                        var fonts = CreateFonts();
+                        double totalWidth = page.Width - LeftMargin - RightMargin;
+                        double[] colWidths = CalculateColumnWidths(dataTable.Columns.Count, totalWidth);
+
+                        double yPos = 40;
+
+                        if (pageNum == 1)
+                        {
+                            DrawTitle(gfx, page, title, fonts.Title, ref yPos);
+                            DrawExportInfo(gfx, dataTable.Rows.Count, fonts.Normal, ref yPos);
+
+                            if (chartImageBytes != null && chartImageBytes.Length > 0)
+                            {
+                                using (var ms = new MemoryStream(chartImageBytes))
+                                {
+                                    var img = XImage.FromStream(ms);
+                                    double maxWidth = totalWidth;
+                                    double scale = img.PixelWidth > 0 ? Math.Min(maxWidth / img.PixelWidth, 1.0) : 1.0;
+                                    double imgWidth = img.PixelWidth * scale;
+                                    double imgHeight = img.PixelHeight * scale;
+                                    gfx.DrawImage(img, LeftMargin, yPos + 10, imgWidth, imgHeight);
+                                    yPos += imgHeight + 20;
+                                }
+                            }
+                        }
+
+                        yPos = pageNum == 1 ? Math.Max(yPos, TableTopMargin) : 40;
+                        DrawDataTableHeader(gfx, dataTable, headers, colWidths, yPos, totalWidth, fonts.Header);
+                        yPos += HeaderHeight;
+
+                        int itemsOnThisPage = 0;
+                        while (rowIndex < dataTable.Rows.Count && itemsOnThisPage < ItemsPerPage)
+                        {
+                            var row = dataTable.Rows[rowIndex];
+                            DrawDataTableRow(gfx, row, dataTable, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page);
+                            yPos += LineHeight;
+                            rowIndex++;
+                            itemsOnThisPage++;
+                        }
+
+                        DrawFooter(gfx, page, pageNum, totalPages, fonts.Small);
+                    }
+                }
+
+                EnsureDirectoryExists(filePath);
+                document.Save(filePath);
+            }
+        }
+
+        public void ExportToPdf(DataTable dataTable, string filePath, string title, Dictionary<string, string> headers, IList<byte[]> chartImages)
+        {
+            if (dataTable == null) throw new ArgumentNullException(nameof(dataTable));
+            if (string.IsNullOrWhiteSpace(filePath)) throw new ArgumentException("File path is required", nameof(filePath));
+            if (dataTable.Rows.Count == 0) throw new InvalidOperationException("No data to export");
+
+            title = string.IsNullOrWhiteSpace(title) ? "Danh sách" : title;
+
+            using (var document = new PdfDocument())
+            {
+                document.Info.Title = title;
+
+                int totalPages = (int)Math.Ceiling((double)dataTable.Rows.Count / ItemsPerPage);
+                if (totalPages == 0) totalPages = 1;
+
+                int rowIndex = 0;
+
+                for (int pageNum = 1; pageNum <= totalPages; pageNum++)
+                {
+                    var page = document.AddPage();
+                    page.Size = PdfSharp.PageSize.A4;
+
+                    using (var gfx = XGraphics.FromPdfPage(page))
+                    {
+                        var fonts = CreateFonts();
+                        double totalWidth = page.Width - LeftMargin - RightMargin;
+                        double[] colWidths = CalculateColumnWidths(dataTable.Columns.Count, totalWidth);
+
+                        double yPos = 40;
+
+                        if (pageNum == 1)
+                        {
+                            DrawTitle(gfx, page, title, fonts.Title, ref yPos);
+                            DrawExportInfo(gfx, dataTable.Rows.Count, fonts.Normal, ref yPos);
+
+                            if (chartImages != null)
+                            {
+                                foreach (var bytes in chartImages)
+                                {
+                                    if (bytes == null || bytes.Length == 0) continue;
+                                    using (var ms = new MemoryStream(bytes))
+                                    {
+                                        var img = XImage.FromStream(ms);
+                                        double maxWidth = totalWidth;
+                                        double scale = img.PixelWidth > 0 ? Math.Min(maxWidth / img.PixelWidth, 1.0) : 1.0;
+                                        double imgWidth = img.PixelWidth * scale;
+                                        double imgHeight = img.PixelHeight * scale;
+                                        gfx.DrawImage(img, LeftMargin, yPos + 10, imgWidth, imgHeight);
+                                        yPos += imgHeight + 20;
+                                    }
+                                }
+                            }
+                        }
+
+                        yPos = pageNum == 1 ? Math.Max(yPos, TableTopMargin) : 40;
+                        DrawDataTableHeader(gfx, dataTable, headers, colWidths, yPos, totalWidth, fonts.Header);
+                        yPos += HeaderHeight;
+
+                        int itemsOnThisPage = 0;
+                        while (rowIndex < dataTable.Rows.Count && itemsOnThisPage < ItemsPerPage)
+                        {
+                            var row = dataTable.Rows[rowIndex];
+                            DrawDataTableRow(gfx, row, dataTable, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page);
+                            yPos += LineHeight;
+                            rowIndex++;
+                            itemsOnThisPage++;
+                        }
+
+                        DrawFooter(gfx, page, pageNum, totalPages, fonts.Small);
+                    }
+                }
+
+                EnsureDirectoryExists(filePath);
+                document.Save(filePath);
+            }
+        }
+
+        public void ExportMultipleSections(Dictionary<string, DataTable> sections, string filePath, Dictionary<string, Dictionary<string, string>> headersBySection = null, Dictionary<string, string> titlesBySection = null, Dictionary<string, IList<byte[]>> chartsBySection = null)
+        {
+            if (sections == null) throw new ArgumentNullException(nameof(sections));
+            if (string.IsNullOrWhiteSpace(filePath)) throw new ArgumentException("File path is required", nameof(filePath));
+
+            using (var document = new PdfDocument())
+            {
+                document.Info.Title = "Báo cáo tổng hợp";
+
+                foreach (var kv in sections)
+                {
+                    var sectionName = string.IsNullOrWhiteSpace(kv.Key) ? "SECTION" : kv.Key;
+                    var dt = kv.Value ?? new DataTable();
+                    var headers = headersBySection != null && headersBySection.ContainsKey(sectionName) ? headersBySection[sectionName] : null;
+                    var title = titlesBySection != null && titlesBySection.ContainsKey(sectionName) ? titlesBySection[sectionName] : sectionName.ToUpper();
+                    var charts = chartsBySection != null && chartsBySection.ContainsKey(sectionName) ? chartsBySection[sectionName] : null;
+
+                    int totalRecords = dt.Rows.Count;
+                    int totalPages = Math.Max(1, (int)Math.Ceiling((double)totalRecords / ItemsPerPage));
+                    int rowIndex = 0;
+
+                    for (int pageNum = 1; pageNum <= totalPages; pageNum++)
+                    {
+                        var page = document.AddPage();
+                        page.Size = PdfSharp.PageSize.A4;
+
+                        using (var gfx = XGraphics.FromPdfPage(page))
+                        {
+                            var fonts = CreateFonts();
+                            double totalWidth = page.Width - LeftMargin - RightMargin;
+                            int colCount = Math.Max(1, dt.Columns.Count);
+                            double[] colWidths = CalculateColumnWidths(colCount, totalWidth);
+
+                            double yPos = 40;
+
+                            if (pageNum == 1)
+                            {
+                                DrawTitle(gfx, page, title, fonts.Title, ref yPos);
+                                DrawExportInfo(gfx, totalRecords, fonts.Normal, ref yPos);
+                                if (charts != null)
+                                {
+                                    foreach (var bytes in charts)
+                                    {
+                                        if (bytes == null || bytes.Length == 0) continue;
+                                        using (var ms = new MemoryStream(bytes))
+                                        {
+                                            var img = XImage.FromStream(ms);
+                                            double maxWidth = totalWidth;
+                                            double scale = img.PixelWidth > 0 ? Math.Min(maxWidth / img.PixelWidth, 1.0) : 1.0;
+                                            double imgWidth = img.PixelWidth * scale;
+                                            double imgHeight = img.PixelHeight * scale;
+                                            gfx.DrawImage(img, LeftMargin, yPos + 10, imgWidth, imgHeight);
+                                            yPos += imgHeight + 20;
+                                        }
+                                    }
+                                }
+                            }
+
+                            yPos = pageNum == 1 ? Math.Max(yPos, TableTopMargin) : 40;
+
+                            if (dt.Columns.Count > 0)
+                            {
+                                DrawDataTableHeader(gfx, dt, headers, colWidths, yPos, totalWidth, fonts.Header);
+                                yPos += HeaderHeight;
+
+                                int itemsOnThisPage = 0;
+                                while (rowIndex < dt.Rows.Count && itemsOnThisPage < ItemsPerPage)
+                                {
+                                    var row = dt.Rows[rowIndex];
+                                    DrawDataTableRow(gfx, row, dt, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page);
+                                    yPos += LineHeight;
+                                    rowIndex++;
+                                    itemsOnThisPage++;
+                                }
+                            }
+
+                            DrawFooter(gfx, page, pageNum, totalPages, fonts.Small);
+                        }
+                    }
+                }
+
+                EnsureDirectoryExists(filePath);
+                document.Save(filePath);
+            }
+        }
+
         #region Drawing Methods
 
         private void DrawTitle(XGraphics gfx, PdfPage page, string title, XFont font, ref double yPos)
         {
-            gfx.DrawString(title.ToUpper(), font, XBrushes.Black,
-                new XRect(LeftMargin, yPos, page.Width - LeftMargin - RightMargin, 30),
-                XStringFormats.TopCenter);
-            yPos += 35;
+            var lines = (title ?? string.Empty).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            if (lines.Length == 0) lines = new[] { string.Empty };
+            foreach (var line in lines)
+            {
+                var text = (line ?? string.Empty).ToUpper();
+                gfx.DrawString(text, font, XBrushes.Black,
+                    new XRect(LeftMargin, yPos, page.Width - LeftMargin - RightMargin, 30),
+                    XStringFormats.TopCenter);
+                yPos += 24;
+            }
         }
 
         private void DrawExportInfo(XGraphics gfx, int recordCount, XFont font, ref double yPos)

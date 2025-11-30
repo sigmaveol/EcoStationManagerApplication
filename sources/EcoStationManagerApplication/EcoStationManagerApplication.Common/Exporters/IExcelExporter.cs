@@ -26,6 +26,12 @@ namespace EcoStationManagerApplication.Common.Exporters
         /// <param name="worksheetName">Tên worksheet</param>
         /// <param name="headers">Tiêu đề các cột (tùy chọn)</param>
         void ExportToExcel(DataTable dataTable, string filePath, string worksheetName = "Sheet1", Dictionary<string, string> headers = null, string title = null);
+
+        void ExportToExcel(DataTable dataTable, string filePath, string worksheetName, Dictionary<string, string> headers, string title, byte[] chartImageBytes);
+
+        void ExportToExcel(DataTable dataTable, string filePath, string worksheetName, Dictionary<string, string> headers, string title, IList<byte[]> chartImages);
+
+        void ExportMultipleSheets(Dictionary<string, DataTable> sheets, string filePath, Dictionary<string, Dictionary<string, string>> headersBySheet = null, Dictionary<string, string> titlesBySheet = null, Dictionary<string, IList<byte[]>> chartsBySheet = null);
     }
 }
 

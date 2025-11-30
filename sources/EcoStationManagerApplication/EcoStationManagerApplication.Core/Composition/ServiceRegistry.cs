@@ -1,5 +1,6 @@
 using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.Core.Services;
+using EcoStationManagerApplication.DAL.Database;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.DAL.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,7 @@ namespace EcoStationManagerApplication.Core.Composition
         private static IImportService _importService;
         private static ICleaningScheduleService _cleaningScheduleService;
         private static INotificationService _notificationService;
+        private static IDatabaseBackupService _databaseBackupService;
 
         private static IUnitOfWork GetUnitOfWork()
         {
@@ -107,5 +109,7 @@ namespace EcoStationManagerApplication.Core.Composition
         public static ICleaningScheduleService CleaningScheduleService => _cleaningScheduleService ?? (_cleaningScheduleService = new CleaningScheduleService(GetUnitOfWork()));
 
         public static INotificationService NotificationService => _notificationService ?? (_notificationService = new NotificationService(GetUnitOfWork()));
+
+        public static IDatabaseBackupService DatabaseBackupService => _databaseBackupService ?? (_databaseBackupService = new DatabaseBackupService(new DatabaseHelper()));
     }
 }

@@ -33,6 +33,7 @@ namespace EcoStationManagerApplication.UI.Common
         public static IImportService ImportService => ServiceRegistry.ImportService;
         public static ICleaningScheduleService CleaningScheduleService => ServiceRegistry.CleaningScheduleService;
         public static INotificationService NotificationService => ServiceRegistry.NotificationService;
+        public static IDatabaseBackupService DatabaseBackupService => ServiceRegistry.DatabaseBackupService;
 
         // UI Services
         public static NavigationService Navigation => NavigationService.Instance;

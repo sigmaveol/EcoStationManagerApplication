@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
@@ -14,6 +14,11 @@ namespace EcoStationManagerApplication.UI.Controls
         private Button btnRestore;
         private TextBox txtRestoreFile;
         private Button browseButton;
+        private Panel sqlCard;
+        private Label sqlIconLabel;
+        private Label sqlTitleLabel;
+        private Label sqlDescLabel;
+        private Button btnBackupSQL;
 
         protected override void Dispose(bool disposing)
         {
@@ -41,6 +46,11 @@ namespace EcoStationManagerApplication.UI.Controls
             this.pdfTitleLabel = new System.Windows.Forms.Label();
             this.pdfDescLabel = new System.Windows.Forms.Label();
             this.btnBackupPDF = new System.Windows.Forms.Button();
+            this.sqlCard = new System.Windows.Forms.Panel();
+            this.sqlIconLabel = new System.Windows.Forms.Label();
+            this.sqlTitleLabel = new System.Windows.Forms.Label();
+            this.sqlDescLabel = new System.Windows.Forms.Label();
+            this.btnBackupSQL = new System.Windows.Forms.Button();
             this.restoreCard = new System.Windows.Forms.Panel();
             this.restoreIconLabel = new System.Windows.Forms.Label();
             this.restoreTitleLabel = new System.Windows.Forms.Label();
@@ -54,6 +64,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.backupSection.SuspendLayout();
             this.excelCard.SuspendLayout();
             this.pdfCard.SuspendLayout();
+            this.sqlCard.SuspendLayout();
             this.restoreCard.SuspendLayout();
             this.filePanel.SuspendLayout();
             this.SuspendLayout();
@@ -101,7 +112,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.alertLabel.Size = new System.Drawing.Size(888, 23);
             this.alertLabel.TabIndex = 0;
             this.alertLabel.Text = "Lưu ý: Thực hiện sao lưu định kỳ để tránh mất mát dữ liệu. Dữ liệu sẽ được xuất r" +
-    "a file Excel hoặc PDF.";
+    "a file Excel, PDF hoặc SQL.";
             this.alertLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // backupSection
@@ -109,12 +120,13 @@ namespace EcoStationManagerApplication.UI.Controls
             this.backupSection.AutoSize = true;
             this.backupSection.Controls.Add(this.excelCard);
             this.backupSection.Controls.Add(this.pdfCard);
+            this.backupSection.Controls.Add(this.sqlCard);
             this.backupSection.Controls.Add(this.restoreCard);
             this.backupSection.Dock = System.Windows.Forms.DockStyle.Top;
             this.backupSection.Location = new System.Drawing.Point(10, 130);
             this.backupSection.Name = "backupSection";
             this.backupSection.Padding = new System.Windows.Forms.Padding(0, 0, 0, 20);
-            this.backupSection.Size = new System.Drawing.Size(920, 260);
+            this.backupSection.Size = new System.Drawing.Size(920, 500);
             this.backupSection.TabIndex = 2;
             // 
             // excelCard
@@ -160,7 +172,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.excelDescLabel.Name = "excelDescLabel";
             this.excelDescLabel.Size = new System.Drawing.Size(240, 30);
             this.excelDescLabel.TabIndex = 2;
-            this.excelDescLabel.Text = "Xuất toàn bộ dữ liệu ra file Excel";
+            this.excelDescLabel.Text = "Xuất dữ liệu quan trọng ra file Excel";
             this.excelDescLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnBackupExcel
@@ -175,6 +187,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnBackupExcel.TabIndex = 3;
             this.btnBackupExcel.Text = "Sao lưu ngay";
             this.btnBackupExcel.UseVisualStyleBackColor = false;
+            this.btnBackupExcel.Click += new System.EventHandler(this.btnBackupExcel_Click);
             // 
             // pdfCard
             // 
@@ -219,7 +232,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.pdfDescLabel.Name = "pdfDescLabel";
             this.pdfDescLabel.Size = new System.Drawing.Size(240, 30);
             this.pdfDescLabel.TabIndex = 2;
-            this.pdfDescLabel.Text = "Xuất báo cáo tổng quan ra file PDF";
+            this.pdfDescLabel.Text = "Xuất dữ liệu quan trọng ra file PDF";
             this.pdfDescLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnBackupPDF
@@ -234,6 +247,67 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnBackupPDF.TabIndex = 3;
             this.btnBackupPDF.Text = "Sao lưu ngay";
             this.btnBackupPDF.UseVisualStyleBackColor = false;
+            this.btnBackupPDF.Click += new System.EventHandler(this.btnBackupPDF_Click);
+            // 
+            // sqlCard
+            // 
+            this.sqlCard.BackColor = System.Drawing.Color.White;
+            this.sqlCard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sqlCard.Controls.Add(this.sqlIconLabel);
+            this.sqlCard.Controls.Add(this.sqlTitleLabel);
+            this.sqlCard.Controls.Add(this.sqlDescLabel);
+            this.sqlCard.Controls.Add(this.btnBackupSQL);
+            this.sqlCard.Location = new System.Drawing.Point(610, 10);
+            this.sqlCard.Margin = new System.Windows.Forms.Padding(10);
+            this.sqlCard.Name = "sqlCard";
+            this.sqlCard.Padding = new System.Windows.Forms.Padding(20);
+            this.sqlCard.Size = new System.Drawing.Size(280, 220);
+            this.sqlCard.TabIndex = 2;
+            // 
+            // sqlIconLabel
+            // 
+            this.sqlIconLabel.Font = new System.Drawing.Font("Segoe UI Emoji", 36F);
+            this.sqlIconLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(66)))), ((int)(((byte)(66)))));
+            this.sqlIconLabel.Location = new System.Drawing.Point(20, 20);
+            this.sqlIconLabel.Name = "sqlIconLabel";
+            this.sqlIconLabel.Size = new System.Drawing.Size(240, 60);
+            this.sqlIconLabel.TabIndex = 0;
+            this.sqlIconLabel.Text = "🧾";
+            this.sqlIconLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // sqlTitleLabel
+            // 
+            this.sqlTitleLabel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.sqlTitleLabel.Location = new System.Drawing.Point(20, 90);
+            this.sqlTitleLabel.Name = "sqlTitleLabel";
+            this.sqlTitleLabel.Size = new System.Drawing.Size(240, 30);
+            this.sqlTitleLabel.TabIndex = 1;
+            this.sqlTitleLabel.Text = "Sao lưu SQL";
+            this.sqlTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // sqlDescLabel
+            // 
+            this.sqlDescLabel.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.sqlDescLabel.Location = new System.Drawing.Point(20, 125);
+            this.sqlDescLabel.Name = "sqlDescLabel";
+            this.sqlDescLabel.Size = new System.Drawing.Size(240, 30);
+            this.sqlDescLabel.TabIndex = 2;
+            this.sqlDescLabel.Text = "Xuất toàn bộ dữ liệu ra file .sql";
+            this.sqlDescLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnBackupSQL
+            // 
+            this.btnBackupSQL.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(66)))), ((int)(((byte)(66)))));
+            this.btnBackupSQL.FlatAppearance.BorderSize = 0;
+            this.btnBackupSQL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBackupSQL.ForeColor = System.Drawing.Color.White;
+            this.btnBackupSQL.Location = new System.Drawing.Point(80, 165);
+            this.btnBackupSQL.Name = "btnBackupSQL";
+            this.btnBackupSQL.Size = new System.Drawing.Size(120, 35);
+            this.btnBackupSQL.TabIndex = 3;
+            this.btnBackupSQL.Text = "Sao lưu ngay";
+            this.btnBackupSQL.UseVisualStyleBackColor = false;
+            this.btnBackupSQL.Click += new System.EventHandler(this.btnBackupSQL_Click);
             // 
             // restoreCard
             // 
@@ -244,7 +318,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.restoreCard.Controls.Add(this.restoreDescLabel);
             this.restoreCard.Controls.Add(this.filePanel);
             this.restoreCard.Controls.Add(this.btnRestore);
-            this.restoreCard.Location = new System.Drawing.Point(610, 10);
+            this.restoreCard.Location = new System.Drawing.Point(10, 250);
             this.restoreCard.Margin = new System.Windows.Forms.Padding(10);
             this.restoreCard.Name = "restoreCard";
             this.restoreCard.Padding = new System.Windows.Forms.Padding(20);
@@ -310,6 +384,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.browseButton.TabIndex = 1;
             this.browseButton.Text = "...";
             this.browseButton.UseVisualStyleBackColor = false;
+            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
             // 
             // btnRestore
             // 
@@ -323,6 +398,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnRestore.TabIndex = 4;
             this.btnRestore.Text = "Phục hồi";
             this.btnRestore.UseVisualStyleBackColor = false;
+            this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
             // 
             // BackupControl
             // 
@@ -341,6 +417,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.backupSection.ResumeLayout(false);
             this.excelCard.ResumeLayout(false);
             this.pdfCard.ResumeLayout(false);
+            this.sqlCard.ResumeLayout(false);
             this.restoreCard.ResumeLayout(false);
             this.filePanel.ResumeLayout(false);
             this.filePanel.PerformLayout();

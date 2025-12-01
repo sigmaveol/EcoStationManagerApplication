@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36408.4 d17.14
+VisualStudioVersion = 17.14.36408.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoStationManagerApplication.Common", "EcoStationManagerApplication.Common\EcoStationManagerApplication.Common.csproj", "{803A5A84-5DE1-4538-BC74-0C91233F8C34}"
 EndProject
@@ -17,7 +17,38 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoStationManagerApplicatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EcoStationManagerApplication.DbScripts", "EcoStationManagerApplication.DbScripts", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
-		init_data.sql = init_data.sql
+		EcoStationManager_V0.sql = EcoStationManager_V0.sql
+		EcoStationManager_V1.sql = EcoStationManager_V1.sql
+		migration_00.sql = migration_00.sql
+		migration_01.sql = migration_01.sql
+		migration_02.sql = migration_02.sql
+		migration_03.sql = migration_03.sql
+		MIGRATION_PLAN.md = MIGRATION_PLAN.md
+		PACKAGING_RETURN_POINTS.md = PACKAGING_RETURN_POINTS.md
+		PROCEDURES_TRIGGERS_REVIEW.md = PROCEDURES_TRIGGERS_REVIEW.md
+		seed.sql = seed.sql
+		temp.sql = temp.sql
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj", "{F4FA8454-1D23-413E-87EB-34052F89AB75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "views", "views", "{79D00C55-5140-4600-B238-95191B0859BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "triggers", "triggers", "{2A82D183-FA91-43B1-BA14-36CB4FD8988E}"
+	ProjectSection(SolutionItems) = preProject
+		triggers.txt = triggers.txt
+		triggers_FIXED.txt = triggers_FIXED.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{3A08E790-FFBD-4F21-9363-233D152196F7}"
+	ProjectSection(SolutionItems) = preProject
+		functions.txt = functions.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "procedures", "procedures", "{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB}"
+	ProjectSection(SolutionItems) = preProject
+		procedures.txt = procedures.txt
+		procedures_FIXED.txt = procedures_FIXED.txt
 	EndProjectSection
 EndProject
 Global
@@ -50,9 +81,19 @@ Global
 		{27EC1057-9F7C-4EC5-ADBE-AD88EBD5152D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27EC1057-9F7C-4EC5-ADBE-AD88EBD5152D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27EC1057-9F7C-4EC5-ADBE-AD88EBD5152D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4FA8454-1D23-413E-87EB-34052F89AB75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4FA8454-1D23-413E-87EB-34052F89AB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4FA8454-1D23-413E-87EB-34052F89AB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4FA8454-1D23-413E-87EB-34052F89AB75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{79D00C55-5140-4600-B238-95191B0859BC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2A82D183-FA91-43B1-BA14-36CB4FD8988E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{3A08E790-FFBD-4F21-9363-233D152196F7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{A15FA086-8D2E-46E7-B0D1-29B0CD2602FB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C655748E-9EF5-4543-BCC0-FA5A023853F4}

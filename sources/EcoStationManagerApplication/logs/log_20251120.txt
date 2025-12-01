@@ -1,0 +1,23 @@
+[ERROR] [DatabaseHelper] 2025-11-20 16:55:25: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 16:55:25: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Service:CleaningScheduleService] 2025-11-20 16:55:25: lấy lịch vệ sinh sắp đến hạn error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:CleaningScheduleService] 2025-11-20 16:55:25: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 16:55:46: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 16:55:46: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Service:CleaningScheduleService] 2025-11-20 16:55:46: lấy lịch vệ sinh sắp đến hạn error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:CleaningScheduleService] 2025-11-20 16:55:46: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 16:56:09: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 16:56:09: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Service:CleaningScheduleService] 2025-11-20 16:56:09: lấy lịch vệ sinh sắp đến hạn error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:CleaningScheduleService] 2025-11-20 16:56:09: Inner exception: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 16:57:19: Không thể kết nối đến database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [DatabaseHelper] 2025-11-20 16:57:19: Connection string: server=localhost;database=EcoStationManager;user id=root;port=3306;connectiontimeout=30;allowzerodatetime=False;convertzerodatetime=True;maxpoolsize=100;minpoolsize=1;characterset=utf8mb4
+[ERROR] [Service:CleaningScheduleService] 2025-11-20 16:57:19: lấy lịch vệ sinh sắp đến hạn error: Lỗi kết nối database: Unable to connect to any of the specified MySQL hosts
+[ERROR] [Service:CleaningScheduleService] 2025-11-20 16:57:19: Inner exception: Unable to connect to any of the specified MySQL hosts
+[INFO] [DatabaseHelper] 2025-11-20 16:58:21: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-20 16:58:21: QueryAsync DataException: 
+            SELECT * FROM CleaningSchedules 
+            WHERE cleaning_date BETWEEN @FromDate AND @ToDate
+            ORDER BY cleaning_date ASC - Error parsing column 1 (cleaning_type= - String)
+[ERROR] [DatabaseHelper] 2025-11-20 16:58:21: Inner exception: Must specify valid information for parsing in the string.
+[WARN] [DatabaseHelper] 2025-11-20 16:58:21: Returning empty list due to parse error. Please check database data integrity.

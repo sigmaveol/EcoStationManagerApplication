@@ -1,0 +1,7 @@
+[INFO] [DatabaseHelper] 2025-11-19 15:02:45: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-19 15:21:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-19 15:21:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-19 15:22:32: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-19 15:22:38: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-19 15:30:54: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-19 15:33:47: Connection opened - State: Open

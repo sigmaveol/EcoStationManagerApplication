@@ -8,22 +8,486 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EcoStationManagerApplication.UI.Properties
-{
-
-
+namespace EcoStationManagerApplication.UI.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Công ty TNHH EcoStation\r\n")]
+        public string CompanyName {
+            get {
+                return ((string)(this["CompanyName"]));
+            }
+            set {
+                this["CompanyName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("123 Đường ABC, Quận 1, TP.HCM\r\n")]
+        public string CompanyAddress {
+            get {
+                return ((string)(this["CompanyAddress"]));
+            }
+            set {
+                this["CompanyAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("(+84) 28 1234 5678")]
+        public string CompanyPhone {
+            get {
+                return ((string)(this["CompanyPhone"]));
+            }
+            set {
+                this["CompanyPhone"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("contact@ecostation.com\r\n")]
+        public string CompanyEmail {
+            get {
+                return ((string)(this["CompanyEmail"]));
+            }
+            set {
+                this["CompanyEmail"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0123456789")]
+        public string TaxCode {
+            get {
+                return ((string)(this["TaxCode"]));
+            }
+            set {
+                this["TaxCode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("07:00")]
+        public string BusinessStartTime {
+            get {
+                return ((string)(this["BusinessStartTime"]));
+            }
+            set {
+                this["BusinessStartTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("17:00")]
+        public string BusinessEndTime {
+            get {
+                return ((string)(this["BusinessEndTime"]));
+            }
+            set {
+                this["BusinessEndTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("VND")]
+        public string Currency {
+            get {
+                return ((string)(this["Currency"]));
+            }
+            set {
+                this["Currency"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoBackupEnabled {
+            get {
+                return ((bool)(this["AutoBackupEnabled"]));
+            }
+            set {
+                this["AutoBackupEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public int BackupIntervalDays {
+            get {
+                return ((int)(this["BackupIntervalDays"]));
+            }
+            set {
+                this["BackupIntervalDays"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int MinStockLevel {
+            get {
+                return ((int)(this["MinStockLevel"]));
+            }
+            set {
+                this["MinStockLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MaxStockLevel {
+            get {
+                return ((int)(this["MaxStockLevel"]));
+            }
+            set {
+                this["MaxStockLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int ReorderPoint {
+            get {
+                return ((int)(this["ReorderPoint"]));
+            }
+            set {
+                this["ReorderPoint"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int SafetyStock {
+            get {
+                return ((int)(this["SafetyStock"]));
+            }
+            set {
+                this["SafetyStock"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Weekly")]
+        public string CleaningFrequency {
+            get {
+                return ((string)(this["CleaningFrequency"]));
+            }
+            set {
+                this["CleaningFrequency"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public int CleaningIntervalDays {
+            get {
+                return ((int)(this["CleaningIntervalDays"]));
+            }
+            set {
+                this["CleaningIntervalDays"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("90")]
+        public int PackageLifespanDays {
+            get {
+                return ((int)(this["PackageLifespanDays"]));
+            }
+            set {
+                this["PackageLifespanDays"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoReorderEnabled {
+            get {
+                return ((bool)(this["AutoReorderEnabled"]));
+            }
+            set {
+                this["AutoReorderEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int DefaultStationId {
+            get {
+                return ((int)(this["DefaultStationId"]));
+            }
+            set {
+                this["DefaultStationId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int StationCapacity {
+            get {
+                return ((int)(this["StationCapacity"]));
+            }
+            set {
+                this["StationCapacity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Light")]
+        public string Theme {
+            get {
+                return ((string)(this["Theme"]));
+            }
+            set {
+                this["Theme"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("vi-VN")]
+        public string Language {
+            get {
+                return ((string)(this["Language"]));
+            }
+            set {
+                this["Language"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dd/MM/yyyy")]
+        public string DateFormat {
+            get {
+                return ((string)(this["DateFormat"]));
+            }
+            set {
+                this["DateFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LowStockAlert {
+            get {
+                return ((bool)(this["LowStockAlert"]));
+            }
+            set {
+                this["LowStockAlert"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CleaningReminder {
+            get {
+                return ((bool)(this["CleaningReminder"]));
+            }
+            set {
+                this["CleaningReminder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BackupNotification {
+            get {
+                return ((bool)(this["BackupNotification"]));
+            }
+            set {
+                this["BackupNotification"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=localhost;Database=EcoStationDB;Integrated Security=true;")]
+        public string DatabaseConnectionString {
+            get {
+                return ((string)(this["DatabaseConnectionString"]));
+            }
+            set {
+                this["DatabaseConnectionString"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\EcoStation\\Backups")]
+        public string BackupPath {
+            get {
+                return ((string)(this["BackupPath"]));
+            }
+            set {
+                this["BackupPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LogLevel")]
+        public string LogLevel {
+            get {
+                return ((string)(this["LogLevel"]));
+            }
+            set {
+                this["LogLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SavedUsername {
+            get {
+                return ((string)(this["SavedUsername"]));
+            }
+            set {
+                this["SavedUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SavedPassword {
+            get {
+                return ((string)(this["SavedPassword"]));
+            }
+            set {
+                this["SavedPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RememberMe {
+            get {
+                return ((bool)(this["RememberMe"]));
+            }
+            set {
+                this["RememberMe"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5231")]
+        public string PinCode {
+            get {
+                return ((string)(this["PinCode"]));
+            }
+            set {
+                this["PinCode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("hungminhtobe@gmail.com")]
+        public string AdminEmail {
+            get {
+                return ((string)(this["AdminEmail"]));
+            }
+            set {
+                this["AdminEmail"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SmtpHost {
+            get {
+                return ((string)(this["SmtpHost"]));
+            }
+            set {
+                this["SmtpHost"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("587")]
+        public int SmtpPort {
+            get {
+                return ((int)(this["SmtpPort"]));
+            }
+            set {
+                this["SmtpPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SmtpUsername {
+            get {
+                return ((string)(this["SmtpUsername"]));
+            }
+            set {
+                this["SmtpUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SmtpPassword {
+            get {
+                return ((string)(this["SmtpPassword"]));
+            }
+            set {
+                this["SmtpPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SmtpEnableSsl {
+            get {
+                return ((bool)(this["SmtpEnableSsl"]));
+            }
+            set {
+                this["SmtpEnableSsl"] = value;
             }
         }
     }

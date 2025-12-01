@@ -1,0 +1,3 @@
+USE EcoStationManager;
+
+AlTER TABLE Notifications MODIFY COLUMN type TINYINT NOT NULL DEFAULT 0;

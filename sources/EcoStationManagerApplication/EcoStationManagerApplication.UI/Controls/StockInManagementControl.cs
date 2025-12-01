@@ -1,0 +1,874 @@
+using EcoStationManagerApplication.Common.Exporters;
+using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
+using EcoStationManagerApplication.UI.Common;
+using EcoStationManagerApplication.UI.Forms;
+using Guna.UI2.WinForms;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.IO;
+using static EcoStationManagerApplication.UI.Common.AppColors;
+using static EcoStationManagerApplication.UI.Common.AppFonts;
+
+namespace EcoStationManagerApplication.UI.Controls
+{
+    public partial class StockInManagementControl : UserControl, IRefreshableControl
+    {
+        private List<StockInDetail> _stockInList = new List<StockInDetail>();
+        private bool _isLoading = false;
+
+        // Filter variables
+        private string _searchTerm = "";
+        private string _selectedSource = "Tất cả";
+        private DateTime? _fromDate = null;
+        private DateTime? _toDate = null;
+
+        public StockInManagementControl()
+        {
+            InitializeComponent();
+        }
+
+        public void RefreshData()
+        {
+            _ = LoadDataAsync();
+        }
+
+        private void StockInManagementControl_Load(object sender, EventArgs e)
+        {
+            InitializeControls();
+            _ = LoadDataAsync();
+        }
+
+        private void InitializeControls()
+        {
+            InitializeDataGridView();
+            InitializeStatsCards();
+            InitializeFilters();
+        }
+
+        private void InitializeDataGridView()
+        {
+            dgvStockIn.Columns.Clear();
+            dgvStockIn.AutoGenerateColumns = false;
+            dgvStockIn.AllowUserToAddRows = false;
+            dgvStockIn.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvStockIn.MultiSelect = false;
+
+            // Thêm các cột
+            dgvStockIn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "StockInId",
+                HeaderText = "ID",
+                DataPropertyName = "StockInId",
+                Visible = false
+            });
+
+            dgvStockIn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "ReferenceNumber",
+                HeaderText = "Mã phiếu",
+                Width = 120,
+                ReadOnly = true
+            });
+
+            dgvStockIn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "ProductName",
+                HeaderText = "Sản phẩm",
+                Width = 200,
+                ReadOnly = true,
+                DataPropertyName = "ProductName"
+            });
+
+            dgvStockIn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "BatchNo",
+                HeaderText = "Lô hàng",
+                Width = 120,
+                ReadOnly = true,
+                DataPropertyName = "BatchNo"
+            });
+
+            dgvStockIn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "SupplierName",
+                HeaderText = "Nhà cung cấp",
+                Width = 150,
+                ReadOnly = true,
+                DataPropertyName = "SupplierName"
+            });
+
+            dgvStockIn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Quantity",
+                HeaderText = "Số lượng",
+                Width = 100,
+                ReadOnly = true,
+                DataPropertyName = "Quantity",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
+            });
+
+            dgvStockIn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "UnitPrice",
+                HeaderText = "Đơn giá",
+                Width = 120,
+                ReadOnly = true,
+                DataPropertyName = "UnitPrice",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight }
+            });
+
+            dgvStockIn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "TotalValue",
+                HeaderText = "Tổng tiền",
+                Width = 130,
+                ReadOnly = true,
+                DataPropertyName = "TotalValue",
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight }
+            });
+
+            dgvStockIn.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "CreatedDate",
+                HeaderText = "Ngày nhập",
+                Width = 130,
+                ReadOnly = true,
+                DataPropertyName = "CreatedDate"
+            });
+
+            // Cột thao tác
+            var actionColumn = new DataGridViewButtonColumn
+            {
+                Name = "Action",
+                HeaderText = "Thao tác",
+                Text = "Xem chi tiết",
+                UseColumnTextForButtonValue = true,
+                Width = 120
+            };
+            dgvStockIn.Columns.Add(actionColumn);
+        }
+
+        private void InitializeStatsCards()
+        {
+            // Cards đã được tạo trong Designer
+            UpdateStatCard("TotalStockIns", "0", "Tổng phiếu nhập");
+            UpdateStatCard("TotalQuantity", "0", "Tổng số lượng");
+            UpdateStatCard("TotalValue", "0", "Tổng giá trị");
+            UpdateStatCard("PendingCheck", "0", "Chờ kiểm tra");
+        }
+
+        private void UpdateStatCard(string tag, string value, string description)
+        {
+            CardControl statCard = null;
+
+            switch (tag)
+            {
+                case "TotalStockIns":
+                    statCard = cardTotalStockIns;
+                    break;
+                case "TotalQuantity":
+                    statCard = cardTotalQuantity;
+                    break;
+                case "TotalValue":
+                    statCard = cardTotalValue;
+                    break;
+                case "PendingCheck":
+                    statCard = cardQualityPass; // Reuse cardQualityPass for pending check
+                    break;
+            }
+
+            if (statCard != null)
+            {
+                if (statCard.InvokeRequired)
+                {
+                    statCard.Invoke(new Action(() =>
+                    {
+                        statCard.Value = value;
+                        statCard.SubInfo = description;
+                    }));
+                }
+                else
+                {
+                    statCard.Value = value;
+                    statCard.SubInfo = description;
+                }
+            }
+        }
+
+        private void InitializeFilters()
+        {
+            // Nguồn nhập
+            cmbSourceFilter.Items.Clear();
+            cmbSourceFilter.Items.Add("Tất cả");
+            cmbSourceFilter.Items.Add("Nhà cung cấp");
+            cmbSourceFilter.Items.Add("Chuyển kho");
+            cmbSourceFilter.Items.Add("Trả hàng");
+            cmbSourceFilter.SelectedIndex = 0;
+
+            // Thời gian - mặc định là tháng hiện tại
+            dtpFromDate.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            dtpToDate.Value = DateTime.Now;
+            _fromDate = dtpFromDate.Value.Date;
+            _toDate = dtpToDate.Value.Date.AddDays(1).AddSeconds(-1); // End of day
+        }
+
+        private async Task LoadDataAsync()
+        {
+            if (_isLoading) return;
+
+            try
+            {
+                _isLoading = true;
+                SetControlsEnabled(false);
+
+                // Lấy phiếu nhập kho theo khoảng thời gian đã chọn (sử dụng query có JOIN)
+                DateTime startDate = _fromDate ?? DateTime.Now.AddMonths(-1);
+                DateTime endDate = _toDate ?? DateTime.Now;
+                
+                var result = await AppServices.StockInService.GetStockInDetailsByDateRangeAsync(
+                    startDate, endDate);
+
+                if (result.Success && result.Data != null)
+                {
+                    // Dữ liệu đã được JOIN từ database, không cần map thủ công
+                    _stockInList = result.Data.ToList();
+
+                    UIHelper.SafeInvoke(this, () =>
+                    {
+                        RefreshDataGridView();
+                        UpdateStatsCards();
+                    });
+                }
+                else
+                {
+                    _stockInList = new List<StockInDetail>();
+                    UIHelper.SafeInvoke(this, () =>
+                    {
+                        RefreshDataGridView();
+                        UpdateStatsCards();
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "tải dữ liệu nhập kho");
+                _stockInList = new List<StockInDetail>();
+            }
+            finally
+            {
+                _isLoading = false;
+                SetControlsEnabled(true);
+            }
+        }
+
+        private void RefreshDataGridView()
+        {
+            dgvStockIn.Rows.Clear();
+
+            if (_stockInList == null || !_stockInList.Any())
+            {
+                return;
+            }
+
+            // Áp dụng filter
+            var filteredList = _stockInList.Where(item =>
+            {
+                // Filter by search term - tìm theo batch_no, product name, supplier
+                if (!string.IsNullOrWhiteSpace(_searchTerm))
+                {
+                    var searchLower = _searchTerm.ToLower();
+                    if (!item.BatchNo?.ToLower().Contains(searchLower) == true &&
+                        !item.ProductName?.ToLower().Contains(searchLower) == true &&
+                        !item.PackagingName?.ToLower().Contains(searchLower) == true &&
+                        !item.SupplierName?.ToLower().Contains(searchLower) == true)
+                        return false;
+                }
+
+                // Filter by source (based on supplier)
+                if (_selectedSource != "Tất cả")
+                {
+                    if (_selectedSource == "Nhà cung cấp" && string.IsNullOrWhiteSpace(item.SupplierName))
+                        return false;
+                    if (_selectedSource != "Nhà cung cấp" && !string.IsNullOrWhiteSpace(item.SupplierName))
+                        return false;
+                }
+
+                // Filter by date range
+                if (_fromDate.HasValue && item.CreatedDate < _fromDate.Value)
+                    return false;
+                if (_toDate.HasValue && item.CreatedDate > _toDate.Value)
+                    return false;
+
+                return true;
+            }).ToList();
+
+            // Group theo BatchNo - mỗi hàng là một lô hàng (bao gồm cả lô null/trống)
+            var batchGroups = filteredList
+                .GroupBy(item => item.BatchNo ?? "") // Group cả null/trống
+                .Select(group => new
+                {
+                    BatchNo = group.Key, // Có thể là "" nếu null
+                    Items = group.ToList(),
+                    FirstItem = group.First(),
+                    TotalQuantity = group.Sum(x => x.Quantity),
+                    TotalValue = group.Sum(x => x.TotalValue),
+                    ProductCount = group.Count(),
+                    CreatedDate = group.Max(x => x.CreatedDate),
+                    SupplierName = group.First().SupplierName
+                })
+                .OrderByDescending(x => x.CreatedDate)
+                .ToList();
+
+            foreach (var batchGroup in batchGroups)
+            {
+                var batchNo = string.IsNullOrWhiteSpace(batchGroup.BatchNo) ? "(Không có lô)" : batchGroup.BatchNo;
+                var supplierName = batchGroup.SupplierName ?? "-";
+                var totalQuantity = batchGroup.TotalQuantity.ToString("N2");
+                var totalValue = batchGroup.TotalValue.ToString("N0");
+                var createdDate = batchGroup.CreatedDate.ToString("dd/MM/yyyy HH:mm");
+                var productCount = batchGroup.ProductCount;
+                
+                // Đếm số sản phẩm và bao bì
+                var productCountInBatch = batchGroup.Items.Count(x => !string.IsNullOrWhiteSpace(x.ProductName));
+                var packagingCountInBatch = batchGroup.Items.Count(x => !string.IsNullOrWhiteSpace(x.PackagingName));
+                var itemTypeText = "";
+                if (productCountInBatch > 0 && packagingCountInBatch > 0)
+                    itemTypeText = $"{productCountInBatch} SP, {packagingCountInBatch} BB";
+                else if (productCountInBatch > 0)
+                    itemTypeText = $"{productCountInBatch} sản phẩm";
+                else if (packagingCountInBatch > 0)
+                    itemTypeText = $"{packagingCountInBatch} bao bì";
+                else
+                    itemTypeText = $"{productCount} mục";
+                
+                var referenceNumber = string.IsNullOrWhiteSpace(batchGroup.BatchNo) 
+                    ? $"Đơn nhập ({productCount} mục)" 
+                    : $"Lô: {batchGroup.BatchNo} ({productCount} mục)";
+
+                var rowIndex = dgvStockIn.Rows.Add(
+                    batchGroup.BatchNo ?? "", // Store batchNo (có thể là "") trong StockInId column
+                    referenceNumber,
+                    itemTypeText, // Hiển thị số sản phẩm và bao bì
+                    batchNo,
+                    supplierName,
+                    totalQuantity,
+                    "-", // UnitPrice - không hiển thị cho lô
+                    totalValue,
+                    createdDate
+                );
+
+                // Store batchNo (có thể là "" cho null) trong row tag
+                dgvStockIn.Rows[rowIndex].Tag = batchGroup.BatchNo ?? "";
+            }
+        }
+
+        private void UpdateStatsCards()
+        {
+            if (_stockInList == null || !_stockInList.Any())
+            {
+                UpdateStatCard("TotalStockIns", "0", "Tổng phiếu nhập");
+                UpdateStatCard("TotalQuantity", "0", "Tổng số lượng");
+                UpdateStatCard("TotalValue", "0", "Tổng giá trị");
+                UpdateStatCard("PendingCheck", "0", "Phiếu mới (7 ngày)");
+                return;
+            }
+
+            // Tổng phiếu nhập
+            int totalStockIns = _stockInList.Count;
+            UpdateStatCard("TotalStockIns", totalStockIns.ToString("N0"), "Tổng phiếu nhập");
+
+            // Tổng số lượng
+            decimal totalQuantity = _stockInList.Sum(x => x.Quantity);
+            UpdateStatCard("TotalQuantity", totalQuantity.ToString("N2"), "Tổng số lượng");
+
+            // Tổng giá trị
+            decimal totalValue = _stockInList.Sum(x => x.TotalValue);
+            UpdateStatCard("TotalValue", totalValue.ToString("N0"), "Tổng giá trị (VNĐ)");
+
+            // Chờ kiểm tra - đếm số phiếu có supplier (có thể cần kiểm tra thêm)
+            // Hoặc có thể đếm số phiếu mới trong ngày/tuần
+            int pendingCheck = _stockInList.Count(x => 
+                x.CreatedDate.Date >= DateTime.Now.AddDays(-7).Date && 
+                x.CreatedDate.Date <= DateTime.Now.Date);
+            UpdateStatCard("PendingCheck", pendingCheck.ToString("N0"), "Phiếu mới (7 ngày)");
+        }
+
+        private void SetControlsEnabled(bool enabled)
+        {
+            try
+            {
+                UIHelper.SafeInvoke(this, () =>
+                {
+                    btnExportExcel.Enabled = enabled;
+                    btnExportPDF.Enabled = enabled;
+                    btnCreateStockIn.Enabled = enabled;
+                    btnRefresh.Enabled = enabled;
+                    txtSearch.Enabled = enabled;
+                    cmbSourceFilter.Enabled = enabled;
+                    dtpFromDate.Enabled = enabled;
+                    dtpToDate.Enabled = enabled;
+                });
+            }
+            catch { }
+        }
+
+        #region Event Handlers
+
+        private async void btnRefresh_Click(object sender, EventArgs e)
+        {
+            await LoadDataAsync();
+        }
+
+        private void btnCreateStockIn_Click(object sender, EventArgs e)
+        {
+            OpenCreateStockInForm();
+        }
+
+        /// <summary>
+        /// Public method để mở form tạo phiếu nhập kho từ bên ngoài
+        /// </summary>
+        public void OpenCreateStockInForm()
+        {
+            try
+            {
+                // Sử dụng form nhập kho nhiều sản phẩm
+                using (var form = new MultiProductStockInForm())
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        _ = LoadDataAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "mở form nhập kho");
+            }
+        }
+
+        private void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_stockInList == null || !_stockInList.Any())
+                {
+                    UIHelper.ShowWarningMessage("Không có dữ liệu để xuất!");
+                    return;
+                }
+
+                // Áp dụng filter giống như trong RefreshDataGridView
+                var filteredList = _stockInList.Where(item =>
+                {
+                    // Filter by search term
+                    if (!string.IsNullOrWhiteSpace(_searchTerm))
+                    {
+                        var searchLower = _searchTerm.ToLower();
+                        if (!item.BatchNo?.ToLower().Contains(searchLower) == true &&
+                            !item.ProductName?.ToLower().Contains(searchLower) == true &&
+                            !item.PackagingName?.ToLower().Contains(searchLower) == true &&
+                            !item.SupplierName?.ToLower().Contains(searchLower) == true)
+                            return false;
+                    }
+
+                    // Filter by source
+                    if (_selectedSource != "Tất cả")
+                    {
+                        if (_selectedSource == "Nhà cung cấp" && string.IsNullOrWhiteSpace(item.SupplierName))
+                            return false;
+                        if (_selectedSource != "Nhà cung cấp" && !string.IsNullOrWhiteSpace(item.SupplierName))
+                            return false;
+                    }
+
+                    // Filter by date range
+                    if (_fromDate.HasValue && item.CreatedDate < _fromDate.Value)
+                        return false;
+                    if (_toDate.HasValue && item.CreatedDate > _toDate.Value)
+                        return false;
+
+                    return true;
+                }).ToList();
+
+                if (!filteredList.Any())
+                {
+                    UIHelper.ShowWarningMessage("Không có dữ liệu phù hợp với bộ lọc để xuất!");
+                    return;
+                }
+
+                // Hiển thị SaveFileDialog
+                using (var saveDialog = new SaveFileDialog())
+                {
+                    saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                    saveDialog.FileName = $"NhapKho_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+                    saveDialog.Title = "Xuất danh sách nhập kho ra Excel";
+
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        // Tạo DataTable từ dữ liệu đã filter
+                        var dataTable = CreateDataTableForExport(filteredList);
+
+                        // Tạo headers cho Excel
+                        var headers = new Dictionary<string, string>
+                        {
+                            { "STT", "STT" },
+                            { "BatchNo", "Mã lô" },
+                            { "ItemName", "Sản phẩm/Bao bì" },
+                            { "SupplierName", "Nhà cung cấp" },
+                            { "Quantity", "Số lượng" },
+                            { "UnitPrice", "Đơn giá" },
+                            { "TotalValue", "Thành tiền" },
+                            { "CreatedDate", "Ngày nhập" },
+                            { "CreatedBy", "Người nhập" },
+                            { "ExpiryDate", "Hạn sử dụng" },
+                            { "Notes", "Ghi chú" }
+                        };
+
+                        // Tạo title với thông tin filter
+                        var fromDateStr = _fromDate?.ToString("dd/MM/yyyy") ?? "Tất cả";
+                        var toDateStr = _toDate?.ToString("dd/MM/yyyy") ?? "Tất cả";
+                        var sourceStr = _selectedSource ?? "Tất cả";
+                        var title = $"DANH SÁCH NHẬP KHO\n" +
+                                   $"Từ ngày: {fromDateStr} - Đến ngày: {toDateStr}\n" +
+                                   $"Nguồn: {sourceStr}\n" +
+                                   $"Tổng số: {filteredList.Count} phiếu nhập";
+
+                        // Xuất Excel
+                        var excelExporter = new ExcelExporter();
+                        var charts = GenerateChartsForExport(filteredList);
+                        excelExporter.ExportToExcel(dataTable, saveDialog.FileName, "Nhập kho", headers, title, charts);
+
+                        UIHelper.ShowSuccessMessage($"Đã xuất Excel thành công!\nFile: {saveDialog.FileName}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "xuất Excel");
+            }
+        }
+
+        private void btnExportPDF_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_stockInList == null || !_stockInList.Any())
+                {
+                    UIHelper.ShowWarningMessage("Không có dữ liệu để xuất!");
+                    return;
+                }
+
+                var filteredList = _stockInList.Where(item =>
+                {
+                    if (!string.IsNullOrWhiteSpace(_searchTerm))
+                    {
+                        var s = _searchTerm.ToLower();
+                        if (!item.BatchNo?.ToLower().Contains(s) == true &&
+                            !item.ProductName?.ToLower().Contains(s) == true &&
+                            !item.PackagingName?.ToLower().Contains(s) == true &&
+                            !item.SupplierName?.ToLower().Contains(s) == true)
+                            return false;
+                    }
+
+                    if (_selectedSource != "Tất cả")
+                    {
+                        if (_selectedSource == "Nhà cung cấp" && string.IsNullOrWhiteSpace(item.SupplierName))
+                            return false;
+                        if (_selectedSource != "Nhà cung cấp" && !string.IsNullOrWhiteSpace(item.SupplierName))
+                            return false;
+                    }
+
+                    if (_fromDate.HasValue && item.CreatedDate < _fromDate.Value)
+                        return false;
+                    if (_toDate.HasValue && item.CreatedDate > _toDate.Value)
+                        return false;
+
+                    return true;
+                }).ToList();
+
+                if (!filteredList.Any())
+                {
+                    UIHelper.ShowWarningMessage("Không có dữ liệu phù hợp với bộ lọc để xuất!");
+                    return;
+                }
+
+                using (var saveDialog = new SaveFileDialog())
+                {
+                    saveDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                    saveDialog.FileName = $"NhapKho_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+                    saveDialog.Title = "Xuất danh sách nhập kho ra PDF";
+
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        var dataTable = CreateDataTableForExport(filteredList);
+                        var headers = new Dictionary<string, string>
+                        {
+                            { "STT", "STT" },
+                            { "BatchNo", "Mã lô" },
+                            { "ItemName", "Sản phẩm/Bao bì" },
+                            { "SupplierName", "Nhà cung cấp" },
+                            { "Quantity", "Số lượng" },
+                            { "UnitPrice", "Đơn giá" },
+                            { "TotalValue", "Thành tiền" },
+                            { "CreatedDate", "Ngày nhập" },
+                            { "CreatedBy", "Người nhập" },
+                            { "ExpiryDate", "Hạn sử dụng" },
+                            { "Notes", "Ghi chú" }
+                        };
+
+                        var fromDateStr = _fromDate?.ToString("dd/MM/yyyy") ?? "Tất cả";
+                        var toDateStr = _toDate?.ToString("dd/MM/yyyy") ?? "Tất cả";
+                        var sourceStr = _selectedSource ?? "Tất cả";
+                        var title = $"DANH SÁCH NHẬP KHO \n" +
+                                   $"Từ ngày: {fromDateStr} - Đến ngày: {toDateStr}\n" +
+                                   $"Nguồn: {sourceStr}\n" +
+                                   $"Tổng số: {filteredList.Count} phiếu nhập";
+
+                        var charts = GenerateChartsForExport(filteredList);
+                        var pdfExporter = new PdfExporter();
+                        pdfExporter.ExportToPdf(dataTable, saveDialog.FileName, title, headers, charts);
+
+                        UIHelper.ShowSuccessMessage($"Đã xuất PDF thành công!\nFile: {saveDialog.FileName}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "xuất PDF");
+            }
+        }
+
+        private IList<byte[]> GenerateChartsForExport(List<StockInDetail> list)
+        {
+            var charts = new List<byte[]>();
+
+            var bySupplier = list
+                .GroupBy(x => string.IsNullOrWhiteSpace(x.SupplierName) ? "Khác" : x.SupplierName)
+                .Select(g => new { Supplier = g.Key, Qty = g.Sum(i => i.Quantity) })
+                .OrderByDescending(x => x.Qty)
+                .Take(8)
+                .ToList();
+
+            var chart1 = new Chart();
+            chart1.Width = 800;
+            chart1.Height = 400;
+            var area1 = new ChartArea("a1");
+            area1.AxisX.Interval = 1;
+            chart1.ChartAreas.Add(area1);
+            var s1 = new Series("supplier");
+            s1.ChartType = SeriesChartType.Column;
+            s1.IsValueShownAsLabel = true;
+            chart1.Series.Add(s1);
+            foreach (var item in bySupplier) s1.Points.AddXY(item.Supplier, (double)item.Qty);
+            chart1.Titles.Add("Số lượng theo nhà cung cấp (Top 8)");
+            using (var bmp = new Bitmap(chart1.Width, chart1.Height))
+            {
+                chart1.DrawToBitmap(bmp, new Rectangle(0, 0, chart1.Width, chart1.Height));
+                using (var ms = new MemoryStream()) { bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png); charts.Add(ms.ToArray()); }
+            }
+
+            var byDay = list
+                .GroupBy(x => x.CreatedDate.Date)
+                .Select(g => new { Day = g.Key, Qty = g.Sum(i => i.Quantity) })
+                .OrderBy(x => x.Day)
+                .ToList();
+
+            var chart2 = new Chart();
+            chart2.Width = 800;
+            chart2.Height = 400;
+            var area2 = new ChartArea("a2");
+            area2.AxisX.Interval = 1;
+            chart2.ChartAreas.Add(area2);
+            var s2 = new Series("qty");
+            s2.ChartType = SeriesChartType.Line;
+            s2.BorderWidth = 2;
+            chart2.Series.Add(s2);
+            foreach (var item in byDay) s2.Points.AddXY(item.Day.ToString("dd/MM"), (double)item.Qty);
+            chart2.Titles.Add("Số lượng nhập theo ngày");
+            using (var bmp = new Bitmap(chart2.Width, chart2.Height))
+            {
+                chart2.DrawToBitmap(bmp, new Rectangle(0, 0, chart2.Width, chart2.Height));
+                using (var ms = new MemoryStream()) { bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png); charts.Add(ms.ToArray()); }
+            }
+
+            return charts;
+        }
+
+        private DataTable CreateDataTableForExport(List<StockInDetail> stockInList)
+        {
+            var dataTable = new DataTable();
+            dataTable.Columns.Add("STT", typeof(int));
+            dataTable.Columns.Add("BatchNo", typeof(string));
+            dataTable.Columns.Add("ItemName", typeof(string));
+            dataTable.Columns.Add("SupplierName", typeof(string));
+            dataTable.Columns.Add("Quantity", typeof(decimal));
+            dataTable.Columns.Add("UnitPrice", typeof(decimal));
+            dataTable.Columns.Add("TotalValue", typeof(decimal));
+            dataTable.Columns.Add("CreatedDate", typeof(string));
+            dataTable.Columns.Add("CreatedBy", typeof(string));
+            dataTable.Columns.Add("ExpiryDate", typeof(string));
+            dataTable.Columns.Add("Notes", typeof(string));
+
+            int stt = 1;
+            foreach (var item in stockInList.OrderByDescending(x => x.CreatedDate))
+            {
+                var batchNo = string.IsNullOrWhiteSpace(item.BatchNo) ? "(Không có lô)" : item.BatchNo;
+                var itemName = !string.IsNullOrWhiteSpace(item.ProductName) 
+                    ? $"[SP] {item.ProductName}" 
+                    : !string.IsNullOrWhiteSpace(item.PackagingName) 
+                        ? $"[BB] {item.PackagingName}" 
+                        : "-";
+                var supplierName = item.SupplierName ?? "-";
+                var createdDate = item.CreatedDate.ToString("dd/MM/yyyy HH:mm");
+                var createdBy = item.CreatedBy ?? "-";
+                var expiryDate = item.ExpiryDate?.ToString("dd/MM/yyyy") ?? "-";
+                var notes = item.Notes ?? "-";
+
+                dataTable.Rows.Add(
+                    stt++,
+                    batchNo,
+                    itemName,
+                    supplierName,
+                    item.Quantity,
+                    item.UnitPrice,
+                    item.TotalValue,
+                    createdDate,
+                    createdBy,
+                    expiryDate,
+                    notes
+                );
+            }
+
+            return dataTable;
+        }
+
+        private void dgvStockIn_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            if (dgvStockIn.Columns[e.ColumnIndex].Name == "Action")
+            {
+                var row = dgvStockIn.Rows[e.RowIndex];
+                ShowStockInDetail(row);
+            }
+        }
+
+        private async void ShowStockInDetail(DataGridViewRow row)
+        {
+            try
+            {
+                if (row == null)
+                {
+                    MessageBox.Show("Vui lòng chọn một dòng để xem chi tiết!", "Thông báo", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Lấy batchNo từ row tag (có thể là "" cho null)
+                var batchNo = row.Tag?.ToString() ?? "";
+                
+                // Nếu batchNo rỗng, lấy tất cả items không có lô từ cùng ngày
+                if (string.IsNullOrWhiteSpace(batchNo))
+                {
+                    // Lấy từ _stockInList các items không có batchNo
+                    var noBatchItems = _stockInList
+                        .Where(x => string.IsNullOrWhiteSpace(x.BatchNo))
+                        .OrderByDescending(x => x.CreatedDate)
+                        .ToList();
+                    
+                    if (noBatchItems.Any())
+                    {
+                        using (var form = new StockInDetailForm("", noBatchItems))
+                        {
+                            var owner = this.FindForm();
+                            if (owner != null)
+                            {
+                                FormHelper.ShowModalWithDim(owner, form);
+                            }
+                            else
+                            {
+                                form.ShowDialog();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không tìm thấy sản phẩm trong đơn nhập này!", "Lỗi", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    // Load tất cả sản phẩm và bao bì trong lô
+                    var result = await AppServices.StockInService.GetStockInDetailsByBatchAsync(batchNo);
+                    if (result.Success && result.Data != null && result.Data.Any())
+                    {
+                        using (var form = new StockInDetailForm(batchNo, result.Data))
+                        {
+                            var owner = this.FindForm();
+                            if (owner != null)
+                            {
+                                FormHelper.ShowModalWithDim(owner, form);
+                            }
+                            else
+                            {
+                                form.ShowDialog();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không tìm thấy sản phẩm trong lô hàng này!", "Lỗi", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowExceptionError(ex, "hiển thị chi tiết phiếu nhập kho");
+            }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (txtSearch == null) return;
+            _searchTerm = txtSearch.Text ?? "";
+            RefreshDataGridView();
+        }
+
+        private void cmbSourceFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbSourceFilter == null || cmbSourceFilter.SelectedItem == null)
+            {
+                _selectedSource = "Tất cả";
+                return;
+            }
+            _selectedSource = cmbSourceFilter.SelectedItem.ToString() ?? "Tất cả";
+            RefreshDataGridView();
+        }
+
+        private void dtpFromDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpFromDate == null) return;
+            _fromDate = dtpFromDate.Value.Date;
+            _ = LoadDataAsync(); // Reload data when date changes
+        }
+
+        private void dtpToDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpToDate == null) return;
+            _toDate = dtpToDate.Value.Date.AddDays(1).AddSeconds(-1); // End of day
+            _ = LoadDataAsync(); // Reload data when date changes
+        }
+
+        #endregion
+    }
+}
+

@@ -11,7 +11,10 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -22,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,38 +35,609 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="ClosedXML, Version=0.105.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.105.0\lib\netstandard2.0\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="ClosedXML.Parser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1d5f7376574c51ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.Parser.2.0.0\lib\netstandard2.0\ClosedXML.Parser.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=3.1.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.3.1.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml.Framework, Version=3.1.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.Framework.3.1.1\lib\net46\DocumentFormat.OpenXml.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.1.0.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.1.0\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="Guna.UI2, Version=2.0.4.7, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
+      <HintPath>..\packages\Guna.UI2.WinForms.2.0.4.7\lib\net472\Guna.UI2.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.1\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.8.0.1\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.2\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.8.0.1\lib\net462\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.2\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.8.0.2\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="RBush, Version=4.0.0.0, Culture=neutral, PublicKeyToken=c77e27b81f4d0187, processorArchitecture=MSIL">
+      <HintPath>..\packages\RBush.Signed.4.0.0\lib\net47\RBush.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.Fonts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.Fonts.1.0.0\lib\netstandard2.0\SixLabors.Fonts.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Pkcs, Version=8.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Pkcs.8.0.1\lib\net462\System.Security.Cryptography.Pkcs.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="zxing, Version=0.16.11.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.11\lib\net47\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.11.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.11\lib\net47\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Common\AppColors.cs" />
+    <Compile Include="Common\AppServices.cs" />
+    <Compile Include="Common\EnumHelper.cs" />
+    <Compile Include="Common\Services\NavigationService.cs" />
+    <Compile Include="Common\Services\DialogService.cs" />
+    <Compile Include="Common\Services\AppStateManager.cs" />
+    <Compile Include="Common\EmailNotificationHelper.cs" />
+    <Compile Include="Common\IRefreshableControl.cs" />
+    <Compile Include="Common\FormHelper.cs" />
+    <Compile Include="Common\RolePermissionHelper.cs" />
+    <Compile Include="Common\ThemManager.cs" />
+    <Compile Include="Common\UIHelper.cs" />
+    <Compile Include="Controls\BackupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BackupControl.Designer.cs">
+      <DependentUpon>BackupControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Calendar\CalendarControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Calendar\CalendarControl.Designer.cs">
+      <DependentUpon>CalendarControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Calendar\CalendarDayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Calendar\CalendarDayControl.Designer.cs">
+      <DependentUpon>CalendarDayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BaseUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CardControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CardControl.Designer.cs">
+      <DependentUpon>CardControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ContentControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ContentControl.Designer.cs">
+      <DependentUpon>ContentControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomersControl.Designer.cs">
+      <DependentUpon>CustomersControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DashboardControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DashboardControl.Designer.cs">
+      <DependentUpon>DashboardControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataImportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DataImportControl.Designer.cs">
+      <DependentUpon>DataImportControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FooterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FooterControl.Designer.cs">
+      <DependentUpon>FooterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\HeaderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\HeaderControl.Designer.cs">
+      <DependentUpon>HeaderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IntegrationsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\IntegrationsControl.Designer.cs">
+      <DependentUpon>IntegrationsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InventoryControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\InventoryControl.Designer.cs">
+      <DependentUpon>InventoryControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OrdersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OrdersControl.Designer.cs">
+      <DependentUpon>OrdersControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PackagingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PackagingControl.Designer.cs">
+      <DependentUpon>PackagingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PaymentControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PaymentControl.Designer.cs">
+      <DependentUpon>PaymentControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProductsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ProductsControl.Designer.cs">
+      <DependentUpon>ProductsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Refill.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Refill.Designer.cs">
+      <DependentUpon>Refill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ReportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportControl.Designer.cs">
+      <DependentUpon>ReportControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ReportControl.Revenue.cs">
+      <DependentUpon>ReportControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportControl.CustomerRefill.cs">
+      <DependentUpon>ReportControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportControl.PackagingRecovery.cs">
+      <DependentUpon>ReportControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportControl.PlasticReduction.cs">
+      <DependentUpon>ReportControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportControl.PaymentMethod.cs">
+      <DependentUpon>ReportControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportControl.BestSelling.cs">
+      <DependentUpon>ReportControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportControlHelpers.cs" />
+    <Compile Include="Controls\SettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SettingsControl.Designer.cs">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SidebarControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SidebarControl.Designer.cs">
+      <DependentUpon>SidebarControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StaffControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StaffControl.Designer.cs">
+      <DependentUpon>StaffControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StockInManagementControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StockInManagementControl.Designer.cs">
+      <DependentUpon>StockInManagementControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StockOutManagementControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StockOutManagementControl.Designer.cs">
+      <DependentUpon>StockOutManagementControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SuppliersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SuppliersControl.Designer.cs">
+      <DependentUpon>SuppliersControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SystemSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SystemSettingsControl.General.cs">
+      <DependentUpon>SystemSettingsControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SystemSettingsControl.Station.cs">
+      <DependentUpon>SystemSettingsControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SystemSettingsControl.User.cs">
+      <DependentUpon>SystemSettingsControl.cs</DependentUpon>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SystemSettingsControl.Designer.cs">
+      <DependentUpon>SystemSettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddOrderForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\AddOrderForm.Designer.cs">
+      <DependentUpon>AddOrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddCustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddCustomerForm.Designer.cs">
+      <DependentUpon>AddCustomerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddPackagingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddPackagingForm.Designer.cs">
+      <DependentUpon>AddPackagingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PackagingTransactionDetailForm.Designer.cs">
+      <DependentUpon>PackagingTransactionDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PackagingTransactionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PackagingTransactionForm.Designer.cs">
+      <DependentUpon>PackagingTransactionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddProductForm.Designer.cs">
+      <DependentUpon>AddProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddCategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddCategoryForm.Designer.cs">
+      <DependentUpon>AddCategoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddSupplierForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddSupplierForm.Designer.cs">
+      <DependentUpon>AddSupplierForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\NotificationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NotificationForm.Designer.cs">
+      <DependentUpon>NotificationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\OrderDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OrderDetailForm.Designer.cs">
+      <DependentUpon>OrderDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UpdateOrderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UpdateOrderForm.Designer.cs">
+      <DependentUpon>UpdateOrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DeliveryAssignmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DeliveryAssignmentForm.Designer.cs">
+      <DependentUpon>DeliveryAssignmentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BatchDeliveryAssignmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BatchDeliveryAssignmentForm.Designer.cs">
+      <DependentUpon>BatchDeliveryAssignmentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MultiProductStockInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MultiProductStockInForm.Designer.cs">
+      <DependentUpon>MultiProductStockInForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProductSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProductSelectionForm.Designer.cs">
+      <DependentUpon>ProductSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MultiProductStockOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MultiProductStockOutForm.Designer.cs">
+      <DependentUpon>MultiProductStockOutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SingleProductStockOutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SingleProductStockOutForm.Designer.cs">
+      <DependentUpon>SingleProductStockOutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockInDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockInDetailForm.Designer.cs">
+      <DependentUpon>StockInDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockOutDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockOutDetailForm.Designer.cs">
+      <DependentUpon>StockOutDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PackagingTransactionDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WorkShiftForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WorkShiftForm.Designer.cs">
+      <DependentUpon>WorkShiftForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CleaningScheduleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CleaningScheduleForm.Designer.cs">
+      <DependentUpon>CleaningScheduleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\WorkShiftForm.Designer.cs">
+      <DependentUpon>WorkShiftForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserProfileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserProfileForm.Designer.cs">
+      <DependentUpon>UserProfileForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
+    <EmbeddedResource Include="Controls\BackupControl.resx">
+      <DependentUpon>BackupControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Calendar\CalendarControl.resx">
+      <DependentUpon>CalendarControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CardControl.resx">
+      <DependentUpon>CardControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ContentControl.resx">
+      <DependentUpon>ContentControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CustomersControl.resx">
+      <DependentUpon>CustomersControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DashboardControl.resx">
+      <DependentUpon>DashboardControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FooterControl.resx">
+      <DependentUpon>FooterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\HeaderControl.resx">
+      <DependentUpon>HeaderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\IntegrationsControl.resx">
+      <DependentUpon>IntegrationsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\InventoryControl.resx">
+      <DependentUpon>InventoryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OrdersControl.resx">
+      <DependentUpon>OrdersControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PackagingControl.resx">
+      <DependentUpon>PackagingControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ProductsControl.resx">
+      <DependentUpon>ProductsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Refill.resx">
+      <DependentUpon>Refill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ReportControl.resx">
+      <DependentUpon>ReportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SettingsControl.resx">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SidebarControl.resx">
+      <DependentUpon>SidebarControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StaffControl.resx">
+      <DependentUpon>StaffControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StockInManagementControl.resx">
+      <DependentUpon>StockInManagementControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StockOutManagementControl.resx">
+      <DependentUpon>StockOutManagementControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SuppliersControl.resx">
+      <DependentUpon>SuppliersControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SystemSettingsControl.resx">
+      <DependentUpon>SystemSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddCategoryForm.resx">
+      <DependentUpon>AddCategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddCustomerForm.resx">
+      <DependentUpon>AddCustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddOrderForm.resx">
+      <DependentUpon>AddOrderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddPackagingForm.resx">
+      <DependentUpon>AddPackagingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddProductForm.resx">
+      <DependentUpon>AddProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddSupplierForm.resx">
+      <DependentUpon>AddSupplierForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BatchDeliveryAssignmentForm.resx">
+      <DependentUpon>BatchDeliveryAssignmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NotificationForm.resx">
+      <DependentUpon>NotificationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OrderDetailForm.resx">
+      <DependentUpon>OrderDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PackagingTransactionDetailForm.resx">
+      <DependentUpon>PackagingTransactionDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PackagingTransactionForm.resx">
+      <DependentUpon>PackagingTransactionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProductSelectionForm.resx">
+      <DependentUpon>ProductSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockInDetailForm.resx">
+      <DependentUpon>StockInDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UpdateOrderForm.resx">
+      <DependentUpon>UpdateOrderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DeliveryAssignmentForm.resx">
+      <DependentUpon>DeliveryAssignmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MultiProductStockInForm.resx">
+      <DependentUpon>MultiProductStockInForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MultiProductStockOutForm.resx">
+      <DependentUpon>MultiProductStockOutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SingleProductStockOutForm.resx">
+      <DependentUpon>SingleProductStockOutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockOutDetailForm.resx">
+      <DependentUpon>StockOutDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CleaningScheduleForm.resx">
+      <DependentUpon>CleaningScheduleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WorkShiftForm.resx">
+      <DependentUpon>WorkShiftForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -75,6 +650,46 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Products\" />
+    <Folder Include="Styles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EcoStationManagerApplication.Common\EcoStationManagerApplication.Common.csproj">
+      <Project>{803a5a84-5de1-4538-bc74-0c91233f8c34}</Project>
+      <Name>EcoStationManagerApplication.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EcoStationManagerApplication.Core\EcoStationManagerApplication.Core.csproj">
+      <Project>{5569ba3b-5dce-428b-ac8d-769ded63c196}</Project>
+      <Name>EcoStationManagerApplication.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EcoStationManagerApplication.Models\EcoStationManagerApplication.Models.csproj">
+      <Project>{e01bef2e-87d7-4bb7-acde-0ffe069b4631}</Project>
+      <Name>EcoStationManagerApplication.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gemini_Generated_Image_1z21nh1z21nh1z21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unnamed.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo_group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\thumbnail_pm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\thumbnail_pm1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\test.png" />
+    <None Include="Resources\refill.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refill-removebg-preview.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

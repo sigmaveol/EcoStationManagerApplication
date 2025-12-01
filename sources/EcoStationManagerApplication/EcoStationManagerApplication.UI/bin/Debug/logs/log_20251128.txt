@@ -1,0 +1,100 @@
+[INFO] [DatabaseHelper] 2025-11-28 23:28:18: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-28 23:28:19: User authenticated: admin (ID: 1)
+[INFO] [DatabaseHelper] 2025-11-28 23:28:19: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:19: Connection opened - State: Open
+[INFO] [Service:UserService] 2025-11-28 23:28:19: Đã tạo WorkShift mới cho user - UserId: 1, ShiftId: 11, Date: 2025-11-28
+[INFO] [DatabaseHelper] 2025-11-28 23:28:22: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:23: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:23: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-28 23:28:24: ExecuteScalarAsync error: 
+            SELECT 1 FROM Notifications
+            WHERE type = @Type AND title = @Title AND message = @Message
+              AND created_at >= DATE_SUB(NOW(), INTERVAL @Hours HOUR)
+            LIMIT 1 - Table 'ecostationmanager.notifications' doesn't exist
+[ERROR] [Service:NotificationService] 2025-11-28 23:28:24: tạo thông báo tự động error: Table 'ecostationmanager.notifications' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-28 23:28:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:24: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-28 23:28:24: ExecuteScalarAsync error: 
+            SELECT COUNT(*) FROM Notifications
+            WHERE is_read = FALSE
+              AND created_at >= DATE_SUB(NOW(), INTERVAL @Days DAY)
+              AND (@UserId IS NULL OR user_id = @UserId OR user_id IS NULL) - Table 'ecostationmanager.notifications' doesn't exist
+[ERROR] [Service:NotificationService] 2025-11-28 23:28:24: đếm thông báo chưa đọc error: Table 'ecostationmanager.notifications' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-28 23:28:24: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:24: Connection opened - State: Open
+[ERROR] [DatabaseHelper] 2025-11-28 23:28:24: QueryAsync error: 
+            SELECT * FROM Notifications
+            WHERE created_at >= DATE_SUB(NOW(), INTERVAL @Days DAY)
+              AND (@UserId IS NULL OR user_id = @UserId OR user_id IS NULL)
+            ORDER BY created_at DESC
+            LIMIT @Limit - Table 'ecostationmanager.notifications' doesn't exist
+[ERROR] [Service:NotificationService] 2025-11-28 23:28:25: lấy thông báo error: Table 'ecostationmanager.notifications' doesn't exist
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:29: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:30: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:31: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:28:40: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:29:25: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:29:26: Connection opened - State: Open
+[INFO] [DatabaseHelper] 2025-11-28 23:29:26: Connection opened - State: Open

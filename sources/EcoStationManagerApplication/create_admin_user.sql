@@ -21,17 +21,3 @@ VALUES (
     TRUE, 
     NOW()
 );
-
--- Kiểm tra kết quả
-SELECT 
-    user_id, 
-    username, 
-    fullname, 
-    role, 
-    is_active, 
-    created_date 
-FROM Users 
-WHERE username = 'admin';
-
--- Thông báo thành công
-SELECT 'Tài khoản admin đã được tạo thành công!' AS Message;

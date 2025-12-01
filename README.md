@@ -1,42 +1,67 @@
 ﻿# EcoStationManagerApplication
 
-## Yêu cầu môi trường
-- Windows, .NET Framework 4.7.2
-- Visual Studio 2019+ (khuyến nghị 2022)
-- MySQL Server 8.x
+## Giới thiệu
+- Ứng dụng quản lý trạm nhiên liệu (Eco Station) với kiến trúc phân lớp: `UI`, `Core`, `DAL`, `Common`, `Models`, `Tests`.
+- Sử dụng MySQL và Dapper, tương thích `.NET Framework 4.7.2`.
 
-## Khôi phục và build
-1. Mở `EcoStationManagerApplication.sln` bằng Visual Studio.
-2. NuGet Restore: Tools → NuGet Package Manager → Restore.
-3. Cấu hình build: AnyCPU, Prefer 32-bit = false (đã cấu hình sẵn).
-4. Build Solution (Debug).
+## Yêu cầu
+- Windows, `.NET Framework 4.7.2`.
+- Visual Studio 2019 trở lên (khuyến nghị 2022).
+- MySQL Server 8.x.
 
-## Cấu hình kết nối CSDL
-- File cấu hình JSON sẽ tự tạo lần đầu: `appsettings.json` (cùng thư mục chạy).
-- Nếu chưa tồn tại, chạy app 1 lần để sinh file, sau đó chỉnh:
-  - Server, Database, UserId, Password, Port…
-- Kết nối được dùng ở `Common\Config\ConfigManager.cs` và `ConnectionHelper.cs`.
+## Cài đặt
+- Mở solution: `sources/EcoStationManagerApplication/EcoStationManagerApplication.sln` (cũng có bản sao tại root: `EcoStationManagerApplication.sln`).
+- Khôi phục gói: Visual Studio → Tools → NuGet Package Manager → Restore.
+- Cấu hình build: `AnyCPU`, tắt `Prefer 32-bit` (đã cấu hình sẵn).
+- Build toàn bộ solution ở cấu hình `Debug` để kiểm tra.
 
-## Khởi tạo dữ liệu
-1. Tạo schema/tables:
-   - `sources/EcoStationManagerApplication/EcoStationManager_V0.sql`
-   - (hoặc) `migration.sql`
-2. Thêm thủ tục/hàm/kích hoạt nếu có:
-   - `procedures.txt`, `triggers.txt`
-3. Seed dữ liệu mẫu:
-   - `seed.sql`
+## Cấu hình
+- File cấu hình `appsettings.json` sẽ được tự tạo ở thư mục chạy nếu chưa tồn tại.
+- Vị trí điển hình: `sources/EcoStationManagerApplication/appsettings.json`.
+- Các khóa quan trọng trong `Database` cần chỉnh cho phù hợp môi trường:
+
+```
+{
+  "Database": {
+    "Server": "localhost",
+    "Database": "EcoStationManager",
+    "UserId": "root",
+    "Password": "<mật_khẩu>",
+    "Port": 3306,
+    "ConnectionTimeout": 30,
+    "CommandTimeout": 120,
+    "AllowZeroDateTime": false,
+    "ConvertZeroDateTime": true,
+    "MaxPoolSize": 100,
+    "MinPoolSize": 1
+  }
+}
+```
+
+- Chuỗi kết nối được tạo từ cấu hình bởi `Common\Config\ConfigManager.cs` → `GetConnectionString()`.
+- Có thể kiểm tra kết nối bằng `Common\Config\ConnectionHelper.cs` → `TestConnection()` trong quá trình phát triển.
+
+## Cơ sở dữ liệu
+- Khởi tạo schema/tables:
+  - `sources/EcoStationManagerApplication/EcoStationManager_V0.sql`
+  - Cập nhật tiếp: `sources/EcoStationManagerApplication/EcoStationManager_V1.sql`
+- Tạo tài khoản quản trị: xem `sources/EcoStationManagerApplication/HUONG_DAN_TAO_ADMIN.md` hoặc chạy `sources/EcoStationManagerApplication/create_admin_user.sql`.
+- Nếu cần thêm dữ liệu mẫu, tạo script seed tùy nhu cầu.
 
 ## Chạy ứng dụng
-- Project khởi động: `EcoStationManagerApplication.UI`
-- Lần đầu chạy sẽ sinh `appsettings.json`. Chỉnh thông số DB rồi chạy lại.
-- UI đã tách DAL: UI truy cập service qua `UI\Common\AppServices.cs` → Core `ServiceRegistry`.
-
-## Ghi chú tương thích
-- Binding redirects đã bật (tự sinh) và được bổ sung cho UI.
-- Các gói đã cố định phiên bản tương thích .NET 4.7.2 (ví dụ: ConfigurationManager 6.0.0).
+- Project khởi động: `sources/EcoStationManagerApplication/EcoStationManagerApplication.UI`.
+- Lần đầu chạy sẽ sinh `appsettings.json`; cập nhật thông số DB rồi chạy lại.
+- Logging được lưu tại `sources/EcoStationManagerApplication/logs/` khi ở môi trường Development.
 
 ## Kiểm thử
-- Project: `EcoStationManagerApplication.Tests` (MSTest). Nên bổ sung test cho Service quan trọng.
+- Dự án kiểm thử: `sources/EcoStationManagerApplication/EcoStationManagerApplication.Tests` (MSTest).
+- Chạy nhanh bằng CLI: `dotnet test` (hoặc chạy Test Explorer trong VS).
+- Kết quả từng test case được tổng hợp tại `sources/EcoStationManagerApplication/EcoStationManagerApplication.Tests/TestResults.md`.
 
 ## Đóng gói
-- Dùng project `Setup` để tạo installer; đảm bảo kèm dependencies cần thiết.
+- Sử dụng project `sources/EcoStationManagerApplication/Setup` để tạo installer.
+- Đảm bảo cài đặt máy đích có `.NET Framework 4.7.2` và MySQL client phù hợp.
+
+## Khắc phục sự cố
+- Lỗi kết nối DB: xác nhận thông số `Server`, `Database`, `UserId`, `Password`, `Port` trong `appsettings.json` và thử `TestConnection()`.
+- Lỗi parse enum khi truy vấn: kiểm tra dữ liệu trong DB khớp với enum được định nghĩa trong `Models\Enums\Enums.cs`.

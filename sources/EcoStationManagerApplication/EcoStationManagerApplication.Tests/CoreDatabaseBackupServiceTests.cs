@@ -1,43 +1,23 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using EcoStationManagerApplication.Core.Interfaces;
-using System.IO;
+using System;
 using System.Threading.Tasks;
+using EcoStationManagerApplication.Core.Services;
+using EcoStationManagerApplication.DAL.Database;
 
 namespace EcoStationManagerApplication.Tests
 {
-    class FakeDatabaseBackupService : IDatabaseBackupService
-    {
-        public Task DumpToSqlFileAsync(string filePath)
-        {
-            File.WriteAllText(filePath, "-- dump");
-            return Task.CompletedTask;
-        }
-
-        public Task RestoreFromSqlFileAsync(string filePath)
-        {
-            var _ = File.ReadAllText(filePath);
-            return Task.CompletedTask;
-        }
-    }
-
     [TestClass]
     public class CoreDatabaseBackupServiceTests
     {
         [TestMethod]
-        public async Task DumpAndRestore_Works_On_File()
+        public async Task RestoreFromSqlFileAsync_FileNotFound_Throws()
         {
-            var svc = new FakeDatabaseBackupService();
-            var temp = Path.ChangeExtension(Path.GetTempFileName(), ".sql");
-            try
+            var svc = new DatabaseBackupService(new DatabaseHelper("Server=localhost;Database=eco;User Id=root;Password=invalid;"));
+            await Assert.ThrowsExceptionAsync<System.IO.FileNotFoundException>(async () =>
             {
-                await svc.DumpToSqlFileAsync(temp);
-                Assert.IsTrue(File.Exists(temp));
-                await svc.RestoreFromSqlFileAsync(temp);
-            }
-            finally
-            {
-                if (File.Exists(temp)) File.Delete(temp);
-            }
+                await svc.RestoreFromSqlFileAsync("D:/missing-file.sql");
+            });
         }
     }
 }
+

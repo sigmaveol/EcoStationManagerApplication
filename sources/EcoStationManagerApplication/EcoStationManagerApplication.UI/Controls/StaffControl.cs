@@ -746,7 +746,7 @@ namespace EcoStationManagerApplication.UI.Controls
                                 var rowIndex = dgvKPI.Rows.Add(
                                     shift.ShiftId,
                                     staffInfo.Name,
-                                    GetRoleDisplayName(staffInfo.Role),
+                                    staffInfo.Role.GetDisplayName(),
                                     shift.ShiftDate.ToString("dd/MM/yyyy"),
                                     startTime,
                                     endTime,
@@ -994,26 +994,6 @@ namespace EcoStationManagerApplication.UI.Controls
                 case 3: return UserRole.STAFF;
                 case 4: return UserRole.DRIVER;
                 default: return UserRole.STAFF;
-            }
-        }
-
-        /// <summary>
-        /// Lấy tên hiển thị của role
-        /// </summary>
-        private string GetRoleDisplayName(UserRole role)
-        {
-            switch (role)
-            {
-                case UserRole.ADMIN:
-                    return "Quản trị viên";
-                case UserRole.MANAGER:
-                    return "Quản lý trạm";
-                case UserRole.STAFF:
-                    return "Nhân viên";
-                case UserRole.DRIVER:
-                    return "Tài xế";
-                default:
-                    return role.ToString();
             }
         }
 
@@ -1422,9 +1402,9 @@ namespace EcoStationManagerApplication.UI.Controls
                                 orderCode,
                                 driverName,
                                 assignment.AssignedDate.ToString("dd/MM/yyyy HH:mm"),
-                                GetDeliveryStatusDisplayName(assignment.Status),
+                                assignment.Status.GetDisplayName(),
                                 assignment.CodAmount.ToString("N0"),
-                                GetPaymentStatusDisplayName(assignment.PaymentStatus),
+                                assignment.PaymentStatus.GetDisplayName(),
                                 assignment.Notes ?? ""
                             );
 
@@ -1445,104 +1425,6 @@ namespace EcoStationManagerApplication.UI.Controls
             catch (Exception ex)
             {
                 UIHelper.ShowExceptionError(ex, "tải danh sách phân công giao hàng");
-            }
-        }
-
-        /// <summary>
-        /// Áp dụng filters cho delivery - VERSION ĐÃ SỬA
-        /// </summary>
-        private List<DeliveryAssignment> ApplyDeliveryFilters(
-            List<DeliveryAssignment> assignments,
-            Dictionary<int, string> driversDict,
-            Dictionary<int, string> ordersDict)
-        {
-            var filtered = assignments.AsEnumerable();
-
-            // Filter theo search
-            if (!string.IsNullOrWhiteSpace(txtDeliverySearch?.Text))
-            {
-                var searchTerm = txtDeliverySearch.Text.ToLower();
-                filtered = filtered.Where(a =>
-                {
-                    var driverName = driversDict.ContainsKey(a.DriverId) 
-                        ? driversDict[a.DriverId].ToLower() 
-                        : "";
-                    var orderCode = ordersDict.ContainsKey(a.OrderId) 
-                        ? ordersDict[a.OrderId].ToLower() 
-                        : "";
-
-                    return driverName.Contains(searchTerm) ||
-                           orderCode.Contains(searchTerm) ||
-                           (a.Notes ?? "").ToLower().Contains(searchTerm) ||
-                           a.AssignmentId.ToString().Contains(searchTerm);
-                });
-            }
-
-            // Filter theo status
-            if (cmbDeliveryStatusFilter != null && cmbDeliveryStatusFilter.SelectedIndex > 0)
-            {
-                var selectedStatus = GetDeliveryStatusFromFilter(cmbDeliveryStatusFilter.SelectedIndex);
-                filtered = filtered.Where(a => a.Status == selectedStatus);
-            }
-
-            // Filter theo ngày
-            if (dtpDeliveryDateFilter != null && dtpDeliveryDateFilter.Checked)
-            {
-                var filterDate = dtpDeliveryDateFilter.Value.Date;
-                filtered = filtered.Where(a => a.AssignedDate.Date == filterDate);
-            }
-
-            return filtered.ToList();
-        }
-
-        /// <summary>
-        /// Lấy DeliveryStatus từ filter index
-        /// </summary>
-        private DeliveryStatus GetDeliveryStatusFromFilter(int index)
-        {
-            switch (index)
-            {
-                case 1: return DeliveryStatus.PENDING;
-                case 2: return DeliveryStatus.INTRANSIT;
-                case 3: return DeliveryStatus.DELIVERED;
-                case 4: return DeliveryStatus.FAILED;
-                default: return DeliveryStatus.PENDING;
-            }
-        }
-
-        /// <summary>
-        /// Lấy tên hiển thị của DeliveryStatus
-        /// </summary>
-        private string GetDeliveryStatusDisplayName(DeliveryStatus status)
-        {
-            switch (status)
-            {
-                case DeliveryStatus.PENDING:
-                    return "Chờ giao";
-                case DeliveryStatus.INTRANSIT:
-                    return "Đang giao";
-                case DeliveryStatus.DELIVERED:
-                    return "Đã giao";
-                case DeliveryStatus.FAILED:
-                    return "Thất bại";
-                default:
-                    return status.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Lấy tên hiển thị của PaymentStatus
-        /// </summary>
-        private string GetPaymentStatusDisplayName(DeliveryPaymentStatus status)
-        {
-            switch (status)
-            {
-                case DeliveryPaymentStatus.UNPAID:
-                    return "Chưa thanh toán";
-                case DeliveryPaymentStatus.PAID:
-                    return "Đã thanh toán";
-                default:
-                    return status.ToString();
             }
         }
 
@@ -1639,7 +1521,7 @@ namespace EcoStationManagerApplication.UI.Controls
             var dialog = new Form
             {
                 Text = "Cập nhật trạng thái giao hàng",
-                Size = new Size(500, 450),
+                Size = new Size(550, 550),
                 StartPosition = FormStartPosition.CenterParent,
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 MaximizeBox = false,

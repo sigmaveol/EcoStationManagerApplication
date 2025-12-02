@@ -1,4 +1,6 @@
 ﻿using System.Windows.Forms;
+using System.Drawing;
+using EcoStationManagerApplication.UI.Common;
 
 namespace EcoStationManagerApplication.UI.Forms
 {
@@ -49,74 +51,94 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             // cbStaff
             // 
+            this.cbStaff.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbStaff.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.cbStaff.Location = new System.Drawing.Point(120, 18);
             this.cbStaff.Name = "cbStaff";
-            this.cbStaff.Size = new System.Drawing.Size(220, 24);
+            this.cbStaff.Size = new System.Drawing.Size(277, 33);
             this.cbStaff.TabIndex = 0;
             // 
             // dtpShiftDate
             // 
+            this.dtpShiftDate.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.dtpShiftDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpShiftDate.Location = new System.Drawing.Point(120, 58);
             this.dtpShiftDate.Name = "dtpShiftDate";
-            this.dtpShiftDate.Size = new System.Drawing.Size(200, 22);
+            this.dtpShiftDate.Size = new System.Drawing.Size(277, 32);
             this.dtpShiftDate.TabIndex = 1;
             // 
             // dtpStart
             // 
+            this.dtpStart.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.dtpStart.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtpStart.Location = new System.Drawing.Point(120, 98);
             this.dtpStart.Name = "dtpStart";
             this.dtpStart.ShowUpDown = true;
-            this.dtpStart.Size = new System.Drawing.Size(200, 22);
+            this.dtpStart.Size = new System.Drawing.Size(277, 32);
             this.dtpStart.TabIndex = 2;
             // 
             // dtpEnd
             // 
+            this.dtpEnd.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.dtpEnd.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtpEnd.Location = new System.Drawing.Point(120, 138);
             this.dtpEnd.Name = "dtpEnd";
             this.dtpEnd.ShowUpDown = true;
-            this.dtpEnd.Size = new System.Drawing.Size(200, 22);
+            this.dtpEnd.Size = new System.Drawing.Size(277, 32);
             this.dtpEnd.TabIndex = 3;
             // 
             // numKpi
             // 
             this.numKpi.DecimalPlaces = 2;
+            this.numKpi.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.numKpi.Location = new System.Drawing.Point(120, 178);
             this.numKpi.Name = "numKpi";
-            this.numKpi.Size = new System.Drawing.Size(120, 22);
+            this.numKpi.Size = new System.Drawing.Size(277, 32);
             this.numKpi.TabIndex = 4;
             // 
             // txtNotes
             // 
-            this.txtNotes.Location = new System.Drawing.Point(120, 218);
+            this.txtNotes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtNotes.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtNotes.Location = new System.Drawing.Point(120, 224);
             this.txtNotes.Multiline = true;
             this.txtNotes.Name = "txtNotes";
-            this.txtNotes.Size = new System.Drawing.Size(220, 60);
+            this.txtNotes.Size = new System.Drawing.Size(277, 60);
             this.txtNotes.TabIndex = 5;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(120, 300);
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(120)))), ((int)(((byte)(60)))));
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.btnSave.ForeColor = System.Drawing.Color.White;
+            this.btnSave.Location = new System.Drawing.Point(175, 316);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(87, 42);
             this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Lưu";
+            this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(220, 300);
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.btnCancel.Location = new System.Drawing.Point(299, 316);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(75, 43);
             this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "Hủy";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // lblStaff
             // 
-            this.lblStaff.Location = new System.Drawing.Point(20, 20);
+            this.lblStaff.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblStaff.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.lblStaff.Location = new System.Drawing.Point(25, 20);
             this.lblStaff.Name = "lblStaff";
             this.lblStaff.Size = new System.Drawing.Size(100, 23);
             this.lblStaff.TabIndex = 8;
@@ -124,7 +146,9 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             // lblShiftDate
             // 
-            this.lblShiftDate.Location = new System.Drawing.Point(20, 60);
+            this.lblShiftDate.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblShiftDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.lblShiftDate.Location = new System.Drawing.Point(20, 62);
             this.lblShiftDate.Name = "lblShiftDate";
             this.lblShiftDate.Size = new System.Drawing.Size(100, 23);
             this.lblShiftDate.TabIndex = 9;
@@ -132,7 +156,9 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             // lblStart
             // 
-            this.lblStart.Location = new System.Drawing.Point(20, 100);
+            this.lblStart.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblStart.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.lblStart.Location = new System.Drawing.Point(20, 102);
             this.lblStart.Name = "lblStart";
             this.lblStart.Size = new System.Drawing.Size(100, 23);
             this.lblStart.TabIndex = 10;
@@ -140,7 +166,9 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             // lblEnd
             // 
-            this.lblEnd.Location = new System.Drawing.Point(20, 140);
+            this.lblEnd.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblEnd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.lblEnd.Location = new System.Drawing.Point(20, 143);
             this.lblEnd.Name = "lblEnd";
             this.lblEnd.Size = new System.Drawing.Size(100, 23);
             this.lblEnd.TabIndex = 11;
@@ -148,7 +176,9 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             // lblKpi
             // 
-            this.lblKpi.Location = new System.Drawing.Point(20, 180);
+            this.lblKpi.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblKpi.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.lblKpi.Location = new System.Drawing.Point(20, 183);
             this.lblKpi.Name = "lblKpi";
             this.lblKpi.Size = new System.Drawing.Size(100, 23);
             this.lblKpi.TabIndex = 12;
@@ -156,7 +186,9 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             // lblNotes
             // 
-            this.lblNotes.Location = new System.Drawing.Point(20, 220);
+            this.lblNotes.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblNotes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.lblNotes.Location = new System.Drawing.Point(20, 223);
             this.lblNotes.Name = "lblNotes";
             this.lblNotes.Size = new System.Drawing.Size(100, 23);
             this.lblNotes.TabIndex = 13;
@@ -164,7 +196,10 @@ namespace EcoStationManagerApplication.UI.Forms
             // 
             // WorkShiftForm
             // 
-            this.ClientSize = new System.Drawing.Size(380, 360);
+            this.AcceptButton = this.btnSave;
+            this.BackColor = System.Drawing.Color.White;
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(437, 380);
             this.Controls.Add(this.cbStaff);
             this.Controls.Add(this.dtpShiftDate);
             this.Controls.Add(this.dtpStart);
@@ -179,6 +214,10 @@ namespace EcoStationManagerApplication.UI.Forms
             this.Controls.Add(this.lblEnd);
             this.Controls.Add(this.lblKpi);
             this.Controls.Add(this.lblNotes);
+            this.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "WorkShiftForm";
             this.Text = "Thêm ca làm việc";
             this.Load += new System.EventHandler(this.WorkShiftForm_Load);

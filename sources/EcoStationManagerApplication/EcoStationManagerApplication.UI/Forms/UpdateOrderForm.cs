@@ -1,6 +1,7 @@
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using AppServices = EcoStationManagerApplication.UI.Common.AppServices;
+using EcoStationManagerApplication.UI.Common;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -40,14 +41,14 @@ namespace EcoStationManagerApplication.UI.Forms
             cmbStatus.ValueMember = "Value";
             cmbStatus.DataSource = Enum.GetValues(typeof(OrderStatus))
                 .Cast<OrderStatus>()
-                .Select(status => new EnumOption<OrderStatus>(GetOrderStatusDisplay(status), status))
+                .Select(status => new EnumOption<OrderStatus>(EnumHelper.GetDisplayName(status), status))
                 .ToList();
 
             cmbPaymentStatus.DisplayMember = "Display";
             cmbPaymentStatus.ValueMember = "Value";
             cmbPaymentStatus.DataSource = Enum.GetValues(typeof(PaymentStatus))
                 .Cast<PaymentStatus>()
-                .Select(status => new EnumOption<PaymentStatus>(GetPaymentStatusDisplay(status), status))
+                .Select(status => new EnumOption<PaymentStatus>(EnumHelper.GetDisplayName(status), status))
                 .ToList();
         }
 
@@ -70,7 +71,7 @@ namespace EcoStationManagerApplication.UI.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi tải thông tin đơn hàng: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UIHelper.ShowExceptionError(ex, "tải thông tin đơn hàng");
                 this.DialogResult = DialogResult.Cancel;
                 Close();
             }
@@ -104,46 +105,57 @@ namespace EcoStationManagerApplication.UI.Forms
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
-            if (_order == null) return;
-
-            var selectedStatus = (OrderStatus)cmbStatus.SelectedValue;
-            var selectedPaymentStatus = (PaymentStatus)cmbPaymentStatus.SelectedValue;
-
-            bool hasChanges = false;
-
-            if (selectedStatus != _order.Status)
+            try
             {
-                var updateStatusResult = await AppServices.OrderService.UpdateOrderStatusAsync(_orderId, selectedStatus);
-                if (!updateStatusResult.Success)
+                if (_order == null) return;
+
+                var selectedStatus = _order.Status;
+                if (cmbStatus.SelectedValue is OrderStatus os)
+                    selectedStatus = os;
+                var selectedPaymentStatus = _order.PaymentStatus;
+                if (cmbPaymentStatus.SelectedValue is PaymentStatus ps)
+                    selectedPaymentStatus = ps;
+
+                bool hasChanges = false;
+
+                if (selectedPaymentStatus != _order.PaymentStatus)
                 {
-                    MessageBox.Show(updateStatusResult.Message ?? "Cập nhật trạng thái đơn hàng thất bại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    var updatePaymentResult = await AppServices.OrderService.UpdatePaymentStatusAsync(_orderId, selectedPaymentStatus);
+                    if (!updatePaymentResult.Success)
+                    {
+                        MessageBox.Show(updatePaymentResult.Message ?? "Cập nhật trạng thái thanh toán thất bại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    hasChanges = true;
+                    _order.PaymentStatus = selectedPaymentStatus;
+                }
+
+                if (selectedStatus != _order.Status)
+                {
+                    var updateStatusResult = await AppServices.OrderService.UpdateOrderStatusAsync(_orderId, selectedStatus);
+                    if (!updateStatusResult.Success)
+                    {
+                        MessageBox.Show(updateStatusResult.Message ?? "Cập nhật trạng thái đơn hàng thất bại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    hasChanges = true;
+                    _order.Status = selectedStatus;
+                }
+
+                if (!hasChanges)
+                {
+                    MessageBox.Show("Không có thay đổi nào để cập nhật.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                hasChanges = true;
-                _order.Status = selectedStatus;
-            }
 
-            if (selectedPaymentStatus != _order.PaymentStatus)
+                MessageBox.Show("Cập nhật đơn hàng thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
+                Close();
+            }
+            catch (Exception ex)
             {
-                var updatePaymentResult = await AppServices.OrderService.UpdatePaymentStatusAsync(_orderId, selectedPaymentStatus);
-                if (!updatePaymentResult.Success)
-                {
-                    MessageBox.Show(updatePaymentResult.Message ?? "Cập nhật trạng thái thanh toán thất bại", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                hasChanges = true;
-                _order.PaymentStatus = selectedPaymentStatus;
+                UIHelper.ShowExceptionError(ex, "cập nhật đơn hàng");
             }
-
-            if (!hasChanges)
-            {
-                MessageBox.Show("Không có thay đổi nào để cập nhật.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            MessageBox.Show("Cập nhật đơn hàng thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.DialogResult = DialogResult.OK;
-            Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -156,31 +168,6 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             this.DialogResult = DialogResult.Cancel;
             Close();
-        }
-
-        private string GetOrderStatusDisplay(OrderStatus status)
-        {
-            switch (status)
-            {
-                case OrderStatus.DRAFT: return "Nháp";
-                case OrderStatus.CONFIRMED: return "Mới";
-                case OrderStatus.PROCESSING: return "Đang xử lý";
-                case OrderStatus.READY: return "Chuẩn bị";
-                case OrderStatus.SHIPPED: return "Đang giao";
-                case OrderStatus.COMPLETED: return "Hoàn thành";
-                case OrderStatus.CANCELLED: return "Đã hủy";
-                default: return status.ToString();
-            }
-        }
-
-        private string GetPaymentStatusDisplay(PaymentStatus status)
-        {
-            switch (status)
-            {
-                case PaymentStatus.UNPAID: return "Chưa thanh toán";
-                case PaymentStatus.PAID: return "Đã thanh toán";
-                default: return status.ToString();
-            }
         }
 
         private class EnumOption<T>

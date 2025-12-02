@@ -251,48 +251,11 @@
     <Compile Include="Controls\ProductsControl.Designer.cs">
       <DependentUpon>ProductsControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Refill.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Refill.Designer.cs">
-      <DependentUpon>Refill.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ReportControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ReportControl.Designer.cs">
       <DependentUpon>ReportControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ReportControl.Revenue.cs">
-      <DependentUpon>ReportControl.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ReportControl.CustomerRefill.cs">
-      <DependentUpon>ReportControl.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ReportControl.PackagingRecovery.cs">
-      <DependentUpon>ReportControl.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ReportControl.PlasticReduction.cs">
-      <DependentUpon>ReportControl.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ReportControl.PaymentMethod.cs">
-      <DependentUpon>ReportControl.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ReportControl.BestSelling.cs">
-      <DependentUpon>ReportControl.cs</DependentUpon>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ReportControlHelpers.cs" />
-    <Compile Include="Controls\SettingsControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\SettingsControl.Designer.cs">
-      <DependentUpon>SettingsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SidebarControl.cs">
       <SubType>UserControl</SubType>
@@ -417,12 +380,6 @@
     <Compile Include="Forms\UpdateOrderForm.Designer.cs">
       <DependentUpon>UpdateOrderForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\DeliveryAssignmentForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\DeliveryAssignmentForm.Designer.cs">
-      <DependentUpon>DeliveryAssignmentForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\BatchDeliveryAssignmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -480,9 +437,6 @@
     <Compile Include="Forms\CleaningScheduleForm.Designer.cs">
       <DependentUpon>CleaningScheduleForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\WorkShiftForm.Designer.cs">
-      <DependentUpon>WorkShiftForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\UserProfileForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -536,14 +490,8 @@
     <EmbeddedResource Include="Controls\ProductsControl.resx">
       <DependentUpon>ProductsControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Refill.resx">
-      <DependentUpon>Refill.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ReportControl.resx">
       <DependentUpon>ReportControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SettingsControl.resx">
-      <DependentUpon>SettingsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SidebarControl.resx">
       <DependentUpon>SidebarControl.cs</DependentUpon>
@@ -604,9 +552,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UpdateOrderForm.resx">
       <DependentUpon>UpdateOrderForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DeliveryAssignmentForm.resx">
-      <DependentUpon>DeliveryAssignmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -690,6 +635,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\refill-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\appsettings.json">
+      <Link>appsettings.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

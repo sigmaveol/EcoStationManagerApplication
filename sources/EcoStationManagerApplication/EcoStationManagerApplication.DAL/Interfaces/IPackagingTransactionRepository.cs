@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using System;
@@ -15,6 +15,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// Lấy lịch sử giao dịch theo bao bì
         /// </summary>
         Task<IEnumerable<PackagingTransaction>> GetByPackagingAsync(int packagingId);
+        Task<PackagingTransaction> GetLatestByPackagingAsync(int packagingId);
 
         /// <summary>
         /// Lấy lịch sử giao dịch theo khách hàng
@@ -60,13 +61,13 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// Phát hành bao bì cho khách hàng
         /// </summary>
         Task<bool> IssuePackagingAsync(int packagingId, int? customerId, int quantity,
-                                      decimal depositPrice, int? userId, string notes = null);
+                                      decimal depositPrice, int? userId, PackagingOwnershipType ownershipType, int? refProductId, string notes = null);
 
         /// <summary>
         /// Thu hồi bao bì từ khách hàng
         /// </summary>
         Task<bool> ReturnPackagingAsync(int packagingId, int customerId, int quantity,
-                                       decimal refundAmount, int? userId, string notes = null);
+                                       decimal refundAmount, int? userId, PackagingOwnershipType ownershipType, int? refProductId, string notes = null);
 
         /// <summary>
         /// Lấy lịch sử giao dịch chi tiết với thông tin đầy đủ

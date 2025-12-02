@@ -46,6 +46,7 @@ namespace EcoStationManagerApplication.Core.Interfaces
         public List<string> Errors { get; set; } = new List<string>();
         public List<int> CreatedOrderIds { get; set; } = new List<int>();
         public List<int> CreatedCustomerIds { get; set; } = new List<int>();
+        public List<int> CreatedRowIndexes { get; set; } = new List<int>();
     }
 }
 

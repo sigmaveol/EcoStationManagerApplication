@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -38,6 +38,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 {
                     _title = value;
                     labelTitle.Text = value;
+                    RecomputeHeight();
                     TitleChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
@@ -53,6 +54,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 {
                     _value = value;
                     labelValue.Text = value;
+                    RecomputeHeight();
                     ValueChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
@@ -68,6 +70,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 {
                     _subInfo = value;
                     labelSubInfo.Text = value;
+                    RecomputeHeight();
                 }
             }
         }
@@ -82,6 +85,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 {
                     _change = value;
                     labelChange.Text = value;
+                    RecomputeHeight();
                 }
             }
         }
@@ -196,6 +200,15 @@ namespace EcoStationManagerApplication.UI.Controls
             Value = value;
             SubInfo = subInfo;
             Change = change;
+        }
+
+        private void RecomputeHeight()
+        {
+            int maxBottom = Math.Max(Math.Max(labelTitle.Bottom, labelValue.Bottom), Math.Max(labelSubInfo.Bottom, labelChange.Bottom));
+            int desired = maxBottom + panelCard.Padding.Bottom + this.Padding.Vertical;
+            int limit = this.MaximumSize.Height > 0 ? this.MaximumSize.Height : int.MaxValue;
+            int h = Math.Min(Math.Max(100, desired), limit);
+            this.Height = h;
         }
 
         #endregion

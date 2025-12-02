@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -115,17 +115,17 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    so.created_by,
                    so.created_date as CreatedDate,
                    CASE 
-                       WHEN so.ref_type = 'PRODUCT' THEN p.name
+                       WHEN so.ref_type = 0 THEN p.name
                        ELSE NULL
                    END as ProductName,
                    CASE 
-                       WHEN so.ref_type = 'PACKAGING' THEN pk.name
+                       WHEN so.ref_type = 1 THEN pk.name
                        ELSE NULL
                    END as PackagingName,
                    u.fullname as CreatedBy
             FROM StockOut so
-            LEFT JOIN Products p ON so.ref_type = 'PRODUCT' AND so.ref_id = p.product_id
-            LEFT JOIN Packaging pk ON so.ref_type = 'PACKAGING' AND so.ref_id = pk.packaging_id
+            LEFT JOIN Products p ON so.ref_type = 0 AND so.ref_id = p.product_id
+            LEFT JOIN Packaging pk ON so.ref_type = 1 AND so.ref_id = pk.packaging_id
             LEFT JOIN Users u ON so.created_by = u.user_id
             WHERE 1=1";
 

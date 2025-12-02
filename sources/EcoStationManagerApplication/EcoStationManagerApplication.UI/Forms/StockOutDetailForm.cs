@@ -38,6 +38,9 @@ namespace EcoStationManagerApplication.UI.Forms
             if (_detail == null) return;
 
             lblReferenceNumber.Text = $"XK{_detail.StockOutId:D6}";
+            var isPackaging = (!string.IsNullOrWhiteSpace(_detail.PackagingName)) ||
+                              (_detail.RefType != null && (_detail.RefType.Equals("PACKAGING", StringComparison.OrdinalIgnoreCase) || _detail.RefType == "1"));
+            lblProductNameLabel.Text = isPackaging ? "Bao bì:" : "Sản phẩm:";
             lblProductName.Text = _detail.ProductName ?? _detail.PackagingName ?? "-";
             lblBatchNo.Text = _detail.BatchNo ?? "-";
             lblQuantity.Text = _detail.Quantity.ToString("N2");

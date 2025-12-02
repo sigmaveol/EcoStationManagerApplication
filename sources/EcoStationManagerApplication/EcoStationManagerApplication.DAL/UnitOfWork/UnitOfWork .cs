@@ -37,6 +37,8 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
         private IDeliveryRepository _deliveries;
         private ICleaningScheduleRepository _cleaningSchedules;
         private INotificationRepository _notifications;
+        private IGoogleIntegrationConfigRepository _googleIntegrationConfigs;
+        private IGoogleOrderMappingRepository _googleOrderMappings;
 
         public UnitOfWork(IDatabaseHelper databaseHelper)
         {
@@ -87,6 +89,9 @@ namespace EcoStationManagerApplication.DAL.UnitOfWork
         public ICleaningScheduleRepository CleaningSchedules => _cleaningSchedules ?? (_cleaningSchedules = new CleaningScheduleRepository(_databaseHelper));
 
         public INotificationRepository Notifications => _notifications ?? (_notifications = new NotificationRepository(_databaseHelper));
+
+        public IGoogleIntegrationConfigRepository GoogleIntegrationConfigs => _googleIntegrationConfigs ?? (_googleIntegrationConfigs = new GoogleIntegrationConfigRepository(_databaseHelper));
+        public IGoogleOrderMappingRepository GoogleOrderMappings => _googleOrderMappings ?? (_googleOrderMappings = new GoogleOrderMappingRepository(_databaseHelper));
 
         public async Task<int> SaveChangesAsync()
         {

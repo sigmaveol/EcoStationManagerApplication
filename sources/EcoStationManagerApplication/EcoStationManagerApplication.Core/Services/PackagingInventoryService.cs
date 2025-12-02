@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Core.Helpers;
+using EcoStationManagerApplication.Core.Helpers;
 using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.Models.DTOs;
@@ -111,6 +111,49 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
+        public async Task<Result<bool>> AddPackagingNewAsync(int packagingId, PackagingQuantities quantities)
+        {
+            try
+            {
+                if (packagingId <= 0)
+                    return NotFoundError<bool>("Bao bì", packagingId);
+
+                if (quantities == null)
+                    return BusinessError<bool>("Dữ liệu số lượng không hợp lệ");
+
+                if (quantities.QtyNew <= 0)
+                    return BusinessError<bool>("Số lượng bao bì mới phải lớn hơn 0");
+
+                var packagingResult = await _packagingService.GetPackagingByIdAsync(packagingId);
+                if (!packagingResult.Success)
+                    return Result<bool>.Fail(packagingResult.Message);
+
+                var currentInventory = await _unitOfWork.PackagingInventories.GetByPackagingAsync(packagingId);
+                if (currentInventory == null)
+                    return NotFoundError<bool>("Tồn kho bao bì", packagingId);
+
+                var newQuantities = new PackagingQuantities
+                {
+                    QtyNew = (currentInventory.QtyNew) + quantities.QtyNew,
+                    QtyInUse = currentInventory.QtyInUse,
+                    QtyReturned = currentInventory.QtyReturned,
+                    QtyNeedCleaning = currentInventory.QtyNeedCleaning,
+                    QtyCleaned = currentInventory.QtyCleaned,
+                    QtyDamaged = currentInventory.QtyDamaged
+                };
+
+                var success = await _unitOfWork.PackagingInventories.UpdateQuantitiesAsync(packagingId, newQuantities);
+                if (!success)
+                    return BusinessError<bool>("Không thể cập nhật số lượng bao bì mới");
+
+                return Result<bool>.Ok(true, $"Đã thêm {quantities.QtyNew} bao bì mới");
+            }
+            catch (Exception ex)
+            {
+                return HandleException<bool>(ex, "thêm bao bì mới");
+            }
+        }
+
         public async Task<Result<bool>> TransferToInUseAsync(int packagingId, int quantity)
         {
             try
@@ -168,6 +211,32 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
+        public async Task<Result<bool>> MoveReturnedToNeedCleaningAsync(int packagingId, int quantity)
+        {
+            try
+            {
+                if (packagingId <= 0)
+                    return NotFoundError<bool>("Bao bì", packagingId);
+
+                if (quantity <= 0)
+                    return BusinessError<bool>("Số lượng phải lớn hơn 0");
+
+                var packagingInventory = await _unitOfWork.PackagingInventories.GetByPackagingAsync(packagingId);
+                if (packagingInventory == null || packagingInventory.QtyReturned < quantity)
+                    return BusinessError<bool>("Không đủ số lượng bao bì trả về để chuyển sang cần vệ sinh");
+
+                var success = await _unitOfWork.PackagingInventories.MoveReturnedToNeedCleaningAsync(packagingId, quantity);
+                if (!success)
+                    return BusinessError<bool>("Không thể chuyển bao bì trả về sang cần vệ sinh");
+
+                return Result<bool>.Ok(true, $"Đã chuyển {quantity} từ trả về sang cần vệ sinh");
+            }
+            catch (Exception ex)
+            {
+                return HandleException<bool>(ex, "chuyển trả về sang cần vệ sinh");
+            }
+        }
+
         public async Task<Result<bool>> CompleteCleaningAsync(int packagingId, int quantity)
         {
             try
@@ -187,7 +256,7 @@ namespace EcoStationManagerApplication.Core.Services
                 if (!success)
                     return BusinessError<bool>("Không thể hoàn thành vệ sinh bao bì");
 
-                return Result<bool>.Ok(true, $"Đã hoàn thành vệ sinh {quantity} bao bì");
+                return Result<bool>.Ok(true, $"Đã hoàn thành vệ sinh {quantity} bao bì, cập nhật đã vệ sinh và mới");
             }
             catch (Exception ex)
             {
@@ -205,18 +274,12 @@ namespace EcoStationManagerApplication.Core.Services
                 if (quantity <= 0)
                     return BusinessError<bool>("Số lượng phải lớn hơn 0");
 
-                // Kiểm tra có đủ bao bì để đánh dấu hỏng
                 var packagingInventory = await _unitOfWork.PackagingInventories.GetByPackagingAsync(packagingId);
                 if (packagingInventory == null)
                     return NotFoundError<bool>("Tồn kho bao bì", packagingId);
 
-                // Có thể đánh dấu hỏng từ nhiều trạng thái khác nhau
-                var totalAvailable = packagingInventory.QtyNew + packagingInventory.QtyInUse +
-                                   packagingInventory.QtyReturned + packagingInventory.QtyNeedCleaning +
-                                   packagingInventory.QtyCleaned;
-
-                if (totalAvailable < quantity)
-                    return BusinessError<bool>($"Không đủ bao bì để đánh dấu hỏng");
+                if (packagingInventory.QtyCleaned < quantity)
+                    return BusinessError<bool>("Không đủ bao bì đã vệ sinh để chuyển sang hỏng");
 
                 var success = await _unitOfWork.PackagingInventories.MarkAsDamagedAsync(packagingId, quantity);
                 if (!success)
@@ -227,6 +290,84 @@ namespace EcoStationManagerApplication.Core.Services
             catch (Exception ex)
             {
                 return HandleException<bool>(ex, "đánh dấu bao bì hỏng");
+            }
+        }
+
+        public async Task<Result<bool>> MarkReturnedAsDamagedAsync(int packagingId, int quantity)
+        {
+            try
+            {
+                if (packagingId <= 0)
+                    return NotFoundError<bool>("Bao bì", packagingId);
+
+                if (quantity <= 0)
+                    return BusinessError<bool>("Số lượng phải lớn hơn 0");
+
+                var packagingInventory = await _unitOfWork.PackagingInventories.GetByPackagingAsync(packagingId);
+                if (packagingInventory == null || packagingInventory.QtyReturned < quantity)
+                    return BusinessError<bool>("Không đủ bao bì trả về để chuyển sang hỏng");
+
+                var success = await _unitOfWork.PackagingInventories.MarkReturnedAsDamagedAsync(packagingId, quantity);
+                if (!success)
+                    return BusinessError<bool>("Không thể chuyển trả về sang hỏng");
+
+                return Result<bool>.Ok(true, $"Đã chuyển {quantity} trả về sang hỏng");
+            }
+            catch (Exception ex)
+            {
+                return HandleException<bool>(ex, "đánh dấu hỏng từ trả về");
+            }
+        }
+
+        public async Task<Result<bool>> MarkNewAsDamagedAsync(int packagingId, int quantity)
+        {
+            try
+            {
+                if (packagingId <= 0)
+                    return NotFoundError<bool>("Bao bì", packagingId);
+
+                if (quantity <= 0)
+                    return BusinessError<bool>("Số lượng phải lớn hơn 0");
+
+                var packagingInventory = await _unitOfWork.PackagingInventories.GetByPackagingAsync(packagingId);
+                if (packagingInventory == null || packagingInventory.QtyNew < quantity)
+                    return BusinessError<bool>("Không đủ bao bì mới để chuyển sang hỏng");
+
+                var success = await _unitOfWork.PackagingInventories.MarkNewAsDamagedAsync(packagingId, quantity);
+                if (!success)
+                    return BusinessError<bool>("Không thể chuyển mới sang hỏng");
+
+                return Result<bool>.Ok(true, $"Đã chuyển {quantity} mới sang hỏng");
+            }
+            catch (Exception ex)
+            {
+                return HandleException<bool>(ex, "đánh dấu hỏng từ mới");
+            }
+        }
+
+        public async Task<Result<bool>> MarkNeedCleaningAsDamagedAsync(int packagingId, int quantity)
+        {
+            try
+            {
+                if (packagingId <= 0)
+                    return NotFoundError<bool>("Bao bì", packagingId);
+
+                if (quantity <= 0)
+                    return BusinessError<bool>("Số lượng phải lớn hơn 0");
+
+                var packagingInventory = await _unitOfWork.PackagingInventories.GetByPackagingAsync(packagingId);
+                if (packagingInventory == null || packagingInventory.QtyNeedCleaning < quantity)
+                    return BusinessError<bool>("Không đủ bao bì cần vệ sinh để chuyển sang hỏng");
+
+                var success = await _unitOfWork.PackagingInventories.MarkNeedCleaningAsDamagedAsync(packagingId, quantity);
+                if (!success)
+                    return BusinessError<bool>("Không thể chuyển cần vệ sinh sang hỏng");
+
+                return Result<bool>.Ok(true, $"Đã chuyển {quantity} cần vệ sinh sang hỏng");
+            }
+            catch (Exception ex)
+            {
+                return HandleException<bool>(ex, "đánh dấu hỏng từ cần vệ sinh");
             }
         }
 

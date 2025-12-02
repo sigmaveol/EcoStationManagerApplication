@@ -81,7 +81,7 @@ namespace EcoStationManagerApplication.UI.Controls
             dgvStockOut.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "ProductName",
-                HeaderText = "Sản phẩm",
+                HeaderText = "Sản phẩm/Bao bì",
                 Width = 200,
                 ReadOnly = true,
                 DataPropertyName = "ProductName"
@@ -151,6 +151,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 Width = 120
             };
             dgvStockOut.Columns.Add(actionColumn);
+            dgvStockOut.CellFormatting += dgvStockOut_CellFormatting;
         }
 
         private void InitializeStatsCards()
@@ -335,6 +336,22 @@ namespace EcoStationManagerApplication.UI.Controls
 
                 // Store item in row tag for detail view
                 dgvStockOut.Rows[rowIndex].Tag = item;
+            }
+        }
+
+        private void dgvStockOut_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            var colName = dgvStockOut.Columns[e.ColumnIndex].Name;
+            if (colName == "ProductName")
+            {
+                var item = dgvStockOut.Rows[e.RowIndex].Tag as StockOutDetail;
+                if (item != null)
+                {
+                    var name = item.ProductName ?? item.PackagingName ?? "-";
+                    e.Value = name;
+                    e.FormattingApplied = true;
+                }
             }
         }
 

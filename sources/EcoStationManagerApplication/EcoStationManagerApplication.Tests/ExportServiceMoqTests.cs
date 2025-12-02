@@ -8,6 +8,8 @@ using EcoStationManagerApplication.Core.Services;
 using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
+using EcoStationManagerApplication.Models.Results;
+using EcoStationManagerApplication.Models.DTOs;
 
 namespace EcoStationManagerApplication.Tests
 {
@@ -29,12 +31,12 @@ namespace EcoStationManagerApplication.Tests
         [TestMethod]
         public async Task GetOrdersForExport_FilterCompleted_MapsCustomerName()
         {
-            var orders = new List<Order>
+            var orders = new List<OrderDTO>
             {
-                new Order { OrderId = 1, OrderCode = "O1", CustomerId = 10, Source = OrderSource.MANUAL, Status = OrderStatus.COMPLETED, TotalAmount = 100m, PaymentStatus = PaymentStatus.PAID, LastUpdated = DateTime.Today },
-                new Order { OrderId = 2, OrderCode = "O2", CustomerId = null, Source = OrderSource.EXCEL, Status = OrderStatus.READY, TotalAmount = 50m, PaymentStatus = PaymentStatus.UNPAID, LastUpdated = DateTime.Today }
+                new OrderDTO { OrderId = 1, OrderCode = "O1", CustomerId = 10, Source = OrderSource.MANUAL, Status = OrderStatus.COMPLETED, TotalAmount = 100m, PaymentStatus = PaymentStatus.PAID, LastUpdated = DateTime.Today },
+                new OrderDTO { OrderId = 2, OrderCode = "O2", CustomerId = null, Source = OrderSource.EXCEL, Status = OrderStatus.READY, TotalAmount = 50m, PaymentStatus = PaymentStatus.UNPAID, LastUpdated = DateTime.Today }
             };
-            _orderSvc.Setup(s => s.GetProcessingOrdersAsync()).ReturnsAsync(Result<IEnumerable<Order>>.Ok(orders));
+            _orderSvc.Setup(s => s.GetProcessingOrdersAsync()).Returns(Task.FromResult(Result<IEnumerable<OrderDTO>>.Ok(orders)));
             _custSvc.Setup(c => c.GetCustomerByIdAsync(10)).ReturnsAsync(Result<Customer>.Ok(new Customer { CustomerId = 10, Name = "C1" }));
 
             var res = await _svc.GetOrdersForExportAsync("completed");
@@ -44,4 +46,3 @@ namespace EcoStationManagerApplication.Tests
         }
     }
 }
-

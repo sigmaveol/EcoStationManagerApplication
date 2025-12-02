@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Common.Helpers;
+using EcoStationManagerApplication.Common.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -137,7 +137,6 @@ namespace EcoStationManagerApplication.Common.Config
                 catch (Exception ex)
                 {
                     _appSettings = new AppSettings();
-                    System.Diagnostics.Debug.WriteLine($"Lỗi load config: {ex.Message}. Sử dụng config mặc định.");
                 }
             }
         }

@@ -36,14 +36,6 @@ namespace EcoStationManagerApplication.UI.Controls
             await LoadDashboardData();
         }
 
-        
-
-        // Đổ dữ liệu tạm thời cho các thẻ thống kê
-        private void PopulateStatsPanel()
-        {
-            if (statsPanel == null) return;
-        }
-
         private async Task LoadDashboardData()
         {
             try
@@ -197,11 +189,11 @@ namespace EcoStationManagerApplication.UI.Controls
                         var pct = (double)count / total;
                         var dp = new DataPoint
                         {
-                            AxisLabel = GetOrderSourceDisplay(src),
+                            AxisLabel = EnumHelper.GetDisplayName(src),
                             YValues = new[] { (double)count }
                         };
                         dp.Label = string.Format("{0:P0}", pct);
-                        dp.LegendText = GetOrderSourceDisplay(src);
+                        dp.LegendText = EnumHelper.GetDisplayName(src);
                         series.Points.Add(dp);
                     }
 
@@ -249,23 +241,6 @@ namespace EcoStationManagerApplication.UI.Controls
             catch (Exception ex)
             {
                 Console.WriteLine($"Lỗi tải dữ liệu biểu đồ: {ex.Message}");
-            }
-        }
-
-        private string GetOrderSourceDisplay(OrderSource source)
-        {
-            switch (source)
-            {
-                case OrderSource.GOOGLEFORM:
-                    return "Google Form";
-                case OrderSource.MANUAL:
-                    return "Offline";
-                case OrderSource.EXCEL:
-                    return "Excel";
-                case OrderSource.EMAIL:
-                    return "Email";
-                default:
-                    return "Khác";
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.Enums;
+using EcoStationManagerApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +43,7 @@ namespace EcoStationManagerApplication.UI.Common
                 case OrderSource.EMAIL:
                     return "Email";
                 case OrderSource.MANUAL:
-                    return "Nhập tay";
+                    return "Thủ công";
                 default:
                     return source.ToString();
             }

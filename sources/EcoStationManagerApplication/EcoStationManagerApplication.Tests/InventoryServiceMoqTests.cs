@@ -8,6 +8,7 @@ using EcoStationManagerApplication.Core.Services;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Core.Interfaces;
+using EcoStationManagerApplication.Models.Results;
 
 namespace EcoStationManagerApplication.Tests
 {
@@ -72,4 +73,3 @@ namespace EcoStationManagerApplication.Tests
         }
     }
 }
-

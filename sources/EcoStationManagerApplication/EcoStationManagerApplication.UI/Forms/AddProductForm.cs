@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.UI.Common;
 using System;
@@ -105,12 +105,10 @@ namespace EcoStationManagerApplication.UI.Forms
                     if (selectedProductType != null)
                     {
                         cmbProductType.SelectedItem = selectedProductType;
-                        System.Diagnostics.Debug.WriteLine($"ProductType loaded: {product.ProductType}");
                     }
                     else
                     {
                         cmbProductType.SelectedIndex = 0; // default PACKED
-                        System.Diagnostics.Debug.WriteLine($"ProductType {product.ProductType} not found, using default PACKED");
                     }
 
                     // Set Category
@@ -199,7 +197,6 @@ namespace EcoStationManagerApplication.UI.Forms
             catch (Exception ex)
             {
                 // Không hiển thị lỗi nếu không tìm thấy ảnh
-                System.Diagnostics.Debug.WriteLine($"Error loading product image: {ex.Message}");
             }
         }
 
@@ -780,7 +777,6 @@ namespace EcoStationManagerApplication.UI.Forms
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error saving product image: {ex.Message}");
                 // Không throw exception để không làm gián đoạn việc lưu sản phẩm
             }
         }
@@ -831,14 +827,12 @@ namespace EcoStationManagerApplication.UI.Forms
                 catch (Exception ex)
                 {
                     // Lỗi khác, log và dừng
-                    System.Diagnostics.Debug.WriteLine($"Error deleting image file: {ex.Message}");
                     break;
                 }
             }
 
             if (!deleted)
             {
-                System.Diagnostics.Debug.WriteLine($"Could not delete image file after {retryCount} attempts: {filePath}");
             }
         }
 

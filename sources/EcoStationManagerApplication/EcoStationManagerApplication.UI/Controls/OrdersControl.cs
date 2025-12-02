@@ -8,6 +8,7 @@ using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.Core.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
@@ -53,22 +54,10 @@ namespace EcoStationManagerApplication.UI.Controls
         // Gán tất cả sự kiện ở đây
         private void InitializeEvents()
         {
-            if (btnExportPDF != null)
-                btnExportPDF.Click += btnExportPDF_Click;
-
-            if (btnExportExcel != null)
-                btnExportExcel.Click += btnExportExcel_Click;
-
-            if (btnImportExcel != null)
-                btnImportExcel.Click += btnImportExcel_Click;
-
-            if (btnAddOrder != null)
-                btnAddOrder.Click += btnAddOrder_Click;
 
             if (dgvOrders != null)
             {
-                //dgvOrders.CellContentClick += dgvOrders_CellContentClick;
-                //dgvOrders.CellFormatting += dgvOrders_CellFormatting;
+                dgvOrders.CellFormatting += dgvOrders_CellFormatting;
             }
 
             if (txtSearch != null)
@@ -176,6 +165,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 new { Name = "Source", Header = "Nguồn" },
                 new { Name = "TotalAmount", Header = "Tổng tiền" },
                 new { Name = "Status", Header = "Trạng thái" },
+                new { Name = "PaymentStatus", Header = "Thanh toán" },
                 new { Name = "CreatedDate", Header = "Ngày tạo" },
             };
 
@@ -255,7 +245,7 @@ namespace EcoStationManagerApplication.UI.Controls
                     ordersResult = await AppServices.OrderService.GetAllAsync();
                 }
 
-                if (!ordersResult.Success || !ordersResult.Data.Any())
+                if (!ordersResult.Success || ordersResult.Data == null || !ordersResult.Data.Any())
                 {
                     dgvOrders.Rows.Add("", "Không có đơn hàng nào", "", "", "", "", "", "");
                     return;
@@ -337,9 +327,10 @@ namespace EcoStationManagerApplication.UI.Controls
                         order.OrderCode ?? $"ORD-{order.OrderId:D5}",
                         customerName,
                         customerPhone,
-                        GetOrderSourceDisplay(order.Source),
+                        EnumHelper.GetDisplayName(order.Source),
                         displayAmount.ToString("N0"),
-                        GetOrderStatusDisplay(order.Status),
+                        EnumHelper.GetDisplayName(order.Status),
+                        order.PaymentStatus.GetDisplayName(),
                         order.LastUpdated.ToString("dd/MM/yyyy HH:mm")
                     )];
                     // Lưu OrderId vào Tag của row để sử dụng khi mở form chi tiết
@@ -358,46 +349,7 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
-        // Helper methods giữ nguyên
-        private string GetOrderSourceDisplay(OrderSource source)
-        {
-            switch (source)
-            {
-                case OrderSource.MANUAL:
-                    return "Thủ công";
-                case OrderSource.GOOGLEFORM:
-                    return "Google Form";
-                case OrderSource.EXCEL:
-                    return "Excel";
-                case OrderSource.EMAIL:
-                    return "Email";
-                default:
-                    return "Khác";
-            }
-        }
-
-        private string GetOrderStatusDisplay(OrderStatus status)
-        {
-            switch (status)
-            {
-                case OrderStatus.DRAFT:
-                    return "Nháp";
-                case OrderStatus.CONFIRMED:
-                    return "Mới";
-                case OrderStatus.PROCESSING:
-                    return "Đang xử lý";
-                case OrderStatus.READY:
-                    return "Chuẩn bị";
-                case OrderStatus.SHIPPED:
-                    return "Đang giao";
-                case OrderStatus.COMPLETED:
-                    return "Hoàn thành";
-                case OrderStatus.CANCELLED:
-                    return "Đã hủy";
-                default:
-                    return "Không xác định";
-            }
-        }
+        
 
         private void ShowLoading(bool show)
         {
@@ -600,6 +552,97 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
+        private async void btnDownloadTemplate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var saveDialog = new SaveFileDialog
+                {
+                    Filter = "Excel files (*.xlsx)|*.xlsx",
+                    FileName = "MauNhapDonHang.xlsx",
+                    Title = "Tải về file mẫu nhập đơn hàng"
+                };
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var ordersTemplate = new DataTable();
+                    ordersTemplate.Columns.Add("OrderCode", typeof(string));
+                    ordersTemplate.Columns.Add("CustomerName", typeof(string));
+                    ordersTemplate.Columns.Add("Phone", typeof(string));
+                    ordersTemplate.Columns.Add("Address", typeof(string));
+                    ordersTemplate.Columns.Add("ProductName", typeof(string));
+                    ordersTemplate.Columns.Add("Quantity", typeof(decimal));
+                    ordersTemplate.Columns.Add("UnitPrice", typeof(decimal));
+                    ordersTemplate.Columns.Add("Discount", typeof(decimal));
+                    ordersTemplate.Columns.Add("Note", typeof(string));
+                    ordersTemplate.Columns.Add("CreatedDate", typeof(string));
+
+                    ordersTemplate.Rows.Add("", "Nguyen Van A", "0912345678", "123 Duong ABC", "San pham X", 2m, 100000m, 0m, "", "dd/MM/yyyy HH:mm");
+
+                    var productsSheet = new DataTable();
+                    productsSheet.Columns.Add("ProductName", typeof(string));
+                    productsSheet.Columns.Add("Unit", typeof(string));
+                    productsSheet.Columns.Add("Price", typeof(decimal));
+
+                    var productsResult = await AppServices.ProductService.GetAllProductsAsync();
+                    if (productsResult.Success && productsResult.Data != null)
+                    {
+                        foreach (var p in productsResult.Data)
+                        {
+                            productsSheet.Rows.Add(p.Name ?? "", p.Unit ?? "", p.Price);
+                        }
+                    }
+
+                    var sheets = new Dictionary<string, DataTable>
+                    {
+                        { "Mẫu nhập đơn hàng", ordersTemplate },
+                        { "Danh sách sản phẩm", productsSheet }
+                    };
+
+                    var titlesBySheet = new Dictionary<string, string>
+                    {
+                        {
+                            "Mẫu nhập đơn hàng",
+                            string.Join("\n", new[]
+                            {
+                                "DANH SÁCH NHẬP ĐƠN HÀNG",
+                                "Hướng dẫn:",
+                                "- Điền thông tin vào các cột tương ứng",
+                                "- Cột bắt buộc: CustomerName, Phone, ProductName, Quantity, UnitPrice",
+                                "- OrderCode có thể để trống để hệ thống tự tạo",
+                                "- CreatedDate định dạng dd/MM/yyyy HH:mm (tùy chọn)"
+                            })
+                        },
+                        {
+                            "Danh sách sản phẩm",
+                            string.Join("\n", new[]
+                            {
+                                "DANH SÁCH SẢN PHẨM HIỆN CÓ",
+                                "Gợi ý: Sao chép đúng tên sản phẩm vào cột ProductName ở sheet mẫu"
+                            })
+                        }
+                    };
+
+                    var headersBySheet = new Dictionary<string, Dictionary<string, string>>
+                    {
+                        { "Danh sách sản phẩm", new Dictionary<string, string>
+                            {
+                                { "ProductName", "Tên sản phẩm" },
+                                { "Price", "Giá hiện tại" },
+                                { "Unit", "Đơn vị" }
+                            }
+                        }
+                    };
+
+                    _excelExporter.ExportMultipleSheets(sheets, saveDialog.FileName, headersBySheet, titlesBySheet, null);
+                    MessageBox.Show("Đã tải về file mẫu thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải về file mẫu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private async void btnAddOrder_Click(object sender, EventArgs e)
         {
             Form mainForm = this.FindForm();
@@ -793,7 +836,7 @@ namespace EcoStationManagerApplication.UI.Controls
         private void dgvOrders_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             string colName = dgvOrders.Columns[e.ColumnIndex].Name;
-            if (colName == "Status" || colName == "Type")
+            if (colName == "Status" || colName == "Type" || colName == "PaymentStatus")
             {
                 if (e.Value != null)
                 {
@@ -841,11 +884,6 @@ namespace EcoStationManagerApplication.UI.Controls
             dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 245, 255);
             dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
             dgv.RowTemplate.Height = 35;
-        }
-
-        private void dgvOrders_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void tabPanel_Paint(object sender, PaintEventArgs e)
@@ -1041,9 +1079,10 @@ namespace EcoStationManagerApplication.UI.Controls
                         order.OrderCode ?? $"ORD-{order.OrderId:D5}",
                         customerName,
                         customerPhone,
-                        GetOrderSourceDisplay(order.Source),
+                        EnumHelper.GetDisplayName(order.Source),
                         displayAmount.ToString("N0"),
-                        GetOrderStatusDisplay(order.Status),
+                        EnumHelper.GetDisplayName(order.Status),
+                        order.PaymentStatus.GetDisplayName(),
                         order.LastUpdated.ToString("dd/MM/yyyy HH:mm")
                     )];
                     row.Tag = order.OrderId;
@@ -1204,6 +1243,11 @@ namespace EcoStationManagerApplication.UI.Controls
             dtpStartDate.Visible = false;
             dtpEndDate.Visible = false;
             lblDateRange.Visible = false;
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -38,6 +38,7 @@ namespace EcoStationManagerApplication.Core.Composition
         private static ICleaningScheduleService _cleaningScheduleService;
         private static INotificationService _notificationService;
         private static IDatabaseBackupService _databaseBackupService;
+        private static IGoogleIntegrationService _googleIntegrationService;
 
         private static IUnitOfWork GetUnitOfWork()
         {
@@ -75,7 +76,8 @@ namespace EcoStationManagerApplication.Core.Composition
             GetUnitOfWork(),
             PackagingService,
             CustomerService,
-            PackagingInventoryService));
+            PackagingInventoryService,
+            ProductService));
 
         public static IStockInService StockInService => _stockInService ?? (_stockInService = new StockInService(
             GetUnitOfWork(),
@@ -111,5 +113,7 @@ namespace EcoStationManagerApplication.Core.Composition
         public static INotificationService NotificationService => _notificationService ?? (_notificationService = new NotificationService(GetUnitOfWork()));
 
         public static IDatabaseBackupService DatabaseBackupService => _databaseBackupService ?? (_databaseBackupService = new DatabaseBackupService(new DatabaseHelper()));
+
+        public static IGoogleIntegrationService GoogleIntegrationService => _googleIntegrationService ?? (_googleIntegrationService = new GoogleIntegrationService(GetUnitOfWork()));
     }
 }

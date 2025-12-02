@@ -35,6 +35,13 @@ namespace EcoStationManagerApplication.UI.Forms
             // Load danh sách bao bì
             await LoadPackagings();
 
+            LoadOwnershipTypes();
+            await LoadProducts();
+
+            toggleIsProductPackaging.Checked = false;
+            lblProduct.Visible = false;
+            cmbProduct.Visible = false;
+
             // Thiết lập UI dựa trên loại giao dịch
             if (_transactionType == PackagingTransactionType.ISSUE)
             {
@@ -141,6 +148,42 @@ namespace EcoStationManagerApplication.UI.Forms
             }
         }
 
+        private void LoadOwnershipTypes()
+        {
+            cmbOwnershipType.Items.Clear();
+            cmbOwnershipType.Items.Add(new ComboItem<PackagingOwnershipType> { Text = "Ký quỹ", Value = PackagingOwnershipType.DEPOSIT });
+            cmbOwnershipType.Items.Add(new ComboItem<PackagingOwnershipType> { Text = "Bán đứt", Value = PackagingOwnershipType.SOLD });
+            cmbOwnershipType.DisplayMember = "Text";
+            cmbOwnershipType.ValueMember = "Value";
+            cmbOwnershipType.SelectedIndex = 0;
+        }
+
+        private async Task LoadProducts()
+        {
+            try
+            {
+                cmbProduct.Items.Clear();
+                var result = await AppServices.ProductService.GetAllActiveProductsAsync();
+                if (result.Success && result.Data != null)
+                {
+                    foreach (var product in result.Data.OrderBy(p => p.Name))
+                    {
+                        cmbProduct.Items.Add(new ComboItem<Product>
+                        {
+                            Text = product.Name,
+                            Value = product
+                        });
+                    }
+                    cmbProduct.DisplayMember = "Text";
+                    cmbProduct.ValueMember = "Value";
+                }
+            }
+            catch (Exception ex)
+            {
+                AppServices.Dialog.ShowException(ex, "tải danh sách sản phẩm");
+            }
+        }
+
         private void UpdateAmountFromSelectedPackaging()
         {
             if (cmbPackaging.SelectedItem is ComboItem<Packaging> selectedItem && selectedItem.Value != null)
@@ -182,6 +225,23 @@ namespace EcoStationManagerApplication.UI.Forms
                 ShowError("Số tiền không hợp lệ.");
                 txtAmount.Focus();
                 return false;
+            }
+
+            if (cmbOwnershipType.SelectedItem == null)
+            {
+                ShowError("Vui lòng chọn hình thức sở hữu.");
+                cmbOwnershipType.Focus();
+                return false;
+            }
+
+            if (toggleIsProductPackaging.Checked)
+            {
+                if (cmbProduct.SelectedItem == null)
+                {
+                    ShowError("Vui lòng chọn sản phẩm liên kết.");
+                    cmbProduct.Focus();
+                    return false;
+                }
             }
 
             // Kiểm tra số lượng bao bì khách hàng đang giữ (cho thu hồi)
@@ -226,6 +286,13 @@ namespace EcoStationManagerApplication.UI.Forms
                 }
 
                 var notes = txtNotes.Text.Trim();
+                var ownershipType = (cmbOwnershipType.SelectedItem as ComboItem<PackagingOwnershipType>)?.Value ?? PackagingOwnershipType.DEPOSIT;
+                int? refProductId = null;
+                var productItem = cmbProduct.SelectedItem as ComboItem<Product>;
+                if (toggleIsProductPackaging.Checked && productItem != null && productItem.Value != null)
+                {
+                    refProductId = productItem.Value.ProductId;
+                }
 
                 if (_transactionType == PackagingTransactionType.ISSUE)
                 {
@@ -235,7 +302,9 @@ namespace EcoStationManagerApplication.UI.Forms
                         _customerId,
                         quantity,
                         amount,
-                        AppServices.State.CurrentUser.UserId, // userId sẽ được lấy từ context
+                        AppServices.State.CurrentUser.UserId,
+                        ownershipType,
+                        refProductId,
                         notes
                     );
 
@@ -253,7 +322,9 @@ namespace EcoStationManagerApplication.UI.Forms
                         _customerId,
                         quantity,
                         amount,
-                        AppServices.State.CurrentUser.UserId, // userId sẽ được lấy từ context
+                        AppServices.State.CurrentUser.UserId,
+                        ownershipType,
+                        refProductId,
                         notes
                     );
 
@@ -268,6 +339,13 @@ namespace EcoStationManagerApplication.UI.Forms
             {
                 AppServices.Dialog.ShowException(ex, "xử lý giao dịch bao bì");
             }
+        }
+
+        private void toggleIsProductPackaging_CheckedChanged(object sender, EventArgs e)
+        {
+            var isOn = toggleIsProductPackaging.Checked;
+            lblProduct.Visible = isOn;
+            cmbProduct.Visible = isOn;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

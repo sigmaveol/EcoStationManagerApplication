@@ -3,6 +3,7 @@ using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Enums;
 using EcoStationManagerApplication.Models.Results;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,16 @@ namespace EcoStationManagerApplication.Core.Services
         private readonly IPackagingService _packagingService;
         private readonly ICustomerService _customerService;
         private readonly IPackagingInventoryService _packagingInventoryService;
+        private readonly IProductService _productService;
 
-        public PackagingTransactionService(IUnitOfWork unitOfWork, IPackagingService packagingService, ICustomerService customerService, IPackagingInventoryService packagingInventoryService)
+        public PackagingTransactionService(IUnitOfWork unitOfWork, IPackagingService packagingService, ICustomerService customerService, IPackagingInventoryService packagingInventoryService, IProductService productService)
             : base("PackagingTransactionService")
         {
             _unitOfWork = unitOfWork;
             _packagingService = packagingService;
             _customerService = customerService;
             _packagingInventoryService = packagingInventoryService;
+            _productService = productService;
         }
 
         public async Task<Result<PackagingTransaction>> GetTransactionByIdAsync(int transactionId)
@@ -79,7 +82,7 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
-        public async Task<Result<PackagingTransaction>> IssuePackagingAsync(int packagingId, int? customerId, int quantity, decimal depositPrice, int? userId, string notes = null)
+        public async Task<Result<PackagingTransaction>> IssuePackagingAsync(int packagingId, int? customerId, int quantity, decimal depositPrice, int? userId, PackagingOwnershipType ownershipType, int? refProductId, string notes = null)
         {
             try
             {
@@ -91,6 +94,16 @@ namespace EcoStationManagerApplication.Core.Services
 
                 if (depositPrice < 0)
                     return BusinessError<PackagingTransaction>("Giá ký quỹ không được âm");
+
+                if (!Enum.IsDefined(typeof(PackagingOwnershipType), ownershipType))
+                    return BusinessError<PackagingTransaction>("Hình thức sở hữu không hợp lệ");
+
+                if (refProductId.HasValue)
+                {
+                    var productResult = await _productService.GetProductByIdAsync(refProductId.Value);
+                    if (!productResult.Success)
+                        return Result<PackagingTransaction>.Fail(productResult.Message);
+                }
 
                 // Kiểm tra bao bì tồn tại
                 var packagingResult = await _packagingService.GetPackagingByIdAsync(packagingId);
@@ -105,64 +118,15 @@ namespace EcoStationManagerApplication.Core.Services
                         return Result<PackagingTransaction>.Fail(customerResult.Message);
                 }
 
-                // Kiểm tra tồn kho khả dụng (ưu tiên dùng Đã vệ sinh, sau đó Mới)
-                var currentInventory = await _unitOfWork.PackagingInventories.GetByPackagingAsync(packagingId);
-                if (currentInventory == null)
-                    return BusinessError<PackagingTransaction>("Không tìm thấy tồn kho bao bì");
+                // Ghi giao dịch phát hành và cập nhật tồn kho ở tầng repository (atomic)
+                var success = await _unitOfWork.PackagingTransactions.IssuePackagingAsync(
+                    packagingId, customerId, quantity, depositPrice, userId, ownershipType, refProductId, notes);
 
-                var available = (currentInventory.QtyCleaned) + (currentInventory.QtyNew);
-                if (available < quantity)
-                    return BusinessError<PackagingTransaction>($"Không đủ bao bì khả dụng. Hiện có: {available}, yêu cầu: {quantity}");
+                if (!success)
+                    return BusinessError<PackagingTransaction>("Không thể phát hành bao bì");
 
-                // Tính phân bổ: lấy từ đã vệ sinh trước, sau đó từ mới
-                var takeFromCleaned = Math.Min(quantity, currentInventory.QtyCleaned);
-                var remaining = quantity - takeFromCleaned;
-                var takeFromNew = Math.Min(remaining, currentInventory.QtyNew);
-
-                // Bắt đầu transaction để đảm bảo atomic
-                await _unitOfWork.BeginTransactionAsync();
-                try
-                {
-                    // Ghi giao dịch phát hành
-                    var success = await _unitOfWork.PackagingTransactions.IssuePackagingAsync(
-                        packagingId, customerId, quantity, depositPrice, userId, notes);
-
-                    if (!success)
-                    {
-                        await _unitOfWork.RollbackTransactionAsync();
-                        return BusinessError<PackagingTransaction>("Không thể phát hành bao bì");
-                    }
-
-                    // Cập nhật tồn kho: giảm cleaned/new, tăng in_use
-                    var newQuantities = new PackagingQuantities
-                    {
-                        QtyNew = currentInventory.QtyNew - takeFromNew,
-                        QtyInUse = currentInventory.QtyInUse + quantity,
-                        QtyReturned = currentInventory.QtyReturned,
-                        QtyNeedCleaning = currentInventory.QtyNeedCleaning,
-                        QtyCleaned = currentInventory.QtyCleaned - takeFromCleaned,
-                        QtyDamaged = currentInventory.QtyDamaged
-                    };
-
-                    var updateSuccess = await _unitOfWork.PackagingInventories.UpdateQuantitiesAsync(packagingId, newQuantities);
-                    if (!updateSuccess)
-                    {
-                        await _unitOfWork.RollbackTransactionAsync();
-                        return BusinessError<PackagingTransaction>("Không thể cập nhật tồn kho bao bì khi phát hành");
-                    }
-
-                    await _unitOfWork.CommitTransactionAsync();
-
-                    // Trả về giao dịch mới nhất
-                    var transactions = await _unitOfWork.PackagingTransactions.GetByPackagingAsync(packagingId);
-                    var latestTransaction = transactions.OrderByDescending(t => t.CreatedDate).FirstOrDefault();
-                    return Result<PackagingTransaction>.Ok(latestTransaction, $"Đã phát hành {quantity} bao bì thành công");
-                }
-                catch (Exception)
-                {
-                    await _unitOfWork.RollbackTransactionAsync();
-                    throw;
-                }
+                var latestTransaction = await _unitOfWork.PackagingTransactions.GetLatestByPackagingAsync(packagingId);
+                return Result<PackagingTransaction>.Ok(latestTransaction, $"Đã phát hành {quantity} bao bì thành công");
             }
             catch (Exception ex)
             {
@@ -170,7 +134,7 @@ namespace EcoStationManagerApplication.Core.Services
             }
         }
 
-        public async Task<Result<PackagingTransaction>> ReturnPackagingAsync(int packagingId, int customerId, int quantity, decimal refundAmount, int? userId, string notes = null)
+        public async Task<Result<PackagingTransaction>> ReturnPackagingAsync(int packagingId, int customerId, int quantity, decimal refundAmount, int? userId, PackagingOwnershipType ownershipType, int? refProductId, string notes = null)
         {
             try
             {
@@ -185,6 +149,16 @@ namespace EcoStationManagerApplication.Core.Services
 
                 if (refundAmount < 0)
                     return BusinessError<PackagingTransaction>("Số tiền hoàn trả không được âm");
+
+                if (!Enum.IsDefined(typeof(PackagingOwnershipType), ownershipType))
+                    return BusinessError<PackagingTransaction>("Hình thức sở hữu không hợp lệ");
+
+                if (refProductId.HasValue)
+                {
+                    var productResult = await _productService.GetProductByIdAsync(refProductId.Value);
+                    if (!productResult.Success)
+                        return Result<PackagingTransaction>.Fail(productResult.Message);
+                }
 
                 // Kiểm tra bao bì tồn tại
                 var packagingResult = await _packagingService.GetPackagingByIdAsync(packagingId);
@@ -201,38 +175,15 @@ namespace EcoStationManagerApplication.Core.Services
                 //if (holdingQuantity < quantity)
                 //    return BusinessError<PackagingTransaction>($"Khách hàng chỉ đang giữ {holdingQuantity} bao bì, không đủ để trả {quantity}");
 
-                // Thực hiện thu hồi bao bì và chuyển sang trạng thái cần vệ sinh trong một transaction
-                await _unitOfWork.BeginTransactionAsync();
-                try
-                {
-                    var success = await _unitOfWork.PackagingTransactions.ReturnPackagingAsync(
-                        packagingId, customerId, quantity, refundAmount, userId, notes);
+                // Thu hồi bao bì và cập nhật tồn kho ở tầng repository (atomic)
+                var success = await _unitOfWork.PackagingTransactions.ReturnPackagingAsync(
+                    packagingId, customerId, quantity, refundAmount, userId, ownershipType, refProductId, notes);
 
-                    if (!success)
-                    {
-                        await _unitOfWork.RollbackTransactionAsync();
-                        return BusinessError<PackagingTransaction>("Không thể thu hồi bao bì");
-                    }
+                if (!success)
+                    return BusinessError<PackagingTransaction>("Không thể thu hồi bao bì");
 
-                    // Cập nhật tồn kho: giảm đang dùng, tăng cần vệ sinh
-                    var invUpdateSuccess = await _unitOfWork.PackagingInventories.ReturnForCleaningAsync(packagingId, quantity);
-                    if (!invUpdateSuccess)
-                    {
-                        await _unitOfWork.RollbackTransactionAsync();
-                        return BusinessError<PackagingTransaction>("Không thể chuyển bao bì sang trạng thái cần vệ sinh");
-                    }
-
-                    await _unitOfWork.CommitTransactionAsync();
-
-                    var transactions = await _unitOfWork.PackagingTransactions.GetByPackagingAsync(packagingId);
-                    var latestTransaction = transactions.OrderByDescending(t => t.CreatedDate).FirstOrDefault();
-                    return Result<PackagingTransaction>.Ok(latestTransaction, $"Đã thu hồi {quantity} bao bì thành công");
-                }
-                catch (Exception)
-                {
-                    await _unitOfWork.RollbackTransactionAsync();
-                    throw;
-                }
+                var latestTransaction = await _unitOfWork.PackagingTransactions.GetLatestByPackagingAsync(packagingId);
+                return Result<PackagingTransaction>.Ok(latestTransaction, $"Đã thu hồi {quantity} bao bì thành công");
             }
             catch (Exception ex)
             {

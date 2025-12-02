@@ -82,6 +82,34 @@ namespace EcoStationManagerApplication.UI.Common.Services
             OnViewChanged?.Invoke(this, new ViewChangedEventArgs(key, control));
         }
 
+        public void PreloadViews(IEnumerable<string> viewNames, bool warmData = false)
+        {
+            if (viewNames == null)
+                return;
+
+            foreach (var name in viewNames)
+            {
+                var key = name?.ToLower() ?? "";
+                if (string.IsNullOrEmpty(key))
+                    continue;
+
+                if (_contentCache.ContainsKey(key))
+                    continue;
+
+                var control = CreateUserControlForView(key);
+                if (control == null)
+                    continue;
+
+                control.Dock = DockStyle.Fill;
+                _contentCache[key] = control;
+
+                if (warmData && control is IRefreshableControl refreshable)
+                {
+                    refreshable.RefreshData();
+                }
+            }
+        }
+
         /// <summary>
         /// Lấy container thực tế để thêm controls
         /// Nếu là ContentControl, trả về ContentPanel bên trong
@@ -135,10 +163,7 @@ namespace EcoStationManagerApplication.UI.Common.Services
                     control = new StaffControl();
                     break;
                 case "reports":
-                    control = new ReportControl(
-                        AppServices.ReportService,
-                        AppServices.OrderService,
-                        AppServices.OrderDetailService);
+                    control = new ReportControl();
                     break;
                 case "systemsettings":
                     control = new SystemSettingsControl();
@@ -216,4 +241,3 @@ namespace EcoStationManagerApplication.UI.Common.Services
         }
     }
 }
-

@@ -1,5 +1,6 @@
 using EcoStationManagerApplication.Core.Interfaces;
 using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.Models.Results;
 using EcoStationManagerApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,15 @@ namespace EcoStationManagerApplication.Core.Services
         {
             try
             {
-                // Lấy danh sách đơn hàng
-                var ordersResult = await _orderService.GetProcessingOrdersAsync();
+                Result<IEnumerable<OrderDTO>> ordersResult;
+                if (filterTag == "processing")
+                {
+                    ordersResult = await _orderService.GetProcessingOrdersAsync();
+                }
+                else
+                {
+                    ordersResult = await _orderService.GetAllAsync();
+                }
                 if (!ordersResult.Success || ordersResult.Data == null)
                 {
                     return new List<OrderExportDTO>();
@@ -37,8 +45,7 @@ namespace EcoStationManagerApplication.Core.Services
 
                 var orders = ordersResult.Data.ToList();
 
-                // Áp dụng filter
-                if (filterTag != "all")
+                if (filterTag != "all" && filterTag != "processing")
                 {
                     orders = orders.Where(order =>
                     {
@@ -85,7 +92,7 @@ namespace EcoStationManagerApplication.Core.Services
                         STT = stt,
                         MaDon = order.OrderCode ?? $"ORD-{order.OrderId:D5}",
                         KhachHang = customerName,
-                        Nguon = GetOrderSourceDisplay(order.Source),
+                        Nguon =  GetOrderSourceDisplay(order.Source),
                         TrangThai = GetOrderStatusDisplay(order.Status),
                         TongTien = order.TotalAmount,
                         ThanhToan = order.PaymentStatus == PaymentStatus.PAID ? "Đã thanh toán" : "Chưa thanh toán",

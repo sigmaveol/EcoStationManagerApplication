@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -48,7 +48,6 @@ namespace EcoStationManagerApplication.Common.Helpers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Lỗi đọc file JSON {filePath}: {ex.Message}");
                 return new T();
             }
         }
@@ -68,7 +67,6 @@ namespace EcoStationManagerApplication.Common.Helpers
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Lỗi ghi file JSON {filePath}: {ex.Message}");
                 throw;
             }
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,20 +14,20 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             FROM StockIn si
             LEFT JOIN Suppliers s ON si.supplier_id = s.supplier_id
             LEFT JOIN Users u ON si.created_by = u.user_id
-            WHERE si.ref_type = 'PRODUCT' AND si.ref_id = @ProductId
+            WHERE si.ref_type = 0 AND si.ref_id = @ProductId
             ORDER BY si.created_date DESC";
 
         // Lấy lịch sử nhập kho theo nhà cung cấp
         public const string GetBySupplier = @"
             SELECT si.*, 
                    CASE 
-                       WHEN si.ref_type = 'PRODUCT' THEN p.name
-                       WHEN si.ref_type = 'PACKAGING' THEN pk.name
+                       WHEN si.ref_type = 0 THEN p.name
+                       WHEN si.ref_type = 1 THEN pk.name
                    END as ref_name,
                    u.fullname as created_by_name
             FROM StockIn si
-            LEFT JOIN Products p ON si.ref_type = 'PRODUCT' AND si.ref_id = p.product_id
-            LEFT JOIN Packaging pk ON si.ref_type = 'PACKAGING' AND si.ref_id = pk.packaging_id
+            LEFT JOIN Products p ON si.ref_type = 0 AND si.ref_id = p.product_id
+            LEFT JOIN Packaging pk ON si.ref_type = 1 AND si.ref_id = pk.packaging_id
             LEFT JOIN Users u ON si.created_by = u.user_id
             WHERE si.supplier_id = @SupplierId
             ORDER BY si.created_date DESC";
@@ -45,14 +45,14 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         public const string GetByDateRange = @"
             SELECT si.*, 
                    CASE 
-                       WHEN si.ref_type = 'PRODUCT' THEN p.name
-                       WHEN si.ref_type = 'PACKAGING' THEN pk.name
+                       WHEN si.ref_type = 0 THEN p.name
+                       WHEN si.ref_type = 1 THEN pk.name
                    END as ref_name,
                    s.name as supplier_name, 
                    u.fullname as created_by_name
             FROM StockIn si
-            LEFT JOIN Products p ON si.ref_type = 'PRODUCT' AND si.ref_id = p.product_id
-            LEFT JOIN Packaging pk ON si.ref_type = 'PACKAGING' AND si.ref_id = pk.packaging_id
+            LEFT JOIN Products p ON si.ref_type = 0 AND si.ref_id = p.product_id
+            LEFT JOIN Packaging pk ON si.ref_type = 1 AND si.ref_id = pk.packaging_id
             LEFT JOIN Suppliers s ON si.supplier_id = s.supplier_id
             LEFT JOIN Users u ON si.created_by = u.user_id
             WHERE si.created_date BETWEEN @StartDate AND @EndDate
@@ -62,14 +62,14 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         public const string GetByBatch = @"
             SELECT si.*, 
                    CASE 
-                       WHEN si.ref_type = 'PRODUCT' THEN p.name
-                       WHEN si.ref_type = 'PACKAGING' THEN pk.name
+                       WHEN si.ref_type = 0 THEN p.name
+                       WHEN si.ref_type = 1 THEN pk.name
                    END as ref_name,
                    s.name as supplier_name, 
                    u.fullname as created_by_name
             FROM StockIn si
-            LEFT JOIN Products p ON si.ref_type = 'PRODUCT' AND si.ref_id = p.product_id
-            LEFT JOIN Packaging pk ON si.ref_type = 'PACKAGING' AND si.ref_id = pk.packaging_id
+            LEFT JOIN Products p ON si.ref_type = 0 AND si.ref_id = p.product_id
+            LEFT JOIN Packaging pk ON si.ref_type = 1 AND si.ref_id = pk.packaging_id
             LEFT JOIN Suppliers s ON si.supplier_id = s.supplier_id
             LEFT JOIN Users u ON si.created_by = u.user_id
             WHERE si.batch_no = @BatchNo
@@ -85,7 +85,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         public const string GetTotalQuantityByProduct = @"
             SELECT COALESCE(SUM(si.quantity), 0)
             FROM StockIn si
-            WHERE si.ref_type = 'PRODUCT' AND si.ref_id = @ProductId";
+            WHERE si.ref_type = 0 AND si.ref_id = @ProductId";
 
         // Top sản phẩm nhập nhiều nhất
         public const string GetTopStockInProducts = @"
@@ -95,7 +95,7 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    COUNT(si.stockin_id) as stockin_count
             FROM StockIn si
             JOIN Products p ON si.ref_id = p.product_id
-            WHERE si.ref_type = 'PRODUCT'";
+            WHERE si.ref_type = 0";
 
         // Nhật ký nhập kho với thông tin chi tiết
         public const string GetStockInDetails = @"
@@ -111,19 +111,19 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                    si.created_by,
                    si.created_date as CreatedDate,
                    CASE 
-                       WHEN si.ref_type = 'PRODUCT' THEN p.name
+                       WHEN si.ref_type = 0 THEN p.name
                        ELSE NULL
                    END as ProductName,
                    CASE 
-                       WHEN si.ref_type = 'PACKAGING' THEN pk.name
+                       WHEN si.ref_type = 1 THEN pk.name
                        ELSE NULL
                    END as PackagingName,
                    s.name as SupplierName,
                    u.fullname as CreatedBy,
                    (si.quantity * si.unit_price) as TotalValue
             FROM StockIn si
-            LEFT JOIN Products p ON si.ref_type = 'PRODUCT' AND si.ref_id = p.product_id
-            LEFT JOIN Packaging pk ON si.ref_type = 'PACKAGING' AND si.ref_id = pk.packaging_id
+            LEFT JOIN Products p ON si.ref_type = 0 AND si.ref_id = p.product_id
+            LEFT JOIN Packaging pk ON si.ref_type = 1 AND si.ref_id = pk.packaging_id
             LEFT JOIN Suppliers s ON si.supplier_id = s.supplier_id
             LEFT JOIN Users u ON si.created_by = u.user_id
             WHERE 1=1";
@@ -153,14 +153,14 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         public const string PagedStockInsBase = @"
             SELECT si.*,
                    CASE 
-                       WHEN si.ref_type = 'PRODUCT' THEN p.name
-                       WHEN si.ref_type = 'PACKAGING' THEN pk.name
+                       WHEN si.ref_type = 0 THEN p.name
+                       WHEN si.ref_type = 1 THEN pk.name
                    END as ref_name,
                    s.name as supplier_name,
                    u.fullname as created_by_name
             FROM StockIn si
-            LEFT JOIN Products p ON si.ref_type = 'PRODUCT' AND si.ref_id = p.product_id
-            LEFT JOIN Packaging pk ON si.ref_type = 'PACKAGING' AND si.ref_id = pk.packaging_id
+            LEFT JOIN Products p ON si.ref_type = 0 AND si.ref_id = p.product_id
+            LEFT JOIN Packaging pk ON si.ref_type = 1 AND si.ref_id = pk.packaging_id
             LEFT JOIN Suppliers s ON si.supplier_id = s.supplier_id
             LEFT JOIN Users u ON si.created_by = u.user_id";
 

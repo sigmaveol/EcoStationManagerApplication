@@ -3,6 +3,7 @@ using Moq;
 using System.Threading.Tasks;
 using EcoStationManagerApplication.Core.Services;
 using EcoStationManagerApplication.DAL.Interfaces;
+using EcoStationManagerApplication.Core.Interfaces;
 
 namespace EcoStationManagerApplication.Tests
 {
@@ -10,13 +11,19 @@ namespace EcoStationManagerApplication.Tests
     public class ImportServiceMoqTests
     {
         private Mock<IUnitOfWork> _uow;
+        private Mock<IOrderService> _orderSvc;
+        private Mock<ICustomerService> _custSvc;
+        private Mock<IProductService> _productSvc;
         private ImportService _svc;
 
         [TestInitialize]
         public void Setup()
         {
             _uow = new Mock<IUnitOfWork>();
-            _svc = new ImportService(_uow.Object);
+            _orderSvc = new Mock<IOrderService>();
+            _custSvc = new Mock<ICustomerService>();
+            _productSvc = new Mock<IProductService>();
+            _svc = new ImportService(_uow.Object, _orderSvc.Object, _custSvc.Object, _productSvc.Object);
         }
 
         [TestMethod]
@@ -34,4 +41,3 @@ namespace EcoStationManagerApplication.Tests
         }
     }
 }
-

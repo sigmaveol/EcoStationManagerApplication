@@ -35,7 +35,7 @@ namespace EcoStationManagerApplication.Tests
         public async Task AddRange_InvalidOrderStatus_Fail()
         {
             _orderRepo.Setup(r => r.GetByIdAsync(1)).ReturnsAsync(new Order { OrderId = 1, Status = OrderStatus.COMPLETED });
-            var res = await _svc.AddOrderDetailsAsync(1, new List<OrderDetail> { new OrderDetail { ProductId = 1, Quantity = 1m } });
+            var res = await _svc.AddOrderDetailsRangeAsync(new List<OrderDetail> { new OrderDetail { OrderId = 1, ProductId = 1, Quantity = 1m } });
             Assert.IsFalse(res.Success);
         }
 
@@ -45,9 +45,8 @@ namespace EcoStationManagerApplication.Tests
             _orderRepo.Setup(r => r.GetByIdAsync(2)).ReturnsAsync(new Order { OrderId = 2, Status = OrderStatus.CONFIRMED });
             _invRepo.Setup(r => r.IsStockSufficientAsync(1, 5m)).ReturnsAsync(false);
             _invRepo.Setup(r => r.GetTotalStockQuantityAsync(1)).ReturnsAsync(2m);
-            var res = await _svc.AddOrderDetailsAsync(2, new List<OrderDetail> { new OrderDetail { ProductId = 1, Quantity = 5m } });
+            var res = await _svc.AddOrderDetailsRangeAsync(new List<OrderDetail> { new OrderDetail { OrderId = 2, ProductId = 1, Quantity = 5m } });
             Assert.IsFalse(res.Success);
         }
     }
 }
-

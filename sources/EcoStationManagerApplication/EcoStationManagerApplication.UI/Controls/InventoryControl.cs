@@ -178,6 +178,7 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewProducts.Columns.Add(colInventoryId);
             var colProductId = new DataGridViewTextBoxColumn { Name = "ProductId", HeaderText = "ProductID", Visible = false };
             dataGridViewProducts.Columns.Add(colProductId);
+            dataGridViewProducts.SelectionMode = DataGridViewSelectionMode.CellSelect;
 
             dataGridViewProducts.Columns.Add("ProductCode", "Mã SP");
             dataGridViewProducts.Columns.Add("ProductName", "Tên sản phẩm");
@@ -217,6 +218,7 @@ namespace EcoStationManagerApplication.UI.Controls
 
             var colPackagingId = new DataGridViewTextBoxColumn { Name = "PackagingId", HeaderText = "ID", Visible = false };
             dataGridViewPackaging.Columns.Add(colPackagingId);
+            dataGridViewPackaging.SelectionMode = DataGridViewSelectionMode.CellSelect;
 
             dataGridViewPackaging.Columns.Add("PackagingCode", "Mã bao bì");
             dataGridViewPackaging.Columns.Add("PackagingName", "Loại bao bì");
@@ -226,8 +228,17 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewPackaging.Columns.Add("QtyNeedCleaning", "Cần vệ sinh");
             dataGridViewPackaging.Columns.Add("QtyCleaned", "Đã vệ sinh");
             dataGridViewPackaging.Columns.Add("QtyDamaged", "Hỏng");
-            dataGridViewPackaging.Columns.Add("TotalStock", "Tổng tồn khả dụng");
             dataGridViewPackaging.Columns.Add("Status", "Trạng thái");
+            var colActions = new DataGridViewButtonColumn
+            {
+                Name = "colActions",
+                HeaderText = "Thao tác",
+                Text = "⋮",
+                UseColumnTextForButtonValue = true,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                Width = 80
+            };
+            dataGridViewPackaging.Columns.Add(colActions);
 
             // Thiết lập độ rộng cột
             if (dataGridViewPackaging.Columns["PackagingCode"] != null)
@@ -246,17 +257,17 @@ namespace EcoStationManagerApplication.UI.Controls
                 dataGridViewPackaging.Columns["QtyCleaned"].Width = 110;
             if (dataGridViewPackaging.Columns["QtyDamaged"] != null)
                 dataGridViewPackaging.Columns["QtyDamaged"].Width = 100;
-            if (dataGridViewPackaging.Columns["TotalStock"] != null)
-                dataGridViewPackaging.Columns["TotalStock"].Width = 120;
             if (dataGridViewPackaging.Columns["Status"] != null)
                 dataGridViewPackaging.Columns["Status"].Width = 150;
 
             // Căn giữa cho các cột số lượng
-            foreach (string colName in new[] { "QtyNew", "QtyInUse", "QtyNeedCleaning", "QtyCleaned", "QtyDamaged", "TotalStock" })
+            foreach (string colName in new[] { "QtyNew", "QtyInUse", "QtyNeedCleaning", "QtyCleaned", "QtyDamaged" })
             {
                 if (dataGridViewPackaging.Columns[colName] != null)
                     dataGridViewPackaging.Columns[colName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
+
+            dataGridViewPackaging.CellContentClick += DataGridViewPackaging_CellContentClick;
         }
 
         private async Task LoadDataAsync()
@@ -364,7 +375,6 @@ namespace EcoStationManagerApplication.UI.Controls
                         continue;
 
                 var packaging = packagingResult.Data;
-                int totalStock = inv.QtyNew + inv.QtyCleaned;
 
                 var dto = new PackagingInventoryDTO
                 {
@@ -378,7 +388,6 @@ namespace EcoStationManagerApplication.UI.Controls
                     QtyNeedCleaning = inv.QtyNeedCleaning,
                     QtyCleaned = inv.QtyCleaned,
                     QtyDamaged = inv.QtyDamaged,
-                    TotalStock = totalStock
                 };
 
                     packagingInventories.Add(dto);
@@ -512,10 +521,35 @@ namespace EcoStationManagerApplication.UI.Controls
                 }
 
                 dataGridViewPackaging.Rows.Clear();
-
-                foreach (var inv in packagingInventories.OrderBy(p => p.PackagingName))
+                var filteredInventories = packagingInventories.Where(inv =>
                 {
-                    string status = GetPackagingStatus(inv.TotalStock, inv.QtyDamaged);
+                    if (inv == null) return false;
+
+                    // Filter by search term
+                    if (!string.IsNullOrWhiteSpace(searchTerm))
+                    {
+                        var s = searchTerm.ToLower();
+                        if ((inv.PackagingName?.ToLower().Contains(s) != true) &&
+                            (inv.PackagingCode?.ToLower().Contains(s) != true))
+                            return false;
+                    }
+
+                    // Filter by status (uses current selectedStatus if any)
+                    if (!string.IsNullOrEmpty(selectedStatus) && selectedStatus != "Tất cả")
+                    {
+                        string statusCur = GetPackagingStatus(inv.QtyNew, inv.QtyDamaged);
+                        if (selectedStatus == "An toàn" && statusCur != "An toàn") return false;
+                        if (selectedStatus == "Sắp thiếu" && statusCur != "Sắp thiếu") return false;
+                        if (selectedStatus == "Thiếu" && statusCur != "Thiếu") return false;
+                        if (selectedStatus == "Hỏng nhiều" && statusCur != "Hỏng nhiều") return false;
+                    }
+
+                    return true;
+                }).OrderBy(p => p.PackagingName);
+
+                foreach (var inv in filteredInventories)
+                {
+                    string status = GetPackagingStatus(inv.QtyNew, inv.QtyDamaged);
 
                     var rowIndex = dataGridViewPackaging.Rows.Add(
                         inv.PackagingId,
@@ -527,7 +561,6 @@ namespace EcoStationManagerApplication.UI.Controls
                         inv.QtyNeedCleaning.ToString("N0"),
                         inv.QtyCleaned.ToString("N0"),
                         inv.QtyDamaged.ToString("N0"),
-                        inv.TotalStock.ToString("N0"),
                         status
                     );
 
@@ -655,16 +688,16 @@ namespace EcoStationManagerApplication.UI.Controls
             UpdateStatCard("ProductBatches", totalTypes.ToString("N0"), "Loại bao bì");
 
             // Tổng số lượng bao bì
-            int totalStock = packagingInventories.Sum(p => p.TotalStock);
+            int totalStock = packagingInventories.Sum(p => p.QtyNew);
             UpdateStatCard("ProductTotalQty", totalStock.ToString("N0"), "Tổng số lượng");
 
             // Số loại thiếu (tổng tồn < 20)
-            int lowStockTypes = packagingInventories.Count(p => p.TotalStock < 20);
+            int lowStockTypes = packagingInventories.Count(p => p.QtyNew < 20);
             UpdateStatCard("ProductLowStock", lowStockTypes.ToString("N0"), "Loại cần bổ sung");
 
             // Số loại hỏng nhiều (hỏng > 20% tổng tồn)
             int damagedTypes = packagingInventories.Count(p => 
-                p.TotalStock > 0 && p.QtyDamaged > p.TotalStock * 0.2m);
+                p.QtyNew > 0 && p.QtyDamaged > p.QtyNew * 0.2m);
             UpdateStatCard("ProductExpired", damagedTypes.ToString("N0"), "Loại cần kiểm tra");
         }
 
@@ -895,7 +928,7 @@ namespace EcoStationManagerApplication.UI.Controls
                     var dataTable = currentMode == ViewMode.Products ? BuildProductsDataTable() : BuildPackagingDataTable();
                     byte[] chartBytes = GenerateOverviewChartImage();
 
-                    pdfExporter.ExportToPdf(dataTable, saveDialog.FileName, title, null, chartBytes);
+                    pdfExporter.ExportToPdf(dataTable, saveDialog.FileName, title, null, chartBytes, true, true);
 
                     MessageBox.Show($"Đã xuất PDF thành công\nFile: {saveDialog.FileName}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -924,7 +957,7 @@ namespace EcoStationManagerApplication.UI.Controls
                     var dataTable = currentMode == ViewMode.Products ? BuildProductsDataTable() : BuildPackagingDataTable();
                     byte[] chartBytes = GenerateOverviewChartImage();
 
-                    excelExporter.ExportToExcel(dataTable, saveDialog.FileName, worksheetName, null, title, chartBytes);
+                    excelExporter.ExportToExcel(dataTable, saveDialog.FileName, worksheetName, null, title, chartBytes, true);
 
                     MessageBox.Show($"Đã xuất Excel thành công\nFile: {saveDialog.FileName}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -948,7 +981,33 @@ namespace EcoStationManagerApplication.UI.Controls
             table.Columns.Add("Trạng thái");
 
             var list = productInventories ?? new List<ProductInventoryDTO>();
-            foreach (var inv in list.OrderBy(p => p.ProductName).ThenBy(p => p.BatchNo))
+            var filtered = list.Where(inv =>
+            {
+                if (inv == null) return false;
+                if (!string.IsNullOrWhiteSpace(searchTerm))
+                {
+                    var s = searchTerm.ToLower();
+                    if ((inv.ProductName?.ToLower().Contains(s) != true) &&
+                        (inv.ProductCode?.ToLower().Contains(s) != true) &&
+                        (inv.BatchNo?.ToLower().Contains(s) != true))
+                        return false;
+                }
+
+                if (selectedCategoryId.HasValue && inv.CategoryId != selectedCategoryId.Value)
+                    return false;
+
+                if (!string.IsNullOrEmpty(selectedStatus) && selectedStatus != "Tất cả")
+                {
+                    string statusCur = GetProductBatchStatus(inv.Quantity, inv.ExpiryDate, inv.AlertLevel);
+                    if (selectedStatus == "Bình thường" && statusCur != "Bình thường") return false;
+                    if (selectedStatus == "Sắp hết" && !statusCur.Contains("Sắp hết") && !statusCur.Contains("Sắp hết hạn")) return false;
+                    if (selectedStatus == "Hết hàng" && !statusCur.Contains("Hết hàng") && !statusCur.Contains("Hết hạn")) return false;
+                }
+
+                return true;
+            }).OrderBy(p => p.ProductName).ThenBy(p => p.BatchNo);
+
+            foreach (var inv in filtered)
             {
                 string status = GetProductBatchStatus(inv.Quantity, inv.ExpiryDate, inv.AlertLevel);
                 string expiryDateStr = inv.ExpiryDate.HasValue ? inv.ExpiryDate.Value.ToString("dd/MM/yyyy") : "Không có";
@@ -979,13 +1038,35 @@ namespace EcoStationManagerApplication.UI.Controls
             table.Columns.Add("Cần vệ sinh", typeof(int));
             table.Columns.Add("Đã vệ sinh", typeof(int));
             table.Columns.Add("Hỏng", typeof(int));
-            table.Columns.Add("Tổng tồn khả dụng", typeof(int));
             table.Columns.Add("Trạng thái");
 
             var list = packagingInventories ?? new List<PackagingInventoryDTO>();
-            foreach (var inv in list.OrderBy(p => p.PackagingName))
+            var filtered = list.Where(inv =>
             {
-                string status = GetPackagingStatus(inv.TotalStock, inv.QtyDamaged);
+                if (inv == null) return false;
+                if (!string.IsNullOrWhiteSpace(searchTerm))
+                {
+                    var s = searchTerm.ToLower();
+                    if ((inv.PackagingName?.ToLower().Contains(s) != true) &&
+                        (inv.PackagingCode?.ToLower().Contains(s) != true))
+                        return false;
+                }
+
+                if (!string.IsNullOrEmpty(selectedStatus) && selectedStatus != "Tất cả")
+                {
+                    string statusCur = GetPackagingStatus(inv.QtyNew, inv.QtyDamaged);
+                    if (selectedStatus == "An toàn" && statusCur != "An toàn") return false;
+                    if (selectedStatus == "Sắp thiếu" && statusCur != "Sắp thiếu") return false;
+                    if (selectedStatus == "Thiếu" && statusCur != "Thiếu") return false;
+                    if (selectedStatus == "Hỏng nhiều" && statusCur != "Hỏng nhiều") return false;
+                }
+
+                return true;
+            }).OrderBy(p => p.PackagingName);
+
+            foreach (var inv in filtered)
+            {
+                string status = GetPackagingStatus(inv.QtyNew, inv.QtyDamaged);
 
                 var row = table.NewRow();
                 row[0] = inv.PackagingCode;
@@ -996,8 +1077,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 row[5] = inv.QtyNeedCleaning;
                 row[6] = inv.QtyCleaned;
                 row[7] = inv.QtyDamaged;
-                row[8] = inv.TotalStock;
-                row[9] = status;
+                row[8] = status;
                 table.Rows.Add(row);
             }
             return table;
@@ -1073,6 +1153,140 @@ namespace EcoStationManagerApplication.UI.Controls
         private void dataGridViewPackaging_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Xử lý click vào cell của bảng bao bì nếu cần
+        }
+
+        private async void DataGridViewPackaging_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            var grid = dataGridViewPackaging;
+            var colName = grid.Columns[e.ColumnIndex].Name;
+            if (colName != "colActions") return;
+
+            var packagingIdObj = grid.Rows[e.RowIndex].Cells["PackagingId"].Value;
+            if (packagingIdObj == null || !int.TryParse(packagingIdObj.ToString(), out var packagingId)) return;
+
+            var menu = new ContextMenuStrip();
+            var menuMoveReturnedToClean = new ToolStripMenuItem("Chuyển trả về → cần vệ sinh");
+            var menuCompleteCleaning = new ToolStripMenuItem("Chuyển sang đã vệ sinh");
+            var menuMarkDamaged = new ToolStripMenuItem("Chuyển sang trạng thái hỏng");
+
+            menuMoveReturnedToClean.Click += async (s, ev) =>
+            {
+                var qty = PromptQuantity("Nhập số lượng chuyển từ trả về sang cần vệ sinh");
+                if (qty <= 0) return;
+                var res = await AppServices.PackagingInventoryService.MoveReturnedToNeedCleaningAsync(packagingId, qty);
+                if (!res.Success)
+                {
+                    MessageBox.Show(res.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                await LoadPackagingInventoryAsync();
+                RefreshCurrentView();
+            };
+
+            menuCompleteCleaning.Click += async (s, ev) =>
+            {
+                var qty = PromptQuantity("Nhập số lượng chuyển sang đã vệ sinh");
+                if (qty <= 0) return;
+                var res = await AppServices.PackagingInventoryService.CompleteCleaningAsync(packagingId, qty);
+                if (!res.Success)
+                {
+                    MessageBox.Show(res.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                await LoadPackagingInventoryAsync();
+                RefreshCurrentView();
+            };
+
+            var subFromReturned = new ToolStripMenuItem("Từ trả về");
+            var subFromNew = new ToolStripMenuItem("Từ mới");
+            var subFromNeedClean = new ToolStripMenuItem("Từ cần vệ sinh");
+
+            subFromReturned.Click += async (s, ev) =>
+            {
+                var qty = PromptQuantity("Nhập số lượng hỏng từ trả về");
+                if (qty <= 0) return;
+                var res = await AppServices.PackagingInventoryService.MarkReturnedAsDamagedAsync(packagingId, qty);
+                if (!res.Success)
+                {
+                    MessageBox.Show(res.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                await LoadPackagingInventoryAsync();
+                RefreshCurrentView();
+            };
+
+            subFromNew.Click += async (s, ev) =>
+            {
+                var qty = PromptQuantity("Nhập số lượng hỏng từ mới");
+                if (qty <= 0) return;
+                var res = await AppServices.PackagingInventoryService.MarkNewAsDamagedAsync(packagingId, qty);
+                if (!res.Success)
+                {
+                    MessageBox.Show(res.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                await LoadPackagingInventoryAsync();
+                RefreshCurrentView();
+            };
+
+            subFromNeedClean.Click += async (s, ev) =>
+            {
+                var qty = PromptQuantity("Nhập số lượng hỏng từ cần vệ sinh");
+                if (qty <= 0) return;
+                var res = await AppServices.PackagingInventoryService.MarkNeedCleaningAsDamagedAsync(packagingId, qty);
+                if (!res.Success)
+                {
+                    MessageBox.Show(res.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                await LoadPackagingInventoryAsync();
+                RefreshCurrentView();
+            };
+
+            menuMarkDamaged.DropDownItems.Add(subFromReturned);
+            menuMarkDamaged.DropDownItems.Add(subFromNew);
+            menuMarkDamaged.DropDownItems.Add(subFromNeedClean);
+
+            menu.Items.Add(menuMoveReturnedToClean);
+            menu.Items.Add(menuCompleteCleaning);
+            menu.Items.Add(menuMarkDamaged);
+            var cellRect = grid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+            menu.Show(grid, new Point(cellRect.Left + cellRect.Width / 2, cellRect.Bottom));
+        }
+
+        private int PromptQuantity(string title)
+        {
+            using (var form = new Form())
+            {
+                form.Text = title;
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.FormBorderStyle = FormBorderStyle.FixedDialog;
+                form.MinimizeBox = false;
+                form.MaximizeBox = false;
+                form.Width = 350;
+                form.Height = 160;
+
+                var label = new Label { Text = "Số lượng:", Left = 20, Top = 20, Width = 80 };
+                var numeric = new NumericUpDown { Left = 110, Top = 16, Width = 200, Minimum = 0, Maximum = 100000, Value = 1 };
+                var btnOk = new Button { Text = "OK", Left = 110, Width = 90, Top = 60, DialogResult = DialogResult.OK };
+                var btnCancel = new Button { Text = "Hủy", Left = 220, Width = 90, Top = 60, DialogResult = DialogResult.Cancel };
+
+                form.Controls.Add(label);
+                form.Controls.Add(numeric);
+                form.Controls.Add(btnOk);
+                form.Controls.Add(btnCancel);
+                form.AcceptButton = btnOk;
+                form.CancelButton = btnCancel;
+
+                var owner = this.FindForm() ?? this.TopLevelControl as Form;
+                var result = owner != null ? FormHelper.ShowModalWithDim(owner, form) : form.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    return (int)numeric.Value;
+                }
+                return 0;
+            }
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -1153,6 +1367,5 @@ namespace EcoStationManagerApplication.UI.Controls
         public int QtyNeedCleaning { get; set; }
         public int QtyCleaned { get; set; }
         public int QtyDamaged { get; set; }
-        public int TotalStock { get; set; }
     }
 }

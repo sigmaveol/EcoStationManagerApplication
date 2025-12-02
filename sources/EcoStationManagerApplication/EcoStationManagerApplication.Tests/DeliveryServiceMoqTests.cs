@@ -35,8 +35,8 @@ namespace EcoStationManagerApplication.Tests
         [TestMethod]
         public async Task UpdateStatus_Ok()
         {
-            _repo.Setup(r => r.UpdateStatusAsync(1, DeliveryStatus.IN_PROGRESS)).ReturnsAsync(true);
-            var res = await _svc.UpdateStatusAsync(1, DeliveryStatus.IN_PROGRESS);
+            _repo.Setup(r => r.UpdateStatusAsync(1, DeliveryStatus.INTRANSIT)).ReturnsAsync(true);
+            var res = await _svc.UpdateStatusAsync(1, DeliveryStatus.INTRANSIT);
             Assert.IsTrue(res.Success);
         }
 

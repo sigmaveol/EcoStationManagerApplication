@@ -81,7 +81,7 @@ namespace EcoStationManagerApplication.UI.Controls
             dgvStockIn.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "ProductName",
-                HeaderText = "Sản phẩm",
+                HeaderText = "Sản phẩm/Bao bì",
                 Width = 200,
                 ReadOnly = true,
                 DataPropertyName = "ProductName"
@@ -871,4 +871,3 @@ namespace EcoStationManagerApplication.UI.Controls
         #endregion
     }
 }
-

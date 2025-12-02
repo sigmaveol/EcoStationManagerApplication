@@ -225,7 +225,6 @@ namespace EcoStationManagerApplication.UI.Controls
 
             var inventoryResult = await _inventoryService.GetAllAsync();
             var inventory = inventoryResult.Success && inventoryResult.Data != null ? inventoryResult.Data.ToList() : new List<EcoStationManagerApplication.Models.Entities.Inventory>();
-            var inventoryTable = BuildProductInventoryDataTable(inventory);
 
             var packagingResult = await _packagingService.GetAllPackagingsAsync();
             var packaging = packagingResult.Success && packagingResult.Data != null ? packagingResult.Data.ToList() : new List<EcoStationManagerApplication.Models.Entities.Packaging>();
@@ -234,6 +233,7 @@ namespace EcoStationManagerApplication.UI.Controls
             var productsResult = await _productService.GetAllProductsAsync();
             var products = productsResult.Success && productsResult.Data != null ? productsResult.Data.ToList() : new List<EcoStationManagerApplication.Models.Entities.Product>();
             var productsTable = BuildProductsDataTable(products);
+            var inventoryTable = BuildProductInventoryDataTable(inventory, products);
 
             var ordersAllResult = await _orderService.GetAllAsync();
             var ordersAll = ordersAllResult.Success && ordersAllResult.Data != null ? ordersAllResult.Data.ToList() : new List<OrderDTO>();
@@ -307,7 +307,6 @@ namespace EcoStationManagerApplication.UI.Controls
 
             var inventoryResult = await _inventoryService.GetAllAsync();
             var inventory = inventoryResult.Success && inventoryResult.Data != null ? inventoryResult.Data.ToList() : new List<EcoStationManagerApplication.Models.Entities.Inventory>();
-            var inventoryTable = BuildProductInventoryDataTable(inventory);
 
             var packagingResult = await _packagingService.GetAllPackagingsAsync();
             var packaging = packagingResult.Success && packagingResult.Data != null ? packagingResult.Data.ToList() : new List<EcoStationManagerApplication.Models.Entities.Packaging>();
@@ -316,6 +315,7 @@ namespace EcoStationManagerApplication.UI.Controls
             var productsResult = await _productService.GetAllProductsAsync();
             var products = productsResult.Success && productsResult.Data != null ? productsResult.Data.ToList() : new List<EcoStationManagerApplication.Models.Entities.Product>();
             var productsTable = BuildProductsDataTable(products);
+            var inventoryTable = BuildProductInventoryDataTable(inventory, products);
 
             var ordersAllResult = await _orderService.GetAllAsync();
             var ordersAll = ordersAllResult.Success && ordersAllResult.Data != null ? ordersAllResult.Data.ToList() : new List<OrderDTO>();
@@ -478,7 +478,7 @@ namespace EcoStationManagerApplication.UI.Controls
             return table;
         }
 
-        private System.Data.DataTable BuildProductInventoryDataTable(List<EcoStationManagerApplication.Models.Entities.Inventory> inventory)
+        private System.Data.DataTable BuildProductInventoryDataTable(List<EcoStationManagerApplication.Models.Entities.Inventory> inventory, List<EcoStationManagerApplication.Models.Entities.Product> products)
         {
             var table = new System.Data.DataTable();
             table.Columns.Add("InventoryId", typeof(int));
@@ -489,9 +489,15 @@ namespace EcoStationManagerApplication.UI.Controls
             table.Columns.Add("ExpiryDate", typeof(DateTime));
             table.Columns.Add("LastUpdated", typeof(DateTime));
 
+            var productDict = products?.ToDictionary(p => p.ProductId, p => p) ?? new Dictionary<int, EcoStationManagerApplication.Models.Entities.Product>();
             foreach (var i in inventory.OrderByDescending(x => x.LastUpdated))
             {
-                var productName = i.Product?.Name ?? i.ProductName;
+                string productName = i.Product?.Name ?? i.ProductName;
+                if (string.IsNullOrWhiteSpace(productName) && i.ProductId > 0)
+                {
+                    if (productDict.TryGetValue(i.ProductId, out var pr))
+                        productName = pr?.Name ?? string.Empty;
+                }
                 table.Rows.Add(i.InventoryId, i.ProductId, productName, i.BatchNo, i.Quantity, i.ExpiryDate.HasValue ? i.ExpiryDate.Value : (object)DBNull.Value, i.LastUpdated);
             }
             return table;
@@ -734,7 +740,6 @@ namespace EcoStationManagerApplication.UI.Controls
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Auto backup failed: {ex.Message}");
             }
         }
 

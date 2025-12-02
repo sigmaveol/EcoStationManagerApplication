@@ -260,7 +260,7 @@ namespace EcoStationManagerApplication.Core.Services
                                 QtyNew = (int)stockIn.Quantity
                             };
 
-                            var updateResult = await _packagingInventoryService.UpdatePackagingQuantitiesAsync(
+                            var updateResult = await _packagingInventoryService.AddPackagingNewAsync(
                                 stockIn.RefId, quantities);
 
                             if (!updateResult.Success)

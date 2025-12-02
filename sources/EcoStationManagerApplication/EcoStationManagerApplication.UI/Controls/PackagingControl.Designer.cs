@@ -64,7 +64,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelHeader.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.titleLabelHeader.Location = new System.Drawing.Point(0, 0);
             this.titleLabelHeader.Name = "titleLabelHeader";
-            this.titleLabelHeader.Size = new System.Drawing.Size(288, 35);
+            this.titleLabelHeader.Size = new System.Drawing.Size(314, 37);
             this.titleLabelHeader.TabIndex = 0;
             this.titleLabelHeader.Text = "Bao bì & Vòng tuần hoàn";
             // 
@@ -97,7 +97,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.titleLabelStats.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.titleLabelStats.Location = new System.Drawing.Point(3, 0);
             this.titleLabelStats.Name = "titleLabelStats";
-            this.titleLabelStats.Size = new System.Drawing.Size(141, 25);
+            this.titleLabelStats.Size = new System.Drawing.Size(150, 25);
             this.titleLabelStats.TabIndex = 0;
             this.titleLabelStats.Text = "Quản lý bao bì";
             // 
@@ -117,7 +117,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtDistributed.Location = new System.Drawing.Point(3, 58);
             this.txtDistributed.Name = "txtDistributed";
             this.txtDistributed.ReadOnly = true;
-            this.txtDistributed.Size = new System.Drawing.Size(284, 26);
+            this.txtDistributed.Size = new System.Drawing.Size(284, 27);
             this.txtDistributed.TabIndex = 2;
             // 
             // lblRecovered
@@ -136,7 +136,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtRecovered.Location = new System.Drawing.Point(293, 58);
             this.txtRecovered.Name = "txtRecovered";
             this.txtRecovered.ReadOnly = true;
-            this.txtRecovered.Size = new System.Drawing.Size(284, 26);
+            this.txtRecovered.Size = new System.Drawing.Size(284, 27);
             this.txtRecovered.TabIndex = 4;
             // 
             // lblRecoveryRate
@@ -155,7 +155,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.txtRecoveryRate.Location = new System.Drawing.Point(583, 58);
             this.txtRecoveryRate.Name = "txtRecoveryRate";
             this.txtRecoveryRate.ReadOnly = true;
-            this.txtRecoveryRate.Size = new System.Drawing.Size(284, 26);
+            this.txtRecoveryRate.Size = new System.Drawing.Size(284, 27);
             this.txtRecoveryRate.TabIndex = 6;
             // 
             // titleLabelPackaging

@@ -42,6 +42,22 @@ namespace EcoStationManagerApplication.DAL.Repositories
             }
         }
 
+        public async Task<PackagingTransaction> GetLatestByPackagingAsync(int packagingId)
+        {
+            try
+            {
+                return await _databaseHelper.QueryFirstOrDefaultAsync<PackagingTransaction>(
+                    PackagingTransactionQueries.GetLatestByPackaging,
+                    new { PackagingId = packagingId }
+                );
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"GetLatestByPackagingAsync error - PackagingId: {packagingId} - {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<PackagingTransaction>> GetByCustomerAsync(int customerId, DateTime? fromDate = null, DateTime? toDate = null)
         {
             try
@@ -270,7 +286,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
         }
 
         public async Task<bool> IssuePackagingAsync(int packagingId, int? customerId, int quantity,
-                                                   decimal depositPrice, int? userId, string notes = null)
+                                                   decimal depositPrice, int? userId, PackagingOwnershipType ownershipType, int? refProductId, string notes = null)
         {
             using (var connection = await _databaseHelper.CreateConnectionAsync())
             {
@@ -286,26 +302,17 @@ namespace EcoStationManagerApplication.DAL.Repositories
                             return false;
                         }
 
-                        // 2. Chuyển bao bì sang trạng thái đang sử dụng
-                        var transferSuccess = await _packagingInventoryRepository.TransferToInUseAsync(packagingId, quantity);
-                        if (!transferSuccess)
-                        {
-                            _logger.Error($"Không thể chuyển trạng thái bao bì - PackagingId: {packagingId}, Quantity: {quantity}");
-                            transaction.Rollback();
-                            return false;
-                        }
-
-                        // 3. Ghi nhận giao dịch phát hành
+                        // 2. Ghi nhận giao dịch phát hành
                         var affectedRows = await connection.ExecuteAsync(
                             PackagingTransactionQueries.InsertTransaction,
                             new
                             {
                                 PackagingId = packagingId,
-                                RefProductId = (int?)null,
+                                RefProductId = refProductId,
                                 CustomerId = customerId,
                                 UserId = userId,
                                 Type = (int)PackagingTransactionType.ISSUE, // Với TINYINT, pass số nguyên
-                                OwnershipType = (int)PackagingOwnershipType.DEPOSIT, // Với TINYINT, pass số nguyên
+                                OwnershipType = (int)ownershipType, // Với TINYINT, pass số nguyên
                                 Quantity = quantity,
                                 DepositPrice = depositPrice,
                                 RefundAmount = 0m,
@@ -335,7 +342,7 @@ namespace EcoStationManagerApplication.DAL.Repositories
         }
 
         public async Task<bool> ReturnPackagingAsync(int packagingId, int customerId, int quantity,
-                                                    decimal refundAmount, int? userId, string notes = null)
+                                                    decimal refundAmount, int? userId, PackagingOwnershipType ownershipType, int? refProductId, string notes = null)
         {
             using (var connection = await _databaseHelper.CreateConnectionAsync())
             {
@@ -351,26 +358,18 @@ namespace EcoStationManagerApplication.DAL.Repositories
                             return false;
                         }
 
-                        // 2. Chuyển bao bì về trạng thái cần vệ sinh
-                        var returnSuccess = await _packagingInventoryRepository.ReturnForCleaningAsync(packagingId, quantity);
-                        if (!returnSuccess)
-                        {
-                            _logger.Error($"Không thể nhận bao bì trả về - PackagingId: {packagingId}, Quantity: {quantity}");
-                            transaction.Rollback();
-                            return false;
-                        }
 
-                        // 3. Ghi nhận giao dịch thu hồi
+                        // 2. Ghi nhận giao dịch thu hồi
                         var affectedRows = await connection.ExecuteAsync(
                             PackagingTransactionQueries.InsertTransaction,
                             new
                             {
                                 PackagingId = packagingId,
-                                RefProductId = (int?)null,
+                                RefProductId = refProductId,
                                 CustomerId = customerId,
                                 UserId = userId,
                                 Type = (int)PackagingTransactionType.RETURN, // Với TINYINT, pass số nguyên
-                                OwnershipType = (int)PackagingOwnershipType.DEPOSIT, // Với TINYINT, pass số nguyên
+                                OwnershipType = (int)ownershipType, // Với TINYINT, pass số nguyên
                                 Quantity = quantity,
                                 DepositPrice = 0m,
                                 RefundAmount = refundAmount,

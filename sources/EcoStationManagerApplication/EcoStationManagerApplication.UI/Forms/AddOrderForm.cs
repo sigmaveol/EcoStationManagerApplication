@@ -33,6 +33,7 @@ namespace EcoStationManagerApplication.UI.Forms
         {
             InitializeComponent();
             InitializeForm();
+            this.txtCustomer.Focus();
         }
 
         private void InitializeForm()
@@ -43,7 +44,6 @@ namespace EcoStationManagerApplication.UI.Forms
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Size = new Size(800, 700);
-
             // Khởi tạo controls
             InitializeControls();
 
@@ -718,7 +718,7 @@ namespace EcoStationManagerApplication.UI.Forms
 
             // SỬA Ở ĐÂY: Dùng DataSource thay vì Items.Add
             cmbProduct.DataSource = _products;          // 1. Gán nguồn dữ liệu là list sản phẩm
-            cmbProduct.DisplayMember = "Name";          // 2. Chỉ định thuộc tính để HIỂN THỊ
+            cmbProduct.DisplayMember = "Name";                 // 2. Chỉ định thuộc tính để HIỂN THỊ
             cmbProduct.ValueMember = "ProductId";       // 3. Chỉ định thuộc tính GIÁ TRỊ (để lấy ID)
 
             if (cmbProduct.Items.Count > 0)

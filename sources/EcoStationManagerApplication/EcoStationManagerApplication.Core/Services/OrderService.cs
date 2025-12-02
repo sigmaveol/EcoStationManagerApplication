@@ -323,16 +323,6 @@ namespace EcoStationManagerApplication.Core.Services
                 if (order == null)
                     return NotFoundError<bool>("Đơn hàng", orderId);
 
-                //// Xử lý business logic theo trạng thái mới (Vẫn nên giữ để đảm bảo tồn kho đúng)
-                //if (newStatus == OrderStatus.PROCESSING && order.Status != OrderStatus.PROCESSING)
-                //{
-                //    // Trừ tồn kho khi bắt đầu xử lý đơn hàng
-                //    var stockOutResult = await ProcessStockOutForOrderAsync(orderId);
-                //    // Nếu bạn muốn cho phép lỗi tồn kho vẫn đổi trạng thái, hãy comment dòng check lỗi này
-                //    if (!stockOutResult.Success)
-                //        return Result<bool>.Fail($"Lỗi xử lý tồn kho: {stockOutResult.Message}");
-                //}
-                //else
                 
                 if (order.Status == OrderStatus.COMPLETED || order.Status == OrderStatus.COMPLETED)
                 {
@@ -345,6 +335,11 @@ namespace EcoStationManagerApplication.Core.Services
                     var rollbackResult = await RollbackStockForOrderAsync(orderId);
                     if (!rollbackResult.Success)
                         return Result<bool>.Fail($"Lỗi hoàn trả tồn kho: {rollbackResult.Message}");
+                }
+
+                if (newStatus == OrderStatus.COMPLETED)
+                {
+                    await _unitOfWork.Orders.UpdatePaymentStatusAsync(orderId, PaymentStatus.PAID);
                 }
 
                 // Cập nhật trạng thái

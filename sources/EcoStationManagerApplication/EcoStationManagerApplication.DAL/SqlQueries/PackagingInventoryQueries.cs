@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,11 +51,21 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
             WHERE packaging_id = @PackagingId
             AND qty_in_use >= @Quantity";
 
+        // Chuyển từ trạng thái trả về sang cần vệ sinh
+        public const string MoveReturnedToNeedCleaning = @"
+            UPDATE PackagingInventories 
+            SET qty_returned = qty_returned - @Quantity,
+                qty_need_cleaning = qty_need_cleaning + @Quantity,
+                last_updated = NOW()
+            WHERE packaging_id = @PackagingId
+            AND qty_returned >= @Quantity";
+
         // Hoàn thành vệ sinh bao bì
         public const string CompleteCleaning = @"
             UPDATE PackagingInventories 
             SET qty_need_cleaning = qty_need_cleaning - @Quantity,
                 qty_cleaned = qty_cleaned + @Quantity,
+                qty_new = qty_new + @Quantity,
                 last_updated = NOW()
             WHERE packaging_id = @PackagingId
             AND qty_need_cleaning >= @Quantity";
@@ -68,6 +78,33 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
                 last_updated = NOW()
             WHERE packaging_id = @PackagingId
             AND qty_cleaned >= @Quantity";
+
+        // Đánh dấu hỏng từ trạng thái trả về
+        public const string MarkReturnedAsDamaged = @"
+            UPDATE PackagingInventories 
+            SET qty_returned = qty_returned - @Quantity,
+                qty_damaged = qty_damaged + @Quantity,
+                last_updated = NOW()
+            WHERE packaging_id = @PackagingId
+            AND qty_returned >= @Quantity";
+
+        // Đánh dấu hỏng từ trạng thái mới
+        public const string MarkNewAsDamaged = @"
+            UPDATE PackagingInventories 
+            SET qty_new = qty_new - @Quantity,
+                qty_damaged = qty_damaged + @Quantity,
+                last_updated = NOW()
+            WHERE packaging_id = @PackagingId
+            AND qty_new >= @Quantity";
+
+        // Đánh dấu hỏng từ trạng thái cần vệ sinh
+        public const string MarkNeedCleaningAsDamaged = @"
+            UPDATE PackagingInventories 
+            SET qty_need_cleaning = qty_need_cleaning - @Quantity,
+                qty_damaged = qty_damaged + @Quantity,
+                last_updated = NOW()
+            WHERE packaging_id = @PackagingId
+            AND qty_need_cleaning >= @Quantity";
 
         // Lấy tổng số lượng bao bì theo trạng thái
         public const string GetPackagingQuantities = @"

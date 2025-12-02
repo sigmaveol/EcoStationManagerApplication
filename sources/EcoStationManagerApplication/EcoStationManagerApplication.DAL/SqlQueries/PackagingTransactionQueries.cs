@@ -184,5 +184,11 @@ namespace EcoStationManagerApplication.DAL.SqlQueries
         SELECT COUNT(*)
         FROM PackagingTransactions pt
         WHERE 1=1";
+        // Lấy giao dịch mới nhất theo bao bì
+        public const string GetLatestByPackaging = @"
+        SELECT * FROM PackagingTransactions
+        WHERE packaging_id = @PackagingId
+        ORDER BY created_date DESC
+        LIMIT 1";
     }
 }

@@ -135,7 +135,6 @@ namespace EcoStationManagerApplication.UI
             catch (Exception ex)
             {
                 // Log lỗi nhưng không hiển thị cho user
-                System.Diagnostics.Debug.WriteLine($"Lỗi khi load saved credentials: {ex.Message}");
                 // Reset về trạng thái mặc định
                 ResetCredentials();
             }
@@ -166,7 +165,6 @@ namespace EcoStationManagerApplication.UI
             catch (Exception ex)
             {
                 // Log lỗi nhưng không làm ảnh hưởng đến trải nghiệm user
-                System.Diagnostics.Debug.WriteLine($"Lỗi khi save credentials: {ex.Message}");
             }
         }
 
@@ -271,6 +269,14 @@ namespace EcoStationManagerApplication.UI
 
             // Khởi tạo và bắt đầu timer đếm ngược
             InitializeTimer();
+
+            if (this.IsHandleCreated)
+            {
+                this.BeginInvoke(new Action(() =>
+                {
+                    AppServices.Navigation.PreloadViews(new[] {"reports" }, true);
+                }));
+            }
         }
 
         private void InitializeTimer()

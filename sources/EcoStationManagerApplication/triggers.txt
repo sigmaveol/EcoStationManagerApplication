@@ -142,7 +142,7 @@ BEGIN
         CLOSE cur;
     END IF;
 END$$
-
+    
 -- 5. Tự động cập nhật PackagingInventories khi PackagingTransactions
 DROP TRIGGER IF EXISTS trg_PackagingTransactions_AfterInsert$$
 CREATE TRIGGER trg_PackagingTransactions_AfterInsert

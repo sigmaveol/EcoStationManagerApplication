@@ -43,7 +43,6 @@ namespace EcoStationManagerApplication.Common.Exporters
                     }
                     catch (Exception ex)
             {
-                        System.Diagnostics.Debug.WriteLine($"Font resolver error: {ex.Message}");
                         _fontResolverInitialized = true;
                     }
                 }
@@ -81,6 +80,7 @@ namespace EcoStationManagerApplication.Common.Exporters
                 {
             var page = document.AddPage();
                     page.Size = PdfSharp.PageSize.A4;
+                    page.Orientation = PdfSharp.PageOrientation.Landscape;
 
                     using (var gfx = XGraphics.FromPdfPage(page))
                     {
@@ -147,6 +147,7 @@ namespace EcoStationManagerApplication.Common.Exporters
                 {
                     var page = document.AddPage();
                     page.Size = PdfSharp.PageSize.A4;
+                    page.Orientation = PdfSharp.PageOrientation.Landscape;
 
                     using (var gfx = XGraphics.FromPdfPage(page))
                     {
@@ -170,11 +171,11 @@ namespace EcoStationManagerApplication.Common.Exporters
                         while (rowIndex < dataTable.Rows.Count && itemsOnThisPage < ItemsPerPage)
                         {
                             var row = dataTable.Rows[rowIndex];
-                            DrawDataTableRow(gfx, row, dataTable, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page);
-                            yPos += LineHeight;
-                            rowIndex++;
-                            itemsOnThisPage++;
-                        }
+                        DrawDataTableRow(gfx, row, dataTable, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page, fitCells: false);
+                        yPos += LineHeight;
+                        rowIndex++;
+                        itemsOnThisPage++;
+                    }
 
                         DrawFooter(gfx, page, pageNum, totalPages, fonts.Small);
                     }
@@ -206,6 +207,7 @@ namespace EcoStationManagerApplication.Common.Exporters
                 {
                     var page = document.AddPage();
                     page.Size = PdfSharp.PageSize.A4;
+                    page.Orientation = PdfSharp.PageOrientation.Landscape;
 
                     using (var gfx = XGraphics.FromPdfPage(page))
                     {
@@ -243,11 +245,11 @@ namespace EcoStationManagerApplication.Common.Exporters
                         while (rowIndex < dataTable.Rows.Count && itemsOnThisPage < ItemsPerPage)
                         {
                             var row = dataTable.Rows[rowIndex];
-                            DrawDataTableRow(gfx, row, dataTable, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page);
-                            yPos += LineHeight;
-                            rowIndex++;
-                            itemsOnThisPage++;
-                        }
+                        DrawDataTableRow(gfx, row, dataTable, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page, fitCells: false);
+                        yPos += LineHeight;
+                        rowIndex++;
+                        itemsOnThisPage++;
+                    }
 
                         DrawFooter(gfx, page, pageNum, totalPages, fonts.Small);
                     }
@@ -279,6 +281,7 @@ namespace EcoStationManagerApplication.Common.Exporters
                 {
                     var page = document.AddPage();
                     page.Size = PdfSharp.PageSize.A4;
+                    page.Orientation = PdfSharp.PageOrientation.Landscape;
 
                     using (var gfx = XGraphics.FromPdfPage(page))
                     {
@@ -320,13 +323,122 @@ namespace EcoStationManagerApplication.Common.Exporters
                         while (rowIndex < dataTable.Rows.Count && itemsOnThisPage < ItemsPerPage)
                         {
                             var row = dataTable.Rows[rowIndex];
-                            DrawDataTableRow(gfx, row, dataTable, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page);
-                            yPos += LineHeight;
-                            rowIndex++;
-                            itemsOnThisPage++;
-                        }
+                        DrawDataTableRow(gfx, row, dataTable, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page, fitCells: false);
+                        yPos += LineHeight;
+                        rowIndex++;
+                        itemsOnThisPage++;
+                    }
 
                         DrawFooter(gfx, page, pageNum, totalPages, fonts.Small);
+                    }
+                }
+
+                EnsureDirectoryExists(filePath);
+                document.Save(filePath);
+            }
+        }
+
+        // Overload: support landscape orientation and fit cell content
+        public void ExportToPdf(DataTable dataTable, string filePath, string title, Dictionary<string, string> headers, byte[] chartImageBytes, bool landscape, bool fitCells)
+        {
+            if (dataTable == null) throw new ArgumentNullException(nameof(dataTable));
+            if (string.IsNullOrWhiteSpace(filePath)) throw new ArgumentException("File path is required", nameof(filePath));
+            if (dataTable.Rows.Count == 0) throw new InvalidOperationException("No data to export");
+
+            title = string.IsNullOrWhiteSpace(title) ? "Danh sách" : title;
+
+            using (var document = new PdfDocument())
+            {
+                document.Info.Title = title;
+
+                using (var probeDoc = new PdfDocument())
+                {
+                    var probe = probeDoc.AddPage();
+                    probe.Size = PdfSharp.PageSize.A4;
+                    probe.Orientation = landscape ? PdfSharp.PageOrientation.Landscape : PdfSharp.PageOrientation.Portrait;
+                    double probeTotalWidth = probe.Width - LeftMargin - RightMargin;
+                    double probePageHeight = probe.Height;
+
+                double chartHeight = 0;
+                if (chartImageBytes != null && chartImageBytes.Length > 0)
+                {
+                    using (var ms = new MemoryStream(chartImageBytes))
+                    {
+                        var img = XImage.FromStream(ms);
+                        double maxWidth = probeTotalWidth;
+                        double scale = img.PixelWidth > 0 ? Math.Min(maxWidth / img.PixelWidth, 1.0) : 1.0;
+                        chartHeight = img.PixelHeight * scale;
+                    }
+                }
+
+                    int simulatedRowIndex = 0;
+                    int simulatedPages = 0;
+                    while (simulatedRowIndex < dataTable.Rows.Count)
+                    {
+                        double startY = simulatedPages == 0 ? Math.Max(TableTopMargin, TableTopMargin + (chartHeight > 0 ? chartHeight + 20 : 0)) : 40;
+                        double ySim = startY + HeaderHeight;
+                        while (simulatedRowIndex < dataTable.Rows.Count && ySim + LineHeight <= probePageHeight - 50)
+                        {
+                            ySim += LineHeight;
+                            simulatedRowIndex++;
+                        }
+                        simulatedPages++;
+                    }
+
+                    int totalPages = Math.Max(1, simulatedPages);
+
+                    int rowIndex = 0;
+                    int pageNum = 0;
+                    while (rowIndex < dataTable.Rows.Count)
+                    {
+                        var page = document.AddPage();
+                        page.Size = PdfSharp.PageSize.A4;
+                        page.Orientation = PdfSharp.PageOrientation.Landscape;
+                        page.Orientation = landscape ? PdfSharp.PageOrientation.Landscape : PdfSharp.PageOrientation.Portrait;
+
+                        using (var gfx = XGraphics.FromPdfPage(page))
+                        {
+                            var fonts = CreateFonts();
+                            double totalWidth = page.Width - LeftMargin - RightMargin;
+                            double[] colWidths = CalculateColumnWidths(dataTable.Columns.Count, totalWidth);
+
+                            double yPos = 40;
+
+                            if (pageNum == 0)
+                            {
+                                DrawTitle(gfx, page, title, fonts.Title, ref yPos);
+                                DrawExportInfo(gfx, dataTable.Rows.Count, fonts.Normal, ref yPos);
+
+                                if (chartImageBytes != null && chartImageBytes.Length > 0)
+                                {
+                                    using (var ms = new MemoryStream(chartImageBytes))
+                                    {
+                                        var img = XImage.FromStream(ms);
+                                        double maxWidth = totalWidth;
+                                        double scale = img.PixelWidth > 0 ? Math.Min(maxWidth / img.PixelWidth, 1.0) : 1.0;
+                                        double imgWidth = img.PixelWidth * scale;
+                                        double imgHeight = img.PixelHeight * scale;
+                                        gfx.DrawImage(img, LeftMargin, yPos + 10, imgWidth, imgHeight);
+                                        yPos += imgHeight + 20;
+                                    }
+                                }
+                            }
+
+                            yPos = pageNum == 0 ? Math.Max(yPos, TableTopMargin) : 40;
+                            DrawDataTableHeader(gfx, dataTable, headers, colWidths, yPos, totalWidth, fonts.Header);
+                            yPos += HeaderHeight;
+
+                            while (rowIndex < dataTable.Rows.Count && yPos + LineHeight <= page.Height - 50)
+                            {
+                                var row = dataTable.Rows[rowIndex];
+                                DrawDataTableRow(gfx, row, dataTable, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page, fitCells);
+                                yPos += LineHeight;
+                                rowIndex++;
+                            }
+
+                            DrawFooter(gfx, page, pageNum + 1, totalPages, fonts.Small);
+                            pageNum++;
+                        }
                     }
                 }
 
@@ -353,65 +465,105 @@ namespace EcoStationManagerApplication.Common.Exporters
                     var charts = chartsBySection != null && chartsBySection.ContainsKey(sectionName) ? chartsBySection[sectionName] : null;
 
                     int totalRecords = dt.Rows.Count;
-                    int totalPages = Math.Max(1, (int)Math.Ceiling((double)totalRecords / ItemsPerPage));
-                    int rowIndex = 0;
 
-                    for (int pageNum = 1; pageNum <= totalPages; pageNum++)
+                    using (var probeDoc = new PdfDocument())
                     {
-                        var page = document.AddPage();
-                        page.Size = PdfSharp.PageSize.A4;
+                        var probePage = probeDoc.AddPage();
+                        probePage.Size = PdfSharp.PageSize.A4;
+                        probePage.Orientation = PdfSharp.PageOrientation.Landscape;
+                        double probeTotalWidth = probePage.Width - LeftMargin - RightMargin;
+                        double probePageHeight = probePage.Height;
 
-                        using (var gfx = XGraphics.FromPdfPage(page))
+                        double chartsHeightSum = 0;
+                        if (charts != null)
                         {
-                            var fonts = CreateFonts();
-                            double totalWidth = page.Width - LeftMargin - RightMargin;
-                            int colCount = Math.Max(1, dt.Columns.Count);
-                            double[] colWidths = CalculateColumnWidths(colCount, totalWidth);
-
-                            double yPos = 40;
-
-                            if (pageNum == 1)
+                            foreach (var bytes in charts)
                             {
-                                DrawTitle(gfx, page, title, fonts.Title, ref yPos);
-                                DrawExportInfo(gfx, totalRecords, fonts.Normal, ref yPos);
-                                if (charts != null)
+                                if (bytes == null || bytes.Length == 0) continue;
+                                using (var ms = new MemoryStream(bytes))
                                 {
-                                    foreach (var bytes in charts)
+                                    var img = XImage.FromStream(ms);
+                                    double maxWidth = probeTotalWidth;
+                                    double scale = img.PixelWidth > 0 ? Math.Min(maxWidth / img.PixelWidth, 1.0) : 1.0;
+                                    chartsHeightSum += img.PixelHeight * scale + 20; // include spacing
+                                }
+                            }
+                        }
+
+                        int simRowIndex = 0;
+                        int simPages = 0;
+                        while (simRowIndex < dt.Rows.Count)
+                        {
+                            double startY = simPages == 0 ? Math.Max(TableTopMargin, TableTopMargin + chartsHeightSum) : 40;
+                            double ySim = startY + HeaderHeight;
+                            while (simRowIndex < dt.Rows.Count && ySim + LineHeight <= probePageHeight - 50)
+                            {
+                                ySim += LineHeight;
+                                simRowIndex++;
+                            }
+                            simPages++;
+                        }
+
+                        int totalPages = Math.Max(1, simPages);
+
+                        int rowIndex = 0;
+                        int pageNum = 0;
+                        while (rowIndex < dt.Rows.Count || pageNum == 0)
+                        {
+                            var page = document.AddPage();
+                            page.Size = PdfSharp.PageSize.A4;
+                            page.Orientation = PdfSharp.PageOrientation.Landscape;
+
+                            using (var gfx = XGraphics.FromPdfPage(page))
+                            {
+                                var fonts = CreateFonts();
+                                double totalWidth = page.Width - LeftMargin - RightMargin;
+                                int colCount = Math.Max(1, dt.Columns.Count);
+                                double[] colWidths = CalculateColumnWidths(colCount, totalWidth);
+
+                                double yPos = 40;
+
+                                if (pageNum == 0)
+                                {
+                                    DrawTitle(gfx, page, title, fonts.Title, ref yPos);
+                                    DrawExportInfo(gfx, totalRecords, fonts.Normal, ref yPos);
+                                    if (charts != null)
                                     {
-                                        if (bytes == null || bytes.Length == 0) continue;
-                                        using (var ms = new MemoryStream(bytes))
+                                        foreach (var bytes in charts)
                                         {
-                                            var img = XImage.FromStream(ms);
-                                            double maxWidth = totalWidth;
-                                            double scale = img.PixelWidth > 0 ? Math.Min(maxWidth / img.PixelWidth, 1.0) : 1.0;
-                                            double imgWidth = img.PixelWidth * scale;
-                                            double imgHeight = img.PixelHeight * scale;
-                                            gfx.DrawImage(img, LeftMargin, yPos + 10, imgWidth, imgHeight);
-                                            yPos += imgHeight + 20;
+                                            if (bytes == null || bytes.Length == 0) continue;
+                                            using (var ms = new MemoryStream(bytes))
+                                            {
+                                                var img = XImage.FromStream(ms);
+                                                double maxWidth = totalWidth;
+                                                double scale = img.PixelWidth > 0 ? Math.Min(maxWidth / img.PixelWidth, 1.0) : 1.0;
+                                                double imgWidth = img.PixelWidth * scale;
+                                                double imgHeight = img.PixelHeight * scale;
+                                                gfx.DrawImage(img, LeftMargin, yPos + 10, imgWidth, imgHeight);
+                                                yPos += imgHeight + 20;
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            yPos = pageNum == 1 ? Math.Max(yPos, TableTopMargin) : 40;
-
-                            if (dt.Columns.Count > 0)
-                            {
-                                DrawDataTableHeader(gfx, dt, headers, colWidths, yPos, totalWidth, fonts.Header);
-                                yPos += HeaderHeight;
-
-                                int itemsOnThisPage = 0;
-                                while (rowIndex < dt.Rows.Count && itemsOnThisPage < ItemsPerPage)
+                                yPos = pageNum == 0 ? Math.Max(yPos, TableTopMargin) : 40;
+                                if (dt.Columns.Count > 0)
                                 {
-                                    var row = dt.Rows[rowIndex];
-                                    DrawDataTableRow(gfx, row, dt, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page);
-                                    yPos += LineHeight;
-                                    rowIndex++;
-                                    itemsOnThisPage++;
-                                }
-                            }
+                                    DrawDataTableHeader(gfx, dt, headers, colWidths, yPos, totalWidth, fonts.Header);
+                                    yPos += HeaderHeight;
 
-                            DrawFooter(gfx, page, pageNum, totalPages, fonts.Small);
+                                    while (rowIndex < dt.Rows.Count && yPos + LineHeight <= page.Height - 50)
+                                    {
+                                        var row = dt.Rows[rowIndex];
+                                        DrawDataTableRow(gfx, row, dt, colWidths, yPos, totalWidth, rowIndex, fonts.Normal, page);
+                                        yPos += LineHeight;
+                                        rowIndex++;
+                                    }
+                                }
+
+                                DrawFooter(gfx, page, pageNum + 1, totalPages, fonts.Small);
+                                pageNum++;
+                            }
                         }
                     }
                 }
@@ -481,8 +633,15 @@ namespace EcoStationManagerApplication.Common.Exporters
             }
         }
 
+        // Backward-compatible overload without fitCells parameter
         private void DrawDataRow<T>(XGraphics gfx, T item, List<System.Reflection.PropertyInfo> properties,
             double[] colWidths, double yPos, double totalWidth, int rowIndex, XFont font, PdfPage page)
+        {
+            DrawDataRow(gfx, item, properties, colWidths, yPos, totalWidth, rowIndex, font, page, false);
+        }
+
+        private void DrawDataRow<T>(XGraphics gfx, T item, List<System.Reflection.PropertyInfo> properties,
+            double[] colWidths, double yPos, double totalWidth, int rowIndex, XFont font, PdfPage page, bool fitCells)
         {
             // Alternate row color
             if (rowIndex % 2 == 0)
@@ -495,9 +654,14 @@ namespace EcoStationManagerApplication.Common.Exporters
                 for (int i = 0; i < properties.Count; i++)
                 {
                 string value = GetPropertyValue(item, properties[i]);
+                if (fitCells)
+                {
+                    int limit = Math.Max(8, (int)((colWidths[i] - 6) / 6));
+                    value = TruncateText(value, limit);
+                }
                 gfx.DrawString(value, font, XBrushes.Black,
                     new XRect(xPos + 3, yPos + 2, colWidths[i] - 6, LineHeight - 4),
-                                XStringFormats.TopLeft);
+                            XStringFormats.TopLeft);
                 xPos += colWidths[i];
             }
 
@@ -505,8 +669,15 @@ namespace EcoStationManagerApplication.Common.Exporters
             gfx.DrawLine(XPens.LightGray, LeftMargin, yPos + LineHeight, page.Width - RightMargin, yPos + LineHeight);
         }
 
+        // Backward-compatible overload without fitCells parameter
         private void DrawDataTableRow(XGraphics gfx, DataRow row, DataTable dataTable,
             double[] colWidths, double yPos, double totalWidth, int rowIndex, XFont font, PdfPage page)
+        {
+            DrawDataTableRow(gfx, row, dataTable, colWidths, yPos, totalWidth, rowIndex, font, page, false);
+        }
+
+        private void DrawDataTableRow(XGraphics gfx, DataRow row, DataTable dataTable,
+            double[] colWidths, double yPos, double totalWidth, int rowIndex, XFont font, PdfPage page, bool fitCells)
         {
             if (rowIndex % 2 == 0)
             {
@@ -519,7 +690,15 @@ namespace EcoStationManagerApplication.Common.Exporters
             {
                 var col = dataTable.Columns[i];
                 string value = FormatValue(row[col], col.DataType);
-                value = TruncateText(value, 22);
+                if (fitCells)
+                {
+                    int limit = Math.Max(8, (int)((colWidths[i] - 6) / 6));
+                    value = TruncateText(value, limit);
+                }
+                else
+                {
+                    value = TruncateText(value, 22);
+                }
 
                 gfx.DrawString(value, font, XBrushes.Black,
                     new XRect(xPos + 3, yPos + 2, colWidths[i] - 6, LineHeight - 4),

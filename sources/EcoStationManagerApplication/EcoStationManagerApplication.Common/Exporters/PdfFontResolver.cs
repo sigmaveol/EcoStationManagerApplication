@@ -49,7 +49,6 @@ namespace EcoStationManagerApplication.Common.Exporters
 
                 // Fallback to Times New Roman
                 default:
-                    System.Diagnostics.Debug.WriteLine($"Font not found: {faceName}, using Times New Roman");
                     return GetTimesNewRomanRegular();
             }
         }
@@ -160,7 +159,6 @@ namespace EcoStationManagerApplication.Common.Exporters
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Error loading font from {path}: {ex.Message}");
                 }
             }
 

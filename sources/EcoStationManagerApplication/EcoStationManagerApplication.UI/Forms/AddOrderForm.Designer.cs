@@ -63,7 +63,7 @@
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblTitle.Location = new System.Drawing.Point(20, 20);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(230, 35);
+            this.lblTitle.Size = new System.Drawing.Size(250, 37);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Tạo đơn hàng mới";
             // 
@@ -71,27 +71,27 @@
             // 
             this.lblPhone.AutoSize = true;
             this.lblPhone.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblPhone.Location = new System.Drawing.Point(22, 70);
+            this.lblPhone.Location = new System.Drawing.Point(31, 130);
             this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(97, 19);
+            this.lblPhone.Size = new System.Drawing.Size(100, 20);
             this.lblPhone.TabIndex = 1;
             this.lblPhone.Text = "Số điện thoại";
             // 
             // txtPhone
             // 
             this.txtPhone.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtPhone.Location = new System.Drawing.Point(26, 96);
+            this.txtPhone.Location = new System.Drawing.Point(29, 155);
             this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(350, 26);
+            this.txtPhone.Size = new System.Drawing.Size(350, 27);
             this.txtPhone.TabIndex = 2;
             // 
             // lblCustomer
             // 
             this.lblCustomer.AutoSize = true;
             this.lblCustomer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblCustomer.Location = new System.Drawing.Point(22, 130);
+            this.lblCustomer.Location = new System.Drawing.Point(31, 70);
             this.lblCustomer.Name = "lblCustomer";
-            this.lblCustomer.Size = new System.Drawing.Size(112, 19);
+            this.lblCustomer.Size = new System.Drawing.Size(118, 20);
             this.lblCustomer.TabIndex = 3;
             this.lblCustomer.Text = "Tên khách hàng";
             this.lblCustomer.Click += new System.EventHandler(this.lblCustomer_Click);
@@ -102,7 +102,7 @@
             this.lblSource.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblSource.Location = new System.Drawing.Point(400, 70);
             this.lblSource.Name = "lblSource";
-            this.lblSource.Size = new System.Drawing.Size(121, 19);
+            this.lblSource.Size = new System.Drawing.Size(127, 20);
             this.lblSource.TabIndex = 4;
             this.lblSource.Text = "Nguồn đơn hàng";
             // 
@@ -113,7 +113,7 @@
             this.cmbSource.FormattingEnabled = true;
             this.cmbSource.Location = new System.Drawing.Point(400, 95);
             this.cmbSource.Name = "cmbSource";
-            this.cmbSource.Size = new System.Drawing.Size(350, 27);
+            this.cmbSource.Size = new System.Drawing.Size(350, 28);
             this.cmbSource.TabIndex = 5;
             // 
             // lblPaymentMethod
@@ -122,7 +122,7 @@
             this.lblPaymentMethod.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblPaymentMethod.Location = new System.Drawing.Point(400, 130);
             this.lblPaymentMethod.Name = "lblPaymentMethod";
-            this.lblPaymentMethod.Size = new System.Drawing.Size(169, 19);
+            this.lblPaymentMethod.Size = new System.Drawing.Size(181, 20);
             this.lblPaymentMethod.TabIndex = 6;
             this.lblPaymentMethod.Text = "Phương thức thanh toán";
             // 
@@ -133,7 +133,7 @@
             this.cmbPaymentMethod.FormattingEnabled = true;
             this.cmbPaymentMethod.Location = new System.Drawing.Point(400, 155);
             this.cmbPaymentMethod.Name = "cmbPaymentMethod";
-            this.cmbPaymentMethod.Size = new System.Drawing.Size(350, 27);
+            this.cmbPaymentMethod.Size = new System.Drawing.Size(350, 28);
             this.cmbPaymentMethod.TabIndex = 7;
             // 
             // lblAddress
@@ -142,7 +142,7 @@
             this.lblAddress.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblAddress.Location = new System.Drawing.Point(20, 190);
             this.lblAddress.Name = "lblAddress";
-            this.lblAddress.Size = new System.Drawing.Size(125, 19);
+            this.lblAddress.Size = new System.Drawing.Size(129, 20);
             this.lblAddress.TabIndex = 8;
             this.lblAddress.Text = "Địa chỉ giao hàng";
             // 
@@ -151,7 +151,7 @@
             this.txtAddress.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtAddress.Location = new System.Drawing.Point(26, 212);
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(350, 26);
+            this.txtAddress.Size = new System.Drawing.Size(350, 27);
             this.txtAddress.TabIndex = 9;
             // 
             // lblNote
@@ -160,7 +160,7 @@
             this.lblNote.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblNote.Location = new System.Drawing.Point(20, 260);
             this.lblNote.Name = "lblNote";
-            this.lblNote.Size = new System.Drawing.Size(58, 19);
+            this.lblNote.Size = new System.Drawing.Size(62, 20);
             this.lblNote.TabIndex = 10;
             this.lblNote.Text = "Ghi chú";
             // 
@@ -180,7 +180,7 @@
             this.lblProduct.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblProduct.Location = new System.Drawing.Point(20, 380);
             this.lblProduct.Name = "lblProduct";
-            this.lblProduct.Size = new System.Drawing.Size(85, 19);
+            this.lblProduct.Size = new System.Drawing.Size(89, 20);
             this.lblProduct.TabIndex = 12;
             this.lblProduct.Text = "Sản phẩm *";
             // 
@@ -220,7 +220,7 @@
             this.lblTotalAmount.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(125)))), ((int)(((byte)(50)))));
             this.lblTotalAmount.Location = new System.Drawing.Point(20, 580);
             this.lblTotalAmount.Name = "lblTotalAmount";
-            this.lblTotalAmount.Size = new System.Drawing.Size(114, 21);
+            this.lblTotalAmount.Size = new System.Drawing.Size(123, 23);
             this.lblTotalAmount.TabIndex = 14;
             this.lblTotalAmount.Text = "Tổng tiền: 0 đ";
             // 
@@ -254,14 +254,15 @@
             // txtCustomer
             // 
             this.txtCustomer.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtCustomer.Location = new System.Drawing.Point(26, 152);
+            this.txtCustomer.Location = new System.Drawing.Point(29, 96);
             this.txtCustomer.Name = "txtCustomer";
-            this.txtCustomer.Size = new System.Drawing.Size(350, 26);
+            this.txtCustomer.Size = new System.Drawing.Size(350, 27);
             this.txtCustomer.TabIndex = 18;
+            this.txtCustomer.TextChanged += new System.EventHandler(this.txtCustomer_TextChanged);
             // 
             // AddOrderForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(800, 700);

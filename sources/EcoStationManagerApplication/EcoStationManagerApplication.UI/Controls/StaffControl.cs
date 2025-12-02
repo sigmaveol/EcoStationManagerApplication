@@ -31,6 +31,10 @@ namespace EcoStationManagerApplication.UI.Controls
             InitializeCleaningScheduleEvents();
             InitializeWorkShiftEvents();
             InitializeDeliveryEvents();
+            if (dtpWorkShiftDateFilter != null)
+                dtpWorkShiftDateFilter.Value = DateTime.Today;
+            if (dtpDeliveryDateFilter != null)
+                dtpDeliveryDateFilter.Value = DateTime.Today;
             InitializeDataGridColumns();
         }
 
@@ -311,7 +315,6 @@ namespace EcoStationManagerApplication.UI.Controls
                 Padding = new Padding(15)
             };
 
-            // Label tiêu đề
             var lblTitle = new Label
             {
                 Text = $"Lịch vệ sinh ngày {date:dd/MM/yyyy}",
@@ -320,7 +323,6 @@ namespace EcoStationManagerApplication.UI.Controls
                 AutoSize = true
             };
 
-            // Panel chứa danh sách lịch
             var panelSchedules = new Panel
             {
                 Location = new Point(15, 50),
@@ -330,109 +332,18 @@ namespace EcoStationManagerApplication.UI.Controls
             };
 
             int yPos = 10;
-            
+
             if (schedules.Any())
             {
-                // Lấy danh sách nhân viên để map tên
                 var staffResult = await AppServices.UserService.GetActiveStaffAsync();
                 var staffList = staffResult?.Data?.ToList() ?? new List<User>();
                 var staffDict = staffList.ToDictionary(s => s.UserId, s => s.Fullname ?? s.Username);
 
                 foreach (var schedule in schedules.OrderBy(s => s.CleaningDate))
                 {
-                    var statusColor = GetStatusColor(schedule.Status);
-
-                    var schedulePanel = new Panel
-                    {
-                        Location = new Point(10, yPos),
-                        Size = new Size(640, 80),
-                        BorderStyle = BorderStyle.FixedSingle,
-                        BackColor = Color.White,
-                        Padding = new Padding(1)
-                    };
-
-                    // Vẽ viền với màu trạng thái
-                    schedulePanel.Paint += (s, pe) =>
-                    {
-                        using (var pen = new Pen(statusColor, 3))
-                        {
-                            pe.Graphics.DrawRectangle(pen, 0, 0, schedulePanel.Width - 1, schedulePanel.Height - 1);
-                        }
-                    };
-
-                    var lblType = new Label
-                    {
-                        Text = $"Loại: {GetCleaningTypeDisplayName(schedule.CleaningType)}",
-                        Location = new Point(10, 5),
-                        AutoSize = true,
-                        Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
-                    };
-
-                    // Hiển thị giờ: nếu có CleanedDatetime thì dùng CleanedDatetime, ngược lại dùng CleaningDate
-                    var displayTime = schedule.CleanedDatetime.HasValue 
-                        ? schedule.CleanedDatetime.Value 
-                        : schedule.CleaningDate;
-                    
-                    var lblTime = new Label
-                    {
-                        Text = $"Giờ: {displayTime:HH:mm}",
-                        Location = new Point(10, 25),
-                        AutoSize = true
-                    };
-
-                    var cleanedByName = schedule.CleaningBy.HasValue && staffDict.ContainsKey(schedule.CleaningBy.Value)
-                        ? staffDict[schedule.CleaningBy.Value]
-                        : "Chưa phân công";
-
-                    var lblAssigned = new Label
-                    {
-                        Text = $"Người thực hiện: {cleanedByName}",
-                        Location = new Point(10, 45),
-                        AutoSize = true
-                    };
-
-                    var lblStatus = new Label
-                    {
-                        Text = $"Trạng thái: {GetStatusDisplayName(schedule.Status)}",
-                        Location = new Point(300, 5),
-                        AutoSize = true,
-                        Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
-                    };
-
-                    var cleanedDateTime = schedule.CleanedDatetime.HasValue
-                        ? schedule.CleanedDatetime.Value.ToString("dd/MM/yyyy HH:mm")
-                        : "Chưa vệ sinh";
-                    
-                    var lblCleaned = new Label
-                    {
-                        Text = $"Đã vệ sinh: {cleanedDateTime}",
-                        Location = new Point(300, 45),
-                        AutoSize = true
-                    };
-
-                    // Nút xem chi tiết
-                    var btnView = new Button
-                    {
-                        Text = "Chi tiết",
-                        Location = new Point(550, 25),
-                        Size = new Size(80, 30),
-                        Tag = schedule
-                    };
-                    btnView.Click += async (s, e) =>
-                    {
-                        dialog.Close();
-                        await ShowCleaningScheduleDialog(schedule);
-                        await LoadCleaningScheduleDataAsync();
-                    };
-
-                    schedulePanel.Controls.Add(lblType);
-                    schedulePanel.Controls.Add(lblTime);
-                    schedulePanel.Controls.Add(lblAssigned);
-                    schedulePanel.Controls.Add(lblStatus);
-                    schedulePanel.Controls.Add(lblCleaned);
-                    schedulePanel.Controls.Add(btnView);
-
-                    panelSchedules.Controls.Add(schedulePanel);
+                    var panel = CreateSchedulePanel(schedule, staffDict, dialog);
+                    panel.Location = new Point(10, yPos);
+                    panelSchedules.Controls.Add(panel);
                     yPos += 90;
                 }
             }
@@ -449,7 +360,6 @@ namespace EcoStationManagerApplication.UI.Controls
                 panelSchedules.Controls.Add(lblNoSchedule);
             }
 
-            // Nút Thêm lịch
             var btnAdd = new Button
             {
                 Text = "➕ Thêm lịch",
@@ -474,7 +384,6 @@ namespace EcoStationManagerApplication.UI.Controls
                 }
             };
 
-            // Nút Đóng
             var btnClose = new Button
             {
                 Text = "Đóng",
@@ -626,6 +535,92 @@ namespace EcoStationManagerApplication.UI.Controls
             }
         }
 
+        private Panel CreateSchedulePanel(CleaningSchedule schedule, Dictionary<int, string> staffDict, Form dialog)
+        {
+            var statusColor = GetStatusColor(schedule.Status);
+
+            var panel = new Panel
+            {
+                Size = new Size(640, 80),
+                BorderStyle = BorderStyle.FixedSingle,
+                BackColor = Color.White,
+                Padding = new Padding(1)
+            };
+
+            panel.Paint += (s, pe) =>
+            {
+                using (var pen = new Pen(statusColor, 3))
+                {
+                    pe.Graphics.DrawRectangle(pen, 0, 0, panel.Width - 1, panel.Height - 1);
+                }
+            };
+
+            var lblType = new Label
+            {
+                Text = $"Loại: {GetCleaningTypeDisplayName(schedule.CleaningType)}",
+                Location = new Point(10, 5),
+                AutoSize = true,
+                Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
+            };
+
+            var displayTime = schedule.CleanedDatetime.HasValue ? schedule.CleanedDatetime.Value : schedule.CleaningDate;
+            var lblTime = new Label
+            {
+                Text = $"Giờ: {displayTime:HH:mm}",
+                Location = new Point(10, 25),
+                AutoSize = true
+            };
+
+            var cleanedByName = schedule.CleaningBy.HasValue && staffDict.ContainsKey(schedule.CleaningBy.Value)
+                ? staffDict[schedule.CleaningBy.Value]
+                : "Chưa phân công";
+            var lblAssigned = new Label
+            {
+                Text = $"Người thực hiện: {cleanedByName}",
+                Location = new Point(10, 45),
+                AutoSize = true
+            };
+
+            var lblStatus = new Label
+            {
+                Text = $"Trạng thái: {GetStatusDisplayName(schedule.Status)}",
+                Location = new Point(300, 5),
+                AutoSize = true,
+                Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold)
+            };
+
+            var cleanedDateTime = schedule.CleanedDatetime.HasValue ? schedule.CleanedDatetime.Value.ToString("dd/MM/yyyy HH:mm") : "Chưa vệ sinh";
+            var lblCleaned = new Label
+            {
+                Text = $"Đã vệ sinh: {cleanedDateTime}",
+                Location = new Point(300, 45),
+                AutoSize = true
+            };
+
+            var btnView = new Button
+            {
+                Text = "Chi tiết",
+                Location = new Point(550, 25),
+                Size = new Size(80, 30),
+                Tag = schedule
+            };
+            btnView.Click += async (s, e) =>
+            {
+                dialog.Close();
+                await ShowCleaningScheduleDialog(schedule);
+                await LoadCleaningScheduleDataAsync();
+            };
+
+            panel.Controls.Add(lblType);
+            panel.Controls.Add(lblTime);
+            panel.Controls.Add(lblAssigned);
+            panel.Controls.Add(lblStatus);
+            panel.Controls.Add(lblCleaned);
+            panel.Controls.Add(btnView);
+
+            return panel;
+        }
+
         #endregion
 
         #region WorkShift Methods
@@ -650,7 +645,10 @@ namespace EcoStationManagerApplication.UI.Controls
             if (cmbWorkShiftRoleFilter != null)
                 cmbWorkShiftRoleFilter.SelectedIndexChanged += CmbWorkShiftRoleFilter_SelectedIndexChanged;
             if (dtpWorkShiftDateFilter != null)
+            {
+                dtpWorkShiftDateFilter.ShowCheckBox = true;
                 dtpWorkShiftDateFilter.ValueChanged += DtpWorkShiftDateFilter_ValueChanged;
+            }
             if (dgvKPI != null)
             {
                 dgvKPI.CellDoubleClick += DgvKPI_CellDoubleClick;
@@ -668,16 +666,15 @@ namespace EcoStationManagerApplication.UI.Controls
             {
                 if (dgvKPI == null)
                 {
-                    System.Diagnostics.Debug.WriteLine("[LoadWorkShiftDataAsync] dgvKPI is NULL!");
                     return;
                 }
 
-                System.Diagnostics.Debug.WriteLine("[LoadWorkShiftDataAsync] Starting...");
+
 
                 var shiftsResult = await AppServices.WorkShiftService.GetAllAsync();
                 _workShifts = shiftsResult?.Data?.ToList() ?? new List<WorkShift>();
 
-                System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Total shifts from service: {_workShifts.Count}");
+
 
                 // Tự động tính KPI cho các ca cần update (bỏ qua lỗi để không block việc hiển thị)
                 try
@@ -687,11 +684,11 @@ namespace EcoStationManagerApplication.UI.Controls
                     // Reload sau khi tính KPI
                     shiftsResult = await AppServices.WorkShiftService.GetAllAsync();
                     _workShifts = shiftsResult?.Data?.ToList() ?? new List<WorkShift>();
-                    System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] After KPI calculation: {_workShifts.Count} shifts");
+
                 }
                 catch (Exception kpiEx)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] KPI calculation error (continuing anyway): {kpiEx.Message}");
+
                 }
 
                 // Lấy danh sách user một lần
@@ -702,7 +699,7 @@ namespace EcoStationManagerApplication.UI.Controls
                     s => new StaffInfo { Name = s.Fullname ?? s.Username, Role = s.Role }
                 );
 
-                System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Total users: {staffDict.Count}");
+
 
                 UIHelper.SafeInvoke(this, () =>
                 {
@@ -710,23 +707,20 @@ namespace EcoStationManagerApplication.UI.Controls
                     {
                         if (dgvKPI == null)
                         {
-                            System.Diagnostics.Debug.WriteLine("[LoadWorkShiftDataAsync] dgvKPI is NULL in SafeInvoke!");
                             return;
                         }
 
                         if (dgvKPI.Columns.Count == 0)
                         {
-                            System.Diagnostics.Debug.WriteLine("[LoadWorkShiftDataAsync] Initializing columns...");
                             InitializeDataGridColumns();
                         }
 
                         dgvKPI.Rows.Clear();
-                        System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Cleared rows. Before filter: {_workShifts.Count} shifts");
 
                         // ENABLE FILTER - đã sửa logic
                         var filteredShifts = ApplyWorkShiftFilters(_workShifts, staffDict);
 
-                        System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] After filter: {filteredShifts.Count} shifts");
+
 
                         int rowsAdded = 0;
                         int rowsFailed = 0;
@@ -760,24 +754,19 @@ namespace EcoStationManagerApplication.UI.Controls
                             catch (Exception ex)
                             {
                                 rowsFailed++;
-                                System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Error adding row for shift {shift.ShiftId}: {ex.Message}");
-                                System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Stack trace: {ex.StackTrace}");
                             }
                         }
 
-                        System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Completed. Rows added: {rowsAdded}, Failed: {rowsFailed}, Total in grid: {dgvKPI.Rows.Count}");
+
                     }
                     catch (Exception uiEx)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] UI update error: {uiEx.Message}");
-                        System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Stack trace: {uiEx.StackTrace}");
+
                     }
                 });
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Fatal error: {ex.Message}");
-                System.Diagnostics.Debug.WriteLine($"[LoadWorkShiftDataAsync] Stack trace: {ex.StackTrace}");
                 UIHelper.ShowExceptionError(ex, "tải danh sách ca làm việc");
             }
         }
@@ -823,7 +812,6 @@ namespace EcoStationManagerApplication.UI.Controls
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[BatchCalculateKPI] Error: {ex.Message}");
             }
         }
 
@@ -906,14 +894,10 @@ namespace EcoStationManagerApplication.UI.Controls
                 if (result.Success)
                 {
                     shift.KpiScore = kpiScore;
-                    System.Diagnostics.Debug.WriteLine(
-                        $"[KPI] Shift {shift.ShiftId}: {ordersHandled} {kpiType} = {kpiScore:F2}%"
-                    );
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"[CalculateSingleKPI] Error: {ex.Message}");
             }
         }
 
@@ -926,13 +910,13 @@ namespace EcoStationManagerApplication.UI.Controls
         {
             var filtered = shifts.AsEnumerable();
 
-            System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Input: {shifts.Count} shifts");
+
 
             // Filter theo search
             if (!string.IsNullOrWhiteSpace(txtWorkShiftSearch?.Text))
             {
                 var searchTerm = txtWorkShiftSearch.Text.ToLower();
-                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Applying search filter: '{searchTerm}'");
+                
                 filtered = filtered.Where(s =>
                 {
                     var staffInfo = staffDict.ContainsKey(s.UserId) ? staffDict[s.UserId] : null;
@@ -943,34 +927,81 @@ namespace EcoStationManagerApplication.UI.Controls
                            (s.Notes ?? "").ToLower().Contains(searchTerm) ||
                            s.ShiftId.ToString().Contains(searchTerm);
                 });
-                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] After search: {filtered.Count()} shifts");
+
             }
 
             // Filter theo role
             if (cmbWorkShiftRoleFilter != null && cmbWorkShiftRoleFilter.SelectedIndex > 0)
             {
                 var selectedRole = GetRoleFromFilter(cmbWorkShiftRoleFilter.SelectedIndex);
-                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Applying role filter: {selectedRole}");
+                
                 filtered = filtered.Where(s =>
                 {
                     if (!staffDict.ContainsKey(s.UserId)) return false;
                     return staffDict[s.UserId].Role == selectedRole;
                 });
-                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] After role: {filtered.Count()} shifts");
+
             }
 
             // Filter theo ngày
             if (dtpWorkShiftDateFilter != null && dtpWorkShiftDateFilter.Checked)
             {
                 var filterDate = dtpWorkShiftDateFilter.Value.Date;
-                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Applying date filter: {filterDate:dd/MM/yyyy}");
+                
                 filtered = filtered.Where(s => s.ShiftDate.Date == filterDate);
-                System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] After date: {filtered.Count()} shifts");
+
             }
 
             var result = filtered.ToList();
-            System.Diagnostics.Debug.WriteLine($"[ApplyWorkShiftFilters] Final result: {result.Count} shifts");
+            
             return result;
+        }
+
+        private List<DeliveryAssignment> ApplyDeliveryFilters(
+            List<DeliveryAssignment> assignments,
+            Dictionary<int, string> driversDict,
+            Dictionary<int, string> ordersDict)
+        {
+            var filtered = assignments.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(txtDeliverySearch?.Text))
+            {
+                var term = txtDeliverySearch.Text.ToLower();
+                filtered = filtered.Where(a =>
+                {
+                    var driverName = driversDict.ContainsKey(a.DriverId) ? driversDict[a.DriverId].ToLower() : "";
+                    var orderCode = ordersDict.ContainsKey(a.OrderId) ? ordersDict[a.OrderId].ToLower() : "";
+                    var statusText = a.Status.GetDisplayName().ToLower();
+                    var notes = (a.Notes ?? "").ToLower();
+                    return driverName.Contains(term) || orderCode.Contains(term) || statusText.Contains(term) || notes.Contains(term) || a.AssignmentId.ToString().Contains(term);
+                });
+            }
+
+            if (cmbDeliveryStatusFilter != null && cmbDeliveryStatusFilter.SelectedIndex > 0)
+            {
+                var status = GetDeliveryStatusFromFilter(cmbDeliveryStatusFilter.SelectedIndex);
+                filtered = filtered.Where(a => a.Status == status);
+            }
+
+            if (dtpDeliveryDateFilter != null && dtpDeliveryDateFilter.Checked)
+            {
+                var date = dtpDeliveryDateFilter.Value.Date;
+                filtered = filtered.Where(a => a.AssignedDate.Date == date);
+            }
+
+            return filtered.ToList();
+        }
+
+        private DeliveryStatus GetDeliveryStatusFromFilter(int index)
+        {
+            switch (index)
+            {
+                case 1: return DeliveryStatus.PENDING;
+                case 2: return DeliveryStatus.INTRANSIT;
+                case 3: return DeliveryStatus.DELIVERED;
+                case 4: return DeliveryStatus.FAILED;
+                default: return DeliveryStatus.PENDING;
+            }
         }
 
         /// <summary>
@@ -1305,7 +1336,10 @@ namespace EcoStationManagerApplication.UI.Controls
             if (cmbDeliveryStatusFilter != null)
                 cmbDeliveryStatusFilter.SelectedIndexChanged += CmbDeliveryStatusFilter_SelectedIndexChanged;
             if (dtpDeliveryDateFilter != null)
+            {
+                dtpDeliveryDateFilter.ShowCheckBox = true;
                 dtpDeliveryDateFilter.ValueChanged += DtpDeliveryDateFilter_ValueChanged;
+            }
             if (dgvAssignments != null)
             {
                 dgvAssignments.CellDoubleClick += DgvAssignments_CellDoubleClick;
@@ -1326,7 +1360,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 _deliveryAssignments = assignmentsResult?.Data?.ToList() ?? new List<DeliveryAssignment>();
 
                 // Debug: Kiểm tra dữ liệu từ service
-                System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Total assignments from service: {_deliveryAssignments.Count}");
+
 
                 // Lấy danh sách nhân viên có thể phân công giao hàng (tất cả trừ ADMIN)
                 // Bao gồm: STAFF, MANAGER, DRIVER để map tên
@@ -1337,7 +1371,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 var driversDict = driversList.ToDictionary(d => d.UserId, d => d.Fullname ?? d.Username);
 
                 // Debug: Kiểm tra drivers mapping
-                System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Total drivers: {driversDict.Count}");
+
 
                 // Lấy danh sách đơn hàng để map mã đơn - lấy tất cả đơn hàng
                 var ordersResult = await AppServices.OrderService.GetAllAsync();
@@ -1345,7 +1379,7 @@ namespace EcoStationManagerApplication.UI.Controls
                 var ordersDict = ordersList.ToDictionary(o => o.OrderId, o => o.OrderCode ?? $"ORD-{o.OrderId:D5}");
 
                 // Debug: Kiểm tra orders mapping
-                System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Total orders: {ordersDict.Count}");
+
 
                 UIHelper.SafeInvoke(this, () =>
                 {
@@ -1357,12 +1391,10 @@ namespace EcoStationManagerApplication.UI.Controls
 
                     dgvAssignments.Rows.Clear();
 
-                    // TẠM THỜI: Bypass filter để test - hiển thị TẤT CẢ assignments
-                    var filteredAssignments = _deliveryAssignments; // ApplyDeliveryFilters(_deliveryAssignments, driversDict, ordersDict);
+                    var filteredAssignments = ApplyDeliveryFilters(_deliveryAssignments, driversDict, ordersDict);
 
                     // Debug: Kiểm tra sau khi filter
-                    System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Filtered assignments (bypassed): {filteredAssignments.Count}");
-                    System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] dgvAssignments.Columns.Count: {dgvAssignments.Columns.Count}");
+
 
                     // Debug: Kiểm tra mapping DriverId và OrderId
                     var unmappedDriverIds = filteredAssignments
@@ -1377,11 +1409,9 @@ namespace EcoStationManagerApplication.UI.Controls
                         .ToList();
                     if (unmappedDriverIds.Any())
                     {
-                        System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Unmapped DriverIds: {string.Join(", ", unmappedDriverIds)}");
                     }
                     if (unmappedOrderIds.Any())
                     {
-                        System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Unmapped OrderIds: {string.Join(", ", unmappedOrderIds)}");
                     }
 
                     int rowsAdded = 0;
@@ -1414,12 +1444,10 @@ namespace EcoStationManagerApplication.UI.Controls
                         catch (Exception ex)
                         {
                             rowsFailed++;
-                            System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Error adding row for assignment {assignment.AssignmentId}: {ex.Message}");
-                            System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Stack trace: {ex.StackTrace}");
                         }
                     }
                     
-                    System.Diagnostics.Debug.WriteLine($"[LoadDeliveryAssignmentDataAsync] Rows added: {rowsAdded}, Failed: {rowsFailed}, Total in grid: {dgvAssignments.Rows.Count}");
+
                 });
             }
             catch (Exception ex)
@@ -1693,18 +1721,13 @@ namespace EcoStationManagerApplication.UI.Controls
                                 var orderStatusResult = await AppServices.OrderService.UpdateOrderStatusAsync(assignment.OrderId, OrderStatus.COMPLETED);
                                 if (orderStatusResult.Success)
                                 {
-                                    System.Diagnostics.Debug.WriteLine($"[UpdateDeliveryStatus] Đã cập nhật Order {assignment.OrderId} thành COMPLETED");
                                 }
                                 else
                                 {
-                                    System.Diagnostics.Debug.WriteLine($"[UpdateDeliveryStatus] Lỗi cập nhật Order status: {orderStatusResult.Message}");
-                                    // Không block việc cập nhật delivery status nếu order status update fail
                                 }
                             }
                             catch (Exception ex)
                             {
-                                System.Diagnostics.Debug.WriteLine($"[UpdateDeliveryStatus] Exception khi cập nhật Order status: {ex.Message}");
-                                // Không block việc cập nhật delivery status nếu order status update fail
                             }
                         }
                         // Nếu đơn hàng giao thất bại, có thể cập nhật trạng thái đơn hàng về READY hoặc PROCESSING để có thể giao lại
@@ -1723,14 +1746,12 @@ namespace EcoStationManagerApplication.UI.Controls
                                         var orderStatusResult = await AppServices.OrderService.UpdateOrderStatusAsync(assignment.OrderId, OrderStatus.READY);
                                         if (orderStatusResult.Success)
                                         {
-                                            System.Diagnostics.Debug.WriteLine($"[UpdateDeliveryStatus] Đã cập nhật Order {assignment.OrderId} về READY do giao thất bại");
                                         }
                                     }
                                 }
                             }
                             catch (Exception ex)
                             {
-                                System.Diagnostics.Debug.WriteLine($"[UpdateDeliveryStatus] Exception khi xử lý Order status cho FAILED: {ex.Message}");
                             }
                         }
                     }
@@ -2052,3 +2073,4 @@ namespace EcoStationManagerApplication.UI.Controls
         #endregion
     }
 }
+        

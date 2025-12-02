@@ -81,6 +81,7 @@ namespace EcoStationManagerApplication.Core.Services
                             if (orderResult.Data > 0)
                             {
                                 result.CreatedOrderIds.Add(orderResult.Data);
+                                result.CreatedRowIndexes.Add(i + 2);
                             }
                         }
                         else

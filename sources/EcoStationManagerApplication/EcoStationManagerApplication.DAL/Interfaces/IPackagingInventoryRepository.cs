@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Models.DTOs;
+using EcoStationManagerApplication.Models.DTOs;
 using EcoStationManagerApplication.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -34,6 +34,7 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// Nhận bao bì trả về cần vệ sinh
         /// </summary>
         Task<bool> ReturnForCleaningAsync(int packagingId, int quantity);
+        Task<bool> MoveReturnedToNeedCleaningAsync(int packagingId, int quantity);
 
         /// <summary>
         /// Hoàn thành vệ sinh bao bì
@@ -44,6 +45,9 @@ namespace EcoStationManagerApplication.DAL.Interfaces
         /// Đánh dấu bao bì hỏng
         /// </summary>
         Task<bool> MarkAsDamagedAsync(int packagingId, int quantity);
+        Task<bool> MarkReturnedAsDamagedAsync(int packagingId, int quantity);
+        Task<bool> MarkNewAsDamagedAsync(int packagingId, int quantity);
+        Task<bool> MarkNeedCleaningAsDamagedAsync(int packagingId, int quantity);
 
         /// <summary>
         /// Lấy tổng số lượng bao bì theo trạng thái

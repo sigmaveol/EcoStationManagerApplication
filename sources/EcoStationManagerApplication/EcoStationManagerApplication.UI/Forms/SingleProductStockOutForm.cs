@@ -96,7 +96,6 @@ namespace EcoStationManagerApplication.UI.Forms
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading product stocks: {ex.Message}");
             }
         }
 
@@ -139,7 +138,6 @@ namespace EcoStationManagerApplication.UI.Forms
             catch (Exception ex)
             {
                 // Không hiển thị lỗi để tránh làm gián đoạn form
-                System.Diagnostics.Debug.WriteLine($"Error loading batch nos: {ex.Message}");
             }
         }
 
@@ -309,7 +307,6 @@ namespace EcoStationManagerApplication.UI.Forms
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading batch stock: {ex.Message}");
             }
         }
 

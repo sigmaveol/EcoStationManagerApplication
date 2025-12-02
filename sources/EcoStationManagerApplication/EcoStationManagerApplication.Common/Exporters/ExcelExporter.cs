@@ -627,6 +627,139 @@ namespace EcoStationManagerApplication.Common.Exporters
                 workbook.SaveAs(filePath);
             }
         }
+
+        // Overload: fit cells content with wrap text and adjust rows/columns
+        public void ExportToExcel(DataTable dataTable, string filePath, string worksheetName, Dictionary<string, string> headers, string title, byte[] chartImageBytes, bool fitCells)
+        {
+            if (dataTable == null)
+                throw new ArgumentNullException(nameof(dataTable));
+            if (string.IsNullOrWhiteSpace(filePath))
+                throw new ArgumentException("File path cannot be null or empty", nameof(filePath));
+
+            if (dataTable.Rows.Count == 0)
+                throw new InvalidOperationException("No data to export");
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add(worksheetName);
+
+                int currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = worksheetName.ToUpper();
+                worksheet.Cell(currentRow, 1).Style.Font.FontSize = 16;
+                worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                worksheet.Cell(currentRow, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Range(currentRow, 1, currentRow, dataTable.Columns.Count).Merge();
+                currentRow++;
+
+                if (!string.IsNullOrWhiteSpace(title))
+                {
+                    var titleLines = title.Split('\n');
+                    foreach (var line in titleLines)
+                    {
+                        if (!string.IsNullOrWhiteSpace(line))
+                        {
+                            worksheet.Cell(currentRow, 1).Value = line.Trim();
+                            worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                            worksheet.Cell(currentRow, 1).Style.Font.FontSize = line.StartsWith("DANH SÁCH") ? 14 : 11;
+                            worksheet.Range(currentRow, 1, currentRow, dataTable.Columns.Count).Merge();
+                            currentRow++;
+                        }
+                    }
+                    currentRow++;
+                }
+
+                worksheet.Cell(currentRow, 1).Value = $"Ngày xuất: {DateTime.Now:dd/MM/yyyy HH:mm:ss}";
+                currentRow++;
+                worksheet.Cell(currentRow, 1).Value = $"Tổng số bản ghi: {dataTable.Rows.Count}";
+                worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                currentRow++;
+
+                if (chartImageBytes != null && chartImageBytes.Length > 0)
+                {
+                    using (var ms = new System.IO.MemoryStream(chartImageBytes))
+                    {
+                        var pic = worksheet.AddPicture(ms);
+                        pic.MoveTo(worksheet.Cell(currentRow, 1));
+                        pic.Scale(0.7);
+                        currentRow += 18;
+                    }
+                }
+
+                int headerRow = currentRow;
+                for (int i = 0; i < dataTable.Columns.Count; i++)
+                {
+                    var column = dataTable.Columns[i];
+                    string headerText = headers != null && headers.ContainsKey(column.ColumnName)
+                        ? headers[column.ColumnName]
+                        : column.ColumnName;
+
+                    worksheet.Cell(headerRow, i + 1).Value = headerText;
+                }
+
+                var headerRange = worksheet.Range(headerRow, 1, headerRow, dataTable.Columns.Count);
+                headerRange.Style.Font.Bold = true;
+                headerRange.Style.Fill.BackgroundColor = XLColor.FromArgb(46, 125, 50);
+                headerRange.Style.Font.FontColor = XLColor.White;
+                headerRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                if (fitCells)
+                {
+                    headerRange.Style.Alignment.WrapText = true;
+                }
+
+                int dataRow = headerRow + 1;
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    for (int i = 0; i < dataTable.Columns.Count; i++)
+                    {
+                        var column = dataTable.Columns[i];
+                        var value = row[column];
+                        var cell = worksheet.Cell(dataRow, i + 1);
+
+                        if (value != null && value != DBNull.Value)
+                        {
+                            if (column.DataType == typeof(decimal) || column.DataType == typeof(decimal?))
+                            {
+                                cell.Value = Convert.ToDecimal(value);
+                                cell.Style.NumberFormat.Format = "#,##0";
+                            }
+                            else if (column.DataType == typeof(DateTime) || column.DataType == typeof(DateTime?))
+                            {
+                                cell.Value = Convert.ToDateTime(value);
+                                cell.Style.DateFormat.Format = "dd/MM/yyyy HH:mm";
+                            }
+                            else if (column.DataType == typeof(int) || column.DataType == typeof(int?))
+                            {
+                                cell.Value = Convert.ToInt32(value);
+                            }
+                            else
+                            {
+                                cell.Value = value.ToString();
+                            }
+                        }
+
+                        if (fitCells)
+                        {
+                            cell.Style.Alignment.WrapText = true;
+                            cell.Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+                        }
+                    }
+                    dataRow++;
+                }
+
+                worksheet.Columns().AdjustToContents();
+                if (fitCells)
+                {
+                    worksheet.Rows().AdjustToContents();
+                }
+
+                var dataRange = worksheet.Range(headerRow, 1, dataRow - 1, dataTable.Columns.Count);
+                dataRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                dataRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                workbook.SaveAs(filePath);
+            }
+        }
     }
 }
 

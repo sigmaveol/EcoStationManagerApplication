@@ -44,7 +44,7 @@ namespace EcoStationManagerApplication.Tests
         [TestMethod]
         public async Task Product_Create_InvalidSku_Duplicate_Fail()
         {
-            var prod = new Product { Name = "Water", ProductType = Models.Enums.ProductType.BEVERAGE, Sku = "W001" };
+            var prod = new Product { Name = "Water", ProductType = Models.Enums.ProductType.PACKED, Sku = "W001" };
             _prodRepo.Setup(r => r.IsSkuExistsAsync("W001", null)).ReturnsAsync(true);
             var res = await _prodSvc.CreateProductAsync(prod);
             Assert.IsFalse(res.Success);

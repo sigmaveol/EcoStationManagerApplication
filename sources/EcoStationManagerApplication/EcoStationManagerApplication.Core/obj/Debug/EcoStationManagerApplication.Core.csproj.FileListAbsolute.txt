@@ -253,3 +253,5 @@ D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationM
 D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\obj\Debug\EcoStationManagerApplication.Core.pdb
 D:\HK5\CNPM\ENTERM\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\de\PdfSharp.resources.dll
 D:\projec\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\bin\Debug\de\PdfSharp.resources.dll
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\obj\Debug\EcoStationManagerApplication.Core.Properties.Resources.resources
+D:\EcoStationManagerApplication\sources\EcoStationManagerApplication\EcoStationManagerApplication.Core\obj\Debug\EcoStationManagerApplication.Core.csproj.GenerateResource.cache

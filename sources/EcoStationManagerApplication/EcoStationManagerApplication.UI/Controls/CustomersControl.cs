@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.Common.Exporters;
+using EcoStationManagerApplication.Common.Exporters;
 using EcoStationManagerApplication.Common.Utilities;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;

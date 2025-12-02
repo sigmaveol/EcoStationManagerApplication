@@ -1,6 +1,7 @@
-﻿using EcoStationManagerApplication.Models.Entities;
+using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.Enums;
 using AppServices = EcoStationManagerApplication.UI.Common.AppServices;
+using EcoStationManagerApplication.UI.Common;
 using EcoStationManagerApplication.Common.Exporters;
 using ClosedXML.Excel;
 using System;
@@ -188,8 +189,8 @@ namespace EcoStationManagerApplication.UI.Forms
 
             // Thông tin chung về đơn hàng
             lblOrderCodeValue.Text = _order.OrderCode ?? $"ORD-{_order.OrderId:D5}";
-            lblStatusValue.Text = GetOrderStatusDisplay(_order.Status);
-            lblSourceValue.Text = GetOrderSourceDisplay(_order.Source);
+            lblStatusValue.Text = EnumHelper.GetDisplayName(_order.Status);
+            lblSourceValue.Text = EnumHelper.GetDisplayName(_order.Source);
             lblCreatedDateValue.Text = _order.LastUpdated.ToString("dd/MM/yyyy HH:mm");
 
             // Thông tin khách hàng
@@ -205,7 +206,7 @@ namespace EcoStationManagerApplication.UI.Forms
             }
 
             lblDeliveryAddressValue.Text = _order.Address ?? "---";
-            lblPaymentMethodValue.Text = GetPaymentMethodDisplay(_order.PaymentMethod);
+            lblPaymentMethodValue.Text = EnumHelper.GetDisplayName(_order.PaymentMethod);
 
             // Chi tiết sản phẩm
             LoadProductDetails();
@@ -253,58 +254,7 @@ namespace EcoStationManagerApplication.UI.Forms
             dgvProducts.Refresh();
         }
 
-        private string GetOrderStatusDisplay(OrderStatus status)
-        {
-            switch (status)
-            {
-                case OrderStatus.DRAFT:
-                    return "Nháp";
-                case OrderStatus.CONFIRMED:
-                    return "Mới";
-                case OrderStatus.PROCESSING:
-                    return "Đang xử lý";
-                case OrderStatus.READY:
-                    return "Chuẩn bị";
-                case OrderStatus.SHIPPED:
-                    return "Đang giao";
-                case OrderStatus.COMPLETED:
-                    return "Hoàn thành";
-                case OrderStatus.CANCELLED:
-                    return "Đã hủy";
-                default:
-                    return "Không xác định";
-            }
-        }
-
-        private string GetOrderSourceDisplay(OrderSource source)
-        {
-            switch (source)
-            {
-                case OrderSource.MANUAL:
-                    return "Thủ công";
-                case OrderSource.GOOGLEFORM:
-                    return "Google Form";
-                case OrderSource.EXCEL:
-                    return "Excel";
-                case OrderSource.EMAIL:
-                    return "Email";
-                default:
-                    return "Khác";
-            }
-        }
-
-        private string GetPaymentMethodDisplay(PaymentMethod method)
-        {
-            switch (method)
-            {
-                case PaymentMethod.CASH:
-                    return "Tiền mặt";
-                case PaymentMethod.TRANSFER:
-                    return "Chuyển khoản";
-                default:
-                    return "Khác";
-            }
-        }
+        
 
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -388,12 +338,12 @@ namespace EcoStationManagerApplication.UI.Forms
                 
                 worksheet.Cell(currentRow, 3).Value = "Trạng thái:";
                 worksheet.Cell(currentRow, 3).Style.Font.Bold = true;
-                worksheet.Cell(currentRow, 4).Value = GetOrderStatusDisplay(_order.Status);
+                worksheet.Cell(currentRow, 4).Value = EnumHelper.GetDisplayName(_order.Status);
                 currentRow++;
 
                 worksheet.Cell(currentRow, 1).Value = "Nguồn đơn:";
                 worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
-                worksheet.Cell(currentRow, 2).Value = GetOrderSourceDisplay(_order.Source);
+                worksheet.Cell(currentRow, 2).Value = EnumHelper.GetDisplayName(_order.Source);
                 
                 worksheet.Cell(currentRow, 3).Value = "Ngày tạo:";
                 worksheet.Cell(currentRow, 3).Style.Font.Bold = true;
@@ -424,7 +374,7 @@ namespace EcoStationManagerApplication.UI.Forms
 
                 worksheet.Cell(currentRow, 1).Value = "Phương thức thanh toán:";
                 worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
-                worksheet.Cell(currentRow, 2).Value = GetPaymentMethodDisplay(_order.PaymentMethod);
+                worksheet.Cell(currentRow, 2).Value = EnumHelper.GetDisplayName(_order.PaymentMethod);
                 currentRow += 2;
 
                 // Chi tiết sản phẩm
@@ -623,12 +573,12 @@ namespace EcoStationManagerApplication.UI.Forms
             
             // Trạng thái
             g.DrawString("Trạng thái:", headerFont, Brushes.Black, x + width / 2, currentY);
-            g.DrawString(GetOrderStatusDisplay(_order.Status), normalFont, Brushes.Black, x + width / 2 + 100, currentY);
+            g.DrawString(EnumHelper.GetDisplayName(_order.Status), normalFont, Brushes.Black, x + width / 2 + 100, currentY);
             currentY += lineHeight;
 
             // Nguồn đơn
             g.DrawString("Nguồn đơn:", headerFont, Brushes.Black, x, currentY);
-            g.DrawString(GetOrderSourceDisplay(_order.Source), normalFont, Brushes.Black, x + 120, currentY);
+            g.DrawString(EnumHelper.GetDisplayName(_order.Source), normalFont, Brushes.Black, x + 120, currentY);
             
             // Ngày tạo
             g.DrawString("Ngày tạo:", headerFont, Brushes.Black, x + width / 2, currentY);
@@ -669,7 +619,7 @@ namespace EcoStationManagerApplication.UI.Forms
 
             // Phương thức thanh toán
             g.DrawString("Phương thức thanh toán:", headerFont, Brushes.Black, x, currentY);
-            g.DrawString(GetPaymentMethodDisplay(_order.PaymentMethod), normalFont, Brushes.Black, x + 200, currentY);
+            g.DrawString(EnumHelper.GetDisplayName(_order.PaymentMethod), normalFont, Brushes.Black, x + 200, currentY);
             currentY += lineHeight;
 
             // Đường kẻ ngang

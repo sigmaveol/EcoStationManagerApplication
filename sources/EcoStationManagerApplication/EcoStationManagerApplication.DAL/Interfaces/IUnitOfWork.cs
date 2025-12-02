@@ -57,6 +57,10 @@ namespace EcoStationManagerApplication.DAL.Interfaces
 
         INotificationRepository Notifications { get; }
 
+        // Integrations
+        IGoogleIntegrationConfigRepository GoogleIntegrationConfigs { get; }
+        IGoogleOrderMappingRepository GoogleOrderMappings { get; }
+
         /// <summary>
         /// Lưu tất cả thay đổi
         /// </summary>

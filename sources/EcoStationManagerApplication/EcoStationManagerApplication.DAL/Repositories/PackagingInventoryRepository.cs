@@ -1,4 +1,4 @@
-﻿using EcoStationManagerApplication.DAL.Interfaces;
+using EcoStationManagerApplication.DAL.Interfaces;
 using EcoStationManagerApplication.DAL.SqlQueries;
 using EcoStationManagerApplication.Models.Entities;
 using EcoStationManagerApplication.Models.DTOs;
@@ -150,6 +150,34 @@ namespace EcoStationManagerApplication.DAL.Repositories
             }
         }
 
+        public async Task<bool> MoveReturnedToNeedCleaningAsync(int packagingId, int quantity)
+        {
+            try
+            {
+                if (quantity <= 0)
+                    return false;
+
+                await EnsurePackagingInventoryExistsAsync(packagingId);
+
+                var affectedRows = await _databaseHelper.ExecuteAsync(
+                    PackagingInventoryQueries.MoveReturnedToNeedCleaning,
+                    new { PackagingId = packagingId, Quantity = quantity }
+                );
+
+                if (affectedRows > 0)
+                {
+                    _logger.Info($"Đã chuyển {quantity} bao bì từ trả về sang cần vệ sinh - PackagingId: {packagingId}");
+                }
+
+                return affectedRows > 0;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"MoveReturnedToNeedCleaningAsync error - PackagingId: {packagingId}, Quantity: {quantity} - {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task<bool> CompleteCleaningAsync(int packagingId, int quantity)
         {
             try
@@ -202,6 +230,90 @@ namespace EcoStationManagerApplication.DAL.Repositories
             catch (Exception ex)
             {
                 _logger.Error($"MarkAsDamagedAsync error - PackagingId: {packagingId}, Quantity: {quantity} - {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<bool> MarkReturnedAsDamagedAsync(int packagingId, int quantity)
+        {
+            try
+            {
+                if (quantity <= 0)
+                    return false;
+
+                await EnsurePackagingInventoryExistsAsync(packagingId);
+
+                var affectedRows = await _databaseHelper.ExecuteAsync(
+                    PackagingInventoryQueries.MarkReturnedAsDamaged,
+                    new { PackagingId = packagingId, Quantity = quantity }
+                );
+
+                if (affectedRows > 0)
+                {
+                    _logger.Info($"Đã chuyển {quantity} bao bì trả về sang hỏng - PackagingId: {packagingId}");
+                }
+
+                return affectedRows > 0;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"MarkReturnedAsDamagedAsync error - PackagingId: {packagingId}, Quantity: {quantity} - {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<bool> MarkNewAsDamagedAsync(int packagingId, int quantity)
+        {
+            try
+            {
+                if (quantity <= 0)
+                    return false;
+
+                await EnsurePackagingInventoryExistsAsync(packagingId);
+
+                var affectedRows = await _databaseHelper.ExecuteAsync(
+                    PackagingInventoryQueries.MarkNewAsDamaged,
+                    new { PackagingId = packagingId, Quantity = quantity }
+                );
+
+                if (affectedRows > 0)
+                {
+                    _logger.Info($"Đã chuyển {quantity} bao bì mới sang hỏng - PackagingId: {packagingId}");
+                }
+
+                return affectedRows > 0;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"MarkNewAsDamagedAsync error - PackagingId: {packagingId}, Quantity: {quantity} - {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<bool> MarkNeedCleaningAsDamagedAsync(int packagingId, int quantity)
+        {
+            try
+            {
+                if (quantity <= 0)
+                    return false;
+
+                await EnsurePackagingInventoryExistsAsync(packagingId);
+
+                var affectedRows = await _databaseHelper.ExecuteAsync(
+                    PackagingInventoryQueries.MarkNeedCleaningAsDamaged,
+                    new { PackagingId = packagingId, Quantity = quantity }
+                );
+
+                if (affectedRows > 0)
+                {
+                    _logger.Info($"Đã chuyển {quantity} bao bì cần vệ sinh sang hỏng - PackagingId: {packagingId}");
+                }
+
+                return affectedRows > 0;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"MarkNeedCleaningAsDamagedAsync error - PackagingId: {packagingId}, Quantity: {quantity} - {ex.Message}");
                 throw;
             }
         }

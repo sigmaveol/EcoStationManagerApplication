@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace EcoStationManagerApplication.UI.Controls
@@ -37,6 +37,13 @@ namespace EcoStationManagerApplication.UI.Controls
         private FlowLayoutPanel flowPanelKPICards;
         private Panel panelChart;
         private Guna.UI2.WinForms.Guna2DataGridView dataGridViewReport;
+        private Guna.UI2.WinForms.Guna2Panel panelContent;
+        private CardControl cardKpi1;
+        private CardControl cardKpi2;
+        private CardControl cardKpi3;
+        private CardControl cardKpi4;
+        private CardControl cardKpi5;
+        private CardControl cardKpi6;
 
         protected override void Dispose(bool disposing)
         {
@@ -77,25 +84,33 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dataGridViewReport = new Guna.UI2.WinForms.Guna2DataGridView();
             this.panelChart = new System.Windows.Forms.Panel();
             this.flowPanelKPICards = new System.Windows.Forms.FlowLayoutPanel();
+            this.panelContent = new Guna.UI2.WinForms.Guna2Panel();
+            this.cardKpi1 = new EcoStationManagerApplication.UI.Controls.CardControl();
+            this.cardKpi2 = new EcoStationManagerApplication.UI.Controls.CardControl();
+            this.cardKpi3 = new EcoStationManagerApplication.UI.Controls.CardControl();
+            this.cardKpi4 = new EcoStationManagerApplication.UI.Controls.CardControl();
+            this.cardKpi5 = new EcoStationManagerApplication.UI.Controls.CardControl();
+            this.cardKpi6 = new EcoStationManagerApplication.UI.Controls.CardControl();
             this.panelHeader.SuspendLayout();
             this.flowPanelReportTypes.SuspendLayout();
             this.panelFilters.SuspendLayout();
             this.panelCustomDateRange.SuspendLayout();
             this.panelReportContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReport)).BeginInit();
+            this.flowPanelKPICards.SuspendLayout();
+            this.panelContent.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelHeader
             // 
             this.panelHeader.BackColor = System.Drawing.Color.Transparent;
-            this.panelHeader.BorderRadius = 8;
             this.panelHeader.Controls.Add(this.lblReportTitle);
             this.panelHeader.Controls.Add(this.lblReportDescription);
             this.panelHeader.Controls.Add(this.btnExportPDF);
             this.panelHeader.Controls.Add(this.btnExportExcel);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.FillColor = System.Drawing.Color.White;
-            this.panelHeader.Location = new System.Drawing.Point(20, 20);
+            this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Margin = new System.Windows.Forms.Padding(20);
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Padding = new System.Windows.Forms.Padding(20);
@@ -103,7 +118,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.panelHeader.ShadowDecoration.Color = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.panelHeader.ShadowDecoration.Depth = 5;
             this.panelHeader.ShadowDecoration.Enabled = true;
-            this.panelHeader.Size = new System.Drawing.Size(1160, 82);
+            this.panelHeader.Size = new System.Drawing.Size(1179, 82);
             this.panelHeader.TabIndex = 0;
             // 
             // lblReportTitle
@@ -113,7 +128,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblReportTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.lblReportTitle.Location = new System.Drawing.Point(3, 0);
             this.lblReportTitle.Name = "lblReportTitle";
-            this.lblReportTitle.Size = new System.Drawing.Size(246, 38);
+            this.lblReportTitle.Size = new System.Drawing.Size(261, 41);
             this.lblReportTitle.TabIndex = 0;
             this.lblReportTitle.Text = "Báo cáo thống kê";
             // 
@@ -124,7 +139,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblReportDescription.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
             this.lblReportDescription.Location = new System.Drawing.Point(15, 47);
             this.lblReportDescription.Name = "lblReportDescription";
-            this.lblReportDescription.Size = new System.Drawing.Size(410, 23);
+            this.lblReportDescription.Size = new System.Drawing.Size(449, 25);
             this.lblReportDescription.TabIndex = 1;
             this.lblReportDescription.Text = "Phân tích và thống kê dữ liệu hoạt động kinh doanh";
             // 
@@ -140,7 +155,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnExportPDF.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportPDF.ForeColor = System.Drawing.Color.White;
             this.btnExportPDF.ImageSize = new System.Drawing.Size(16, 16);
-            this.btnExportPDF.Location = new System.Drawing.Point(895, 20);
+            this.btnExportPDF.Location = new System.Drawing.Point(914, 20);
             this.btnExportPDF.Name = "btnExportPDF";
             this.btnExportPDF.Size = new System.Drawing.Size(116, 47);
             this.btnExportPDF.TabIndex = 2;
@@ -159,7 +174,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnExportExcel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportExcel.ForeColor = System.Drawing.Color.White;
             this.btnExportExcel.ImageSize = new System.Drawing.Size(16, 16);
-            this.btnExportExcel.Location = new System.Drawing.Point(1031, 20);
+            this.btnExportExcel.Location = new System.Drawing.Point(1060, 20);
             this.btnExportExcel.Name = "btnExportExcel";
             this.btnExportExcel.Size = new System.Drawing.Size(116, 47);
             this.btnExportExcel.TabIndex = 3;
@@ -176,10 +191,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.flowPanelReportTypes.Controls.Add(this.btnTogglePaymentMethod);
             this.flowPanelReportTypes.Controls.Add(this.btnToggleBestSelling);
             this.flowPanelReportTypes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.flowPanelReportTypes.Location = new System.Drawing.Point(20, 102);
+            this.flowPanelReportTypes.Location = new System.Drawing.Point(0, 82);
             this.flowPanelReportTypes.Name = "flowPanelReportTypes";
             this.flowPanelReportTypes.Padding = new System.Windows.Forms.Padding(20);
-            this.flowPanelReportTypes.Size = new System.Drawing.Size(1160, 122);
+            this.flowPanelReportTypes.Size = new System.Drawing.Size(1179, 122);
             this.flowPanelReportTypes.TabIndex = 0;
             // 
             // btnToggleRevenue
@@ -293,14 +308,13 @@ namespace EcoStationManagerApplication.UI.Controls
             // panelFilters
             // 
             this.panelFilters.BackColor = System.Drawing.Color.Transparent;
-            this.panelFilters.BorderRadius = 8;
             this.panelFilters.Controls.Add(this.btnGenerateReport);
             this.panelFilters.Controls.Add(this.panelCustomDateRange);
             this.panelFilters.Controls.Add(this.cmbTimeRange);
             this.panelFilters.Controls.Add(this.lblTimeRange);
             this.panelFilters.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelFilters.FillColor = System.Drawing.Color.White;
-            this.panelFilters.Location = new System.Drawing.Point(20, 224);
+            this.panelFilters.Location = new System.Drawing.Point(0, 204);
             this.panelFilters.Margin = new System.Windows.Forms.Padding(20, 10, 20, 20);
             this.panelFilters.Name = "panelFilters";
             this.panelFilters.Padding = new System.Windows.Forms.Padding(20);
@@ -308,7 +322,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.panelFilters.ShadowDecoration.Color = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.panelFilters.ShadowDecoration.Depth = 5;
             this.panelFilters.ShadowDecoration.Enabled = true;
-            this.panelFilters.Size = new System.Drawing.Size(1160, 100);
+            this.panelFilters.Size = new System.Drawing.Size(1179, 100);
             this.panelFilters.TabIndex = 2;
             // 
             // btnGenerateReport
@@ -322,9 +336,10 @@ namespace EcoStationManagerApplication.UI.Controls
             this.btnGenerateReport.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(107)))), ((int)(((byte)(59)))));
             this.btnGenerateReport.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGenerateReport.ForeColor = System.Drawing.Color.White;
-            this.btnGenerateReport.Location = new System.Drawing.Point(352, 20);
+            this.btnGenerateReport.Location = new System.Drawing.Point(366, 20);
+            this.btnGenerateReport.MaximumSize = new System.Drawing.Size(150, 40);
             this.btnGenerateReport.Name = "btnGenerateReport";
-            this.btnGenerateReport.Size = new System.Drawing.Size(154, 60);
+            this.btnGenerateReport.Size = new System.Drawing.Size(150, 40);
             this.btnGenerateReport.TabIndex = 3;
             this.btnGenerateReport.Text = "Tạo báo cáo";
             this.btnGenerateReport.Click += new System.EventHandler(this.btnGenerateReport_Click);
@@ -347,7 +362,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblFromDate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFromDate.Location = new System.Drawing.Point(0, 10);
             this.lblFromDate.Name = "lblFromDate";
-            this.lblFromDate.Size = new System.Drawing.Size(61, 19);
+            this.lblFromDate.Size = new System.Drawing.Size(65, 20);
             this.lblFromDate.TabIndex = 0;
             this.lblFromDate.Text = "Từ ngày:";
             // 
@@ -372,7 +387,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblToDate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblToDate.Location = new System.Drawing.Point(270, 10);
             this.lblToDate.Name = "lblToDate";
-            this.lblToDate.Size = new System.Drawing.Size(71, 19);
+            this.lblToDate.Size = new System.Drawing.Size(75, 20);
             this.lblToDate.TabIndex = 2;
             this.lblToDate.Text = "Đến ngày:";
             // 
@@ -409,7 +424,7 @@ namespace EcoStationManagerApplication.UI.Controls
             "Tháng này",
             "Tháng trước",
             "Khoảng thời gian tùy chỉnh"});
-            this.cmbTimeRange.Location = new System.Drawing.Point(152, 20);
+            this.cmbTimeRange.Location = new System.Drawing.Point(166, 20);
             this.cmbTimeRange.Name = "cmbTimeRange";
             this.cmbTimeRange.Size = new System.Drawing.Size(200, 36);
             this.cmbTimeRange.TabIndex = 1;
@@ -422,20 +437,19 @@ namespace EcoStationManagerApplication.UI.Controls
             this.lblTimeRange.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTimeRange.Location = new System.Drawing.Point(20, 20);
             this.lblTimeRange.Name = "lblTimeRange";
-            this.lblTimeRange.Size = new System.Drawing.Size(132, 21);
+            this.lblTimeRange.Size = new System.Drawing.Size(146, 23);
             this.lblTimeRange.TabIndex = 0;
             this.lblTimeRange.Text = "Khoảng thời gian:";
             // 
             // panelReportContent
             // 
             this.panelReportContent.BackColor = System.Drawing.Color.Transparent;
-            this.panelReportContent.BorderRadius = 8;
             this.panelReportContent.Controls.Add(this.dataGridViewReport);
             this.panelReportContent.Controls.Add(this.panelChart);
             this.panelReportContent.Controls.Add(this.flowPanelKPICards);
             this.panelReportContent.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelReportContent.FillColor = System.Drawing.Color.White;
-            this.panelReportContent.Location = new System.Drawing.Point(20, 324);
+            this.panelReportContent.Location = new System.Drawing.Point(0, 304);
             this.panelReportContent.Margin = new System.Windows.Forms.Padding(20);
             this.panelReportContent.Name = "panelReportContent";
             this.panelReportContent.Padding = new System.Windows.Forms.Padding(20);
@@ -443,7 +457,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.panelReportContent.ShadowDecoration.Color = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.panelReportContent.ShadowDecoration.Depth = 5;
             this.panelReportContent.ShadowDecoration.Enabled = true;
-            this.panelReportContent.Size = new System.Drawing.Size(1160, 430);
+            this.panelReportContent.Size = new System.Drawing.Size(1179, 757);
             this.panelReportContent.TabIndex = 3;
             // 
             // dataGridViewReport
@@ -470,15 +484,15 @@ namespace EcoStationManagerApplication.UI.Controls
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewReport.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridViewReport.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dataGridViewReport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewReport.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            this.dataGridViewReport.Location = new System.Drawing.Point(20, 32);
+            this.dataGridViewReport.Location = new System.Drawing.Point(20, 486);
             this.dataGridViewReport.Name = "dataGridViewReport";
             this.dataGridViewReport.ReadOnly = true;
             this.dataGridViewReport.RowHeadersVisible = false;
             this.dataGridViewReport.RowHeadersWidth = 51;
             this.dataGridViewReport.RowTemplate.Height = 25;
-            this.dataGridViewReport.Size = new System.Drawing.Size(1120, 130);
+            this.dataGridViewReport.Size = new System.Drawing.Size(1139, 251);
             this.dataGridViewReport.TabIndex = 1;
             this.dataGridViewReport.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.dataGridViewReport.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -504,38 +518,224 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // panelChart
             // 
-            this.panelChart.AutoSize = true;
-            this.panelChart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.panelChart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelChart.BackColor = System.Drawing.Color.White;
             this.panelChart.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelChart.Location = new System.Drawing.Point(20, 30);
+            this.panelChart.Location = new System.Drawing.Point(20, 203);
             this.panelChart.Name = "panelChart";
-            this.panelChart.Size = new System.Drawing.Size(1120, 2);
+            this.panelChart.Size = new System.Drawing.Size(1139, 283);
             this.panelChart.TabIndex = 2;
             // 
             // flowPanelKPICards
             // 
-            this.flowPanelKPICards.AutoScroll = true;
             this.flowPanelKPICards.AutoSize = true;
+            this.flowPanelKPICards.Controls.Add(this.cardKpi1);
+            this.flowPanelKPICards.Controls.Add(this.cardKpi2);
+            this.flowPanelKPICards.Controls.Add(this.cardKpi3);
+            this.flowPanelKPICards.Controls.Add(this.cardKpi4);
+            this.flowPanelKPICards.Controls.Add(this.cardKpi5);
+            this.flowPanelKPICards.Controls.Add(this.cardKpi6);
             this.flowPanelKPICards.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowPanelKPICards.Location = new System.Drawing.Point(20, 20);
             this.flowPanelKPICards.Name = "flowPanelKPICards";
             this.flowPanelKPICards.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.flowPanelKPICards.Size = new System.Drawing.Size(1120, 10);
+            this.flowPanelKPICards.Size = new System.Drawing.Size(1139, 183);
             this.flowPanelKPICards.TabIndex = 0;
+            // 
+            // panelContent
+            // 
+            this.panelContent.AutoScroll = true;
+            this.panelContent.BackColor = System.Drawing.Color.White;
+            this.panelContent.Controls.Add(this.panelReportContent);
+            this.panelContent.Controls.Add(this.panelFilters);
+            this.panelContent.Controls.Add(this.flowPanelReportTypes);
+            this.panelContent.Controls.Add(this.panelHeader);
+            this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelContent.FillColor = System.Drawing.Color.White;
+            this.panelContent.Location = new System.Drawing.Point(0, 0);
+            this.panelContent.Name = "panelContent";
+            this.panelContent.ShadowDecoration.BorderRadius = 8;
+            this.panelContent.ShadowDecoration.Color = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.panelContent.ShadowDecoration.Depth = 2;
+            this.panelContent.ShadowDecoration.Enabled = true;
+            this.panelContent.Size = new System.Drawing.Size(1200, 1020);
+            this.panelContent.TabIndex = 5;
+            // 
+            // cardKpi1
+            // 
+            this.cardKpi1.AutoScroll = true;
+            this.cardKpi1.AutoSize = true;
+            this.cardKpi1.BackColor = System.Drawing.Color.Transparent;
+            this.cardKpi1.CardColor = System.Drawing.Color.White;
+            this.cardKpi1.Change = null;
+            this.cardKpi1.ChangeColor = System.Drawing.Color.Green;
+            this.cardKpi1.ChangeFont = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cardKpi1.Icon = null;
+            this.cardKpi1.Location = new System.Drawing.Point(10, 5);
+            this.cardKpi1.Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
+            this.cardKpi1.MaximumSize = new System.Drawing.Size(400, 250);
+            this.cardKpi1.Name = "cardKpi1";
+            this.cardKpi1.Padding = new System.Windows.Forms.Padding(10);
+            this.cardKpi1.Size = new System.Drawing.Size(57, 163);
+            this.cardKpi1.SubInfo = null;
+            this.cardKpi1.SubInfoColor = System.Drawing.Color.Gray;
+            this.cardKpi1.SubInfoFont = new System.Drawing.Font("Segoe UI", 9F);
+            this.cardKpi1.TabIndex = 0;
+            this.cardKpi1.Title = "";
+            this.cardKpi1.TitleColor = System.Drawing.Color.Gray;
+            this.cardKpi1.TitleFont = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi1.Value = null;
+            this.cardKpi1.ValueColor = System.Drawing.Color.Black;
+            this.cardKpi1.ValueFont = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            // 
+            // cardKpi2
+            // 
+            this.cardKpi2.AutoScroll = true;
+            this.cardKpi2.AutoSize = true;
+            this.cardKpi2.BackColor = System.Drawing.Color.Transparent;
+            this.cardKpi2.CardColor = System.Drawing.Color.White;
+            this.cardKpi2.Change = null;
+            this.cardKpi2.ChangeColor = System.Drawing.Color.Green;
+            this.cardKpi2.ChangeFont = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cardKpi2.Icon = null;
+            this.cardKpi2.Location = new System.Drawing.Point(87, 5);
+            this.cardKpi2.Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
+            this.cardKpi2.MaximumSize = new System.Drawing.Size(400, 250);
+            this.cardKpi2.Name = "cardKpi2";
+            this.cardKpi2.Padding = new System.Windows.Forms.Padding(10);
+            this.cardKpi2.Size = new System.Drawing.Size(57, 163);
+            this.cardKpi2.SubInfo = null;
+            this.cardKpi2.SubInfoColor = System.Drawing.Color.Gray;
+            this.cardKpi2.SubInfoFont = new System.Drawing.Font("Segoe UI", 9F);
+            this.cardKpi2.TabIndex = 1;
+            this.cardKpi2.Title = "";
+            this.cardKpi2.TitleColor = System.Drawing.Color.Gray;
+            this.cardKpi2.TitleFont = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi2.Value = null;
+            this.cardKpi2.ValueColor = System.Drawing.Color.Black;
+            this.cardKpi2.ValueFont = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            // 
+            // cardKpi3
+            // 
+            this.cardKpi3.AutoScroll = true;
+            this.cardKpi3.AutoSize = true;
+            this.cardKpi3.BackColor = System.Drawing.Color.Transparent;
+            this.cardKpi3.CardColor = System.Drawing.Color.White;
+            this.cardKpi3.Change = null;
+            this.cardKpi3.ChangeColor = System.Drawing.Color.Green;
+            this.cardKpi3.ChangeFont = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi3.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cardKpi3.Icon = null;
+            this.cardKpi3.Location = new System.Drawing.Point(164, 5);
+            this.cardKpi3.Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
+            this.cardKpi3.MaximumSize = new System.Drawing.Size(400, 250);
+            this.cardKpi3.Name = "cardKpi3";
+            this.cardKpi3.Padding = new System.Windows.Forms.Padding(10);
+            this.cardKpi3.Size = new System.Drawing.Size(57, 163);
+            this.cardKpi3.SubInfo = null;
+            this.cardKpi3.SubInfoColor = System.Drawing.Color.Gray;
+            this.cardKpi3.SubInfoFont = new System.Drawing.Font("Segoe UI", 9F);
+            this.cardKpi3.TabIndex = 2;
+            this.cardKpi3.Title = "";
+            this.cardKpi3.TitleColor = System.Drawing.Color.Gray;
+            this.cardKpi3.TitleFont = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi3.Value = null;
+            this.cardKpi3.ValueColor = System.Drawing.Color.Black;
+            this.cardKpi3.ValueFont = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            // 
+            // cardKpi4
+            // 
+            this.cardKpi4.AutoScroll = true;
+            this.cardKpi4.AutoSize = true;
+            this.cardKpi4.BackColor = System.Drawing.Color.Transparent;
+            this.cardKpi4.CardColor = System.Drawing.Color.White;
+            this.cardKpi4.Change = null;
+            this.cardKpi4.ChangeColor = System.Drawing.Color.Green;
+            this.cardKpi4.ChangeFont = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi4.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cardKpi4.Icon = null;
+            this.cardKpi4.Location = new System.Drawing.Point(241, 5);
+            this.cardKpi4.Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
+            this.cardKpi4.MaximumSize = new System.Drawing.Size(400, 250);
+            this.cardKpi4.Name = "cardKpi4";
+            this.cardKpi4.Padding = new System.Windows.Forms.Padding(10);
+            this.cardKpi4.Size = new System.Drawing.Size(57, 163);
+            this.cardKpi4.SubInfo = null;
+            this.cardKpi4.SubInfoColor = System.Drawing.Color.Gray;
+            this.cardKpi4.SubInfoFont = new System.Drawing.Font("Segoe UI", 9F);
+            this.cardKpi4.TabIndex = 3;
+            this.cardKpi4.Title = "";
+            this.cardKpi4.TitleColor = System.Drawing.Color.Gray;
+            this.cardKpi4.TitleFont = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi4.Value = null;
+            this.cardKpi4.ValueColor = System.Drawing.Color.Black;
+            this.cardKpi4.ValueFont = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            // 
+            // cardKpi5
+            // 
+            this.cardKpi5.AutoScroll = true;
+            this.cardKpi5.AutoSize = true;
+            this.cardKpi5.BackColor = System.Drawing.Color.Transparent;
+            this.cardKpi5.CardColor = System.Drawing.Color.White;
+            this.cardKpi5.Change = null;
+            this.cardKpi5.ChangeColor = System.Drawing.Color.Green;
+            this.cardKpi5.ChangeFont = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi5.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cardKpi5.Icon = null;
+            this.cardKpi5.Location = new System.Drawing.Point(318, 5);
+            this.cardKpi5.Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
+            this.cardKpi5.MaximumSize = new System.Drawing.Size(400, 250);
+            this.cardKpi5.Name = "cardKpi5";
+            this.cardKpi5.Padding = new System.Windows.Forms.Padding(10);
+            this.cardKpi5.Size = new System.Drawing.Size(57, 163);
+            this.cardKpi5.SubInfo = null;
+            this.cardKpi5.SubInfoColor = System.Drawing.Color.Gray;
+            this.cardKpi5.SubInfoFont = new System.Drawing.Font("Segoe UI", 9F);
+            this.cardKpi5.TabIndex = 4;
+            this.cardKpi5.Title = "";
+            this.cardKpi5.TitleColor = System.Drawing.Color.Gray;
+            this.cardKpi5.TitleFont = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi5.Value = null;
+            this.cardKpi5.ValueColor = System.Drawing.Color.Black;
+            this.cardKpi5.ValueFont = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            // 
+            // cardKpi6
+            // 
+            this.cardKpi6.AutoScroll = true;
+            this.cardKpi6.AutoSize = true;
+            this.cardKpi6.BackColor = System.Drawing.Color.Transparent;
+            this.cardKpi6.CardColor = System.Drawing.Color.Transparent;
+            this.cardKpi6.Change = null;
+            this.cardKpi6.ChangeColor = System.Drawing.Color.Green;
+            this.cardKpi6.ChangeFont = new System.Drawing.Font("Segoe UI Semibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi6.Cursor = System.Windows.Forms.Cursors.Default;
+            this.cardKpi6.Icon = null;
+            this.cardKpi6.Location = new System.Drawing.Point(395, 5);
+            this.cardKpi6.Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
+            this.cardKpi6.MaximumSize = new System.Drawing.Size(400, 250);
+            this.cardKpi6.Name = "cardKpi6";
+            this.cardKpi6.Padding = new System.Windows.Forms.Padding(10);
+            this.cardKpi6.Size = new System.Drawing.Size(57, 163);
+            this.cardKpi6.SubInfo = null;
+            this.cardKpi6.SubInfoColor = System.Drawing.Color.Gray;
+            this.cardKpi6.SubInfoFont = new System.Drawing.Font("Segoe UI", 9F);
+            this.cardKpi6.TabIndex = 5;
+            this.cardKpi6.Title = "";
+            this.cardKpi6.TitleColor = System.Drawing.Color.Gray;
+            this.cardKpi6.TitleFont = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cardKpi6.Value = null;
+            this.cardKpi6.ValueColor = System.Drawing.Color.Black;
+            this.cardKpi6.ValueFont = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             // 
             // ReportControl
             // 
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
-            this.Controls.Add(this.panelReportContent);
-            this.Controls.Add(this.panelFilters);
-            this.Controls.Add(this.flowPanelReportTypes);
-            this.Controls.Add(this.panelHeader);
+            this.Controls.Add(this.panelContent);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ReportControl";
-            this.Padding = new System.Windows.Forms.Padding(20);
-            this.Size = new System.Drawing.Size(1200, 800);
+            this.Size = new System.Drawing.Size(1200, 1020);
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
             this.flowPanelReportTypes.ResumeLayout(false);
@@ -546,8 +746,11 @@ namespace EcoStationManagerApplication.UI.Controls
             this.panelReportContent.ResumeLayout(false);
             this.panelReportContent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReport)).EndInit();
+            this.flowPanelKPICards.ResumeLayout(false);
+            this.flowPanelKPICards.PerformLayout();
+            this.panelContent.ResumeLayout(false);
+            this.panelContent.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
     }

@@ -40,7 +40,7 @@ namespace EcoStationManagerApplication.Tests
             _csRepo.Setup(r => r.GetOverdueSchedulesAsync()).ReturnsAsync(new List<CleaningSchedule>());
             var res = await _svc.GenerateAutoNotificationsAsync();
             Assert.IsTrue(res.Success);
-            _notiRepo.Verify(r => r.AddIfNotExistsAsync(It.IsAny<Notification>()), Times.AtLeastOnce);
+            _notiRepo.Verify(r => r.AddIfNotExistsAsync(It.IsAny<Notification>(), It.IsAny<int>()), Times.AtLeastOnce);
         }
     }
 }

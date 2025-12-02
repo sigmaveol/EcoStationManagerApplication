@@ -159,6 +159,7 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Notification.cs" />
     <Compile Include="Entities\CleaningSchedule.cs" />
+    <Compile Include="Entities\GoogleIntegration.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\OperationStatus.cs" />

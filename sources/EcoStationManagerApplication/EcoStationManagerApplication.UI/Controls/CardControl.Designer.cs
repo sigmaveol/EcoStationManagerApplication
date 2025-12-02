@@ -1,4 +1,4 @@
-﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms;
 
 namespace EcoStationManagerApplication.UI.Controls
 {
@@ -29,7 +29,7 @@ namespace EcoStationManagerApplication.UI.Controls
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
-        {   
+        {
             this.labelChange = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.labelSubInfo = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.labelValue = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -111,7 +111,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.panelCard);
             this.Cursor = System.Windows.Forms.Cursors.Default;
-            this.MaximumSize = new System.Drawing.Size(260, 150);
+            this.MaximumSize = new System.Drawing.Size(400, 250);
             this.Name = "CardControl";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.Size = new System.Drawing.Size(260, 150);

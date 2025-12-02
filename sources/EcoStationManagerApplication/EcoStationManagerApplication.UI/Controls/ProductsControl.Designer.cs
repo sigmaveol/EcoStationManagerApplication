@@ -146,6 +146,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dataGridViewProducts.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
             this.dataGridViewProducts.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewProducts.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(234)))), ((int)(((byte)(237)))));
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10.5F, System.Drawing.FontStyle.Bold);
@@ -182,7 +183,7 @@ namespace EcoStationManagerApplication.UI.Controls
             this.dataGridViewProducts.ThemeStyle.AlternatingRowsStyle.ForeColor = System.Drawing.Color.Empty;
             this.dataGridViewProducts.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = System.Drawing.Color.Empty;
             this.dataGridViewProducts.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = System.Drawing.Color.Empty;
-            this.dataGridViewProducts.ThemeStyle.BackColor = System.Drawing.Color.White;
+            this.dataGridViewProducts.ThemeStyle.BackColor = System.Drawing.Color.WhiteSmoke;
             this.dataGridViewProducts.ThemeStyle.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(230)))), ((int)(((byte)(210)))));
             this.dataGridViewProducts.ThemeStyle.HeaderStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(234)))), ((int)(((byte)(237)))));
             this.dataGridViewProducts.ThemeStyle.HeaderStyle.BorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -340,6 +341,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -348,7 +350,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // 
             // panelSearch
             // 
-            this.panelSearch.BackColor = System.Drawing.Color.White;
+            this.panelSearch.BackColor = System.Drawing.Color.Transparent;
             this.panelSearch.Controls.Add(this.txtSearch);
             this.panelSearch.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelSearch.Location = new System.Drawing.Point(20, 95);
@@ -383,7 +385,7 @@ namespace EcoStationManagerApplication.UI.Controls
             // guna2PanelHeader
             // 
             this.guna2PanelHeader.AutoSize = true;
-            this.guna2PanelHeader.BackColor = System.Drawing.Color.White;
+            this.guna2PanelHeader.BackColor = System.Drawing.Color.Transparent;
             this.guna2PanelHeader.Controls.Add(this.lblDescription);
             this.guna2PanelHeader.Controls.Add(this.lblTitle);
             this.guna2PanelHeader.Controls.Add(this.btnAddProduct);
